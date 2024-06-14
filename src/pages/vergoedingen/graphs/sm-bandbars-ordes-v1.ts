@@ -2,7 +2,7 @@
 import { breakpoints } from '../../../img-modules/styleguide';
 import { DataObject } from '../../shared/types';
 import { core, elements } from '../../../charts';
-import { GroupObject, IGraphMappingV2 } from '../../shared/interfaces';
+import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
 import { AxisArrow } from '../../../charts/elements/axis-arrow';
 import { HtmlLegendRowWithLines } from '../../shared/html/html-legend-row-with-lines';
@@ -39,11 +39,13 @@ export class SMBandBarsOrdes extends core.GraphControllerV3  {
         public page: IPageController, 
         public group: GroupObject, 
         public data: DataObject,
-        public mapping: IGraphMappingV2,
+        public parameters: IParameterMapping[][],
+        public modifiers: IParameterMapping[][],
+        public filters: string[],
         public segment: string, 
         public index: number
     ){
-        super(slug,page,group,data,mapping,segment) 
+        super(slug,page,group,data,parameters,modifiers,filters, segment,index) 
         this.pre();
     }
 
@@ -53,7 +55,7 @@ export class SMBandBarsOrdes extends core.GraphControllerV3  {
         const bottom = 0;
 
         this._addMargin(top,bottom,0,0);
-        this._addPadding(30,30,30,0);
+        this._addPadding(30,30,45,0);
 
         this._addScale('x','band','horizontal-reverse','label');
         this._addScale('y','linear','vertical','value');
@@ -72,9 +74,6 @@ export class SMBandBarsOrdes extends core.GraphControllerV3  {
         this.graphEl.classList.add("graph-container-4");
 
         this.header = new HTMLYear(this,this.graphEl);
-
-
-        // this.legend = new HtmlLegendRowWithLines(this, );
     }
 
     async init() {
@@ -86,7 +85,7 @@ export class SMBandBarsOrdes extends core.GraphControllerV3  {
         if (this.graphEl != null) await super._svg(this.graphEl);
 
         this.chart = new elements.ChartBandBar(this);
-        this.arrowY = new AxisArrow(this,'y','schadebedrag');
+        this.arrowY = new AxisArrow(this,'y','aantal besluiten');
         
         await this.update(this.group.data,this.segment, false);
 

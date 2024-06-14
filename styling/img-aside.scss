@@ -36,89 +36,89 @@ aside {
     
   }
 
-ul.dashboard_nav {
+// ul.dashboard_nav {
 
-    display: flex;
-    align-items: flex-start;
+//     display: flex;
+//     align-items: flex-start;
 
-    li {
+//     li {
 
-        padding: 0 0 0 0.75rem;
-        display: inline-block;
+//         padding: 0 0 0 0.75rem;
+//         display: inline-block;
 
-        &:not([data-slug="company"]):hover {
+//         &:not([data-slug="company"]):hover {
 
-            background: $lightBlue;
-            color: white;
-        }
+//             background: $lightBlue;
+//             color: white;
+//         }
 
-        &.active {
-            background: $lightBlue-light;
-            color: $darkblue;
-        }
+//         &.active {
+//             background: $lightBlue-light;
+//             color: $darkblue;
+//         }
 
-        a {
-            text-decoration: none;
-            border: none;
-            color: inherit;
+//         a {
+//             text-decoration: none;
+//             border: none;
+//             color: inherit;
 
-            &:hover {
-                color: white;
-            }
-        }
-    }
+//             &:hover {
+//                 color: white;
+//             }
+//         }
+//     }
 
-    li[data-slug="company"]:has(> a:hover) {
+//     li[data-slug="company"]:has(> a:hover) {
 
-        background: $lightBlue;
-        display: inline-block;
+//         background: $lightBlue;
+//         display: inline-block;
         
-    }
+//     }
 
-   > li {
+//    > li {
 
-        font-family: RO Sans Bold, sans-serif;
-        font-size: 1rem;
-        line-height: 1.3;
-        font-weight: normal;
-        padding: .5rem 0.75rem;
-        margin-bottom: .5rem;
+//         font-family: RO Sans Bold, sans-serif;
+//         font-size: 1rem;
+//         line-height: 1.3;
+//         font-weight: normal;
+//         padding: .5rem 0.75rem;
+//         margin-bottom: .5rem;
 
-        > ul {
+//         > ul {
 
-            transition: height 750ms ease-out;
-            transition: opacity 250ms ease-out;
-            height: 0;
-            opacity: 0;
+//             transition: height 750ms ease-out;
+//             transition: opacity 250ms ease-out;
+//             height: 0;
+//             opacity: 0;
 
 
-            li {
+//             li {
                 
-                font-family: RO Sans Regular, sans-serif;
-                font-size: 1rem;
-                line-height: 1.3;
-                font-weight: normal;
-                padding: .125rem 0.75rem;
-                pointer-events: none;
+//                 font-family: RO Sans Regular, sans-serif;
+//                 font-size: 1rem;
+//                 line-height: 1.3;
+//                 font-weight: normal;
+//                 padding: .125rem 0.75rem;
+//                 pointer-events: none;
 
-            }
+//             }
 
-            &.is_open {
+//             &.is_open {
 
-                height: auto;
-                opacity: 1;
+//                 height: auto;
+//                 opacity: 1;
 
-                li {
-                    pointer-events: auto;
-                }
+//                 li {
+//                     pointer-events: auto;
+//                 }
 
-                li:first-child {
-                    margin-top: 1rem;
-                }
+//                 li:first-child {
+//                     margin-top: 1rem;
+//                 }
             
-            }
+//             }
 
-        }
-    }
+//         }
+//     }
 
-}
+// }

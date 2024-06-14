@@ -21,7 +21,6 @@ export const HTMLSource = (wrapper: HTMLElement, lan: string, text: string) => {
 
         container.appendChild(span);
         if (wrapper.parentElement == null) return;
-        console.log(wrapper.parentElement);
         wrapper.parentElement.appendChild(container);
         
         return container;

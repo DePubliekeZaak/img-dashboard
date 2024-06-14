@@ -1,13 +1,15 @@
 
 import { breakpoints } from '../../../img-modules/styleguide';
-import { ImgData } from '../../shared/types';
+import { DataPart, ImgData } from '../../shared/types';
 
 import { DataObject } from '../../shared/types';
 import { core, elements } from '../../../charts';
-import { GroupObject, IGraphMappingV2 } from '../../shared/interfaces';
+import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
 import { HtmlLegendCustom } from '../../shared/html/html-legend-custom';
 import { HtmlRadio } from '../../shared/html/html-radio';
+import { TrendBar } from '../../shared/types_graphs';
+import { KeyValue } from '../../../charts/core/types';
 
 
 export class BarTrendV1 extends core.GraphControllerV3  {
@@ -35,11 +37,13 @@ export class BarTrendV1 extends core.GraphControllerV3  {
         public page: IPageController, 
         public group: GroupObject, 
         public data: DataObject,
-        public mapping: IGraphMappingV2,
+        public parameters: IParameterMapping[][],
+        public modifiers: IParameterMapping[][],
+        public filters: string[],
         public segment: string, 
         public index: number
     ){
-        super(slug,page,group,data,mapping,segment) 
+        super(slug,page,group,data,parameters,modifiers,filters,segment,index) 
         this.pre();
     }
 
@@ -67,16 +71,12 @@ export class BarTrendV1 extends core.GraphControllerV3  {
 
         this.graphEl = super._html();
 
-        if (window.innerWidth > breakpoints.sm && this.graphEl.parentElement && this.mapping[2]) {
-            let radiobuttons = new HtmlRadio(this, this.mapping[2],this.graphEl.parentElement);
-        }
+        // if (window.innerWidth > breakpoints.sm && this.graphEl.parentElement && this.mapping[2]) {
+        //     let radiobuttons = new HtmlRadio(this, this.mapping[2],this.graphEl.parentElement);
+        // }
     }
 
     async init() {
-
-        
-
-        // console.log(this.segment);
 
         this.config.paddingInner = .2;
         this.config.paddingOuter =  .2;
@@ -96,49 +96,68 @@ export class BarTrendV1 extends core.GraphControllerV3  {
 
     prepareData(data: DataObject) : DataObject {
 
-        // for (let key  of Object.keys(data.graphs) ) {
+        const createBars = (prop: string, param: IParameterMapping, data: KeyValue[]) => {
 
-        //     data.graphs[key] = data.graphs[key].slice(0,data.graphs[key].length -2)
-        // }
+            const bs: TrendBar[] = [];
+            
+            for (let period of data) {
 
-        
+                bs.push({
+                    label: param?.label || "",
+                    name: "main",
+                    date: period._yearmonth.toString(),
+                    colour: param != undefined ? param.colour : "orange",
+                    meta: period,
+                    value: period[prop] == null ? 0 : parseFloat(period[prop].toString())
+                })
+            }
+
+            return bs;
+        }
+
+        // types voor line en bar samenvoegen -- alles time based / trend 
+        const bars: { [key : string] : TrendBar[] } = {};
+
+        for (const pg of this.parameters) {
+
+            for (const p of pg) {
+
+                data[p.column] = createBars(p.column, p, data.graphData)
+
+                if (this.modifiers != undefined) {
+                    
+                    for (const mg of this.modifiers){
+                        
+                        for (const m of mg) {
+                            if (m.column != "{}") {
+                                const prop = m.column.replace("{}",p.column);
+                                data[prop] = createBars(prop, p, data.graphData)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         return data;
     }
 
     async draw(data: DataObject) {
 
-        for (let trend of Object.values(data.graphs)) {
-            this.chartBar.draw(trend);
-        }
-
+        this.chartBar.draw(data[this.segment]);
         this.timeline_1?.draw(data.timeline, 0);        
     }
 
 
-    async redraw(data: any, range: number[]) {
+    async redraw(data: any) {
 
-        // console.log(data);
+        this.scales.x.set(data[this.segment].map ( d => d.date));
+        this.scales.x1.set(data[this.segment].map ( d => d.meta._startdatum).filter( d => d != null));
+        this.scales.y.set(data[this.segment].map ( d => d.value).concat([0]));
 
-        this.scales.x.set(data.graphs[this.slug].map ( d => d.label));
-        this.scales.x1.set(data.graphs[this.slug].map ( d => d.meta._startdatum).filter( d => d != null));
-        this.scales.y.set(data.graphs[this.slug].map ( d => d.value).concat([0]));
+        await super.redraw(data[this.segment]);
 
-        await super.redraw(data.graphs[this.slug]);
-
-        for (let trend of Object.values(data.graphs)) {
-            this.chartBar.redraw(trend);
-        }
-
-        const boxes = [].slice.call(this.graphEl?.parentElement?.querySelectorAll('input[type=checkbox'))
-
-        for( let box of boxes) {
-
-            const group  = this.graphEl?.parentElement?.querySelector('g.' + box.value) as SVGElement;
-            if (group != undefined)_: group.style.display = box.checked ? "block" : "none"
-
-           
-        }
-
+        this.chartBar.redraw(data[this.segment]);
         this.timeline_1?.redraw(data.timeline, 0);        
     }
 

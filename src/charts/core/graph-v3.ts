@@ -1,5 +1,5 @@
 
-import { Dimensions, IGraphConfig, IParameterMapping } from './types';
+import { Dimensions, IGraphConfig, IParameterMapping, IScale, IScales } from './types';
 import { IChartDimensions } from './chart-dimensions'
 import { ChartObject } from './chart-init-objects';
 import { ISvgService } from './svg-service';
@@ -10,26 +10,31 @@ import { ChartDimensions } from './chart-dimensions';
 
 
 // what about these? 
-import { DataObject, ImgData } from "../../pages/shared/types";
+import { DataObject } from "../../pages/shared/types";
 import { IPageController } from '../../pages/shared/page.controller';
-import { GroupObject, IGraphMappingV2 } from '../../pages/shared/interfaces';
-import { HtmlPopup } from '../../pages/shared/html/html-popup';
+import { GroupObject  } from '../../pages/shared/interfaces';
+import { HtmlFilters } from '../../pages/shared/html/html-filters';
+import { fixMultiple, graphIsMultiple } from '../../pages/shared/factories/multiples';
 
 export type IGraphControllerV3 = {
 
+    slug: string,
     page: IPageController, 
     group: GroupObject,
     data: any,
     svgWrapper?: HTMLElement,
-    mapping: IGraphMappingV2,
+    parameters: IParameterMapping[][],
+    modifiers: IParameterMapping[][],
+    filters: string[],
     config: IGraphConfig,
     segment: string,
     dimensions: Dimensions,
+    scales: IScales,
     svg;
     chartDimensions : IChartDimensions
 
     init: () => void,
-    _html: (groupEl : HTMLElement) => HTMLElement
+    _html: (classList?: string[]) => HTMLElement
     prepareData: (data: DataObject) => void,
     draw: (data: any) => Promise<void>,
     redraw: (data?: any, range?: number[]) => Promise<void>
@@ -54,14 +59,18 @@ export class GraphControllerV3 implements IGraphControllerV3  {
     element: HTMLElement | null;
     popup;
     preparedData: DataObject;
+    filter;
 
     constructor(
-        public slug,
-        public page,
-        public group,
-        public data,
-        public mapping,
-        public segment
+        public slug: string,
+        public page: IPageController,
+        public group: GroupObject,
+        public data : DataObject,
+        public parameters: IParameterMapping[][],
+        public modifiers: IParameterMapping[][],
+        public filters: string[],
+        public segment: string,
+        public index: number
     ) {
      
         this.scales = {};
@@ -74,14 +83,7 @@ export class GraphControllerV3 implements IGraphControllerV3  {
     }
 
     _init() {
-
-        let self = this;
-       
-        // if (this.mapping.header) {
-        //     this.htmlHeader = new HtmlHeader(this.element, this.mapping.header != undefined ? this.mapping.header : this.firstMapping['label'],this.mapping.description);
-        //     this.htmlHeader.draw(); 
-        // }
-
+        
         let chartObject = ChartObject();
         this.config = Object.assign(chartObject.config(),this.config);
         this.dimensions = chartObject.dimensions();
@@ -91,12 +93,13 @@ export class GraphControllerV3 implements IGraphControllerV3  {
  
     }
 
-    _html (altWrapper?: HTMLElement) {
+    _html (classList?: string[]) {
 
-        this.element = (altWrapper == undefined )? window.d3.select(this.group.element).node() : window.d3.select(altWrapper).node()
+        this.element =  this.group.element; // window.d3.select().node() as HTMLElement;
+        const classes = classList?.join(",") || "graph-container-12";
 
         const graphEl = document.createElement('section');
-        graphEl.classList.add("graph-container-12")
+        graphEl.classList.add(classes)
         graphEl.classList.add("graph-view")
         if (this.element != null) {
             this.element.appendChild(graphEl);
@@ -107,13 +110,29 @@ export class GraphControllerV3 implements IGraphControllerV3  {
 
         }
 
-        
+        // if (this.element != null && this.mapping.description && this.mapping.description !== '' ) {
+        //     this.popup = new HtmlPopup(this.element,this.mapping.description);
+        // }
 
-        if (this.element != null && this.mapping.description && this.mapping.description !== '' ) {
-            this.popup = new HtmlPopup(this.element,this.mapping.description);
+        if(graphIsMultiple(this.slug) && this.slug.endsWith('0')) {
+            
+            const graph = this.group.config.graphs.find( g => g.slug == fixMultiple(this.slug));
+
+            if (graph != undefined && graph.filters != undefined && graph.filters.length > 0) { 
+                this.filter = new HtmlFilters(this, graph.slug, graphEl.parentElement, graph.filters, this.parameters, this.modifiers,"");
+                this.filter.draw();
+            }
+            
+
+        } else {
+
+            const graph = this.group.config.graphs.find( g => g.slug == this.slug);
+
+            if (graph != undefined && graph.filters != undefined && graph.filters.length > 0) { 
+                this.filter = new HtmlFilters(this, graph.slug, graphEl, graph.filters, this.parameters, this.modifiers,"");
+                this.filter.draw();
+            }
         }
-
-
 
         return graphEl
     }
@@ -180,25 +199,15 @@ export class GraphControllerV3 implements IGraphControllerV3  {
 
         if (update && this.config.extra.noUpdate) { return; }
 
-        if (this.popup && this.mapping.description) {
-            this.popup.attachData(newData);
-        }
-
         this.segment = segment;
 
         const d = Object.assign({}, newData);
-
-                
         const data = self.prepareData(d);
         // //  needed within multiples .. why ??? 
         this.preparedData = Object.assign({}, data);
         await self.draw(this.preparedData);
         await self.redraw(this.preparedData,range);
         window.addEventListener("resize", () => self.redraw(this.preparedData), false);
-
-        if(this.mapping.segmentIndicator) {
-            this.htmlSegment.draw(segment);
-        }
 
         return;
     }

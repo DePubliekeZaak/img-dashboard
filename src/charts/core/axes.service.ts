@@ -188,13 +188,13 @@ export class AxesService {
                 case 'bottom' :
 
                     this.axisGroup
-                        .attr("transform", "translate(" + 0 + "," + (dimensions.graphHeight) + ")")
+                        .attr("transform", "translate(" + 0 + "," + (dimensions.svgHeight) + ")")
                     break;
 
                 case 'belowBottom' :
 
                     this.axisGroup
-                        .attr("transform", "translate(" + 0 + "," + (dimensions.graphHeight + 0) + ")")
+                        .attr("transform", "translate(" + 0 + "," + (dimensions.svgHeight + 0) + ")")
                     break;
 
                 case 'top' :
@@ -212,7 +212,7 @@ export class AxesService {
                 case 'right' :
 
                     this.axisGroup
-                        .attr("transform", "translate(" + (dimensions.graphWidth + this.ctrlr.config.padding.right) + "," + 0 + ")");
+                        .attr("transform", "translate(" + (dimensions.svgWidth + this.ctrlr.config.padding.right) + "," + 0 + ")");
                     break;
 
                 default :
@@ -223,32 +223,32 @@ export class AxesService {
                 .duration(1000)
                 .call(this.axis.scale(scale));
 
-            if(this.ctrlr.mapping.args && this.ctrlr.mapping.args[0] === "alternateTicks") {
+            // if(this.ctrlr.mapping.args && this.ctrlr.mapping.args[0] === "alternateTicks") {
 
-                if (window.innerWidth < breakpoints.sm) {
+            //     if (window.innerWidth < breakpoints.sm) {
 
-                    this.ctrlr.svg.layers.axes.selectAll("g.x-axis g.tick text")
-                    .attr("text-anchor","end")
-                    .attr("transform","translate(-10,0) rotate(-45)")
-                    // .attr("dy", (d,i) => {
-                    //     return (i % 2 == 0 ) ? 16 : 32
-                    // } );
+            //         this.ctrlr.svg.layers.axes.selectAll("g.x-axis g.tick text")
+            //         .attr("text-anchor","end")
+            //         .attr("transform","translate(-10,0) rotate(-45)")
+            //         // .attr("dy", (d,i) => {
+            //         //     return (i % 2 == 0 ) ? 16 : 32
+            //         // } );
 
 
-                } else {
+            //     } else {
 
-                    this.ctrlr.svg.layers.axes.selectAll("g.x-axis g.tick text")
-                    .attr("dy", (d,i) => {
-                        return (i % 2 == 0 ) ? 16 : 32
-                    } );
-                }
+            //         this.ctrlr.svg.layers.axes.selectAll("g.x-axis g.tick text")
+            //         .attr("dy", (d,i) => {
+            //             return (i % 2 == 0 ) ? 16 : 32
+            //         } );
+            //     }
 
                 
-            }
+            // }
 
             if(['weekly','monthly','quarterly','yearly'].indexOf(this.config.format) > -1) {
 
-                const offset = (this.ctrlr.dimensions.width / data.length) / 2;
+                const offset = (this.ctrlr.dimensions.svgWidth / data.length) / 2;
 
                 this.ctrlr.svg.layers.axes.selectAll("g.x-axis g.tick text")
                     .attr("dx", offset);

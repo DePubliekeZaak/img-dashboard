@@ -22,7 +22,13 @@ export class ChartPieV1 {
             .data(parts)
             .join("path")
             .attr("class", "arc")
-            .attr("fill", (d: any, i: number) => colours[data[i].colour][1])
+            .attr("fill", (d: any, i: number) => {
+
+                console.log(data[i]);
+                
+                return colours[data[i].colour][1]
+            
+            })
             .attr("stroke", (d: any, i: number) => colours[data[i].colour][0])
             .attr("stroke-width", "1px")
             .on("mouseover", function (event: any, d: any, ii: number) {

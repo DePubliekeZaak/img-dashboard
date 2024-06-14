@@ -10,7 +10,12 @@ export interface IScale {
     slug: string,
     type: string,
     direction: string,
-    parameter?: string // is fit nodig? 
+    parameter?: string, // is fit nodig? 
+    fn?: any
+}
+
+export type IScales = {
+    [key:string]: IScale
 }
 
 export interface IAxis {
@@ -47,7 +52,6 @@ export interface IGraphConfig {
     nodeWidth? : number,
     nodePadding? : number,
     extra? : any,
-    companyWidth?: number,
     groupHeight?: number,
     barHeight?: number,
     minRadius?: number,

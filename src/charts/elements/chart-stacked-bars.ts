@@ -18,14 +18,13 @@ export default class ChartStackedBars {
 
     draw(data) {
 
-        const mapping = this.ctrlr.mapping ? this.ctrlr.mapping : this.ctrlr.graphObject.mapping;
 
         this.series = this.ctrlr.svg.layers.data.selectAll("g.serie")
             .data(data.stacked)
             .join("g")
-            .attr("class", (d,i) => "serie " + mapping[0][i]['colour'])
-            .attr("stroke", (d,i) => colours[mapping[0][i]['colour']][0])
-            .attr("fill", (d,i) => colours[mapping[0][i]['colour']][1])
+            .attr("class", (d,i) => "serie " + this.ctrlr.parameters[0][i]['colour'])
+            .attr("stroke", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][0])
+            .attr("fill", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][1])
 
         this.bars = this.series.selectAll(".bar")
             .data(d => d)
@@ -38,17 +37,15 @@ export default class ChartStackedBars {
 
         let self = this;
 
-        const mapping = this.ctrlr.mapping ? this.ctrlr.mapping : this.ctrlr.graphObject.mapping;
-
         const width = self.ctrlr.dimensions.svgWidth / data.stacked[0].length - 1;
 
         this.bars
             .attr("x", (d: any, i: number)  => self.ctrlr.scales.x.scale(d.data["date"]))
-            .attr("y", self.ctrlr.dimensions.height)
+            .attr("y", self.ctrlr.dimensions.graphHeight) 
             .attr("height", 0)
             .attr("width", width)
             .transition()
-            .duration(500)
+            .duration(300)
             .attr("y", (d) => self.ctrlr.scales.y.scale(d[1]))
             .attr("height", (d, i) => {
                 let h = self.ctrlr.scales.y.scale(d[0]) - self.ctrlr.scales.y.scale(d[1]);
@@ -65,7 +62,7 @@ export default class ChartStackedBars {
                     let html =  '<div>' + d.data.year + '</div>'; 
                     html +=  '<div>' + toDutchMonths(parseFloat(d.data.month)) + '</div>'; 
 
-                    for (let map of mapping[0]) {
+                    for (let map of this.ctrlr.parameters[0]) {
 
                         html +=  '<div>' + map.label + ' : ' + d.data[map.column] + '</div>'; 
 
@@ -77,7 +74,7 @@ export default class ChartStackedBars {
 
                         if(period != undefined) {
 
-                            for (let map of mapping[1]) {
+                            for (let map of this.ctrlr.parameters[1]) {
 
                                 html +=  '<div>' + map.label + ' : ' + Math.round(period.value) + '%</div>'; 
 

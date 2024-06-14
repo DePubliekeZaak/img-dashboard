@@ -2,8 +2,8 @@
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
 import { DataObject, ImgData } from "../../shared/types";
-import { Bar, Bars, Definitions, Line, Lines, PiePart, TableData } from "../../shared/types_graphs";
-import { HTMLSource } from "../../shared/html/html-source copy";
+import { Bar, TrendBar, Definitions, Line, Lines, PiePart, TableData } from "../../shared/types_graphs";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
 export class DuurProjectiesGroupV1 extends GroupControllerV1 { 
 
@@ -28,7 +28,7 @@ export class DuurProjectiesGroupV1 extends GroupControllerV1 {
 
     html() {
         const graphWrapper = super.html();
-        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
+        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
         return graphWrapper
     }
 
@@ -39,7 +39,7 @@ export class DuurProjectiesGroupV1 extends GroupControllerV1 {
         const dataGroup = "historie";
         const parts: PiePart[]  = [];
         const rows: (string|number)[][] = [];  
-        const bars: Bars = []; 
+        const bars: TrendBar[] = []; 
         const lines: Lines = []
 
         let params = ([] as IParameterMapping[]);
@@ -65,11 +65,12 @@ export class DuurProjectiesGroupV1 extends GroupControllerV1 {
 
             rows.push(row);
 
-            const bar: Bar = {
-                label : period._yearmonth,
+            const bar: TrendBar = {
+                label: this.config.graphs[0].parameters[0][0].label,
+                date : period._yearmonth,
                 value : period[this.config.graphs[0].parameters[0][0].column],
                 colour : this.config.graphs[0].parameters[0][0].colour,
-                type : "werkvoorraad",
+                name : "werkvoorraad",
                 meta : period
             }
 
@@ -93,9 +94,6 @@ export class DuurProjectiesGroupV1 extends GroupControllerV1 {
             lines.push(line);
         } 
 
-
-
-   
         const table = {
             headers:  ["Jaar","Maand","Datum"].concat(params.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
             rows
@@ -127,8 +125,8 @@ export class DuurProjectiesGroupV1 extends GroupControllerV1 {
         super.populateTable(tableData);
     }
 
-    update(data: DataObject, segment: string, update: boolean) {
+    // update(data: DataObject, segment: string, update: boolean) {
 
-        super.update(data,segment,update)
-    }  
+    //     super.update(data,segment,update)
+    // }  
 }

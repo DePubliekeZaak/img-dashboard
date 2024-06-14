@@ -17,8 +17,6 @@ export class ChartLine {
 
     draw(data: Line) {
 
-        // console.log(this.yParameter);
-
         this.line = this.ctrlr.svg.layers.data.selectAll('.line-' + this.yParameter)
             .data([data])
             .join("path")
@@ -26,7 +24,6 @@ export class ChartLine {
             .attr("fill", 'transparent')
             .attr("stroke", d => colours[data[0].colour || "purple"][0] )
             .attr("stroke-width", 1)
-            // .attr("stroke-dasharray","2 4")
     }
 
     lineMaker() :any {
@@ -34,8 +31,8 @@ export class ChartLine {
         const self = this;
 
         return window.d3.line()
-            .x(d => this.ctrlr.scales.x.scale(d["time"]))
-            .y(d => self.ctrlr.scales.y1.scale(d["value"]))
+            .x(d => this.ctrlr.scales.x.scale(d["time"] || d["date"]))
+            .y(d => self.ctrlr.scales.y1 != undefined ? self.ctrlr.scales.y1.scale(d["value"]) : self.ctrlr.scales.y.scale(d["value"]))
             .curve(window.d3.curveStepBefore);
     }
 

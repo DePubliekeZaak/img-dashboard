@@ -4,7 +4,7 @@ import { ImgData } from '../../shared/types';
 
 import { DataObject } from '../../shared/types';
 import { core, elements } from '../../../charts';
-import { GroupObject, IGraphMappingV2 } from '../../shared/interfaces';
+import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
 import { HtmlLegendCustom } from '../../shared/html/html-legend-custom';
 import { HTMLSource } from '../../shared/html/html-source';
@@ -31,11 +31,13 @@ export class PieChartV1 extends core.GraphControllerV3  {
         public page: IPageController, 
         public group: GroupObject, 
         public data: DataObject,
-        public mapping: IGraphMappingV2,
+        public parameters: IParameterMapping[][],
+        public modifiers: IParameterMapping[][],
+        public filters: string[],
         public segment: string, 
         public index: number
     ){
-        super(slug,page,group,data, mapping,segment) 
+        super(slug,page,group,data,parameters,modifiers,filters, segment,index) 
         this.pre();
     }
 

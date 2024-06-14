@@ -1,5 +1,7 @@
-import {  GeoJsonFeature, Line, Lines } from "./types_graphs";
+import {  GeoJsonFeature, Line, Lines, TrendBar } from "./types_graphs";
 import { DataPart } from "./types";
+import { IParameterMapping } from "./interfaces";
+import { KeyValue } from "../../charts/core/types";
 
 
 export const filterUnique = (data: any[],key: string): (string|number)[] => {
@@ -113,4 +115,23 @@ export const formatLines = (data: any, keyForLine: string, keyForValue: string, 
 
     return readyForLines;
     
+}
+
+export const createBars = (prop: string, param: IParameterMapping, data: KeyValue[]) => {
+
+    const bs: TrendBar[] = [];
+    
+    for (let period of data) {
+
+        bs.push({
+            label: param?.label || "",
+            name: "main",
+            date: period._yearmonth.toString(),
+            colour: param != undefined ? param.colour : "orange",
+            meta: period,
+            value: period[prop] == null ? 0 : parseFloat(period[prop].toString())
+        })
+    }
+
+    return bs;
 }

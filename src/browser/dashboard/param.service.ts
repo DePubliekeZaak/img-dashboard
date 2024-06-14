@@ -29,7 +29,7 @@ export class ParamService implements IParamService {
         let primValue = Object.values(this._params)[0];
 
         if (primValue === 'undefined' || 'language') {
-            this._topic = 'historie'
+            this._topic = 'actueel'
             this._segment = '2022'
         }
 

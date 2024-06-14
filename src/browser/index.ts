@@ -11,7 +11,7 @@ const init = () => {
         const graph = el.getAttribute(attribute);       
 
         switch (graph) {
-            case 'dashboard' :
+            case 'dashboard':
                 new DashboardController();
                 break;
         }

@@ -3,9 +3,9 @@ import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
 import { DataObject, ImgData } from "../../shared/types";
-import { Bar, Bars, Line, PeriodBar, PiePart, TableData } from "../../shared/types_graphs";
+import { Bar, Bars, Line, TrendBar, PiePart, TableData } from "../../shared/types_graphs";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { HTMLSource } from "../../shared/html/html-source copy";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
 export class BesluitenGroupV1 extends GroupControllerV1 { 
 
@@ -28,7 +28,7 @@ export class BesluitenGroupV1 extends GroupControllerV1 {
 
     html() {
         const graphWrapper = super.html();
-        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
+        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
         return graphWrapper
     }
 
@@ -39,7 +39,7 @@ export class BesluitenGroupV1 extends GroupControllerV1 {
         const dataGroup = this.config.endpoints[0];
        
         const parts: PiePart[]  = [];
-        const bars: PeriodBar[]  = [];
+        const bars: TrendBar[]  = [];
         const rows: (string|number)[][] = [];     
         const forStacked: any[] = [];  
         const line: Line = [];
@@ -132,8 +132,8 @@ export class BesluitenGroupV1 extends GroupControllerV1 {
         super.populateTable(tableData);
     }
 
-    update(data: DataObject, segment: string, update: boolean) {
+    // update(data: DataObject, segment: string, update: boolean) {
 
-        super.update(data,segment,update)
-    }  
+    //     super.update(data,segment,update)
+    // }  
 }

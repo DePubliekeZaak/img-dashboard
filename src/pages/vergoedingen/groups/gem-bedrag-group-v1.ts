@@ -3,9 +3,9 @@ import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
 import { DataObject, ImgData } from "../../shared/types";
-import { Bars, Definitions, PiePart, TableData } from "../../shared/types_graphs";
+import { TrendBar, Definitions, PiePart, TableData } from "../../shared/types_graphs";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { HTMLSource } from "../../shared/html/html-source copy";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
 export class GemBedragGroupV1 extends GroupControllerV1 { 
 
@@ -28,7 +28,7 @@ export class GemBedragGroupV1 extends GroupControllerV1 {
 
     html() {
         const graphWrapper = super.html();
-        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
+        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
         return graphWrapper
     }
 
@@ -38,7 +38,7 @@ export class GemBedragGroupV1 extends GroupControllerV1 {
       
         const dataGroup = "historie";
         const rows: (string|number)[][] = [];  
-        const bars: Bars = [];    
+        const bars: TrendBar[] = [];    
         const definitions: Definitions = [];
 
         let params = ([] as IParameterMapping[]);
@@ -59,10 +59,11 @@ export class GemBedragGroupV1 extends GroupControllerV1 {
             row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}));
 
             bars.push({
-                label: period._yearmonth,
+                label: "Gemiddeld schadebedrag",
+                date: period._yearmonth,
                 value: period[columns_1[0]],
                 colour: "orange",
-                type: "gem",
+                name: "gem",
                 meta: period,
                 format: "currency"
             })
@@ -98,8 +99,8 @@ export class GemBedragGroupV1 extends GroupControllerV1 {
         super.populateTable(tableData);
     }
 
-    update(data: DataObject, segment: string, update: boolean) {
+    // update(data: DataObject, segment: string, update: boolean) {
 
-        super.update(data,segment,update)
-    }  
+    //     super.update(data,segment,update)
+    // }  
 }

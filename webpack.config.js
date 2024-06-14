@@ -10,6 +10,24 @@ const config = (env) =>  {
       scaffold: {
         import: "./src/browser/index.ts",
       },
+      actueel: {
+        filename: "scripts/actueel.bundle.js",
+        import: "./src/pages/actueel/index.ts",
+        library: {
+          name: 'actueel',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      nieuw_beleid: {
+        filename: "scripts/nieuw-beleid.bundle.js",
+        import: "./src/pages/nieuw-beleid/index.ts",
+        library: {
+          name: 'nieuw-beleid',
+          type: 'window',
+          export: 'default',
+        }
+      },
       history: {
         filename: "scripts/historie.bundle.js",
         import: "./src/pages/historie/index.ts",
@@ -19,11 +37,20 @@ const config = (env) =>  {
           export: 'default',
         }
       },
-      meldingen: {
-        filename: "scripts/aos-en-meldingen.bundle.js",
-        import: "./src/pages/aos-en-meldingen/index.ts",
+      aos: {
+        filename: "scripts/aos.bundle.js",
+        import: "./src/pages/aos/index.ts",
         library: {
-          name: 'aos-en-meldingen',
+          name: 'aos',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      schademeldingen: {
+        filename: "scripts/schademeldingen.bundle.js",
+        import: "./src/pages/schademeldingen/index.ts",
+        library: {
+          name: 'schademeldingen',
           type: 'window',
           export: 'default',
         }
@@ -55,11 +82,29 @@ const config = (env) =>  {
           export: 'default',
         }
       },
-      history_fs: {
-        filename: "scripts/historie-fs.bundle.js",
-        import: "./src/pages/historie-fs/index.ts",
+      immateriele_schade: {
+        filename: "scripts/immateriele-schade.bundle.js",
+        import: "./src/pages/immateriele-schade/index.ts",
         library: {
-          name: 'historie-fs',
+          name: 'immateriele-schade',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      waardedalingsregeling: {
+        filename: "scripts/waardedalingsregeling.bundle.js",
+        import: "./src/pages/waardedalingsregeling/index.ts",
+        library: {
+          name: 'waardedalingsregeling',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      waardering: {
+        filename: "scripts/waardering.bundle.js",
+        import: "./src/pages/waardering/index.ts",
+        library: {
+          name: 'waardering',
           type: 'window',
           export: 'default',
         }

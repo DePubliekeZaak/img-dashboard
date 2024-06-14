@@ -18,19 +18,21 @@ export class HtmlLegendRowWithLines {
         legend.style.justifyContent = 'center';
         legend.style.width = '100%';
 
-        this.ctrlr.group.graphs[this.ctrlr.index].mapping[0].forEach( (map: any,i:  number) => {
+        this.ctrlr.group.graphs[this.ctrlr.index].parameters[0].forEach( (map: any,i:  number) => {
             let item = this.createDiv();
             item.appendChild(this.createCircle(map));
             item.appendChild(this.createLabel(map));
             legend.appendChild(item);
         });
 
-        this.ctrlr.group.graphs[this.ctrlr.index].mapping[1].forEach( (map: any,i:  number) => {
-            let item = this.createDiv();
-            item.appendChild(this.createRect(map));
-            item.appendChild(this.createLabel(map));
-            legend.appendChild(item);
-        });
+        if(this.ctrlr.group.graphs[this.ctrlr.index].parameters[1] != undefined) {
+            this.ctrlr.group.graphs[this.ctrlr.index].parameters[1].forEach( (map: any,i:  number) => {
+                let item = this.createDiv();
+                item.appendChild(this.createRect(map));
+                item.appendChild(this.createLabel(map));
+                legend.appendChild(item);
+            });
+        }
 
         if (location == "bottom") {
 

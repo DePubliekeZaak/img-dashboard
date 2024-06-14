@@ -38,6 +38,8 @@ export default class HtmlLegendAsSum {
         legend.appendChild(table);
         
         this.ctrlr.element.appendChild(legend);    // insertBefore(legend,this.ctrlr.element.querySelector('svg'))
+
+        return legend;
     }
 
     createRow(map: PiePart, index: number, data: PiePart[]) : HTMLDivElement {

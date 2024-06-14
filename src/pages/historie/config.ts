@@ -9,6 +9,7 @@ const bedrijf : IGroupMappingV2[] = [
             "slug" : "fysieke_schade",
             "ctrlr" : "BarTrendV1",
             "args" : [],
+            "filters" : ["combiSelect"],
             "parameters": [
                 [
                     {
@@ -24,46 +25,37 @@ const bedrijf : IGroupMappingV2[] = [
                     {
                         "label": "uitgekeerd",
                         "column": "fysieke_schade_uitgekeerd",
-                        "colour": "blue"
+                        "colour": "blue",
+                        "format": "currency"
                     },
                     {
                         "label": "werkvoorraad",
                         "column": "fysieke_schade_werkvoorraad",
                         "colour": "blue"
                     },
-                ],
+                ]
+            ],
+            "modifiers": [
                 [
                     {
                         "label": "toename",
-                        "column": "",
+                        "column": "{}",
                         "colour": "orange"
                     },
                     {
                         "label": "cumulatief",
-                        "column": "cumulatief",
+                        "column": "{}_cumulatief",
                         "colour": "orange"
-                    },   
-                ],
-                [
-                    {
-                        "label": "vaste vergoeding",
-                        "column": "vaste_vergoeding",
-                        "colour": "purple"
-                    },
-                    {
-                        "label": "gepauzeerd", // n.a.v. parlementaire enquete
-                        "column": "gepauzeerd",
-                        "colour": "purple"
-                    }
+                    }  
                 ]
             ]
         }
-        ],
+        ], 
         "header": "Fysieke schade",
-        "functionality": ['combiSelect','table', 'definitions','download'],
+        "functionality": ['table', 'definitions','download'],
         "description": "Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
         "endpoints": ["historie"],
-        "segment": "meldingen",
+        "segment": "fysieke_schade_meldingen",
     },
     // {
     //     "slug" : "history_ves",
@@ -107,7 +99,7 @@ const bedrijf : IGroupMappingV2[] = [
     //         }
     //     ],
     //     "header": "Vaste vergoeding",
-    //     "functionality": ['combiSelect','tableView', 'download'],
+    //     "functionality": ['combiSelect','tableView','download'],
     //     "description": "Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
     //     "endpoints": ["historie"],
     //     "segment": "vaste_vergoeding_aanvragen",
@@ -119,6 +111,7 @@ const bedrijf : IGroupMappingV2[] = [
             {
             "slug" : "waardedaling",
             "ctrlr" : "BarTrendV1",
+            "filters": ["combiSelect"],
             "args" : [],
             "parameters": [
                 [
@@ -137,27 +130,29 @@ const bedrijf : IGroupMappingV2[] = [
                         "column": "waardedaling_werkvoorraad",
                         "colour": "blue"
                     },
-                ],
+                ]
+            ],
+            "modifiers": [
                 [
                     {
                         "label": "toename",
-                        "column": "",
+                        "column": "{}",
                         "colour": "orange"
                     },
                     {
                         "label": "cumulatief",
-                        "column": "cumulatief",
+                        "column": "{}_cumulatief",
                         "colour": "orange"
-                    },   
+                    }  
                 ]
             ]
             }
         ],
         "header": "Waardedalingsregeling",
-        "functionality": ['combiSelect','table', 'download'],
+        "functionality": ['table', 'definitions','download'],
         "description": "Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
         "endpoints": ["historie"],
-        "segment": "aanvragen",
+        "segment": "waardedaling_aanvragen",
     },
     {
         "slug" : "history_ims",
@@ -166,6 +161,7 @@ const bedrijf : IGroupMappingV2[] = [
             {
             "slug" : "immateriele_schade",
             "ctrlr" : "BarTrendV1",
+            "filters": ["combiSelect"],
             "args" : [],
             "parameters": [
                 [
@@ -184,27 +180,29 @@ const bedrijf : IGroupMappingV2[] = [
                         "column": "immateriele_schade_werkvoorraad",
                         "colour": "blue"
                     },
-                ],
+                ], 
+            ],
+            "modifiers": [
                 [
                     {
                         "label": "toename",
-                        "column": "",
+                        "column": "{}",
                         "colour": "orange"
                     },
                     {
                         "label": "cumulatief",
-                        "column": "cumulatief",
+                        "column": "{}_cumulatief",
                         "colour": "orange"
-                    },   
+                    }  
                 ]
             ]
             }
         ],
         "header": "Immateriele schade",
-        "functionality": ['combiSelect','table', 'download'],
+        "functionality": ['definitions','table', 'download'],
         "description": "Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
         "endpoints": ["historie"],
-        "segment": "aanvragen",
+        "segment": "immateriele_schade_aanvragen",
     }
 ];
 

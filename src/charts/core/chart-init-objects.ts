@@ -23,11 +23,15 @@ export const ChartObject = () =>  {
 
     let dimensions = function dimensions() {
 
+        // graphHeight & graphWidth take dimensions from the graphElement. its margins are added to the graphElement
+        // padding are added to svg as margins
+        // svg is graph - paddings
+
         return {
-            svgWidth: 0, // width of element minus config.margin
-            graphWidth : 0, // svgWidth minus config.padding
-            svgHeight: this.config.graphHeight != undefined ? this.config.graphHeight : 0, // height of element minus config.margin
-            graphHeight : 0, // svgHeight minus config.padding
+            svgWidth: 0, 
+            graphWidth : 0, 
+            graphHeight: this.config.graphHeight != undefined ? this.config.graphHeight : 0, // height of element minus config.margin
+            svgHeight : 0,
         }
 
     }

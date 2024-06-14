@@ -74,14 +74,15 @@ export class AxisArrow {
         
         } else if (direction === 'vertical' && position === 'left' ){
 
-            x = -45;
+        
+            x = -this.ctrlr.config.padding.left - 0;
             y = 10;
 
             path = 'M ' + x + ' ' + arrowLength + ' V 0';
 
         } else if (direction === 'vertical' && position === 'right' ){
 
-            x = this.ctrlr.dimensions.graphWidth + 45;
+            x = this.ctrlr.dimensions.graphWidth;
             y = 10;
 
             path = 'M ' + x + ' ' + arrowLength + ' V 0';

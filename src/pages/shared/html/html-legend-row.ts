@@ -6,10 +6,10 @@ export class HtmlLegendRow {
     constructor(
         private ctrlr: any
     ) {
-        this.draw();
+        // this.draw();
     }
 
-    draw() {
+    draw(location: string) {
 
         let legend = document.createElement('div');
         legend.classList.add('legend');
@@ -19,14 +19,22 @@ export class HtmlLegendRow {
         legend.style.justifyContent = 'center';
         legend.style.width = '100%';
 
-        this.ctrlr.group.graphs[0].mapping[0].forEach( (map: any,i:  number) => {
+        this.ctrlr.group.graphs[0].parameters[0].forEach( (map: any,i:  number) => {
             let item = this.createDiv();
             item.appendChild(this.createCircle(map));
             item.appendChild(this.createLabel(map));
             legend.appendChild(item);
         });
 
-        this.ctrlr.element.appendChild(legend);
+        if (location == "bottom") {
+
+            this.ctrlr.element.appendChild(legend);
+
+        } else {
+            
+            this.ctrlr.element.insertBefore(legend, this.ctrlr.element.querySelector('svg'));
+
+        }
     }
     
 

@@ -13,19 +13,23 @@ export type Lines = Line[]
 export type Bar = {
     label : string,
     value : number,
-    value2?: number,
     colour: string,
     format?: string,
-    type?: string,
+    name?: string,
     meta?: any,
+    value2?: number,
     year?: number,
-    y?: number,
-    dy?: number
+    
 }
 
-export interface PeriodBar extends Bar {
+export interface TrendBar extends Bar {
     date: string
-}   
+}  
+
+export interface StackedBar extends Bar {
+    y?: number,
+    dy?: number
+}  
 
 
 export type Bars = Bar[];

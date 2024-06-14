@@ -4,7 +4,7 @@ import { ImgData } from '../../shared/types';
 
 import { DataObject } from '../../shared/types';
 import { core, elements } from '../../../charts';
-import { GroupObject, IGraphMappingV2 } from '../../shared/interfaces';
+import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
 import { HtmlLegendCustom } from '../../shared/html/html-legend-custom';
 import { HtmlRadio } from '../../shared/html/html-radio';
@@ -42,11 +42,13 @@ export class BarTrendStackedBesluiten extends core.GraphControllerV3  {
         public page: IPageController, 
         public group: GroupObject, 
         public data: DataObject,
-        public mapping: IGraphMappingV2,
+        public parameters: IParameterMapping[][],
+        public modifiers: IParameterMapping[][],
+        public filters: string[],
         public segment: string, 
         public index: number
     ){
-        super(slug,page,group,data, mapping,segment) 
+        super(slug,page,group,data,parameters,modifiers,filters,segment,index) 
         this.pre();
     }
 
@@ -84,7 +86,7 @@ export class BarTrendStackedBesluiten extends core.GraphControllerV3  {
         if (this.graphEl != null) await super._svg(this.graphEl);
 
         this.chartBarStacked = new elements.ChartStackedBars(this);
-        this.line = new elements.ChartLine(this, "_yearmonth", this.mapping[1][0].column)
+        this.line = new elements.ChartLine(this, "_yearmonth", this.parameters[1][0].column)
 
       //  this.arrowX = new AxisArrow(this,'x','afwijking in percentage van som');
         this.arrowY = new AxisArrow(this,'y','aantal besluiten p.m.');

@@ -103,8 +103,8 @@ export class BezwarenGroupV1 extends GroupControllerV1 {
         super.populateTable(tableData);
     }
 
-    update(data: DataObject, segment: string, update: boolean) {
+    // update(data: DataObject, segment: string, update: boolean) {
 
-        super.update(data,segment,update)
-    }  
+    //     super.update(data,segment,update)
+    // }  
 }

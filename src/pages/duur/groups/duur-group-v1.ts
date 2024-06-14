@@ -5,7 +5,7 @@ import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
 import { DataObject, ImgData } from "../../shared/types";
 import { Bars, Definitions, Line, PiePart, TableData } from "../../shared/types_graphs";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { HTMLSource } from "../../shared/html/html-source copy";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
 export class DuurGroupV1 extends GroupControllerV1 { 
 
@@ -30,7 +30,7 @@ export class DuurGroupV1 extends GroupControllerV1 {
 
     html() {
         const graphWrapper = super.html();
-        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
+        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
         return graphWrapper
     }
 
@@ -120,8 +120,8 @@ export class DuurGroupV1 extends GroupControllerV1 {
         super.populateTable(tableData);
     }
 
-    update(data: DataObject, segment: string, update: boolean) {
+    // update(data: DataObject, segment: string, update: boolean) {
 
-        super.update(data,segment,update)
-    }  
+    //     super.update(data,segment,update)
+    // }  
 }

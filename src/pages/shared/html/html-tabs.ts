@@ -38,7 +38,6 @@ export class HtmlTabs {
         this.element.appendChild(this.listElement);
 
         return true;
-
     }
 
      draw() {
@@ -60,7 +59,7 @@ export class HtmlTabs {
             const a = this.ctrlr.page.main.window.document.createElement('a');
             a.classList.add("tab");
             a.setAttribute("aria-describedby", this.ctrlr.slug);
-            a.setAttribute("aria-selected",false);
+            a.setAttribute("aria-selected",false.toString());
             a.role = "tab" 
             const id = this.ctrlr.slug + "__" + func
             a.href= "#panel_" + id;
@@ -73,19 +72,20 @@ export class HtmlTabs {
                 case 'graph' : 
 
                     a.innerText = this.ctrlr.page.main.params.language == 'nl' ? 'grafiek': 'graph';
-                    a.setAttribute("aria-selected",true);
+                    a.setAttribute("aria-selected",true.toString());
 
-                    const launchGraqph = () => {
+                    const launchGraph = () => {
                         setTimeout(() => {
                       
                             for ( let graph of self.ctrlr.page.chartArray[this.groupIndex].graphs) {
-                                graph.ctrlr.redraw(graph.ctrlr.group.data);
+                                graph.ctrlr.update(graph.ctrlr.group.data,"",true);
                             }
-                            removeEventListener('click', launchGraqph);
+                            removeEventListener('click', launchGraph);
                         }, 50);
                     };
                     
-                    a.addEventListener('click', launchGraqph, false);
+                    // When is this necessary
+               //     a.addEventListener('click', launchGraph, false);
                   
                     break;
 

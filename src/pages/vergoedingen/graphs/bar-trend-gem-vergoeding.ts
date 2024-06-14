@@ -2,7 +2,7 @@
 import { breakpoints } from '../../../img-modules/styleguide';
 import { DataObject } from '../../shared/types';
 import { core, elements } from '../../../charts';
-import { GroupObject, IGraphMappingV2 } from '../../shared/interfaces';
+import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
 import { AxisArrow } from '../../../charts/elements/axis-arrow';
 import { HtmlLegendRowWithLines } from '../../shared/html/html-legend-row-with-lines';
@@ -39,11 +39,13 @@ export class BarTrendGemVervoeding extends core.GraphControllerV3  {
         public page: IPageController, 
         public group: GroupObject, 
         public data: DataObject,
-        public mapping: IGraphMappingV2,
+        public parameters: IParameterMapping[][],
+        public modifiers: IParameterMapping[][],
+        public filters: string[],
         public segment: string, 
         public index: number
     ){
-        super(slug,page,group,data, mapping,segment) 
+        super(slug,page,group,data,parameters,modifiers,filters,segment,index) 
         this.pre();
     }
 
@@ -53,7 +55,7 @@ export class BarTrendGemVervoeding extends core.GraphControllerV3  {
         const bottom = 0;
 
         this._addMargin(top,bottom,0,30);
-        this._addPadding(0,0,30,0);
+        this._addPadding(0,0,60,0);
 
         this._addScale('x','band','horizontal-reverse','date');
         this._addScale('y','linear','vertical','value');
@@ -99,9 +101,9 @@ export class BarTrendGemVervoeding extends core.GraphControllerV3  {
     }
 
 
-    async redraw(data: any, range: number[]) {
+    async redraw(data: any) {
 
-        this.scales.x.set(data.bars.map ( d => d.label));
+        this.scales.x.set(data.bars.map ( d => d.date));
         this.scales.y.set(data.bars.map( d => d.value).concat([0]));
 
         await super.redraw(data.bars);

@@ -1,5 +1,6 @@
 import { colours } from "../../../img-modules/styleguide";
 import { drop } from "lodash";
+import { IParameterMapping } from "../interfaces";
 
 export class HtmlMappingSelector {
 
@@ -7,7 +8,7 @@ export class HtmlMappingSelector {
         private ctrlr,
         private element,
         private id: string,
-        private config
+        private parameters: IParameterMapping[][]
     ){
        
     }
@@ -23,20 +24,15 @@ export class HtmlMappingSelector {
         dropdown.style.alignSelf = 'flex-start';
         dropdown.style.maxWidth = '90vw';
 
-        for ( let map of this.config.graphs[0].parameters[index]) {
-
+        for ( let map of this.parameters[0]) {
             let option = document.createElement('option');
-            option.label = this.ctrlr.page.main.params.language == 'en' ? map.label_en : map.label;
+            option.label = this.ctrlr.page.main.params.language == 'en' ? map.label_en || "" : map.label.toLowerCase() || "";
             option.value = map.column;
-            option.innerText = map.label;
+            option.innerText = map.label.toLowerCase();
             if (map.column === segment) { option.selected = true }
             dropdown.appendChild(option);
-            // dropdown.style.border = '1px solid black';
-            // dropdown.style.borderRadius = '0';
-
-            
         }
-
+    
         this.element.appendChild(dropdown)   // insertBefore(dropdown,headerElement.nextSibling);
 
         return dropdown;

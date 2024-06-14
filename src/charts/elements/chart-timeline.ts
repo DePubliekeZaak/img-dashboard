@@ -11,8 +11,7 @@ export default class ChartTimeline {
     constructor(
         private ctrlr
     ){
-        this.html();
-        
+        this.html();   
     }
 
     html() {
@@ -86,11 +85,9 @@ export default class ChartTimeline {
 
         bg
             .attr("x", 0)
-            .attr("width", this.ctrlr.dimensions.graphWidth)
-            .attr("y", this.ctrlr.dimensions.svgHeight - (30 * (index + 1)))
+            .attr("width", this.ctrlr.dimensions.svgWidth)
+            .attr("y", this.ctrlr.dimensions.graphHeight - (30 * (index + 1)))
             .attr("height", 10);
-
-
 
         const groups = this.ctrlr.svg.layers.data.selectAll("g.timeline_" + index.toString() + " g.timeline_item");
 
@@ -100,7 +97,7 @@ export default class ChartTimeline {
                 const offset = 0 /// i % 2 == 0 ? 0 : 15;
 
                 const x = this.ctrlr.scales.x1.fn(new Date(d.date));
-                const y = this.ctrlr.dimensions.graphHeight + (30 * (index + 1)) + offset;
+                const y = this.ctrlr.dimensions.svgHeight + (30 * (index + 1)) + offset;
 
                 return "translate(" + x + "," + y + ")";
                 
@@ -113,7 +110,6 @@ export default class ChartTimeline {
                     <div>${d.date}</div>
                     <b>${d.label}</b>
                     <div>${d.description}</div>
-              
               `;
         }
 
@@ -149,8 +145,6 @@ export default class ChartTimeline {
         items.each( function(d,i) {
 
             if(d != undefined) {
-                
-              
                 let div = document.createElement("div");
                 div.classList.add("html_label");
                 div.setAttribute("data_label", slugify(d.html))

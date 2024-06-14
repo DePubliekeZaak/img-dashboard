@@ -1,12 +1,12 @@
-import { HtmlFilters} from "./html/html-filters";
 import { HtmlTabs } from "./html/html-tabs";
 import { HtmlHeader } from "./html/html-header";
 import { HTMLTable } from "./html/html-table";
 import { HTMLDefinitions } from "./html/html-definitions";
-// import { HTMLDescription } from "./html/html-description";
-import { IGroupCtrlr, IGroupMappingV2 } from "./interfaces";
+import { IGroupCtrlr, IGroupMappingV2, IParameterMapping } from "./interfaces";
 import { DataObject, ImgData, TableData } from "./types";
 import { Definitions } from "./types_graphs";
+import { trimColumnsAndOrder } from "./_helpers";
+import { HtmlGroupFilters } from "./html/html-group-filters";
 
 export class GroupControllerV1 implements IGroupCtrlr {
 
@@ -18,8 +18,11 @@ export class GroupControllerV1 implements IGroupCtrlr {
     tabs;
     table;
     definitions;
-    filter: any;
+    filters: any;
     description;
+
+    groupWrapper;
+    graphWrapper;
 
     constructor(
         public page: any,
@@ -29,31 +32,27 @@ export class GroupControllerV1 implements IGroupCtrlr {
         this.slug = config.slug;
         this.element = page.main.htmlContainer;
         this.segment = config.segment;
-
     }
 
     html(groupEl?: HTMLElement) {
 
         if (this.element == null) return;
 
-        let groupWrapper: HTMLElement;
-
         if (groupEl == undefined) {
 
-            groupWrapper = document.createElement('section');
-            groupWrapper.classList.add('graph-container-12');
-            groupWrapper.classList.add('group-wrapper');
+            this.groupWrapper = document.createElement('section');
+            this.groupWrapper.classList.add('graph-container-12');
+            this.groupWrapper.classList.add('group-wrapper');
 
-            this.element.appendChild(groupWrapper);
+            this.element.appendChild(this.groupWrapper);
 
         } else {
 
-            groupWrapper = groupEl;
+            this.groupWrapper = groupEl;
         }
-  
         
         this.htmlHeader = new HtmlHeader(
-            groupWrapper,  
+            this.groupWrapper,  
             this.page.main.params.language == 'nl' ? this.config.header : this.config.header_en,
             this.page.main.params.language == 'nl' ? this.config.description : this.config.description_en,
         );
@@ -61,50 +60,81 @@ export class GroupControllerV1 implements IGroupCtrlr {
         this.htmlHeader.draw(); 
 
         if (this.config.functionality) {
-            this.tabs = new HtmlTabs(this,groupWrapper,this.config,this.segment, this.index);
+            this.tabs = new HtmlTabs(this,this.groupWrapper,this.config,this.segment, this.index);
             this.tabs.draw();
         }
 
         // TAB PANELS
 
-        const graphWrapper = document.createElement('section');
-        graphWrapper.classList.add('graph-container-12');
-        graphWrapper.classList.add('graph-wrapper');
-        graphWrapper.classList.add("tabpanel");
-        graphWrapper.role = "tabpanel";
-        graphWrapper.id = "panel_" + this.slug + "__graph";
-        graphWrapper.setAttribute("aria-labelledby","tab_" + this.slug + "__graph");
-        graphWrapper.tabIndex = 0
+        this.graphWrapper = document.createElement('section');
+        this.graphWrapper.classList.add('graph-container-12');
+        this.graphWrapper.classList.add('graph-wrapper');
+        this.graphWrapper.classList.add("tabpanel");
+        this.graphWrapper.role = "tabpanel";
+        this.graphWrapper.id = "panel_" + this.slug + "__graph";
+        this.graphWrapper.setAttribute("aria-labelledby","tab_" + this.slug + "__graph");
+        this.graphWrapper.tabIndex = 0
 
-        groupWrapper.appendChild(graphWrapper);
+        this.groupWrapper.appendChild(this.graphWrapper);
 
         if (this.config.functionality == undefined) return;
 
-        if (this.config.functionality.length > 0) {   
-            this.filter = new HtmlFilters(this, graphWrapper, this.config, "");
-            this.filter.draw();
-        }
-
         if (this.config.functionality && this.config.functionality.indexOf('table') > -1) {
-            this.table = new HTMLTable(this,groupWrapper);
+            this.table = new HTMLTable(this,this.groupWrapper);
         }
 
         if (this.config.functionality && this.config.functionality.indexOf('definitions') > -1) {
-            this.definitions = new HTMLDefinitions(this, groupWrapper);
+            this.definitions = new HTMLDefinitions(this, this.groupWrapper);
         }
 
         // if (this.config.functionality && this.config.functionality.indexOf('description') > -1) {
-        //     this.description = new HTMLDescription(this,groupWrapper);
+        //     this.description = new HTMLDescription(this,this.groupWrapper);
         // }
 
 
-        return graphWrapper;
+        return this.graphWrapper;
     }
 
     prepareData(data: ImgData) : any {
 
+        const dataGroup = this.config.endpoints[0];
+        const defaultColumns = ["_yearmonth","_month","_year","_startdatum","_einddatum","gemeente"];
+
+        let tableParams = ([] as IParameterMapping[]);
+        let graphParams = ([] as IParameterMapping[]);
         
-        return data 
+        for (const graph of this.config.graphs) {
+            for (const pg of graph.parameters) {
+                for (const p of pg) {
+                    if (tableParams.indexOf(p) < 0 && !p.excludeFromTable) {
+                        tableParams.push(p);
+                    }
+                    if (graphParams.indexOf(p) < 0) {
+                        graphParams.push(p)
+                    }
+                }
+            }
+            if (graph.modifiers != undefined) {
+                for (const mg of graph.modifiers) {
+                    for (const m of mg) {
+                        if (m.column != "{}") {
+                            for (const p of JSON.parse(JSON.stringify(graphParams))) {
+                                let n: IParameterMapping = Object.assign({},m);
+                                n.column = n.column.replace('{}',p.column);
+                                n.label = p.label;
+                                graphParams.push(n)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        const graphData =  trimColumnsAndOrder(data[dataGroup], graphParams.map( p => p.column).concat(defaultColumns));
+
+        return { 
+            tableParams, graphParams, graphData
+        } 
     }
 
     populateTable(tableData: TableData) {
@@ -138,9 +168,19 @@ export class GroupControllerV1 implements IGroupCtrlr {
         this.tabs.armDownload();
     }
 
+    setFilters() {
+
+        if(this.config.filters != undefined && this.config.filters.length > 0) {
+
+            this.filters = new HtmlGroupFilters(this);
+            this.filters.draw(this.segment);
+        }
+    }
 
 
-    update(data: DataObject, segment: string, update: boolean) {
+   update(data: DataObject, segment: string, update: boolean) {
+
+        // console.log('hello');
 
         this.segment = segment;
         const group = this.page.chartArray.find( (i) => i.config.slug === this.slug );
@@ -148,6 +188,8 @@ export class GroupControllerV1 implements IGroupCtrlr {
         group.data = this.prepareData(this.page.main.data.collection());
 
         this.tabs.redraw();
+
+        // console.log(group);
 
         for (const graph of group.graphs) {
             graph.ctrlr.update(group.data, segment, false)
@@ -157,6 +199,6 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
         this.populateDefinitions(group.data.definitions);
 
-    }  
+   }  
 
 }

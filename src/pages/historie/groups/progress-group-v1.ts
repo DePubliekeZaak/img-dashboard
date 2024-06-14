@@ -3,21 +3,12 @@ import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
 import { DataObject, ImgData } from "../../shared/types";
-import { Bars, TableData } from "../../shared/types_graphs";
-import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { HTMLSource } from "../../shared/html/html-source copy";
+import { TableData, TrendBar } from "../../shared/types_graphs";
+import { convertToCurrencyInTable, trimColumnsAndOrder } from "../../shared/_helpers";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 import { breakpoints } from "../../../img-modules/styleguide";
 
 export class ProgressGroupV1 extends GroupControllerV1 { 
-
-    circleGroup: any;
-    barProgression: any;
-
-    funcList: any;
-    table;
-
-    htmlHeader;
-    yearSelector;
 
     constructor(
         public page: any,
@@ -31,27 +22,19 @@ export class ProgressGroupV1 extends GroupControllerV1 {
 
     html() {
         const graphWrapper = super.html();
-        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
+        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
         return graphWrapper
-
     }
 
     prepareData(data: ImgData) : any {
 
+        const dataGroup = this.config.endpoints[0];
+        const rows: string[][] = []; 
 
-        const dataGroup = "historie";
-    
-        const bars: { [key : string] : Bars } = {};
-        const rows: string[][] = [];       
+        const { tableParams, graphParams, graphData } = super.prepareData(data);
 
-        let params = ([] as IParameterMapping[]);
+        console.log(tableParams);
         
-        for (let graph of this.config.graphs) {
-            params = params.concat(...graph.parameters[0]);
-        }
-
-        let columns = params.map( ( p => p.column));
-
         for (let period of data[dataGroup]) {
 
             const row : string[] = [];
@@ -59,8 +42,13 @@ export class ProgressGroupV1 extends GroupControllerV1 {
             row.push(period._month);
             row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'})); 
 
-            for (let column of columns) {
-                row.push(period[column]);       
+            for (let p of tableParams) {
+
+                if (p.format == "currency") {
+                    row.push(convertToCurrencyInTable(period[p.column]));  
+                } else {
+                    row.push(period[p.column]);  
+                }     
             }
 
             rows.push(row);
@@ -68,49 +56,9 @@ export class ProgressGroupV1 extends GroupControllerV1 {
     
         const table = {
     
-            headers:  ["Jaar","Maand","Periode"].concat(params.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
+            headers:  ["Jaar","Maand","Periode"].concat(tableParams.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
             rows
         };
-
-
-        for (let graph of this.config.graphs) {
-
-            bars[graph.slug] = [];
-
-            const column = graph.slug + "_" + this.segment;
-            const param = params.find( p => p.column === column);
-
-            for (let period of data[dataGroup]) {
-
-                bars[graph.slug].push({
-                    type: "main",
-                    label: period._yearmonth,
-                    colour: param != undefined ? param.colour : "orange",
-                    meta: period,
-                    value: period[column] == null ? 0 : period[column]
-                })
-            }
-
-            if (graph.parameters[2] && window.innerWidth > breakpoints.sm) {
-
-                for (let extra of graph.parameters[2]) {
-
-                    bars[extra.column] = [];
-                    const column = extra.column + "_" + this.segment;
-
-                    for (let period of data[dataGroup]) {
-
-                        bars[extra.column].push({
-                            type: extra.column,
-                            label: period._yearmonth,
-                            colour: extra.colour != undefined ? extra.colour : "blue",
-                            meta: period,
-                            value: period[column] == null ? 0 : period[column]
-                        })
-                    }
-                }
-            }
-        }
 
         const timeline = [
          
@@ -191,13 +139,11 @@ export class ProgressGroupV1 extends GroupControllerV1 {
                 
         const definitions = [];
 
-
         return {
             
-            graphs: bars,
+            graphData,
             timeline,
             definitions,
-            // timeline_bevingen,
             table
         }
        }
@@ -207,8 +153,8 @@ export class ProgressGroupV1 extends GroupControllerV1 {
         super.populateTable(tableData);
     }
 
-    update(data: DataObject, segment: string, update: boolean) {
+    // update(data: DataObject, segment: string, update: boolean) {
 
-        super.update(data,segment,update)
-    }  
+    //     super.update(data,segment,update)
+    // }  
 }

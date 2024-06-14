@@ -26,7 +26,6 @@ export default class PageController implements IPageController {
 
         this.main = main;
         this.slug = main.params.topic;
-     
     }
 
     async init(config, groups, graphs) {
@@ -40,23 +39,30 @@ export default class PageController implements IPageController {
                 splice: c.splice,
                 ctrlr: new groups[c.ctrlr](this, c,j),
                 graphs: [],
+                filters: c.filters,
                 config: c,
-                element: undefined,
+                element: document.createElement('div') as HTMLElement,
                 data: {}
             }
 
-            g.element = g.ctrlr.html();
+            let el = g.ctrlr.html();
+            if (el != undefined) {
+                g.element = el;
+            }
+            
 
             let i = 0;
 
             for (const graph of c.graphs) {
-
+                
                 g.graphs.push({
                     slug : graph.slug,
                     multiples: graph.multiples == undefined || !graph.multiples ? false : graph.multiples,
                     ctrlrName: graph.ctrlr,
-                    mapping: graph.parameters,
-                    ctrlr : new graphs[this, graph.ctrlr](graph.slug,this,g, g.data, graph.parameters,g.config.segment,i)
+                    parameters: graph.parameters,
+                    modifiers: graph.modifiers,
+                    filters: graph.filters,
+                    ctrlr : new graphs[this, graph.ctrlr](graph.slug,this, g, g.data, graph.parameters, graph.modifiers, graph.filters, g.config.segment,i)
                 })
                 
                 i++;
@@ -75,7 +81,7 @@ export default class PageController implements IPageController {
         this.descriptions();
         this.setTarget();
         this.setActiveTabs();
-        // this.setFilters();
+        this.setGroupFilters();
         await this.prepareMultiples();
         await this.initGraphs();
         this.armDownloads();
@@ -130,23 +136,20 @@ export default class PageController implements IPageController {
         } 
     }
 
-   
-
     setActiveTabs() {
 
         for (const group of this.chartArray) {
                 group.ctrlr.armTabs();
         }
-
     }
 
-    // setFilters() {
+    setGroupFilters() {
 
-    //     for (const group of this.chartArray) {
-    //             group.ctrlr.filters();
-    //     }
+        for (const group of this.chartArray) {
+                group.ctrlr.setFilters();
+        }
 
-    // }
+    }
 
     setTarget() {
        
@@ -186,21 +189,20 @@ export default class PageController implements IPageController {
 
             for (const graph of group.graphs) {
 
+                // dit moet wel verzorgd worden in group 
                 if (graph.multiples && group.data[graph.multiples] != undefined) {
 
                     let i = 0;
 
                     for (const m of group.data[graph.multiples]) {
 
-                       
-        
-                        const slug = graph.slug + '_' + i;
+                        const slug = graph.slug + '_mult' + i;
 
-                        const data = Object.assign({},group.data)
-                        
+                        const data = Object.assign({},group.data);
+
                         newGraphs.push({
                             slug,
-                            ctrlr : new graphs[this, graph.ctrlrName](slug,this,group, data, graph.mapping,group.config.segment,i)
+                            ctrlr : new graphs[this, graph.ctrlrName](slug, this, group, data, graph.parameters, graph.modifiers, graph.filters, group.config.segment,i)
                         });
     
                         i++;

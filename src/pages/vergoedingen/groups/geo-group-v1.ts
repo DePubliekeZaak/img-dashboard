@@ -3,7 +3,7 @@ import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
 import { DataObject, ImgData } from "../../shared/types";
 import { Bars, Definitions, PiePart, TableData } from "../../shared/types_graphs";
 import { convertToCurrencyInTable, slugify } from "../../shared/_helpers";
-import { HTMLSource } from "../../shared/html/html-source copy";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 import { filterUnique, uniques } from "../../shared/data.format.factory";
 import * as topojson from "topojson-client";
 import { geodata } from '../../shared/geodata';
@@ -29,7 +29,7 @@ export class GeoGroupV1 extends GroupControllerV1 {
 
     html() {
         const graphWrapper = super.html();
-        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
+        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
         return graphWrapper
     }
 
@@ -137,8 +137,8 @@ export class GeoGroupV1 extends GroupControllerV1 {
         super.populateTable(tableData);
     }
 
-    update(data: DataObject, segment: string, update: boolean) {
+    // update(data: DataObject, segment: string, update: boolean) {
 
-        super.update(data,segment,update)
-    }  
+    //     super.update(data,segment,update)
+    // }  
 }

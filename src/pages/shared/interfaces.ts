@@ -1,3 +1,5 @@
+import { IGraphControllerV3 } from "../../charts/core/graph-v3";
+import { IPageController } from "./page.controller";
 import { DataObject, TableData, ImgData } from "./types";
 import { Definitions } from "./types_graphs";
 
@@ -10,11 +12,10 @@ export interface IParameterMapping {
     colour: string,
     group?: string,
     short?: string,
-    outflow?: any,
-    duration?: string,
     units? : string,
     format? : string,
     description? : string
+    excludeFromTable? : boolean
 }
 
 export interface IGraphMappingV2 {
@@ -23,15 +24,20 @@ export interface IGraphMappingV2 {
     ctrlr: string
     multiples?: string,
     args?: string[],
-    parameters: IParameterMapping[][]
+    filters?: string[],
+    parameters: IParameterMapping[][],
+    modifiers?: IParameterMapping[][]
 }
 
 export type IMappingOption = IParameterMapping | boolean;
 
+
+
 export interface IGroupMappingV2 {
 
     slug: string,
-    ctrlr: string
+    ctrlr: string,
+    filters?: string[],
     header: string | null,
     header_en?: string | null,
     description: string | null,
@@ -44,22 +50,40 @@ export interface IGroupMappingV2 {
     splice?: boolean,
 }
 
+export type IPageMapping = IGroupMappingV2[];
+
 export interface GroupObject {
 
     slug: string,
     ctrlr: IGroupCtrlr,
     splice?: boolean,
-    graphs: GraphCtrlr[],
+    graphs: GraphObject[],
+    filters?: string[],
     config: IGroupMappingV2,
-    element: HTMLElement | undefined,
+    element: HTMLElement,
     data: any
+}
+
+export interface GraphObject {
+    slug : string,
+    multiples: string | boolean,
+    ctrlrName: string,
+    parameters: IParameterMapping,
+    modifiers: IParameterMapping,
+    filters: string[],
+    ctrlr : IGraphControllerV3
 }
 
 export interface IGroupCtrlr {
 
-    slug: string,
-    page: any,
+    slug: string,   
+    config: IGroupMappingV2,
+    page: IPageController,
     segment: string,
+    filters: string[],
+    element: HTMLElement | null,
+    graphWrapper: HTMLElement | null,
+    groupWrapper: HTMLElement | null,
     html: () => HTMLElement | undefined,
     prepareData: (data:any) => DataObject,
     populateTable: (tableData: TableData) => void,
@@ -73,7 +97,5 @@ export interface IGroupCtrlr {
 
 
 
-export interface GraphCtrlr {
-    
-}
+
 

@@ -13,7 +13,7 @@ var trimColumns =  function(json,neededColumns) {
 };
 
 
-var trimColumnsAndOrder =  function(json,neededColumns) {
+export const trimColumnsAndOrder =  (json,neededColumns) => {
 
     let newArray: any[] = [];
     let newObject;

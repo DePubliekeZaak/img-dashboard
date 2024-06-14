@@ -29,7 +29,7 @@ export default class MapLegend {
 
         let max = window.d3.max(data.map( f => f.properties.value));
 
-        if (this.ctrlr.mapping[0][0].format === 'currency') {
+        if (this.ctrlr.parameters[0][0].format === 'currency') {
           max = shortenCurrency(convertToCurrency(max));
         } 
 
@@ -58,7 +58,7 @@ export default class MapLegend {
         let inner =  document.createElement('div');
         inner.style.height = '100%';
 
-        let gradient = 'linear-gradient(0deg, ' + colours.lightBlue[3] + ' 0%,' + colours[this.ctrlr.mapping[0][0].colour][0] + ' 100%)';
+        let gradient = 'linear-gradient(0deg, ' + colours.lightBlue[3] + ' 0%,' + colours[this.ctrlr.parameters[0][0].colour][0] + ' 100%)';
         inner.style.background = gradient + ' no-repeat';
 
         bar.appendChild(inner);

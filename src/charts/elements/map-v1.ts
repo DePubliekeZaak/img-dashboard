@@ -31,7 +31,6 @@ export default class MapV1   {
             .translate(t)
         ;
     }
-
     
     draw(features) {
         let self = this;
@@ -91,26 +90,11 @@ export default class MapV1   {
                     .style("opacity", 0);
             });
             ;
-
-        // this.values = this.ctrlr.svg.layers.data.selectAll(".value")
-        //     .data(features)
-        //     .join("text")
-        //     .attr("class", "value small-label")
-        //     .attr("x", (d: any)  => (slugify(d.properties.gemeentenaam) === 'delfzijl') ? self.path.centroid(d)[0] + 20 : self.path.centroid(d)[0])
-        //     .attr("y", (d: any) => (slugify(d.properties.gemeentenaam) === 'delfzijl') ? self.path.centroid(d)[1] + 20 : self.path.centroid(d)[1])
-        //     .attr("text-anchor", "middle")
-        //     .style("font-size",".66rem");
     }
 
     redraw(property,colour) {
 
-        const self = this;
-
-        this.ctrlr.svg.layers.data.selectAll("path.i-" + this.ctrlr.index)
-             
-            
-            
-
+        this.ctrlr.svg.layers.data.selectAll("path.i-" + this.ctrlr.index);
     }
 
     highlight(segment) {
@@ -118,7 +102,6 @@ export default class MapV1   {
         let self = this;
 
         this.map
-          //  .merge(this.ctrlr.svg.map)
             .attr("fill", d => {
                 return (segment === d.properties.gemeenteSlug) ? colours['red'][0] : '#eee'
             } )

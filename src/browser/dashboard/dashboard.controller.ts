@@ -4,7 +4,7 @@ import { IParamService, ParamService } from './param.service';
 import { screenSize } from './screen.factory';
 import { styleParentElement, createSideBar, createMobileNav, createPopupElement, pageHeader } from './html.factory';
 import { DataService, IDataService } from './data.service';
-import { switchTopic, toggleSubMenu, openMenu, closeMenu } from './interaction.factory';
+import { switchTopic, toggleSubMenu, openMenu, closeMenu, setActiveMenuItem } from './interaction.factory';
 import { INavService, NavService, navItems } from './nav.service';
 
 export interface IDashboardController {
@@ -17,10 +17,10 @@ export interface IDashboardController {
     close_btn: HTMLElement,
     open_btn: HTMLElement,
     _reloadHtml: () => void;
-    call(segment: string, update: boolean);
+    call(update: boolean);
     switch: (topic: string, segment: string) => void;
     // switchLanguage: (lan: string) => void;
-    _toggleSubMenu: () => void
+    _toggleSubMenu: (slug: string) => void
     _screenListener: () => void
 
 }
@@ -46,21 +46,33 @@ export class DashboardController implements IDashboardController {
 
     async init() {
 
-        this.window = window;
-        let segment = '2022';     
+        this.window = window;   
         this.params.renew();
         this._reloadHtml();
-        await this.call(segment, false);
+        await this.call(false);
     }
 
-    async call(segment: string, update: boolean ): Promise<void> {
+    async call(update: boolean ): Promise<void> {
 
         this.htmlContainer.innerHTML = "";
 
-        let navItem = navItems.find( i => i.slug == this.params.topic);
+        let navItemsArray = [];
+
+        for (let navItem of navItems) {
+            if (navItem.sub != undefined && navItem.sub.length > 0) {
+                navItemsArray = navItemsArray.concat(navItem.sub)
+            } else {
+                navItemsArray.push(navItem)
+            }
+        }
+
+        // console.log(navItems);
+
+        let navItem = navItemsArray.find( i => i.slug == this.params.topic);
         navItem = (navItem == undefined) ? navItems[0] : navItem;
-        const  pageTitle = this.params.language == 'en' ? navItem.title_en : navItem.title;
+        const pageTitle = this.params.language == 'en' ? navItem.title_en : navItem.title;
        
+        // console.log(pageTitle);
         pageHeader(pageTitle, this.htmlContainer);
 
         await import(/*webpackIgnore: true*/ `./${this.params.topic}.bundle.js`);
@@ -74,23 +86,11 @@ export class DashboardController implements IDashboardController {
 
         closeMenu();
         switchTopic(this,paramKey,paramValue);
-
-        if (this.params.topic === 'bedrijf') {
-            this._toggleSubMenu();
-        }
-
         this._closeMenu();
     }
 
-    // switchLanguage(lan: string) : void {
-
-    //     this.params.language = lan;
-    //     switchLanguage(this)
-    //     this.init();
-    // }
-
-    _toggleSubMenu() : void {
-        toggleSubMenu();
+    _toggleSubMenu(slug: string) : void {
+        toggleSubMenu(slug);
     }
 
     _reloadHtml(): void {
@@ -102,10 +102,8 @@ export class DashboardController implements IDashboardController {
     
         let aside = createSideBar(this.htmlContainer);
         aside.appendChild(this.nav.create());
-        //aside.insertBefore(this.nav.create(), aside.childNodes[0]);
-    
+        setActiveMenuItem(this.params.topic);    
         createPopupElement();
-
     }
 
     _screenListener(): void {
@@ -156,28 +154,4 @@ export class DashboardController implements IDashboardController {
             this.open_btn.style.display = 'none';
         }
     }
-
-
-    // _showLoader() {
-
-    //     this.loader = document.createElement("div");
-
-    //     this.loader.innerText = "data wordt geladen";
-
-    //     const element = document.querySelector("div[eiti-graph-preset='dashboard']");
-
-    //     if(element != null) {
-    //         element.appendChild(this.loader);
-    //     }       
-    // }
-
-
-    // _hideLoader() {
-
-    //     this.loader.remove();
-
-
-    // }
-
-
 }

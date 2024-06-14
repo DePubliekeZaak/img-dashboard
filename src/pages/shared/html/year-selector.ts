@@ -11,8 +11,6 @@ export class HtmlYearSelector {
 
     draw(segment) {
 
-        // console.log(this.id);
-
         let selectEl = document.getElementById(this.id);
 
         if(selectEl && selectEl.parentNode) { selectEl.parentNode.removeChild(selectEl) }
@@ -21,7 +19,6 @@ export class HtmlYearSelector {
         dropdown.id = this.id;
         dropdown.style.alignSelf = 'flex-start';
 
-
         for ( let year of [2022,2021,2020,2019,2018]) {
 
             let option = document.createElement('option');
@@ -29,17 +26,12 @@ export class HtmlYearSelector {
             option.value = year.toString();
             option.innerText = year.toString();
             if (year === segment) { option.selected = true }
-            dropdown.appendChild(option);
-            // dropdown.style.border = '1px solid black';
-            // dropdown.style.borderRadius = '0';
-
-            
+            dropdown.appendChild(option);  
         }
 
-        this.element.appendChild(dropdown)   // insertBefore(dropdown,headerElement.nextSibling);
+        this.element.appendChild(dropdown)
 
         return dropdown;
-
     }
 
     redraw() {

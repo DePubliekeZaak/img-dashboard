@@ -3,18 +3,11 @@ import { IDashboardController } from "./dashboard.controller";
 
 export const switchTopic = (ctrlr: IDashboardController, paramKey: string, paramValue: string) : void => {
 
-    let topic: string;
-    // if (history.pushState) {
-    let newurl: string; 
-    if(paramKey == 'company') { 
-        newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?company=' + paramValue;
-    } else {
-        newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?topic=' + paramValue;
-    }
+    let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?topic=' + paramValue;
 
-    if (ctrlr.params.language == 'en') {
-        newurl = newurl + '&language=en';
-    }
+    // if (ctrlr.params.language == 'en') {
+    //     newurl = newurl + '&language=en';
+    // }
 
     window.history.pushState({path:newurl},'',newurl);
 
@@ -29,11 +22,13 @@ export const switchTopic = (ctrlr: IDashboardController, paramKey: string, param
 
     ctrlr.params.renew();
    
-    ctrlr.call("2022", false);
+    ctrlr.call(false);
 
     // if (window.innerWidth > breakpoints.md) {
     //     _updateMenuList(paramKey);
     // }
+
+    setActiveMenuItem(paramValue);
 
 
     let mobileNav = document.querySelector('.mobile_nav_v2');
@@ -80,23 +75,26 @@ export const closeMenu = (): void => {
     document.getElementsByTagName("body")[0].style.position = "relative";
 }
 
-// export const closeMenu = (): void => {
-//     document.getElementsByTagName('aside')[0].classList.remove('is_open');
-// }
+export const toggleSubMenu = (slug: string): void => {
 
-export const toggleSubMenu = (): void => {
-    
-    const ul = document.querySelector('ul.dashboard_nav_companies');
+    const parentLink = document.querySelector('ul.dashboard_nav li[data-slug=' + slug + '] a');
+    parentLink.toggleAttribute("aria-expanded");
+
+    const ul = document.querySelector('ul.dashboard_nav li ul#' + slug);
     if (ul !=  undefined) ul.classList.toggle('is_open');
-
-
 }
 
+export const setActiveMenuItem = (slug: string): void => {
 
 
-// const _updateMenuList = (topic: string): void => {
+    let lis = [].slice.call(document.querySelectorAll('ul.dashboard_nav a'));
+    for (let l of lis) {
+        l.classList.remove("active");
+    }
 
-// }
+    const navItem = document.querySelector('ul.dashboard_nav li[data-slug=' + slug + '] a');
+    navItem.classList.add("active");
+}
 
 // export const armLanguageSelector = (ctrlr: IDashboardController) : void => {
 

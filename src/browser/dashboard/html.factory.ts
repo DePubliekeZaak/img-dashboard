@@ -71,18 +71,6 @@ export const createGraphGroupElement = (graphObject : IGraphMapping, htmlContain
 
     let element = document.createElement('article');
 
-    // if (graphObject.config && graphObject.config.extra.largeHeader) {
-
-    //     let header = document.createElement('h2');
-    //     header.innerText = graphObject.label;
-    //     header.style.fontFamily = 'NotoSans Regular';
-    //     header.style.fontSize = '1.6rem';
-    //     header.style.width = '100%';
-    //     header.style.margin = '3rem 0 3rem 0';
-
-    //     htmlContainer.appendChild(header);
-    // }
-
     if (graphObject.elementClasslist) {
 
         for (let className of graphObject.elementClasslist) {
@@ -95,14 +83,3 @@ export const createGraphGroupElement = (graphObject : IGraphMapping, htmlContain
     return element;
 
 }
-
-// export const companyTitle = (ctrlr: IDashboardController) => {
-
-//     if (ctrlr.params.isCompanyPage()) {
-//         if(members) {
-//             let t = members.find( r => r.slug == ctrlr.params.company);
-//             const el = (document.querySelector(".eiti-dashboard-breadcrumbs h2") as HTMLHeadingElement)
-//            if(el != null)  el.innerText = t["name"];
-//         }
-//     } 
-// }

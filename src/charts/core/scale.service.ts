@@ -113,27 +113,27 @@ export class ScaleService implements IScaleService{
             case 'horizontal':
 
                 this.scale
-                    .range([0, this.ctrlr.dimensions.graphWidth]);
+                    .range([0, this.ctrlr.dimensions.svgWidth]);
 
                 break;
 
             case 'horizontal-reverse':
 
                     this.scale
-                        .range([this.ctrlr.dimensions.graphWidth,0]);
+                        .range([this.ctrlr.dimensions.svgWidth,0]);
     
                     break;
 
             case 'vertical-reverse':
 
                 this.scale
-                    .range([0,this.ctrlr.dimensions.graphHeight]);
+                    .range([0,this.ctrlr.dimensions.svgHeight]);
 
                 break;
 
             case 'vertical':
                 this.scale
-                    .range([this.ctrlr.dimensions.graphHeight, 0]);
+                    .range([this.ctrlr.dimensions.svgHeight, 0]);
 
                 break;
 
@@ -145,7 +145,7 @@ export class ScaleService implements IScaleService{
                     return
                 }
 
-                let langsteZijde = this.ctrlr.dimensions.graphWidth > this.ctrlr.dimensions.graphHeight ? this.ctrlr.dimensions.graphWidth : this.ctrlr.dimensions.graphHeight;
+                let langsteZijde = this.ctrlr.dimensions.svgWidth > this.ctrlr.dimensions.svgHeight ? this.ctrlr.dimensions.svgWidth : this.ctrlr.dimensions.svgHeight;
 
                 this.scale
                     .range([this.ctrlr.config.minRadius, (langsteZijde / this.dataLength) * this.ctrlr.config.radiusFactor]);
@@ -157,7 +157,7 @@ export class ScaleService implements IScaleService{
                     // let langsteZijde = this.ctrlr.dimensions.width > this.ctrlr.dimensions.height ? this.ctrlr.dimensions.width : this.ctrlr.dimensions.height;
     
                     this.scale
-                        .range([0, this.ctrlr.dimensions.graphWidth / 2]);
+                        .range([0, this.ctrlr.dimensions.svgWidth / 2]);
     
                     break;
 
