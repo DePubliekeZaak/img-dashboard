@@ -23,7 +23,7 @@ export default class ChartStackedBars {
             .data(data.stacked)
             .join("g")
             .attr("class", (d,i) => "serie " + this.ctrlr.parameters[0][i]['colour'])
-            .attr("stroke", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][0])
+            // .attr("stroke", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][0])
             .attr("fill", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][1])
 
         this.bars = this.series.selectAll(".bar")
@@ -56,32 +56,34 @@ export default class ChartStackedBars {
         this.bars
             .on("mouseover", function (event:  any, d: any) {
 
-            window.d3.select('.tooltip')
+                const t = window.d3.select('.tooltip')
                 .html(() => {
 
                     let html =  '<div>' + d.data.year + '</div>'; 
                     html +=  '<div>' + toDutchMonths(parseFloat(d.data.month)) + '</div>'; 
 
-                    for (let map of this.ctrlr.parameters[0]) {
+                    console.log(self.ctrlr);
+
+                    for (let map of self.ctrlr.parameters[0]) {
 
                         html +=  '<div>' + map.label + ' : ' + d.data[map.column] + '</div>'; 
 
                     }
 
-                    if (data.line != undefined) {
+                    // if (data.line != undefined) {
 
-                        let period = data.line.find( dd => dd.time == d.data.date);
+                    //     let period = data.line.find( dd => dd.time == d.data.date);
 
-                        if(period != undefined) {
+                    //     if(period != undefined) {
 
-                            for (let map of this.ctrlr.parameters[1]) {
+                    //         for (let map of self.ctrlr.parameters[1]) {
 
-                                html +=  '<div>' + map.label + ' : ' + Math.round(period.value) + '%</div>'; 
+                    //             html +=  '<div>' + map.label + ' : ' + Math.round(period.value) + '%</div>'; 
 
-                            }
-                        }
+                    //         }
+                    //     }
 
-                    }
+                    // }
 
                     // for (let p of self.ctrlr.mapping.parameters[0]) {
                     //         html += p.short + ': ' + d.data[p.column] + '<br/>';
@@ -92,9 +94,20 @@ export default class ChartStackedBars {
                     return html;
 
                 })
-                .style("left", (event.pageX) + "px")
-                .style("top", (event.pageY) + "px")
-                .transition()
+                .style("top", (event.pageY) + "px");
+
+                if (event.pageX < window.innerWidth / 2) {
+
+                    t
+                    .style("left", (event.pageX) + "px")
+                    .style("right", "auto");
+                } else {
+                    t
+                    .style("right", (window.innerWidth - event.pageX) + "px")
+                    .style("left", "auto");
+                }
+                
+                t.transition()
                 .duration(250)
                 .style("opacity", 1);
         })

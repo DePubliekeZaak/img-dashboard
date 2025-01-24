@@ -1,6 +1,21 @@
 import { IGraphMapping, IMappingOption } from "../../charts/core/types";
 
+
+export const removeDuplicates = (arr: any[]) => {
+    const seen = new Set<string>();
+    return arr.filter((item) => {
+      const identifier = JSON.stringify(item); // Serialize the object to compare all keys
+      if (seen.has(identifier)) {
+        return false; // Exclude duplicate
+      }
+      seen.add(identifier);
+      return true; // Include unique object
+    });
+  };
+
 var trimColumns =  function(json,neededColumns) {
+
+    
 
     json.forEach( (week,i) => {
         Object.keys(week).forEach( (key) => {
@@ -57,6 +72,20 @@ export function convertToCurrency(number: number) {
     return number.toLocaleString('nl-NL', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0 });
 }
 
+export function convertToCurrencyInMillions(number: number) {
+
+    number = Math.ceil(number);
+
+    if (number >= 1000 * 1000 * 100) {
+        return (number / (1000 * 1000 * 1000)).toLocaleString('nl-NL', { style: 'decimal', minimumFractionDigits: 0 }) + ' mld.';
+    }
+    else if (number >= 1000 * 1000) {
+        return (number / 1000000).toLocaleString('nl-NL', { style: 'decimal', minimumFractionDigits: 0 }) + ' mln.';
+    }
+    return number.toLocaleString('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 });
+
+}
+
 export function convertToCurrencyInTable(number: number) {
 
     const toString = (number: number) => number.toLocaleString('nl-NL', {style: 'currency', currency: 'EUR', minimumFractionDigits: 0 });
@@ -78,10 +107,11 @@ export function sanitizeCurrency(string: string) {
 
     if (s[0] == '(') {
         s = s.replace('(', '').replace(')', '')
-
         number = -parseFloat(s)
     } else if(s[0] == '-') {
         number = 0;
+    } else if (s.includes('t/m')) {
+        number = string
     } else if (!isNaN(parseFloat(s))){
         number = parseFloat(s)
     } 
@@ -242,5 +272,14 @@ export const toDutchMonths = (number: number) => {
         "December"
     ];
 
-    return months[number]
+    return months[number - 1]
 } 
+
+export const accounting = (v: number) : string => {
+
+    return v != null 
+    ? v >= 0 
+        ? v.toString() 
+        : '(' + -v.toString() + ')'
+    : '0';
+}

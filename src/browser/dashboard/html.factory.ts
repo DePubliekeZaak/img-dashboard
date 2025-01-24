@@ -3,17 +3,19 @@ import { switchTopic } from "./interaction.factory";
 import { IDashboardController } from './dashboard.controller';
 import { IGraphMapping } from '../../charts/core/types';
 import members from './members'
+import { breakpoints } from "../../img-modules/styleguide";
 
 export const styleParentElement = (): Element | null => {
 
     const htmlContainer =  document.querySelector("[img-graph-preset='dashboard']");
+    htmlContainer.id = "dashboard-main";
 
     if(htmlContainer != undefined) {
         const parentEl = htmlContainer.parentElement;
         if(parentEl != undefined) {
             parentEl.classList.add('container');
             parentEl.style.display = 'flex';
-            parentEl.style.flexDirection = 'row-reverse';
+            parentEl.style.flexDirection = window.innerWidth < breakpoints.lg ? 'column' : 'row';
             parentEl.style.justifyContent = 'flex-start';
             parentEl.style.alignItems = 'flex-start';   
         }
@@ -31,13 +33,15 @@ export const createSideBar = (container: HTMLElement): HTMLElement => {
     return aside;
 }
 
+export const createSkipLink = (): HTMLElement => {
 
-export const createMobileNav = (): HTMLElement => {
-
-    const nav = document.createElement('nav');
-
-    return nav;
+    let skipLink = document.createElement('a');
+    skipLink.classList.add('skip');
+    skipLink.setAttribute('href', '#dashboard-main');
+    skipLink.innerText = 'Direct naar hoofdinhoud';
+    return skipLink;
 }
+
 
 export const createPopupElement = (): void => {
 
@@ -53,18 +57,26 @@ export const createPopupElement = (): void => {
 
 export const pageHeader = (topic: string, container: HTMLElement): void => {
 
-        let prevBC = document.querySelector('h2.page_header');
+        let prevBC = document.querySelector('div.page_header');
         if (prevBC) {
             prevBC.remove()
         }
 
-        let h1 = document.createElement('h2');
-        h1.classList.add('page_header');
-        h1.innerText = topic; 
+        let h = document.createElement('div');
+        h.classList.add('page_header');
 
-        h1.style.marginTop = '2.5rem';
-        h1.style.marginBottom = '0rem';
-        container.appendChild(h1);
+        let d = document.createElement('div');
+        d.classList.add('datum');
+        d.innerText = 'Laatst bijgewerkt op: ';
+        d.appendChild(document.createElement('span'));
+
+        let h2 = document.createElement('h2');
+        h2.innerText = topic; 
+
+        h.appendChild(d);
+        h.appendChild(h2);
+        
+        container.appendChild(h);
 }
 
 export const createGraphGroupElement = (graphObject : IGraphMapping, htmlContainer: HTMLElement) => {

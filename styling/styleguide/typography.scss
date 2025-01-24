@@ -35,7 +35,7 @@ body, svg g {
     font-weight: normal;
     color: black;
     font-size: 2.25rem;
-    line-height: 1.2;
+    line-height: 1.125;
     // margin-bottom: 1rem;
 
     @media (min-width: $breakpoint-sm) {
@@ -102,10 +102,10 @@ body, svg g {
   a {
     text-decoration: none;
     color: black;
-    border-bottom: 1px solid $orange;
+    border-bottom: 1px solid black;
 
     &:hover {
-      color: $orange;
+      border: none;
     }
   }
 

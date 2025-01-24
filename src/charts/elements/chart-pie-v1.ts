@@ -23,8 +23,6 @@ export class ChartPieV1 {
             .join("path")
             .attr("class", "arc")
             .attr("fill", (d: any, i: number) => {
-
-                console.log(data[i]);
                 
                 return colours[data[i].colour][1]
             
@@ -37,11 +35,6 @@ export class ChartPieV1 {
 
                 if(o != undefined) {
 
-                    // self.ctrlr.svg.arcs
-                    //     .attr("fill", (dd: any, i: number) => {
-                    //         return colours[data[i].colour][2]
-                    //     });
-
                     window.d3.select(event.target)
                         .attr("fill", (dd: any, i: number) => {
                             return colours[o.colour][0];
@@ -49,11 +42,10 @@ export class ChartPieV1 {
 
                  
                     window.d3.select('.tooltip')
-                        .html((dd: any, i: number) => {
-            
-                            let value = (self.ctrlr.mapping[0][0].format === 'currency') ? convertToCurrency(d['value']) : d['value'];
-                            if (o == undefined) return;
+                        .html((dd: any) => {
 
+                            let value = (self.ctrlr.group.graphs[self.ctrlr.index].parameters === 'currency') ? convertToCurrency(d['value']) : d['value'];
+                            if (o == undefined) return '';
                             return '<b>' + o['label'] + '</b><br/>' + value;
                         })
                         .style("left", (event.pageX) + "px")
@@ -84,11 +76,11 @@ export class ChartPieV1 {
 
         if(window.innerWidth < 700) {
 
-            radius = 90;
-            innerRadius = 20;
+            radius = 150;
+            innerRadius = 30;
 
             this.ctrlr.svg.layers.data
-                .attr("transform", "translate(" + (this.ctrlr.dimensions.width / 2) + "," + 100 + ")");
+                .attr("transform", "translate(" + 150 + "," + 150 + ")");
 
             labelArc = window.d3.arc()
                 .outerRadius(radius - 0)

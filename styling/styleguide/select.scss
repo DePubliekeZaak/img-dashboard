@@ -1,7 +1,9 @@
 select {
 
+
+
     line-height: 2.4rem;
-    padding: 0 .5rem 0 .75rem;
+    padding: 0 .25rem 0 .25rem;
     height: 2.4rem;
     border: 1px solid rgb(230,230,230);
     border-radius: 5px;
@@ -10,4 +12,16 @@ select {
         line-height: 2rem;
         padding: 0 1rem;
     }
+
+    @media (min-width: $breakpoint-sm) {
+        padding: 0 .5rem 0 .75rem;
+    }
+}
+
+.hidden-label {
+
+    display: block;
+    height: 0px;
+    width: 0px;
+    overflow: hidden;
 }

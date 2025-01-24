@@ -1,4 +1,4 @@
-import { IDashboardController } from '@local/dashboard';
+import { IDashboardController } from "../../browser/dashboard/dashboard.controller";
 import PageController from '../shared/page.controller';
 import config from './config';
 import groups from './groups';

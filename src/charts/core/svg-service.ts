@@ -44,9 +44,7 @@ export class SvgService implements ISvgService {
         this.svg.body
             .attr('height', dimensions.svgHeight)
             .attr('width', dimensions.svgWidth);
-           // .attr('transform', 'translate(' + this.config.margin.left + ',' + this.config.margin.top + ')')
 
-    
     }
 
     layers() {

@@ -1,13 +1,8 @@
-import { breakpoints } from "../../img-modules/styleguide";
 import { IDashboardController } from "./dashboard.controller";
 
-export const switchTopic = (ctrlr: IDashboardController, paramKey: string, paramValue: string) : void => {
+export const switchTopic = (ctrlr: IDashboardController, paramKey: string, paramValue: string, isMobile: boolean) : void => {
 
     let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?topic=' + paramValue;
-
-    // if (ctrlr.params.language == 'en') {
-    //     newurl = newurl + '&language=en';
-    // }
 
     window.history.pushState({path:newurl},'',newurl);
 
@@ -21,101 +16,84 @@ export const switchTopic = (ctrlr: IDashboardController, paramKey: string, param
     }
 
     ctrlr.params.renew();
-   
     ctrlr.call(false);
 
-    // if (window.innerWidth > breakpoints.md) {
-    //     _updateMenuList(paramKey);
-    // }
-
-    setActiveMenuItem(paramValue);
-
+    setActiveMenuItem(paramValue, isMobile);
 
     let mobileNav = document.querySelector('.mobile_nav_v2');
     if (mobileNav) {
         mobileNav.classList.remove('is-open');
-        
     } 
     
     let mobileNavButton = document.querySelector('.img_dashboard_mobile_nav_button')
     if(mobileNavButton) {
-        mobileNavButton.classList.remove('is-active');
-        
+        mobileNavButton.classList.remove('is-active'); 
     }
 }
 
-// export const switchLanguage = (ctrlr) => {
-
-
-//     let newurl = location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-//     const combinator = window.location.search === '' ? "?" : "&";
-
-//     const index = newurl.indexOf('language=');
-
-//     if (index > -1) { 
-//         newurl = newurl.slice(0, index - 1)
-//     }
-
-//     if(ctrlr.params.language == 'en') {
-//         newurl = newurl + combinator + 'language=en'
-//     } else {
-//         newurl = newurl
-//     }
-    
-//     window.history.pushState({path:newurl},'',newurl);
-// }
-
 export const openMenu = (): void => {
-    document.getElementsByTagName('aside')[0].classList.add('is_open');
+    (document.querySelector('ul.dashboard_nav_mobile') as HTMLElement).hidden = false;
     document.getElementsByTagName("body")[0].style.position = "fixed";
 }
 
 export const closeMenu = (): void => {
-    document.getElementsByTagName('aside')[0].classList.remove('is_open');
+    (document.querySelector('ul.dashboard_nav_mobile') as HTMLElement).hidden = true;
     document.getElementsByTagName("body")[0].style.position = "relative";
 }
 
-export const toggleSubMenu = (slug: string): void => {
 
-    const parentLink = document.querySelector('ul.dashboard_nav li[data-slug=' + slug + '] a');
-    parentLink.toggleAttribute("aria-expanded");
+export const toggleSubMenu = (slug: string, isMobile: boolean): void => {
 
-    const ul = document.querySelector('ul.dashboard_nav li ul#' + slug);
-    if (ul !=  undefined) ul.classList.toggle('is_open');
+    const parentLi = isMobile ? document.querySelector('ul.dashboard_nav_mobile li[data-slug=' + slug + ']') : document.querySelector('ul.dashboard_nav li[data-slug=' + slug + ']');
+
+    const expanded = parentLi.getAttribute('aria-expanded') === 'true' || false;
+    parentLi.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    const submenu = document.getElementById(parentLi.getAttribute('aria-controls'));
+
+    if (!expanded) {
+      submenu.removeAttribute('hidden');
+      submenu.querySelector('a').focus(); // Set focus to the first submenu item
+    } else {
+      submenu.setAttribute('hidden', '');
+    }
 }
 
-export const setActiveMenuItem = (slug: string): void => {
 
 
-    let lis = [].slice.call(document.querySelectorAll('ul.dashboard_nav a'));
+
+export const openSubMenu = (slug: string, isMobile: boolean): void => {
+
+    const parentLi = isMobile ? document.querySelector('ul.dashboard_nav_mobile li[data-slug=' + slug + ']') : document.querySelector('ul.dashboard_nav li[data-slug=' + slug + ']');
+
+    const expanded = parentLi.getAttribute('aria-expanded') === 'true' || false;
+    parentLi.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    const submenu = document.getElementById(parentLi.getAttribute('aria-controls'));
+
+    if (!expanded) {
+      submenu.removeAttribute('hidden');
+      submenu.querySelector('a').focus(); // Set focus to the first submenu item
+    } else {
+      submenu.setAttribute('hidden', '');
+    }
+}
+
+export const setActiveMenuItem = (slug: string, isMobile: boolean): void => {
+
+    let className = isMobile ? 'dashboard_nav_mobile' : 'dashboard_nav';
+    let lis = [].slice.call(document.querySelectorAll('ul.' + className + ' li a'));
+
     for (let l of lis) {
         l.classList.remove("active");
     }
 
-    const navItem = document.querySelector('ul.dashboard_nav li[data-slug=' + slug + '] a');
+    const navItem = document.querySelector('ul.' + className + ' li[data-slug=' + slug + '] a');
     navItem.classList.add("active");
+
+    if (navItem.parentElement.parentElement.id && navItem.parentElement.parentElement.id.includes('submenu')) {
+        let parentLi = navItem.parentElement.parentElement.parentElement;
+        parentLi.setAttribute('aria-expanded', 'true');
+        const submenu = document.getElementById(parentLi.getAttribute('aria-controls'));
+        submenu.removeAttribute('hidden');
+
+    }
 }
-
-// export const armLanguageSelector = (ctrlr: IDashboardController) : void => {
-
-
-//     let options: HTMLElement[] = [].slice.call(document.querySelectorAll("#language-selector li")); 
-//     options.forEach( o => o.classList.remove('active'));
-
-//     const activeIndex = (ctrlr.params.language == 'en') ? 1 : 0;
-//     options[activeIndex].classList.add('active'); 
-
-//     if(options == undefined) return;
-
-//     for (const option of options) {
-
-//         option.style.cursor = 'pointer';
-//         option.onclick = () => {
-
-//            options.forEach( o => o.classList.remove('active'));
-//            option.classList.add('active');
-//            ctrlr.switchLanguage(option.getAttribute('data-language'))
-            
-//         };
-//     }
-// }

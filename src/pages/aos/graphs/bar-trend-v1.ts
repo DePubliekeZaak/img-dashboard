@@ -1,6 +1,6 @@
 
 import { breakpoints } from '../../../img-modules/styleguide';
-import { DataPart, ImgData } from '../../shared/types';
+import { DataPart, ImgData, Segment } from '../../shared/types';
 
 import { DataObject } from '../../shared/types';
 import { core, elements } from '../../../charts';
@@ -12,6 +12,7 @@ import { TrendBar } from '../../shared/types_graphs';
 import { KeyValue } from '../../../charts/core/types';
 import { HtmlLegendRow } from '../../shared/html/html-legend-row';
 import { createBars } from '../../shared/data.format.factory';
+import { parseSegment } from '../../shared/factories/segment';
 
 
 export class AOSBarTrendV1 extends core.GraphControllerV3  {
@@ -26,8 +27,6 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
     entity_svgs = {};
     ctrlrs: any = {};
 
-    yScale;
-    xScale;
     bottomAxis;
     leftAxis;
 
@@ -43,10 +42,16 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
         public parameters: IParameterMapping[][],
         public modifiers: IParameterMapping[][],
         public filters: string[],
-        public segment: string, 
+        public segment: Segment, 
         public index: number
     ){
         super(slug,page,group,data,parameters,modifiers,filters,segment,index) 
+
+        if (this.page.segment) {
+            this.segment = parseSegment(this.page, this.group.slug, this.slug);
+        }
+
+        
         this.pre();
     }
 
@@ -100,7 +105,7 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
         
         this.legend = new HtmlLegendRow(this);
 
-        await this.update(this.group.data,this.segment, false);
+        await this.update(this.group.data, false);
 
         return;
     }
@@ -113,7 +118,7 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
 
             for (const p of pg) {
 
-                data[p.column] = createBars(p.column, p, data.graphData)
+                data[p.column] = createBars(p.column, p, data.graphData, this.segment)
 
                 if (this.modifiers != undefined) {
                     
@@ -122,7 +127,7 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
                         for (const m of mg) {
                             if (m.column != "{}") {
                                 const prop = m.column.replace("{}",p.column);
-                                data[prop] = createBars(prop, p, data.graphData)
+                                data[prop] = createBars(prop, p, data.graphData, this.segment)
                             }
                         }
                     }
@@ -149,11 +154,11 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
 
     async redraw(data: any) {
 
-        this.scales.x.set(data[this.segment].map ( d => d.date));
-        this.scales.x1.set(data[this.segment].map ( d => d.meta._startdatum).filter( d => d != null));
-        this.scales.y.set(data[this.segment].map ( d => d.value).concat([0]));
+        this.scales.x.set(data[this.segment.key].map ( d => d.date));
+        this.scales.x1.set(data[this.segment.key].map ( d => d.meta._startdatum).filter( d => d != null));
+        this.scales.y.set(data[this.segment.key].map ( d => d.value).concat([0]));
 
-        await super.redraw(data[this.segment]);
+        await super.redraw(data[this.segment.key]);
         
         // this.chartBar.redraw(data[this.segment]);
         // this.chartBar.redraw(data[this.parameters[0][1].column]);
@@ -167,8 +172,8 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
     }
 
     
-    async update(data: DataObject, segment: string, update: boolean, range?: number[]) {
+    async update(data: DataObject,update: boolean, range?: number[]) {
 
-       await super._update(data,segment,update, range);
+       await super._update(data,update, range);
     } 
 }

@@ -1,12 +1,13 @@
-
 import { breakpoints } from '../../../img-modules/styleguide';
-import { DataObject } from '../../shared/types';
+import { DataObject, Segment } from '../../shared/types';
 import { core, elements } from '../../../charts';
 import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
 import { AxisArrow } from '../../../charts/elements/axis-arrow';
 import { createBars } from '../../shared/data.format.factory';
 import { TrendBar } from '../../shared/types_graphs';
+import { segmentParse } from '../../shared/segment';
+import { parseSegment } from '../../shared/factories/segment';
 
 export class BarTrend extends core.GraphControllerV3  {
 
@@ -24,10 +25,15 @@ export class BarTrend extends core.GraphControllerV3  {
         public parameters: IParameterMapping[][],
         public modifiers: IParameterMapping[][],
         public filters: string[],
-        public segment: string, 
+        segment: Segment, 
         public index: number
     ){
         super(slug,page,group,data,parameters,modifiers,filters,segment,index) 
+        
+        if (this.page.segment) {
+            this.segment = parseSegment(this.page, this.group.slug, this.slug);
+        }
+
         this.pre();
     }
 
@@ -63,9 +69,9 @@ export class BarTrend extends core.GraphControllerV3  {
         if (this.graphEl != null) await super._svg(this.graphEl);
 
         this.chartBarTrend = new elements.ChartBarTrendwithNumber(this);
-     //   this.arrowY = new AxisArrow(this,'y','some value');
+        this.arrowY = new AxisArrow(this,'y','waardering');
         
-        await this.update(this.group.data,this.segment, false);
+        await this.update(this.group.data, false);
 
         return;
     }
@@ -78,7 +84,7 @@ export class BarTrend extends core.GraphControllerV3  {
 
             for (const p of pg) {
 
-                data[p.column] = createBars(p.column, p, data.graphData)
+                data[p.column] = createBars(p.column, p, data.graphData, this.segment)
 
                 if (this.modifiers != undefined) {
                     
@@ -87,7 +93,7 @@ export class BarTrend extends core.GraphControllerV3  {
                         for (const m of mg) {
                             if (m.column != "{}") {
                                 const prop = m.column.replace("{}",p.column);
-                                data[prop] = createBars(prop, p, data.graphData)
+                                data[prop] = createBars(prop, p, data.graphData, this.segment)
                             }
                         }
                     }
@@ -114,12 +120,12 @@ export class BarTrend extends core.GraphControllerV3  {
         await super.redraw(bars);
 
         this.chartBarTrend.redraw(bars);
-        //await this.arrowY.redraw();
+        await this.arrowY.redraw();
     }
 
     
-    async update(data: DataObject, segment: string, update: boolean, range?: number[]) {
-
-       await super._update(data,segment,update, range);
+    async update(data: DataObject, update: boolean, range?: number[]) {
+    
+        await super._update(data, update, range);
     } 
 }

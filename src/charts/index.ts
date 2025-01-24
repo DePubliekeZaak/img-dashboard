@@ -15,6 +15,7 @@ import ChartStackedBarsV2 from './elements/chart-stacked-bars-v2';
 import { HtmlNumberSimple } from './elements/html-number-simple';
 import ChartBarTrendwithNumber from './elements/chart-bar-trend-with-number';
 import { ChartBarsHorizontalV1 } from './elements/chart-bars-horizontal-v1';
+import { ChartBlocksV1 } from './elements/chart-blocks-v1';
 
 export const core = {
     GraphControllerV3
@@ -28,6 +29,7 @@ export const elements = {
     ChartStackedBarsV2,
     ChartTimeline,
     ChartPieV1,
+    ChartBlocksV1,
     ChartLine,
     AxisArrow,
     ChartStackedAreaV1,

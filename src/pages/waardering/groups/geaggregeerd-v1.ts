@@ -32,7 +32,7 @@ export class GeaggregeerdV1 extends GroupControllerV1 {
 
         data[dataGroup] = data[dataGroup].filter( p => p.complete);
 
-        const { tableParams, graphParams, graphData } = super.prepareData(data);
+        const { tableParams, graphParams, graphData, timeline, definitions } = super.prepareData(data);
         
         for (let period of data[dataGroup]) {
 
@@ -65,44 +65,7 @@ export class GeaggregeerdV1 extends GroupControllerV1 {
             rows
         };
 
-        const timeline = [
-         
-            {
-                date: "2019-5-22",
-                label: "Westerwijdwerd",
-                html: "Westerwijdwerd",
-                description: "Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
-                category: "beving"
-            },
-            {
-                date: "2021-11-16",
-                label: "Garrelsweer",
-                html: "Garrelsweer",
-                description: "(magnitude 3.2)",
-                category: "beving"
-            },
-            {
-                date: "2022-09-24",
-                label: "Uithuizermeeden en Uithuizen",
-                html: "Uithuizermeeden en Uithuizen",
-                description: "(magnitude 2.7 en 1.7)",
-                category: "beving"
 
-            },
-            {
-                date: "2022-10-8",
-                label: "Wirdum",
-                html: "Wirdum",
-                description: "(magnitude 3.1)",
-                category: "beving"
-            }
-        ];
-
-        timeline.sort( (a,b) => Date.parse(a.date) - Date.parse(b.date))
-                
-        const definitions = [];
-
-        
 
         return {
             

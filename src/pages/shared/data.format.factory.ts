@@ -1,5 +1,5 @@
 import {  GeoJsonFeature, Line, Lines, TrendBar } from "./types_graphs";
-import { DataPart } from "./types";
+import { DataPart, Segment } from "./types";
 import { IParameterMapping } from "./interfaces";
 import { KeyValue } from "../../charts/core/types";
 
@@ -70,7 +70,6 @@ export const filterUniqueGeoFeatures = (data: GeoJsonFeature[],key: string): (st
 }
 
 export const formatLines = (data: any, keyForLine: string, keyForValue: string, keyForLabel: string): Lines => { 
-    // data = (EitiReport|EitiPayments)
 
     let readyForLines: Lines = [];
 
@@ -91,7 +90,6 @@ export const formatLines = (data: any, keyForLine: string, keyForValue: string, 
                     time: year,
                     value
                 })
-
             }
         }
 
@@ -109,7 +107,6 @@ export const formatLines = (data: any, keyForLine: string, keyForValue: string, 
             }
         }
         
-
         return bool
     })
 
@@ -117,21 +114,27 @@ export const formatLines = (data: any, keyForLine: string, keyForValue: string, 
     
 }
 
-export const createBars = (prop: string, param: IParameterMapping, data: KeyValue[]) => {
+export const createBars = (prop: string, param: IParameterMapping, data: KeyValue[], segment: Segment) => {
 
     const bs: TrendBar[] = [];
-    
+
+    const periodKey = segment.periodization == "monthly" ? "_yearmonth" : "_yearweek";
+
     for (let period of data) {
+
+        console.log(period);
 
         bs.push({
             label: param?.label || "",
             name: "main",
-            date: period._yearmonth.toString(),
+            date: period[periodKey].toString(),
             colour: param != undefined ? param.colour : "orange",
             meta: period,
             value: period[prop] == null ? 0 : parseFloat(period[prop].toString())
         })
     }
+
+    // console.log(bs);
 
     return bs;
 }

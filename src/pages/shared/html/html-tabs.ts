@@ -133,9 +133,9 @@ export class HtmlTabs {
 
         const url = URL.createObjectURL(blob);
 
-        a.download =  'EITI-NL_' + this.mapping.slug + '.csv' || 'download';
+        a.download =  'IMG_' + this.mapping.slug + '.csv' || 'download';
         a.href = url;
-        
+            
         const clickHandler = () => {
             setTimeout(() => {
               URL.revokeObjectURL(url);
@@ -249,12 +249,26 @@ export class HtmlTabs {
 
         // ther can be only one :target on page 
 
+        // if (element != null) {
+
+       
+
+        // }
+
         panelEls.forEach( (p) => {
 
             p.classList.remove('visible');
         }) 
 
         this.maintainOtherTabs(otherTabGroups)
+
+        // make graph redraw on tab switch
+        if (element.getAttribute("href")?.includes("_graph")) {
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+          },250)
+           
+         }
     }
 
     maintainOtherTabs(groups) {

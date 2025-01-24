@@ -41,6 +41,11 @@
         color: $darkblue;
         // border-color: black;
     }
+
+    a:focus {
+        background: $moss;
+        color: white;
+    }
 }
 
 .tabpanel {

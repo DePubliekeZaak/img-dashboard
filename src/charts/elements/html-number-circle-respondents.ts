@@ -84,8 +84,8 @@ export class HtmlNumberCircleRespondents {
 
         element.querySelector('.second_number').innerText = data[extraParameter];
 
-        let value =  Math.round(data[this.parameter['column']] * 100) / 100;
-        element.querySelector('.number.accented').innerText = value.toFixed(2);
+        let value =  Math.round(data[this.parameter['column']] * 10) / 10;
+        element.querySelector('.number.accented').innerText = value.toFixed(1);
         
     }
 }

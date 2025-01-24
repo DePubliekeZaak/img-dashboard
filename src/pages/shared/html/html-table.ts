@@ -54,6 +54,20 @@ export class HTMLTable {
         this.thead.innerHTML = "";
         this.tbody.innerHTML = "";
     
+        const thead = this.container.querySelector("thead");
+
+        if(data.pre_headers) {
+            const tr0 = this.ctrlr.page.main.window.document.createElement('tr');
+            for (const h of data.pre_headers) {
+                
+                const th = this.ctrlr.page.main.window.document.createElement('th');
+                th.colSpan = h.length;
+                th.innerHTML = h.label;
+                tr0.appendChild(th)
+            }
+            thead.appendChild(tr0);
+        }
+
         const tr = this.ctrlr.page.main.window.document.createElement('tr');
         const th0 = this.ctrlr.page.main.window.document.createElement('th');
         
@@ -65,7 +79,7 @@ export class HTMLTable {
             tr.appendChild(th)
         }
 
-        const thead = this.container.querySelector("thead");
+       
         
         thead.appendChild(tr);
 

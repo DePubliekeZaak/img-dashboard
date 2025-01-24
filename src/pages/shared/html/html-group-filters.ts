@@ -1,12 +1,10 @@
-
-import { HtmlMappingSelector } from "./mapping-selector";
-import { breakpoints } from "../../../img-modules/styleguide";
-import { IGraphControllerV3 } from "../../../charts/core/graph-v3";
 import { HtmlMonthSelector } from "./month-selector";
 import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
 import { IGroupCtrlr } from "../interfaces";
-
-
+import { Segment } from "../types";
+import { segmentParse } from "../segment";
+import { HtmlMappingGroupSelector } from "./mapping-group-selector";
+import { HtmlMunicipalitySelector } from "./municipality-selector";
 
 export class HtmlGroupFilters {
 
@@ -20,25 +18,23 @@ export class HtmlGroupFilters {
 
     constructor(
         private ctrlr: IGroupCtrlr,
-        // private id: string,
-        // private element,
-        // private filters,
-        // private parameters,
-        // private modifiers,
-        // private segment
     ){
         this.init(undefined);
     }
 
     init(el: HTMLElement | undefined) {
 
-        const element = (el != undefined) ? el : this.ctrlr.graphWrapper
+        const element = (el != undefined) ? el : this.ctrlr.groupWrapper
 
         if(element != null) {
 
-            const prevElement = element.querySelector('.filter_list')
+            const prevElement = element.querySelector('.filter_list_group');
+
+            if (prevElement) {
+                prevElement.remove();
+            }
             this.listElement = this.ctrlr.page.main.window.document.createElement('div');
-            this.listElement.classList.add('filter_list');
+            this.listElement.classList.add('filter_list_group');
 
             const ul = this.ctrlr.page.main.window.document.createElement('ul');
 
@@ -51,7 +47,7 @@ export class HtmlGroupFilters {
 
     }
 
-    draw(segment: string) {
+    draw(segment: string | Segment) {
 
         const self = this;
 
@@ -67,54 +63,30 @@ export class HtmlGroupFilters {
 
                 switch (func) {
 
-                    // case 'modifier':
-
-                    //     if(this.modifiers != undefined) {
-                    //         const selector = new HtmlMappingSelector(this.ctrlr, li, this.id, this.modifiers);
-                    //         const selectEl = selector.draw(this.segment, 1);
-
-                    //         selectEl.addEventListener("change", () => {
-
-                    //             const newValue = selectEl.value.replace("{}",this.ctrlr.segment); 
-
-                    //             console.log(newValue);
-
-                    //             if ( newValue != self.ctrlr.segment) {
-                    //                 self.ctrlr.update(this.ctrlr.page.main.data.collection(), newValue, true);
-                    //             }
-                    //         });
-                    //     }
-
-                    //     break;
-
                     case 'totaalVsRecent': 
 
                         const _selector = new HtmlTotalvsRecentSelector(this.ctrlr, li, this.ctrlr.slug);
-                        const _selectEl = _selector.draw(segment, 1);
+                        const _selectEl = _selector.draw(1);
 
                         _selectEl.addEventListener("change", () => {
 
-                            const newValue = _selectEl.value.replace("{}",this.ctrlr.segment); 
+                           // const segment_key = (typeof this.ctrlr.segment === "string") ?  this.ctrlr.segment : this.ctrlr.segment.key;
 
-                            console.log(newValue);
-
-                            if ( newValue != self.ctrlr.segment) {
-                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), newValue, true);
+                            const newSegment = {
+                                key: _selectEl.value == "cumulative" ? this.ctrlr.segment.key: this.ctrlr.segment.key,
+                                cumulative: _selectEl.value == "cumulative" ? true : false,
+                                periodization: self.ctrlr.segment.periodization
                             }
+
+                            if ( newSegment.key != self.ctrlr.segment.key || newSegment.cumulative != self.ctrlr.segment.cumulative) {
+                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), newSegment, true);
+                            }
+
                         });
 
                         break;
 
                     case 'mappingSelect':
-
-                            // this.selector = new HtmlMappingSelector(this.ctrlr, li,this.ctrlr.slug,this.mapping);
-                            // const selectEl2 = this.selector.draw(this.segment);
-
-                            // selectEl2.addEventListener("change", () => {
-                            //     if ( selectEl2.value != self.ctrlr.segment) {
-                            //         self.ctrlr.update({}, selectEl2.value, true);
-                            //     }
-                            // });
 
                         break;
 
@@ -127,66 +99,46 @@ export class HtmlGroupFilters {
 
                         selectEl.addEventListener("change", () => {
 
-                            if ( selectEl.value != self.ctrlr.segment) {
-                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), selectEl.value, true);
+                            if ( selectEl.value != self.ctrlr.segment.key) {
+                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), segmentParse(selectEl.value), true);
                             }
                         });
 
-
                         break;
 
-                //     case 'combiSelect':
+                    case 'gemeente': 
 
-                //         li.style.display = "flex";
+                        console.log("inside html group filter",this.ctrlr.page.segment)
 
-                //         const selectorA = new HtmlMappingSelector(this.ctrlr, li,this.id,this.parameters);
-                //         const selectEl2a = selectorA.draw(this.segment,0);
-                //         selectEl2a.style.maxWidth =  window.innerWidth < breakpoints.sm ? "70vw" : "30vw";
+                        const muniSelector = new HtmlMunicipalitySelector(this.ctrlr, li, this.ctrlr.slug);
+                        const muniSelectEl = muniSelector.draw(this.ctrlr.page.segment, 1);
 
-                //         let selectEl2b : HTMLSelectElement|undefined = undefined;
-                //         // dit zijn de modifiers ! 
-                //         if(this.modifiers != undefined) {
-                //             const selectorB = new HtmlMappingSelector(this.ctrlr, li,this.id,this.modifiers);
-                //             selectEl2b = selectorB.draw(this.segment, 1);
-                //             selectEl2a.style.marginRight = "1rem";
-                //         }
+                        muniSelectEl.addEventListener("change", () => {
 
-                //         const updateSegment = () => {
+                        // const segment_key = (typeof this.ctrlr.segment === "string") ?  this.ctrlr.segment : this.ctrlr.segment.key;
 
-                //             let newValue;
-
-                //             if(selectEl2b != undefined) {
-                //                 if(selectEl2a.value == 'fysieke_schade_werkvoorraad') {
-                //                     newValue = selectEl2a.value
-                //                 } else {
-                //                     newValue = selectEl2b.value.replace("{}",selectEl2a.value);  
-                //                 }
-                //             } else {
-                //                 newValue = selectEl2a.value
-                //             }
+                            if ( muniSelectEl.value != self.ctrlr.page.segment.gemeente) {
 
 
-                //             if ( newValue != self.ctrlr.segment) {
-                //                 self.ctrlr.update(self.ctrlr.group.data, newValue, true);
-                //             }
-                //         }
+                                this.ctrlr.page.segment.gemeente = muniSelectEl.value
 
+                                // const newSegment = {
+                                //     key: self.ctrlr.segment.key,
+                                //     cumulative: self.ctrlr.segment.cumulative,
+                                //     periodization: self.ctrlr.segment.periodization,
+                                //     gemeente: muniSelectEl.value
+                                // }
 
-                //         selectEl2a.addEventListener("change", () => {
+                                // console.log(newSegment);
 
-                //             updateSegment();
-                //         });
+                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), undefined, true);
+                            }
 
-                //         if(selectEl2b != undefined) {
+                        });
 
-                //             selectEl2b.addEventListener("change", () => {
+                    break;
 
-                //                 updateSegment();
-                //             });
-                //         }
-
-
-                //     break;
+                   
                 }
 
                 ul.appendChild(li);
@@ -199,28 +151,6 @@ export class HtmlGroupFilters {
 
         let self = this;
 
-        // switch (func) {
-
-        //     case 'companySelect' :
-
-        //     const collection = self.ctrlr.page.main.data.collection();
-
-        //     const companies = collection.entities
-        //     .filter( (e) => e.type === 'company' && e.slug != 'ebn')
-        //     .sort( (a: EitiEntity, b: EitiEntity) =>  a.name.localeCompare(b.name));
-
-        //     const el = this.companySelector.redraw(this.segment, companies);
-
-        //     el.addEventListener("change", () => {
-
-        //         if( el.value != self.ctrlr.segment) {
-        //             self.companySelector.redraw(el.value, companies);
-        //             self.ctrlr.update({}, el.value, true);
-        //         }
-        //     });
-
-        //     break;
-        // }
     }
 
     hide() {

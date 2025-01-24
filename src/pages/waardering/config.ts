@@ -2,7 +2,7 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group : IGroupMappingV2[] = [
     {
-        "slug" : "waardering_doorlopend",
+        "slug" : "waardering_alle_regelingen",
         "ctrlr": "GeaggregeerdV1",
         "graphs": [
             {
@@ -44,7 +44,8 @@ const group : IGroupMappingV2[] = [
             },
             {
                 "slug" : "algemeen_trend",
-                "ctrlr" : "BarTrend",
+                "ctrlr" : "BarTrendV1",
+                "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
@@ -59,11 +60,13 @@ const group : IGroupMappingV2[] = [
                 ]
             }
         ],
-        "header": "Algemene cijfers",
         "functionality": ['table', 'definitions','download'],
-        "description": "Het betreft hier een gemiddelde gebaseerd op alle reacties die sinds de start van diverse metingen zijn binnengekomen. Er wordt daarbij voor verschillende regelingen per e-mail om een reactie gevraagd kort nadat het besluit is bekend gemaakt bij de aanvrager. Na een besluit over de aanvraag tot vergoeding van fysieke schade wordt gevraagd: “Welk rapportcijfer geeft u het besluit dat u ontvangen heeft? (1-10)” Na een besluit over de aanvraag tot vergoeding van waardedaling wordt gevraagd: “Hoe tevreden bent u over het indienen en afhandelen van uw aanvraag?(1-10)” Hoe meer besluiten er zijn genomen bij die specifieke regeling, hoe zwaarder dat gemiddelde vervolgens meetelt bij het tevredenheidscijfer voor het IMG als geheel. Onder het totaalcijfer over de gehele periode, staat het doorlopend gemiddelde totaalcijfer voor die maand weergegeven.",
         "endpoints": ["tevredenheid"],
-        "segment": "",
+        "segment": {
+            "key":"maandcijfer",  
+            "cumulative": false,
+            "periodization": "monthly"
+        },
     },
     {
         "slug" : "waardering_fs",
@@ -211,12 +214,19 @@ const group : IGroupMappingV2[] = [
                         "column": "fysieke_schade_maand_rapportcijfer_10",
                         "colour": "moss"
                     },
-                ]
-            ]
+                ],
+                
+            ],
+            "segment": {
+                    "key":"all",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
             },
             {
                 "slug" : "algemeen_trend",
-                "ctrlr" : "BarTrend",
+                "ctrlr" : "BarTrendV1",
+                "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
@@ -229,14 +239,16 @@ const group : IGroupMappingV2[] = [
                             "excludeFromTable": true
                         }
                     ]
-                ]
+                ],
+                "segment": {
+                    "key":"fysieke_schade_maandcijfer",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                },
             }
         ],
-        "header": "Fysieke schade",
         "functionality": ['table', 'definitions','download'],
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "endpoints": ["tevredenheid"],
-        "segment": "all",
+        "endpoints": ["tevredenheid","tevredenheid"]
     },
     {
         "slug" : "waardering_ves",
@@ -384,12 +396,18 @@ const group : IGroupMappingV2[] = [
                         "column": "ves_maand_rapportcijfer_10",
                         "colour": "moss"
                     },
-                ]
-            ]
+                ],
+            ],
+            "segment": {
+                    "key":"all",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
             },
             {
                 "slug" : "algemeen_trend",
-                "ctrlr" : "BarTrend",
+                "ctrlr" : "BarTrendV1",
+                "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
@@ -402,14 +420,17 @@ const group : IGroupMappingV2[] = [
                             "excludeFromTable": true
                         }
                     ]
-                ]
+                ],
+                "segment": {
+                    "key":"ves_maandcijfer",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
             }
         ],
-        "header": "Vaste vergoeding",
         "functionality": ['table', 'definitions','download'],
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "endpoints": ["tevredenheid"],
-        "segment": "all",
+        "endpoints": ["tevredenheid","tevredenheid"]
+        
     },
     {
         "slug" : "waardering_wd",
@@ -558,11 +579,17 @@ const group : IGroupMappingV2[] = [
                         "colour": "moss"
                     },
                 ]
-            ]
+            ],
+            "segment": {
+                    "key":"all",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
             },
             {
                 "slug" : "algemeen_trend",
-                "ctrlr" : "BarTrend",
+                "ctrlr" : "BarTrendV1",
+                "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
@@ -575,21 +602,23 @@ const group : IGroupMappingV2[] = [
                             "excludeFromTable": true
                         }
                     ]
-                ]
+                ],
+                "segment": {
+                    "key":"waardedaling_maandcijfer",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                },
             }
         ],
-        "header": "Waardededaling",
         "functionality": ['table', 'definitions','download'],
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "endpoints": ["tevredenheid"],
-        "segment": "all",
+        "endpoints": ["tevredenheid"]
     },
     {
-        "slug" : "waardering_ims",
+        "slug" : "waardering_ims_volw",
         "ctrlr": "KTOGroupV1",
         "graphs": [
             {
-            "slug" : "fs_cijfer",
+            "slug" : "ims_cijfer_volw",
             "ctrlr" : "KTORatingsV1",
             "filters" : ["monthSelect"],
             "args" : [],
@@ -731,11 +760,17 @@ const group : IGroupMappingV2[] = [
                         "colour": "moss"
                     },
                 ]
-            ]
+            ],
+            "segment": {
+                    "key":"all",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
             },
             {
                 "slug" : "algemeen_trend",
-                "ctrlr" : "BarTrend",
+                "ctrlr" : "BarTrendV1",
+                "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
@@ -748,14 +783,197 @@ const group : IGroupMappingV2[] = [
                             "excludeFromTable": true
                         }
                     ]
-                ]
+                ],
+                "segment": {
+                    "key":"ims_maandcijfer",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
             }
         ],
-        "header": "Immateriele schade",
         "functionality": ['table', 'definitions','download'],
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         "endpoints": ["tevredenheid"],
-        "segment": "all",
+    },
+    {
+        "slug" : "waardering_imkj",
+        "ctrlr": "KTOGroupV1",
+        "graphs": [
+            {
+            "slug" : "im_cijfer_kj",
+            "ctrlr" : "KTORatingsV1",
+            "filters" : ["monthSelect"],
+            "args" : [],
+            "parameters": [
+                [
+                    {
+                        "label": "Doorlopend",
+                        "column": "imkj_doorlopend_cijfer",
+                        "colour": "moss"
+                    },
+                    {
+                        "label": "Maandcijfer",
+                        "column": "imkj_maandcijfer",
+                        "colour": "moss"
+                    },
+                    {
+                        "label": "Respondenten doorlopend",
+                        "column": "imkj_aantal_respondenten_doorlopend",
+                        "colour": "moss",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "Respondenten",
+                        "column": "imkj_aantal_respondenten",
+                        "colour": "moss"
+                    }
+                ],
+                [
+                    {
+                        "label": "1",
+                        "column": "imkj_doorlopend_rapportcijfer_1",
+                        "colour": "orange",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "2",
+                        "column": "imkj_doorlopend_rapportcijfer_2",
+                        "colour": "orange",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "3",
+                        "column": "imkj_doorlopend_rapportcijfer_3",
+                        "colour": "orange",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "4",
+                        "column": "imkj_doorlopend_rapportcijfer_4",
+                        "colour": "orange",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "5",
+                        "column": "imkj_doorlopend_rapportcijfer_5",
+                        "colour": "orange",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "6",
+                        "column": "imkj_doorlopend_rapportcijfer_6",
+                        "colour": "blue",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "7",
+                        "column": "imkj_doorlopend_rapportcijfer_7",
+                        "colour": "blue",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "8",
+                        "column": "imkj_doorlopend_rapportcijfer_8",
+                        "colour": "moss",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "9",
+                        "column": "imkj_doorlopend_rapportcijfer_9",
+                        "colour": "moss",
+                        "excludeFromTable": true
+                    },
+                    {
+                        "label": "10",
+                        "column": "imkj_doorlopend_rapportcijfer_10",
+                        "colour": "moss",
+                        "excludeFromTable": true
+                    }
+                ],
+                [
+                    {
+                        "label": "1",
+                        "column": "imkj_maand_rapportcijfer_1",
+                        "colour": "orange"
+                    },
+                    {
+                        "label": "2",
+                        "column": "imkj_maand_rapportcijfer_2",
+                        "colour": "orange"
+                    },
+                    {
+                        "label": "3",
+                        "column": "imkj_maand_rapportcijfer_3",
+                        "colour": "orange"
+                    },
+                    {
+                        "label": "4",
+                        "column": "imkj_maand_rapportcijfer_4",
+                        "colour": "orange"
+                    },
+                    {
+                        "label": "5",
+                        "column": "imkj_maand_rapportcijfer_5",
+                        "colour": "orange"
+                    },
+                    {
+                        "label": "6",
+                        "column": "imkj_maand_rapportcijfer_6",
+                        "colour": "blue"
+                    },
+                    {
+                        "label": "7",
+                        "column": "imkj_maand_rapportcijfer_7",
+                        "colour": "blue"
+                    },
+                    {
+                        "label": "8",
+                        "column": "imkj_maand_rapportcijfer_8",
+                        "colour": "moss"
+                    },
+                    {
+                        "label": "9",
+                        "column": "imkj_maand_rapportcijfer_9",
+                        "colour": "moss"
+                    },
+                    {
+                        "label": "10",
+                        "column": "imkj_maand_rapportcijfer_10",
+                        "colour": "moss"
+                    },
+                ]
+            ],
+            "segment": {
+                    "key":"all",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
+            },
+            {
+                "slug" : "algemeen_trend",
+                "ctrlr" : "BarTrendV1",
+                "args" : [],
+                "filters": [],
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Afgelopen maand",
+                            "column": "imkj_maandcijfer",
+                            "units": "afgelopen maand",
+                            "colour": "moss",
+                            "format": "decimals",
+                            "excludeFromTable": true
+                        }
+                    ]
+                ],
+                "segment": {
+                    "key":"imkj_maandcijfer",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
+            }
+        ],
+        "functionality": ['table', 'definitions','download'],
+        "endpoints": ["tevredenheid"],
     }
 ];
 

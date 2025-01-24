@@ -15,6 +15,8 @@ export default class HtmlLegend {
 
     draw(data) {
 
+        console.log(data);
+
         let legend = document.createElement('div');
         legend.classList.add('legend');
         legend.style.display = 'flex';
@@ -23,16 +25,26 @@ export default class HtmlLegend {
         legend.style.justifyContent = 'center';
         legend.style.width = '360px';
 
+        if (window.innerWidth < breakpoints.sm) {
+
+            legend.style.width = "calc(100vw - 2rem)";
+            legend.style.marginLeft = "-1rem";
+        }
+       
+
         let table = document.createElement('table');
         let tbody = document.createElement('tbody');
 
-        data.parts.forEach( (map: PiePart, i: number) => {
+        data.pies[0].forEach( (map: PiePart, i: number) => {
             tbody.appendChild(this.createRow(map, i, data.parts));
         });
 
-        data.percentages.forEach( (map: any, i: number) => {
-            tbody.appendChild(this.createRow(map, i, data.percentages));
-        });
+        if(data.percentages) {
+
+            data.percentages.forEach( (map: any, i: number) => {
+                tbody.appendChild(this.createRow(map, i, data.percentages));
+            });
+        }
 
 
 

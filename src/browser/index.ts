@@ -1,5 +1,6 @@
 import '../../styling/main.scss'
-import { DashboardController } from '@local/dashboard/'
+import { DashboardController } from "./dashboard/dashboard.controller";
+
 
 const init = () => {
 

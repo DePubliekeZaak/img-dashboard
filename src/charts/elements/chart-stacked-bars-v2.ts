@@ -1,5 +1,6 @@
 import { colours } from "../../img-modules/styleguide";
-import { toDutchMonths } from "../../pages/shared/_helpers";
+import { convertToCurrency, convertToCurrencyInMillions, toDutchMonths } from "../../pages/shared/_helpers";
+import { Segment } from "../../pages/shared/types";
 
 export default class ChartStackedBarsV2 {
 
@@ -33,7 +34,7 @@ export default class ChartStackedBarsV2 {
         ;
     }
 
-    redraw(data: any) {
+    redraw(data: any, segment? : Segment ) {
 
         let self = this;
 
@@ -56,15 +57,24 @@ export default class ChartStackedBarsV2 {
         this.bars
             .on("mouseover", function (event:  any, d: any) {
 
-            window.d3.select('.tooltip')
+                const t = window.d3.select('.tooltip')
                 .html(() => {
+
+                    console.log(d);
 
                     let html =  '<div>' + d.data._year + '</div>'; 
                     html +=  '<div>' + toDutchMonths(parseFloat(d.data._month)) + '</div>'; 
 
-                    for (let map of self.ctrlr.parameters[0]) {
+                    for (let map of self.ctrlr.parameters[segment?.parameterIndex ||0]) {
 
-                        html +=  '<div>' + map.label + ' : ' + d.data[map.column] + '</div>'; 
+                        let v = d.data[map.column];
+                        v = v == null ? 0 : v;
+
+                        if (map.format == 'currency') {
+                            v = convertToCurrency(v);
+                        }
+
+                        html +=  '<div>' + map.label + ' : ' + v + '</div>'; 
 
                     }
 
@@ -73,11 +83,8 @@ export default class ChartStackedBarsV2 {
                         let period = data.line.find( dd => dd.time == d.data.date);
 
                         if(period != undefined) {
-
                             for (let map of self.ctrlr.parameters[1]) {
-
                                 html +=  '<div>' + map.label + ' : ' + Math.round(period.value) + '%</div>'; 
-
                             }
                         }
 
@@ -92,11 +99,23 @@ export default class ChartStackedBarsV2 {
                     return html;
 
                 })
-                .style("left", (event.pageX) + "px")
                 .style("top", (event.pageY) + "px")
-                .transition()
-                .duration(250)
-                .style("opacity", 1);
+             
+
+            if (event.pageX < window.innerWidth / 2) {
+                t
+                .style("left", (event.pageX) + "px")
+                .style("right", "auto")
+            } else {
+                t
+                .style("right", (window.innerWidth - event.pageX) + "px")
+                .style("left", "auto")
+            }
+
+            t
+            .transition()
+            .duration(250)
+            .style("opacity", 1);
         })
         .on("mouseout", function (event: any, d: any, i: number) {
 

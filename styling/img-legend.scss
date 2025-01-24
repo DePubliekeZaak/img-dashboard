@@ -1,34 +1,51 @@
-.legend table {
+.legend {
 
-    background: transparent;
-    width: 100%;
+    @media (max-width: $breakpoint-bax) {
+        margin-bottom: 4rem;
+    }
+    
+    
+    table {
 
-    tr.no_border {
+        background: transparent;
+        width: 100%;
 
-        border: none;
+        tr.no_border {
 
-        td {
-            vertical-align: middle;
             border: none;
-            padding: 0rem 0.5rem;
 
-            @media (min-width: $breakpoint-sm) {
-                padding: 0.125rem 0.5rem;
+            td {
+                vertical-align: middle;
+                border: none;
+                padding: 0rem 0.5rem;
+
+                @media (min-width: $breakpoint-sm) {
+                    padding: 0.125rem 0.5rem;
+                }
+            }
+        }
+
+        tr.top_border {
+
+            border: none;
+            border-top: 1px solid #000;
+        
+
+            td {
+                margin-top: .5rem;
+                padding-top: .5rem;
+                border: none;
             }
         }
     }
 
-    tr.top_border {
+}
 
-        border: none;
-        border-top: 1px solid #000;
-    
+.graph-container-6 {
 
-        td {
-            margin-top: .5rem;
-            padding-top: .5rem;
-            border: none;
-        }
+    .legend {
+
+        margin-top: 4rem
+        
     }
-
 }

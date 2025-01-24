@@ -22,7 +22,7 @@
 
 .group-wrapper {
   position: relative;
-  margin-bottom: 3rem;
+  // margin-bottom: 3rem;
 }
 
 .graph-wrapper {
@@ -102,6 +102,9 @@
   }
   
   .graph-container-6 {
+
+    position: relative;
+    display: flex;
     width: 100%;
   
     @media (min-width : $breakpoint-md) {
@@ -121,11 +124,12 @@
   .graph-container-8 {
   
     width : 100%;
-    margin-bottom: 4rem;
+    
   
     @media (min-width : $breakpoint-md) {
   
       width: calc(66% - (3rem/2));
+      // margin-bottom: 4rem;
   
       > svg {
         height: auto;
@@ -133,9 +137,9 @@
     }
   
     @media (min-width : $breakpoint-bax) {
-      > svg {
-        height: calc((100vw - 300px - 10rem) / 4);
-      }
+      // > svg {
+      //   height: calc((100vw - 300px - 10rem) / 4);
+      // }
   
       > .legend {
         margin-bottom: 2rem;

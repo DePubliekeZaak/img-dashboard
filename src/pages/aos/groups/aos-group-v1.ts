@@ -1,12 +1,11 @@
 
-import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
-import { DataObject, ImgData } from "../../shared/types";
-import { TableData, TrendBar } from "../../shared/types_graphs";
-import { convertToCurrencyInTable, trimColumnsAndOrder } from "../../shared/_helpers";
+import { IGroupMappingV2 } from "../../shared/interfaces";
+import { ImgData } from "../../shared/types";
+import { TableData } from "../../shared/types_graphs";
+import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import { breakpoints } from "../../../img-modules/styleguide";
+
 
 export class AOSGroupV1 extends GroupControllerV1 { 
 
@@ -31,7 +30,8 @@ export class AOSGroupV1 extends GroupControllerV1 {
         const dataGroup = this.config.endpoints[0];
         const rows: string[][] = []; 
 
-        const { tableParams, graphParams, graphData } = super.prepareData(data);
+        const { tableParams, graphParams, graphData, timeline, definitions } = super.prepareData(data);
+        console.log(timeline);
         
         for (let period of data[dataGroup]) {
 
@@ -62,43 +62,9 @@ export class AOSGroupV1 extends GroupControllerV1 {
             rows
         };
 
-        const timeline = [
-         
-            {
-                date: "2019-5-22",
-                label: "Westerwijdwerd",
-                html: "Westerwijdwerd",
-                description: "Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
-                category: "beving"
-            },
-            {
-                date: "2021-11-16",
-                label: "Garrelsweer",
-                html: "Garrelsweer",
-                description: "(magnitude 3.2)",
-                category: "beving"
-            },
-            {
-                date: "2022-09-24",
-                label: "Uithuizermeeden en Uithuizen",
-                html: "Uithuizermeeden en Uithuizen",
-                description: "(magnitude 2.7 en 1.7)",
-                category: "beving"
+        console.log({timeline})
 
-            },
-            {
-                date: "2022-10-8",
-                label: "Wirdum",
-                html: "Wirdum",
-                description: "(magnitude 3.1)",
-                category: "beving"
-            }
-        ];
-
-        timeline.sort( (a,b) => Date.parse(a.date) - Date.parse(b.date))
-                
-        const definitions = [];
-
+        
         return {
             
             graphData,

@@ -1,14 +1,18 @@
+import { thousands } from "../_helpers";
+
 export class HtmlHeader {
 
     headerElement;
 
     constructor(
+        private dataCtrlr,
+        private endpoints,
         private element,
         private header,
         private description
     ){}
 
-    draw() {
+    draw(currentData: any) {
 
         const prevHeaderElement = this.element.querySelector('.article_header') 
         // if (prevHeaderElement) prevHeaderElement.remove();
@@ -26,11 +30,8 @@ export class HtmlHeader {
 
         }
 
-
         this.headerElement.style.width = 'calc(100% - 0px)';
         
-        // this.headerElement.style.marginBottom = '2.5rem';
-
         if(this.header) {
 
             let h = document.createElement('h3');
@@ -42,8 +43,12 @@ export class HtmlHeader {
 
             let d = document.createElement('div');
             d.style.maxWidth = '640px';
+
             let p = document.createElement('p');
             p.innerHTML = this.description;
+
+            d.style.color = 'white';
+            // p.style.background = '#eee';
 
             d.appendChild(p);
             this.headerElement.appendChild(d);
@@ -53,7 +58,20 @@ export class HtmlHeader {
        return true;
     }
 
-    redraw() {
+    redraw(currentData: any) {
+
+        const hasPattern = /{(\w+)}/.test(this.description);
+        const descEl = this.headerElement.querySelector('div');
+
+        if (hasPattern) {
+            const description = this.description.replace(/{(\w+)}/g, (_, key) => thousands(currentData[key]) || `{${key}}`);
+            descEl.innerHTML = description;
+        }
+
+        if (descEl != null) {
+            descEl.style.color = 'black';
+            descEl.style.background = 'white';
+        }
     }
 
     hide() {

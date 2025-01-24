@@ -1,9 +1,10 @@
 
 import { breakpoints } from '../../../img-modules/styleguide';
-import { DataObject } from '../../shared/types';
+import { DataObject, Segment } from '../../shared/types';
 import { core, elements } from '../../../charts';
 import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
+import { parseSegment } from '../../shared/factories/segment';
 
 export class NumbersV1 extends core.GraphControllerV3  {
 
@@ -18,10 +19,16 @@ export class NumbersV1 extends core.GraphControllerV3  {
         public parameters: IParameterMapping[][],
         public modifiers: IParameterMapping[][],
         public filters: string[],
-        public segment: string, 
+        public segment: Segment, 
         public index: number
     ){
-        super(slug,page,group,data,parameters,modifiers,filters, segment,index) 
+        super(slug,page,group,data,parameters,modifiers,filters, segment,index);
+
+        if (this.page.segment) {
+            this.segment = parseSegment(this.page, this.group.slug, this.slug);
+        }
+
+        
         this.pre();
     }
 
@@ -42,7 +49,7 @@ export class NumbersV1 extends core.GraphControllerV3  {
             this.numbers[p.column] = new elements.HtmlNumberCircle(this, p, this.els[p.column])
         }
         
-        await this.update(this.group.data,this.segment, false);
+        await this.update(this.group.data, false);
 
         return;
     }
@@ -68,8 +75,8 @@ export class NumbersV1 extends core.GraphControllerV3  {
     }
 
     
-    async update(data: DataObject, segment: string, update: boolean, range?: number[]) {
+    async update(data: DataObject, update: boolean, range?: number[]) {
 
-       await super._update(data,segment,update, range);
+       await super._update(data,update, range);
     } 
 }

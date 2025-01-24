@@ -44,7 +44,7 @@ export default class ChartBarTrendwithNumber {
     ;
     }
 
-    redraw(data: TrendBar[]) {
+    redraw(data: TrendBar[], extraParam: string) {
 
         // can be called multiple times for extra trends 
         let groupSlug = data[0].name != undefined ? data[0].name  : this.ctrlr.slug;
@@ -57,14 +57,16 @@ export default class ChartBarTrendwithNumber {
 
         let tooltip = function popup(d) {
 
+
               return `
                 <div>maand ${d.meta._month} - ${d.meta._year}</div>
                 <div>${d.meta._startdatum} t/m ${d.meta._einddatum}</div>
-                <div>${d.value}</div>
+                <div>${d.value} waardering</div>
+                 <div>${d.meta[extraParam]} respondenten</div>
               `;
           }
 
-        let barWidth = (this.ctrlr.dimensions.graphWidth / (data.length - 1)) - 4;
+        let barWidth = (this.ctrlr.dimensions.graphWidth / (data.length - 1)) - 2;
 
         bars
             .attr("x", (d: TrendBar, i: number)  => {

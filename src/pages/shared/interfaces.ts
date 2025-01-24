@@ -1,6 +1,6 @@
 import { IGraphControllerV3 } from "../../charts/core/graph-v3";
 import { IPageController } from "./page.controller";
-import { DataObject, TableData, ImgData } from "./types";
+import { DataObject, TableData, ImgData, Segment, Timeline } from "./types";
 import { Definitions } from "./types_graphs";
 
 export interface IParameterMapping {
@@ -26,7 +26,9 @@ export interface IGraphMappingV2 {
     args?: string[],
     filters?: string[],
     parameters: IParameterMapping[][],
-    modifiers?: IParameterMapping[][]
+    modifiers?: IParameterMapping[][],
+    segment?: Segment,
+    classList?: string[]
 }
 
 export type IMappingOption = IParameterMapping | boolean;
@@ -38,12 +40,14 @@ export interface IGroupMappingV2 {
     slug: string,
     ctrlr: string,
     filters?: string[],
-    header: string | null,
+    header?: string | null,
     header_en?: string | null,
-    description: string | null,
+    description?: string | null,
     description_en?: string | null,
+    definitions?: string[],
+    timeline?: string[],
     endpoints: string[],
-    segment: string,
+    segment?: string | Segment,
     publishDate?: string,
     functionality?: string[],
     graphs : IGraphMappingV2[],
@@ -71,7 +75,9 @@ export interface GraphObject {
     parameters: IParameterMapping,
     modifiers: IParameterMapping,
     filters: string[],
-    ctrlr : IGraphControllerV3
+    segment: Segment,
+    ctrlr : IGraphControllerV3,
+    classList: string,
 }
 
 export interface IGroupCtrlr {
@@ -79,7 +85,7 @@ export interface IGroupCtrlr {
     slug: string,   
     config: IGroupMappingV2,
     page: IPageController,
-    segment: string,
+    segment: Segment,
     filters: string[],
     element: HTMLElement | null,
     graphWrapper: HTMLElement | null,
@@ -90,7 +96,7 @@ export interface IGroupCtrlr {
     populateDefinitions: (definitions: Definitions) => void,
     populateDescription?: () => void,
     armTabs: () => void,
-    update: (data: DataObject, segment: string, update: boolean) => void
+    update: (data: DataObject, segment: Segment | undefined, update: boolean) => void
     
 }
 

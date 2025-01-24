@@ -1,12 +1,13 @@
-import { IDashboardController } from "@local/dashboard";
+import { IDashboardController } from "../../browser/dashboard/dashboard.controller";
 import { GroupObject, IGroupMappingV2, IGraphMappingV2 } from "./interfaces";
 import { GraphControllerV3 } from "../../charts/core/graph-v3";
-
+import cms_content from '../../json/groups.json' assert { type: "json" };
 
 export interface IPageController {
     main: IDashboardController,
     slug: string,
     chartArray: any[],
+    segment: any
     init: (config, groups, graphs) => void,
     initHtml: () => void,
     gatherData: () => void,
@@ -21,16 +22,41 @@ export default class PageController implements IPageController {
     main: IDashboardController;
     slug: string;
     chartArray: any[] = [];
+    segment: any;
 
     constructor(main: IDashboardController) {
 
         this.main = main;
         this.slug = main.params.topic;
+        this.segment = {
+            gemeente: main.params.topic == "gemeente" ? "Groningen" : "all",
+            groups: {},
+        };
+    }
+
+    mergeWithCMSContent(cms_content: any[], c: IGroupMappingV2) {
+
+        let groupContent = cms_content.find((g) => g.slug == c.slug);
+
+        if(groupContent == undefined) return c;
+
+        c.header = groupContent.header || "";
+        c.description = groupContent.description || "";
+        c.definitions = groupContent.definitions || [];
+        c.timeline = groupContent.timeline || [];
+
+        return c;
+
     }
 
     async init(config, groups, graphs) {
 
-        for (const c of config) {
+        for (let c of config) {
+
+            this.segment.groups[c.slug] = c.segment || {};
+            this.segment.groups[c.slug]["graphs"] = {};
+
+            c = this.mergeWithCMSContent(cms_content, c);
 
             let j = 0;
 
@@ -54,6 +80,12 @@ export default class PageController implements IPageController {
             let i = 0;
 
             for (const graph of c.graphs) {
+
+                let segment = graph.segment || g.config.segment;
+
+                if (graph.segment && graph.multiples == undefined) {
+                    this.segment.groups[c.slug]["graphs"][graph.slug] = graph.segment;
+                }
                 
                 g.graphs.push({
                     slug : graph.slug,
@@ -62,7 +94,9 @@ export default class PageController implements IPageController {
                     parameters: graph.parameters,
                     modifiers: graph.modifiers,
                     filters: graph.filters,
-                    ctrlr : new graphs[this, graph.ctrlr](graph.slug,this, g, g.data, graph.parameters, graph.modifiers, graph.filters, g.config.segment,i)
+                    segment: segment,
+                    classList: graph.classList || [],
+                    ctrlr : new graphs[this, graph.ctrlr](graph.slug,this, g, g.data, graph.parameters, graph.modifiers, graph.filters, segment,i, this.segment)
                 })
                 
                 i++;
@@ -71,15 +105,19 @@ export default class PageController implements IPageController {
             j++;
 
             this.chartArray.push(g) 
+
+            
         }
 
         this.initHtml();
         await this.gatherData();
+        this.addDateToPageHeader();
         this.prepareData();
         this.tables();
         this.definitions();
         this.descriptions();
         this.setTarget();
+
         this.setActiveTabs();
         this.setGroupFilters();
         await this.prepareMultiples();
@@ -98,10 +136,34 @@ export default class PageController implements IPageController {
 
         for (const group of this.chartArray) {
             for (const endpoint of group.config.endpoints) {
-                await this.main.data.gather(endpoint);
+                if (endpoint != "") {
+                    await this.main.data.gather(endpoint);
+                }
             }
         }
         return;
+    }
+
+    addDateToPageHeader() {
+      
+        const span = document.querySelector(".page_header .datum span") as HTMLElement;
+        
+        if(span) {
+            const data = this.main.data.collection();
+            const endpoint = Object.keys(data).find(d => d.includes("wekelijks"));
+            
+            if (endpoint) {
+
+                const date = new Date (data[endpoint][0]["datum"] || data[endpoint][0]["_date"]);
+                const formattedDate = new Intl.DateTimeFormat('nl-NL', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                  }).format(date);
+
+                span.innerText = formattedDate;
+            }
+        }
     }
 
     prepareData() {
@@ -114,7 +176,7 @@ export default class PageController implements IPageController {
     tables() {
 
         for (const group of this.chartArray) {
-            if(group.data.table != undefined) {
+            if(group.data != undefined && group.data.table != undefined) {
                 group.ctrlr.populateTable(group.data.table);
             }
         }
@@ -123,7 +185,7 @@ export default class PageController implements IPageController {
     definitions() {
 
         for (const group of this.chartArray) {
-            if(group.data.definitions != undefined) {
+            if(group.data != undefined && group.data.definitions != undefined) {
                 group.ctrlr.populateDefinitions(group.data.definitions);
             }
         }
@@ -200,10 +262,16 @@ export default class PageController implements IPageController {
 
                         const data = Object.assign({},group.data);
 
+                        let segment = graph.segment || group.config.segment;
+
                         newGraphs.push({
                             slug,
-                            ctrlr : new graphs[this, graph.ctrlrName](slug, this, group, data, graph.parameters, graph.modifiers, graph.filters, group.config.segment,i)
+                            ctrlr : new graphs[this, graph.ctrlrName](slug, this, group, data, graph.parameters, graph.modifiers, graph.filters, segment,i)
                         });
+
+                  
+                        this.segment.groups[group.slug]["graphs"][slug] = graph.segment;
+                        
     
                         i++;
                     }

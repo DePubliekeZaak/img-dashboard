@@ -1,5 +1,25 @@
 .graph-view {
-
+ 
+    position: relative; // bewust weg voor absolute filters
+    display: flex;
     flex-direction: column;
+    
+    // &.has-filters {
+
+    //     @media (min-width: $breakpoint-sm) {
+    //         margin-top: -3rem;
+    //     }
+    // }
+}
+
+.scrolltainer {
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 800px;
+    height: 100%;
+
+
     
 }

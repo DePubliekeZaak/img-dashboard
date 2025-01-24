@@ -27,6 +27,12 @@ export default class HtmlLegendAsSum {
         let tbody = document.createElement('tbody');
 
         // table.style.border = "none";
+
+        if (window.innerWidth < breakpoints.sm) {
+
+            legend.style.width = "calc(100vw - 2rem)";
+            legend.style.marginLeft = "-1rem";
+        }
        
 
 
@@ -59,9 +65,23 @@ export default class HtmlLegendAsSum {
          label.innerText = map.label;
          row.appendChild(label);
 
-         let value = document.createElement('td');
-         value.innerText = map.format == 'currency' ? convertToCurrencyInTable(map.value) : map.value.toString();
-         row.appendChild(value);
+         let vEl = document.createElement('td');
+
+        switch (map.format) {
+
+            case 'currency': 
+                vEl.innerText = convertToCurrencyInTable(map.value);
+                break;
+
+            case 'percentage': 
+                vEl.innerText = (Math.round(10 * map.value) / 10).toString()  + "%";
+                break;  
+                
+            default:
+                vEl.innerText = map.value.toString();
+        }   
+
+         row.appendChild(vEl);
 
         return row;
     }

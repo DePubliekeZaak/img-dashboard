@@ -1,13 +1,23 @@
-.filter_list  {
+.filter-wrapper {    
+    
+    height: 3rem;
+    margin-bottom: 2rem;
+}
+
+
+.filter_list, .filter_list_group  {
 
     // margin-top: 1.5rem;
+    position: absolute;
+    z-index: 7;
+    top: 0;
+    left: 0;
     margin-bottom: 3rem;
     width: 100%;
 
     &:first-child {
-        margin-top: -1.5rem; 
+        margin-top: .5rem; 
     }
-
 
     ul {
         display: flex;
@@ -30,4 +40,13 @@
         }       
     }
 }
+
+.filter_list_group, .filter_list_group:first-child {
+
+    position: relative;
+    margin-top: 3rem;
+    margin-bottom: -2rem;
+}
+
+
 

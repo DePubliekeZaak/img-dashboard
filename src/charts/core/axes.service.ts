@@ -1,5 +1,5 @@
-import { localTime } from './_formats';
-import { convertToCurrency, convertToMillions } from '../../pages/shared/_helpers';
+import { localTime, monthNames } from './_formats';
+import { convertToCurrency, convertToCurrencyInMillions, convertToMillions, thousands } from '../../pages/shared/_helpers';
 import { Dimensions } from './types';
 import { DataPart } from '../../pages/shared/types';
 import { breakpoints } from '../../img-modules/styleguide';
@@ -17,6 +17,7 @@ export class AxesService {
     }
 
     draw () {
+
 
         this.axisGroup = this.ctrlr.svg.layers.axes.append("g");
 
@@ -74,7 +75,7 @@ export class AxesService {
         }
     }
 
-    redraw(dimensions: Dimensions, scale: any, data: any[]) {
+    redraw(dimensions: Dimensions, scale: any, data: any[], format: string) {
 
            switch (this.ctrlr.scales[this.config.scale].config.type) {
 
@@ -82,19 +83,31 @@ export class AxesService {
 
                     if(this.config.format == 'quarters') {
 
+                        let year;
+
                         this.axis
-                        .tickFormat( d => {
-                            return d.slice(-2) == '01' ? d.slice(0,4) : ""
+                        .tickFormat( (d, i) => {
+                        
+                            let v = ""
+                            let newyear = d.slice(0,4);
+                            // console.log(newyear)
+                            if (year != newyear && i != 0) {
+                                // console.log("new year: " + newyear)
+                                v = year
+                            }
+                            year = newyear
+                            return v;                        
                         })
 
-                    // } else if(this.config.format == 'short') {
+                    } else if(this.config.format == 'month') {
 
-                    //     this.axis
-                    //     .tickFormat( (d,i) => {        
-                    //         return data.find( a => a.label == d).meta.short
-                    //     })
+                        this.axis
+                        .tickFormat( (d,i) => {   
+                            return monthNames[parseInt(d.slice(-2))]
+                        })
 
                     } else {
+
 
                         this.axis
                         .tickFormat( (d,i) => {        
@@ -125,9 +138,23 @@ export class AxesService {
 
                     } else {
 
-                        this.axis
-                            .ticks(4)
-                            .tickFormat( d => d.toString());
+                        if (format === "currency") {
+
+                            this.axis
+                                .ticks(4)
+                                .tickFormat( d => { 
+                                    return convertToCurrencyInMillions(d.toString())
+                            });
+                        } else {
+
+                            this.axis
+                                .ticks(4)
+                                .tickFormat( d => {
+                                    
+                                    return thousands(d.toString())
+                                
+                            });
+                        }
                     }
 
                    break;
@@ -212,7 +239,7 @@ export class AxesService {
                 case 'right' :
 
                     this.axisGroup
-                        .attr("transform", "translate(" + (dimensions.svgWidth + this.ctrlr.config.padding.right) + "," + 0 + ")");
+                        .attr("transform", "translate(" + (dimensions.svgWidth) + "," + 0 + ")");
                     break;
 
                 default :

@@ -1,6 +1,6 @@
 
 import { isLabeledStatement } from 'typescript';
-import { colours } from '../../img-modules/styleguide';
+import { breakpoints, colours } from '../../img-modules/styleguide';
 import { Bar, Bars } from '../../pages/shared/types_graphs';
 import { slugify } from '../../pages/shared/_helpers';
 
@@ -22,6 +22,8 @@ export default class ChartTimeline {
     }
 
     draw(data: any[], index: number) {
+
+        if (data.length == 0) return;
 
         this.ctrlr.svg.layers.data.selectAll("g.timeline_" + index.toString()).remove()
 
@@ -86,7 +88,7 @@ export default class ChartTimeline {
         bg
             .attr("x", 0)
             .attr("width", this.ctrlr.dimensions.svgWidth)
-            .attr("y", this.ctrlr.dimensions.graphHeight - (30 * (index + 1)))
+            .attr("y", this.ctrlr.dimensions.svgHeight + (30 * (index + 1)))
             .attr("height", 10);
 
         const groups = this.ctrlr.svg.layers.data.selectAll("g.timeline_" + index.toString() + " g.timeline_item");
@@ -106,6 +108,7 @@ export default class ChartTimeline {
     
         let tooltip = function popup(d) {
 
+
               return `
                     <div>${d.date}</div>
                     <b>${d.label}</b>
@@ -116,21 +119,37 @@ export default class ChartTimeline {
         groups 
             .on("mouseover", function(event: any, d: any) {
 
-                self.ctrlr.svg.layers.data.selectAll(".bar")
-                    .style("fill", b => (b !== d) ? colours[b.colour][1] : colours[b.colour][0]);
+                // self.ctrlr.svg.layers.data.selectAll(".bar")
+                //     .style("fill", b => (b !== d) ? colours[b.colour][1] : colours[b.colour][0]);
 
-                window.d3.select('.tooltip')
+                
+
+                const t = window.d3.select('.tooltip')
                     .html(tooltip(d))
-                    .style("left", (event.pageX - 20) + "px")
-                    .style("top", (event.pageY - 0) + "px")
-                    .transition()
-                    .duration(250)
-                    .style("opacity", 1);
+                    .style("top", (event.pageY - 0) + "px");
+                
+
+                if (event.pageX <= window.innerWidth / 2) {
+                    t.style("left", (event.pageX - 0) + "px")
+                    .style("right", "auto")
+
+                } else {
+                    
+                    let w = self.ctrlr.element == null || self.ctrlr.element.parentElement == null ? window.innerWidth : self.ctrlr.element.parentElement.getBoundingClientRect().width;
+                    if(window.innerWidth > breakpoints.md) w = window.innerWidth;
+                    t.style("right", (w - event.pageX + 0) + "px")
+                    .style("left", "auto")
+                }
+
+                t.transition()
+                .duration(250)
+                .style("opacity", 1);
+
             })
             .on("mouseout", function(d) {
 
-                self.ctrlr.svg.layers.data.selectAll(".bar")
-                    .style("fill", b => colours[b.colour][1]);
+                // self.ctrlr.svg.layers.data.selectAll(".bar")
+                //     .style("fill", b => colours[b.colour][1]);
 
                 window.d3.select('.tooltip')
                     .transition()
@@ -155,11 +174,32 @@ export default class ChartTimeline {
 
          });
 
+        // items
+        //     .on("mouseover", function(event: any, d: any) {
+
+        //         window.d3.select('.tooltip')
+        //             .html(tooltip(d))
+        //             .style("left", (event.pageX - 20) + "px")
+        //             .style("top", (event.pageY - 0) + "px")
+        //             .transition()
+        //             .duration(250)
+        //             .style("opacity", 1);
+        //     })
+        //     .on("mouseout", function(d) {
+
+        //         window.d3.select('.tooltip')
+        //             .transition()
+        //             .duration(250)
+        //             .style("opacity", 0);
+        //     })
+
         const divs = [].slice.call(self.ctrlr.element.querySelectorAll("div.html_label"));
         const trim = (s) => parseFloat(s.replace("px",""));
         let staggerTop = 0
 
         divs.reverse().forEach(function(d,i) {
+
+            // console.log(d);
 
             if (i < 1) {
 
@@ -179,9 +219,10 @@ export default class ChartTimeline {
                 const collusions = prevEls.filter( el => {
                     const distance = el.getAttribute("distance");
                     if(distance != null) {
-                        return parseFloat(distance) < d.offsetWidth
+                        return parseFloat(distance) < d.offsetWidth - 60
                     }
                 })
+
                 
                 collusions.sort( (a,b) => {                 
                         return trim(b.style.top) - trim(a.style.top)

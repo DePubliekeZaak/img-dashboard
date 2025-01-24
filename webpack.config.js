@@ -19,20 +19,56 @@ const config = (env) =>  {
           export: 'default',
         }
       },
-      nieuw_beleid: {
-        filename: "scripts/nieuw-beleid.bundle.js",
-        import: "./src/pages/nieuw-beleid/index.ts",
+      regelingen: {
+        filename: "scripts/regelingen.bundle.js",
+        import: "./src/pages/regelingen/index.ts",
         library: {
-          name: 'nieuw-beleid',
+          name: 'regelingen',
           type: 'window',
           export: 'default',
         }
       },
-      history: {
-        filename: "scripts/historie.bundle.js",
-        import: "./src/pages/historie/index.ts",
+      fs_overzicht: {
+        filename: "scripts/fs_overzicht.bundle.js",
+        import: "./src/pages/fs_overzicht/index.ts",
         library: {
-          name: 'historie',
+          name: 'fs_overzicht',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      fs_maatwerk: {
+        filename: "scripts/fs_maatwerk.bundle.js",
+        import: "./src/pages/fs_maatwerk/index.ts",
+        library: {
+          name: 'fs_maatwerk',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      fs_vaste_vergoeding: {
+        filename: "scripts/fs_vaste_vergoeding.bundle.js",
+        import: "./src/pages/fs_vaste_vergoeding/index.ts",
+        library: {
+          name: 'fs_vaste_vergoeding',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      fs_daadwerkelijk_herstel: {
+        filename: "scripts/fs_daadwerkelijk_herstel.bundle.js",
+        import: "./src/pages/fs_daadwerkelijk_herstel/index.ts",
+        library: {
+          name: 'fs_daadwerkelijk_herstel',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      fs_historie: {
+        filename: "scripts/fs_historie.bundle.js",
+        import: "./src/pages/fs_historie/index.ts",
+        library: {
+          name: 'fs_historie',
           type: 'window',
           export: 'default',
         }
@@ -46,47 +82,38 @@ const config = (env) =>  {
           export: 'default',
         }
       },
-      schademeldingen: {
-        filename: "scripts/schademeldingen.bundle.js",
-        import: "./src/pages/schademeldingen/index.ts",
+      ims_overzicht: {
+        filename: "scripts/ims-overzicht.bundle.js",
+        import: "./src/pages/ims-overzicht/index.ts",
         library: {
-          name: 'schademeldingen',
+          name: 'ims-overzicht',
           type: 'window',
           export: 'default',
         }
       },
-      vergoedingen: {
-        filename: "scripts/vergoedingen.bundle.js",
-        import: "./src/pages/vergoedingen/index.ts",
+      ims_volwassenen: {
+        filename: "scripts/ims-volwassenen.bundle.js",
+        import: "./src/pages/ims-volwassenen/index.ts",
         library: {
-          name: 'vergoedingen',
+          name: 'ims-volwassenen',
           type: 'window',
           export: 'default',
         }
       },
-      besluiten: {
-        filename: "scripts/besluiten.bundle.js",
-        import: "./src/pages/besluiten/index.ts",
+      ims_kinderen_jongeren: {
+        filename: "scripts/ims-kinderen-jongeren.bundle.js",
+        import: "./src/pages/ims-kinderen-jongeren/index.ts",
         library: {
-          name: 'besluiten',
+          name: 'ims-kinderen-jongeren',
           type: 'window',
           export: 'default',
         }
       },
-      duur: {
-        filename: "scripts/duur.bundle.js",
-        import: "./src/pages/duur/index.ts",
+      ims_herbeoordeling: {
+        filename: "scripts/ims-herbeoordeling.bundle.js",
+        import: "./src/pages/ims-herbeoordeling/index.ts",
         library: {
-          name: 'duur',
-          type: 'window',
-          export: 'default',
-        }
-      },
-      immateriele_schade: {
-        filename: "scripts/immateriele-schade.bundle.js",
-        import: "./src/pages/immateriele-schade/index.ts",
-        library: {
-          name: 'immateriele-schade',
+          name: 'ims-herbeoordeling',
           type: 'window',
           export: 'default',
         }
@@ -109,11 +136,20 @@ const config = (env) =>  {
           export: 'default',
         }
       },
-      history_bezwaren: {
-        filename: "scripts/historie-bezwaren.bundle.js",
-        import: "./src/pages/historie-bezwaren/index.ts",
+      bezwaren: {
+        filename: "scripts/bezwaren.bundle.js",
+        import: "./src/pages/bezwaren/index.ts",
         library: {
-          name: 'historie-bezwaren',
+          name: 'bezwaren',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      gemeente: {
+        filename: "scripts/gemeente.bundle.js",
+        import: "./src/pages/gemeente/index.ts",
+        library: {
+          name: 'gemeente',
           type: 'window',
           export: 'default',
         }

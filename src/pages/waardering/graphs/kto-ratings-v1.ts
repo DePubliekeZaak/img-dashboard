@@ -1,8 +1,10 @@
 import { core, elements } from "../../../charts";
 import { ChartBarsHorizontalV1 } from "../../../charts/elements/chart-bars-horizontal-v1";
+import { parseSegment } from "../../shared/factories/segment";
 import { GroupObject, IParameterMapping } from "../../shared/interfaces";
 import { IPageController } from "../../shared/page.controller";
-import { DataObject, DataPart } from "../../shared/types";
+import { segmentParse } from "../../shared/segment";
+import { DataObject, DataPart, Segment } from "../../shared/types";
 import { GraphData } from "../../shared/types_graphs";
 
 
@@ -22,10 +24,15 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
         public parameters: IParameterMapping[][],
         public modifiers: IParameterMapping[][],
         public filters: string[],
-        public segment: string, 
+        segment: Segment, 
         public index: number
     ){
         super(slug,page,group,data,parameters,modifiers,filters, segment,index) 
+        
+        if (this.page.segment) {
+            this.segment = parseSegment(this.page, this.group.slug, this.slug);
+        }
+
         this.pre();
     }
 
@@ -35,7 +42,7 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
         this._addScale("y","band","vertical","label");
 
         this._addPadding(0,0,20,80);
-        this._addMargin(0,0,0,0);
+        this._addMargin(0,60,0,0);
     }
 
     html() {
@@ -74,13 +81,14 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
 
         this.chartBar = new ChartBarsHorizontalV1(this);
 
-        await this.update(this.group.data,this.segment, false);
+        await this.update(this.group.data, false);
     }
 
     prepareData(data: DataObject) : DataObject {
 
-        const cumulative = (this.segment === 'all') ? true : false;
-        data.selectedMonth = cumulative ? data.graphData[0] : data.graphData.find( (m) => m['_yearmonth'] === this.segment);
+
+        const cumulative = (this.segment.key === 'all') ? true : false;
+        data.selectedMonth = cumulative ? data.graphData[0] : data.graphData.find( (m) => m['_yearmonth'] === this.segment.key);
         const dataIndex  = cumulative ? 1 : 2;
         data.numbers = [];
 
@@ -98,15 +106,17 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
             
         }
 
+     
+
         return data;
     }
 
     async redraw(data: any, range: number[] | undefined) {
 
         // @ts-ignore
-        let parameter = (this.segment === 'all') ? this.parameters[0][0].column : this.parameters[0][1].column;
+        let parameter = (this.segment.key === 'all') ? this.parameters[0][0].column : this.parameters[0][1].column;
         // @ts-ignore
-        let extraParameter = (this.segment === 'all') ? this.parameters[0][2].column : this.parameters[0][3].column;
+        let extraParameter = (this.segment.key === 'all') ? this.parameters[0][2].column : this.parameters[0][3].column;
         this.htmlCircle.redraw(data.selectedMonth, parameter, extraParameter);
 
         super.redraw(data);
@@ -123,11 +133,7 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
         this.chartBar.draw(data.numbers);
     }
 
-    async update(data: DataObject, segment: string, update: boolean) {
-
-        this.segment = segment; 
-
-        super._update(data,segment,update);
-
+    async update(data: DataObject, update: boolean) {
+        await super._update(data, update);
     }
 }

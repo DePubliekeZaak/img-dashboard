@@ -1,5 +1,4 @@
 import { SimulationNodeDatum } from "d3";
-import { Circle } from "@local/d3_types";
 
 const forceStrength = 0.125;
 
@@ -33,12 +32,12 @@ export class BallenbakSimulationV2 {
         this.s    
             .force("collide")
                 .strength(forceStrength)
-                .radius((d : Circle) => {
+                .radius((d : any) => {
                     return self.ctrlr.scales.r.fn(d.value)
                 });
 
         this.s 
-            .on("tick", (d: Circle) => {
+            .on("tick", (d: any) => {
                 self.ctrlr.circleGroups.forceDirect()
             }); 
 

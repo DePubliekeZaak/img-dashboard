@@ -36,12 +36,12 @@ export class ChartDimensions implements IChartDimensions {
 
         // svgWidth enn svgHeight includes the padding for axes 
 
-        const parentHeight = this.element.getBoundingClientRect().height; // - this.config.margin.top - this.config.margin.bottom;
+        const parentHeight = this.element.getBoundingClientRect().height - this.config.margin.top - this.config.margin.bottom;
 
         this.dimensions.graphHeight = this.config.graphHeight != undefined ? this.config.graphHeight : parentHeight;
         this.dimensions.svgHeight = this.dimensions.graphHeight - this.config.padding.top - this.config.padding.bottom;
 
-        const parentWidth = this.element.getBoundingClientRect().width; // - this.config.margin.left - this.config.margin.right;
+        const parentWidth = this.element.getBoundingClientRect().width - this.config.margin.left - this.config.margin.right;
 
         this.dimensions.graphWidth = this.config.graphRatio == undefined ? parentWidth : this.config.graphRatio * this.dimensions.svgHeight;
         this.dimensions.svgWidth = dimensions.graphWidth - this.config.padding.left - this.config.padding.right;

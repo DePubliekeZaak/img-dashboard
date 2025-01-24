@@ -2,7 +2,7 @@ import { IPageMapping } from "../shared/interfaces";
 
 const config : IPageMapping = [
     {
-        "slug" : "aos_numbers",
+        "slug" : "aos_voortgang",
         "ctrlr": "AOSNumberGroupV1",
         "graphs": [
             {
@@ -35,11 +35,13 @@ const config : IPageMapping = [
             ],
             }
         ],
-        "header": "AOS meldingen",
         "functionality": ['table','definitions','download'],
-        "description": "Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
         "endpoints": ["historie"],
-        "segment": "",
+        "segment": {
+            "key": "aos_meldingen_cumulatief",
+            "cumulative": true,
+            "periodization": "montly"
+        },
     },
     {
         "slug" : "aos_trend",
@@ -47,7 +49,7 @@ const config : IPageMapping = [
         "graphs": [
             {
             "slug" : "aos_trend_1",
-            "ctrlr" : "AOSBarTrendV1",
+            "ctrlr" : "BarTrendV1",
             "filters": [],
             "args" : [],
             "parameters": [
@@ -63,55 +65,22 @@ const config : IPageMapping = [
                         "colour": "orange"
                     }
                 ]
-            ],
-            // "modifiers": [
-            //     [
-            //         {
-            //             "label": "toename",
-            //             "column": "{}",
-            //             "colour": "orange"
-            //         },
-            //         {
-            //             "label": "cumulatief",
-            //             "column": "{}_cumulatief",
-            //             "colour": "orange"
-            //         }  
-            //     ]
-            // ]
+            ]
             }
         ],
         "header": "Ontwikkeling AOS meldingen",
         "functionality": ['table','definitions','download'],
-        "description": "Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
+        "description": `
+            <p>In onderstaande grafiek is het historische verloop te zien van het aantal AOS-meldingen. Onder de tijdlijn op de horizontale as zijn gebeurtenissen te zien, zoals de zwaarste bevingen in onze provincie sinds het bestaan van het IMG (voorheen TCMG). Hoewel het aantal AOS-meldingen na een beving tijdelijk toeneemt, ontvangen wij constant meldingen van acuut onveilige situaties.</p>
+        `,
+        "definitions": ["AOS-melding","IMG","TCMG","Gegronde AOS-melding"],
+        "timeline": ["Westerwijtwerd","Garrelsweer","Uithuizermeeden en Uithuizen","Wirdum"],
         "endpoints": ["historie"],
-        "segment": "aos_meldingen",
-    },
-    {
-        "slug" : "aos_trend_percentage",
-        "ctrlr": "AOSPercentageGroupV1",
-        "graphs": [
-            {
-            "slug" : "aos_trend_1",
-            "ctrlr" : "PercentageTrendV1",
-            "filters": [],
-            "args" : [],
-            "parameters": [
-                [
-                    {
-                        "label": "Percentage",
-                        "column": "aos_percentage_gegrond",
-                        "colour": "moss",
-                        "format": "percentage"
-                    }
-                ]
-            ]
-            }
-        ],
-        "header": "Percentage gegronde meldingen",
-        "functionality": ['table','definitions','download'],
-        "description": "Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.",
-        "endpoints": ["historie"],
-        "segment": "aos_percentage_gegrond",
+        "segment": {
+            "key": "aos_meldingen",
+            "cumulative": false,
+            "periodization": "monthly"
+        },
     }
 ];
 

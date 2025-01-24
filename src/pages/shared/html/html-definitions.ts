@@ -47,7 +47,7 @@ export class HTMLDefinitions {
             a.append(h);
 
             let p = document.createElement('p');
-            p.innerText = def.description;
+            p.innerHTML = def.description;
             a.append(p);
             
             this.container.appendChild(a)

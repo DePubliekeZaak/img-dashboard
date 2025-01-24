@@ -55,6 +55,8 @@ export class AxisArrow {
 
         let self = this;
 
+
+
         const position = this.ctrlr.axes[this.axis].config.position;
         const direction = this.ctrlr.scales[this.axis].config.direction;
         const arrowLength = 100;
@@ -75,14 +77,14 @@ export class AxisArrow {
         } else if (direction === 'vertical' && position === 'left' ){
 
         
-            x = -this.ctrlr.config.padding.left - 0;
+            x = -this.ctrlr.config.padding.left - 0 + 5;
             y = 10;
 
             path = 'M ' + x + ' ' + arrowLength + ' V 0';
 
         } else if (direction === 'vertical' && position === 'right' ){
 
-            x = this.ctrlr.dimensions.graphWidth;
+            x = this.ctrlr.dimensions.graphWidth - 5;
             y = 10;
 
             path = 'M ' + x + ' ' + arrowLength + ' V 0';

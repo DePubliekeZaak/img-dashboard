@@ -12,8 +12,6 @@ export class HtmlNumberSimple {
 
     draw() {
 
-        console.log('draw');
-
         let element = this.element != undefined ? this.element : this.ctrlr.element;
 
         element.innerHTML = "";

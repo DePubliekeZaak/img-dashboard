@@ -1,5 +1,5 @@
 
-import { colours } from '../../img-modules/styleguide';
+import { breakpoints, colours } from '../../img-modules/styleguide';
 import { slugify } from '../../pages/shared/_helpers';
 import { TrendBar } from '../../pages/shared/types_graphs';
 import { IGraphControllerV3 } from '../core/graph-v3';
@@ -14,9 +14,9 @@ export default class ChartBarTrend {
 
     draw(data: TrendBar[]) {
 
-        this.slug = (this.ctrlr.filters && this.ctrlr.filters.length > 0) ? this.ctrlr.slug : slugify(data[0].label);
+        // console.log(data)
 
-        // console.log(this.slug);
+        this.slug = (this.ctrlr.filters && this.ctrlr.filters.length > 0) ? this.ctrlr.slug : slugify(data[0].label);
 
         let groupSlug = data[0].name != undefined ? data[0].name  : this.ctrlr.slug;
 
@@ -30,11 +30,11 @@ export default class ChartBarTrend {
             .data(data, d => d.date)
             .join("rect")
             .attr("class", d => "bar " + this.slug)
-            .attr("fill", d => colours[d.colour][1])
+          
         ;
     }
 
-    redraw(data: TrendBar[]) {
+    redraw(data: TrendBar[], period?: string) {
 
         // can be called multiple times for extra trends 
         let groupSlug = data[0].name != undefined ? data[0].name  : this.ctrlr.slug;
@@ -46,17 +46,39 @@ export default class ChartBarTrend {
 
         let tooltip = function popup(d) {
 
-            console.log(d)
+          
 
-              return `
-                <div>${d.label}</div>
-                <div>maand ${d.meta._month} - ${d.meta._year}</div>
-                <div>${d.meta._startdatum} t/m ${d.meta._einddatum}</div>
-                <div>${d.value}</div>
-              `;
+
+            if (period == 'weekly') {
+
+                return `
+                    <div>${d.label}</div>
+                    <div>week ${d.meta._week} - ${d.meta._year}</div>
+                    <div>${d.meta._startdatum} t/m ${d.meta._einddatum}</div>
+                    <div>${d.value}</div>
+                `;
+
+            } else {
+
+                return `
+                    <div>${d.label}</div>
+                    <div>maand ${d.meta._month} - ${d.meta._year}</div>
+                    <div>${d.meta._startdatum} t/m ${d.meta._einddatum}</div>
+                    <div>${d.value}</div>
+                `;
+            }
           }
 
-        let barWidth = (this.ctrlr.dimensions.graphWidth / (data.length - 1)) - 4;
+        const space = 
+        period == 'weekly' 
+        ? 0 
+        : data.length < 10
+        ? 6
+        : 1;
+
+        const effectiveWidth = this.ctrlr.dimensions.svgWidth - this.ctrlr.config.padding.left - this.ctrlr.config.padding.right;
+          
+        let barWidth = (effectiveWidth /(data.length - 1)) - space;
 
         bars
             .attr("x", (d: TrendBar, i: number)  => {
@@ -72,6 +94,7 @@ export default class ChartBarTrend {
                 const h = self.ctrlr.dimensions.svgHeight - self.ctrlr.scales.y.fn(d.value);
                 return (h > 0) ? h : 0;   
             })
+            .attr("fill", d => colours[d.colour][1])
 
         bars
             .on("mouseover", (event: any, d: any) => {
@@ -79,13 +102,27 @@ export default class ChartBarTrend {
                 self.ctrlr.svg.layers.data.selectAll(".bar")
                     .style("fill", b => (b !== d) ? colours[b.colour][1] : colours[b.colour][0]);
 
-                window.d3.select('.tooltip')
-                    .html(tooltip(d))
-                    .style("left", (event.pageX - 20) + "px")
+                const t = window.d3.select('.tooltip');
+
+                t.html(tooltip(d))
                     .style("top", (event.pageY - 0) + "px")
                     .transition()
                     .duration(250)
                     .style("opacity", 1);
+
+                if (event.pageX <= window.innerWidth / 2) {
+                    t.style("left", (event.pageX - 0) + "px")
+                    .style("right", "auto")
+
+                } else {
+                    
+                    let w = this.ctrlr.element == null || this.ctrlr.element.parentElement == null ? window.innerWidth : this.ctrlr.element.parentElement.getBoundingClientRect().width;
+                    if(window.innerWidth > breakpoints.md) w = window.innerWidth;
+                    t.style("right", (w - event.pageX + 0) + "px")
+                    .style("left", "auto")
+                }
+
+
             })
             .on("mouseout", (d) => {
 

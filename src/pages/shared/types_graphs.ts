@@ -125,5 +125,6 @@ export type PiePart = {
     value: number,
     colour: string,
     accented: boolean,
-    format?: string
+    format?: string,
+    include?: boolean
 }

@@ -1,14 +1,14 @@
 
-import { tableToCSV } from "../download.factory";
-import { IGroupCtrlr } from "../interfaces";
 
-import { HtmlYearSelector } from "./year-selector";
 import { HtmlMappingSelector } from "./mapping-selector";
-import { HtmlCustomSelector } from "./html-custom-selector";
 import { breakpoints } from "../../../img-modules/styleguide";
 import { IGraphControllerV3 } from "../../../charts/core/graph-v3";
 import { HtmlMonthSelector } from "./month-selector";
 import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
+import { HtmlPeriodSelector } from "./period-selector";
+import { segmentParse } from "../segment";
+import { HtmlCumulativevsDeltaSelector } from "./cumulative-delta-selector";
+import { HtmlMappingGroupSelector } from "./mapping-group-selector";
 
 // import { EitiEntity } from "../types";
 
@@ -24,12 +24,12 @@ export class HtmlFilters {
 
     constructor(
         private ctrlr: IGraphControllerV3,
+        private master: boolean,
         private id: string,
         private element,
         private filters,
         private parameters,
-        private modifiers,
-        private segment
+        private modifiers
     ){
         this.init(undefined);
     }
@@ -39,136 +39,247 @@ export class HtmlFilters {
         const element = (el != undefined) ? el : this.element
 
         const prevElement = element.querySelector('.filter_list')
-        this.listElement = this.ctrlr.page.main.window.document.createElement('div');
-        this.listElement.classList.add('filter_list');
 
-        const ul = this.ctrlr.page.main.window.document.createElement('ul');
+        if (this.master) {
 
-        this.listElement.appendChild(ul);
+            const container = this.ctrlr.page.main.window.document.createElement('section');
+            container.classList.add("graph-container-12","graph-view","filter-wrapper");
 
-        element.insertBefore(this.listElement, element.firstChild);
+            this.listElement = this.ctrlr.page.main.window.document.createElement('div');
+            this.listElement.classList.add('filter_list');
+
+            const ul = this.ctrlr.page.main.window.document.createElement('ul');
+
+            this.listElement.appendChild(ul);
+            container.appendChild(this.listElement);
+
+            // element.insertBefore(this.listElement, element.firstChild);
+            element.parentElement.insertBefore(container, element);
+
+        } else {
+
+            this.listElement = prevElement
+        }
 
         return true;
-
     }
 
     draw() {
 
         const self = this;
-
-        const ul = this.listElement.querySelector('ul');
+        const localSegment = this.ctrlr.page.segment.groups[this.ctrlr.group.slug].graphs[this.ctrlr.slug];
+        const ul = this.element.parentElement.querySelector('.filter_list ul');
      
         for (const func of this.filters) {
 
             const li = this.ctrlr.page.main.window.document.createElement('li');
-            
-            let selectEl;
+            let selector: any = null;
+            let selectEl: HTMLSelectElement | null;
 
             switch (func) {
 
                 case 'modifier':
 
-
                     if(this.modifiers != undefined) {
-                        const selector = new HtmlMappingSelector(this.ctrlr, li, this.id, this.modifiers);
-                        const selectEl = selector.draw(this.segment, 1);
+                        if (this.master) {
+                            selector = new HtmlMappingSelector(this.ctrlr, li, this.id, this.modifiers);
+                            selectEl = selector.draw(this.ctrlr.page.segment, 1);
+                        }
+
+                        selectEl = this.ctrlr.page.main.window.document.querySelector(this.id + '_1');
+
+                        if (selectEl == null) break;
 
                         selectEl.addEventListener("change", () => {
 
-                            const newValue = selectEl.value.replace("{}",this.ctrlr.segment); 
+                            // @ts-ignore
+                            const newValue = selectEl.value.replace("{}", this.segment.key); 
 
-                            console.log(newValue);
-
-                            if ( newValue != self.ctrlr.segment) {
-                                self.ctrlr.update(self.ctrlr.group.data, newValue, true);
+                            if ( newValue != self.ctrlr.segment.key) {
+                                self.ctrlr.update(self.ctrlr.group.data, true);
                             }
                         });
+                        
                     }
 
                     break;
 
-                case 'totaalVsRecent': 
+                case 'totaalVsRecent': // fixed
 
-                    const _selector = new HtmlTotalvsRecentSelector(this.ctrlr, li, this.id);
-                    const _selectEl = _selector.draw(this.segment, 1);
+                    if (this.master) {
+                        selector = new HtmlTotalvsRecentSelector(this.ctrlr, li, this.id);
+                        selectEl = selector.draw(1);
+                    } else {
+                        selectEl = this.ctrlr.page.main.window.document.getElementById(this.id + '_1') as HTMLSelectElement;
+                    }
 
-                    _selectEl.addEventListener("change", () => {
+                    if (selectEl == null) break;
 
-                        const newValue = _selectEl.value.replace("{}",this.ctrlr.segment); 
+                    function strip (s: string) {
+                        return s.replace(/_cumulatief$/,'')
+                    }
+        
+                    selectEl.addEventListener("change", () => {
 
-                        console.log(newValue);
-
-                        if ( newValue != self.ctrlr.segment) {
-                            self.ctrlr.update(self.ctrlr.group.data, newValue, true);
+                        if (selectEl != null) {
+                            if (localSegment.cumulative != selectEl.value) {
+                               
+                                localSegment.cumulative = selectEl.value == "cumulative" ? true : false;
+                                localSegment.key = selectEl.value == "cumulative" ? strip(localSegment.key) + "_cumulatief" : strip(localSegment.key);
+                                self.ctrlr.update(self.ctrlr.group.data, true);
+                            }
                         }
                     });
 
                     break;
 
-                case 'mappingSelect':
+                case 'cumulativeVsDelta': // fixed
 
-                        // this.selector = new HtmlMappingSelector(this.ctrlr, li,this.ctrlr.slug,this.mapping);
-                        // const selectEl2 = this.selector.draw(this.segment);
+                    if (this.master) {
+                        selector = new HtmlCumulativevsDeltaSelector(this.ctrlr, li, this.id);
+                        selectEl = selector.draw(1);
+                    } else {
+                        selectEl = this.ctrlr.page.main.window.document.getElementById(this.id + '_0') as HTMLSelectElement;
+                    }
 
-                        // selectEl2.addEventListener("change", () => {
-                        //     if ( selectEl2.value != self.ctrlr.segment) {
-                        //         self.ctrlr.update({}, selectEl2.value, true);
-                        //     }
-                        // });
-
-                    break;
-
-                case 'monthSelect':
-
-                    const months = [];
-
-                    const selector = new HtmlMonthSelector(this.ctrlr, li, this.ctrlr.group.slug, this.ctrlr.group.data.graphData)
-                    const selectEl = selector.draw(this.segment);
+                    if (selectEl == null) break;
 
                     selectEl.addEventListener("change", () => {
 
-                        if ( selectEl.value != self.ctrlr.segment) {
-                            self.ctrlr.update(self.ctrlr.group.data, selectEl.value, true);
+                        if (selectEl != null) {
+                            if (localSegment.cumulative != selectEl.value) {
+                                localSegment.cumulative = selectEl.value == "cumulative" ? true : false;
+                                localSegment.key = selectEl.value == "cumulative" ? strip(localSegment.key) + "_cumulatief" : strip(localSegment.key);
+                                self.ctrlr.update(self.ctrlr.group.data, true);
+                            }
                         }
                     });
 
+                    break;
 
+
+                    // could this and follwing both be done with above, using modifiers as mapping
+                case 'monthSelect':
+
+                    if (this.master) {
+                        selector = new HtmlMonthSelector(this.ctrlr, li, this.ctrlr.group.slug, this.ctrlr.group.data.graphData)
+                        selectEl = selector.draw();
+                    } else {
+                        selectEl = this.ctrlr.page.main.window.document.querySelector(this.id + '_0');
+                    }
+
+                    if (selectEl == null) break;
+
+                    selectEl.addEventListener("change", () => {
+                        // @ts-ignore
+                        if ( selectEl.value != self.ctrlr.segment.key) {
+                            // @ts-ignore
+                            self.ctrlr.update(self.ctrlr.group.data, segmentParse(selectEl.value), true);
+                        }
+                    });
+
+                    break;
+
+                case 'weekVsMonth': // fixed
+
+                    if (this.master) {
+                        selector = new HtmlPeriodSelector(this.ctrlr, li, this.ctrlr.group.slug, this.ctrlr.group.data.graphData)
+                        selectEl = selector.draw();
+                    } else {
+                        selectEl = this.ctrlr.page.main.window.document.querySelector(this.id + '_period_1');
+                    }
+
+                    if (selectEl == null) break;
+
+                    selectEl.addEventListener("change", () => {     
+
+                        if (selectEl != null) {
+
+                            if (selectEl.value != localSegment.periodization) {
+
+                                localSegment.periodization = selectEl.value;
+                                self.ctrlr.update(self.ctrlr.group.data, true);
+                            }
+                        }
+                    });
+
+                    break;
+
+                case 'parameterSelect': // fixed
+            
+                    if (this.master) {
+                        selector = new HtmlMappingSelector(this.ctrlr, li, this.id, this.parameters);
+                        selectEl = selector.draw(1);
+                    } else {
+
+                        selectEl = this.ctrlr.page.main.window.document.getElementById(this.id + '_mapping_1') as HTMLSelectElement;
+                    }
+
+                    if (selectEl == null) break;
+
+                    selectEl.addEventListener("change", () => {
+
+                        if (selectEl != null) {
+
+                            if (selectEl.value != localSegment.key) {
+
+                                if (localSegment.cumulative) {
+                                    localSegment.key = selectEl.value + "_cumulatief";
+                                } else {
+                                    localSegment.key = selectEl.value.replace("_cumulatief", "");
+                                    
+                                }                               
+                                self.ctrlr.update(self.ctrlr.group.data, true);
+                            }
+                        }
+                    });
+                
                     break;
 
                 case 'combiSelect':
 
+
                     li.style.display = "flex";
 
                     const selectorA = new HtmlMappingSelector(this.ctrlr, li,this.id,this.parameters);
-                    const selectEl2a = selectorA.draw(this.segment,0);
+                    const selectEl2a = selectorA.draw(0);
                     selectEl2a.style.maxWidth =  window.innerWidth < breakpoints.sm ? "70vw" : "30vw";
 
                     let selectEl2b : HTMLSelectElement|undefined = undefined;
                     // dit zijn de modifiers ! 
                     if(this.modifiers != undefined) {
                         const selectorB = new HtmlMappingSelector(this.ctrlr, li,this.id,this.modifiers);
-                        selectEl2b = selectorB.draw(this.segment, 1);
+                        selectEl2b = selectorB.draw(1);
                         selectEl2a.style.marginRight = "1rem";
+                        selectEl2b.style.marginRight = "1rem";
                     }
 
                     const updateSegment = () => {
 
+
                         let newValue;
 
-                        if(selectEl2b != undefined) {
-                            if(selectEl2a.value == 'fysieke_schade_werkvoorraad') {
-                                newValue = selectEl2a.value
-                            } else {
-                                newValue = selectEl2b.value.replace("{}",selectEl2a.value);  
-                            }
-                        } else {
-                            newValue = selectEl2a.value
+                        const newSegment = {
+                            key: selectEl2a.value == "cumulative" ? this.ctrlr.segment.key + "_cumulative" : this.ctrlr.segment.key,
+                            cumulative: selectEl2a.value == "cumulative" ? true : false,
+                            periodization: self.ctrlr.segment.periodization
                         }
 
 
-                        if ( newValue != self.ctrlr.segment) {
-                            self.ctrlr.update(self.ctrlr.group.data, newValue, true);
-                        }
+                        // if(selectEl2b != undefined) {
+                        //     if(selectEl2a.value == 'fysieke_schade_werkvoorraad') {
+                        //         newValue = selectEl2a.value
+                        //     } else {
+                        //         newValue = selectEl2b.value.replace("{}",selectEl2a.value);  
+                        //     }
+                        // } else {
+                        //     newValue = selectEl2a.value
+                        // }
+
+
+                        // if ( newValue != self.ctrlr.segment) {
+                        //     self.ctrlr.update(self.ctrlr.group.data, newValue, true);
+                        // }
                     }
 
 
@@ -187,9 +298,26 @@ export class HtmlFilters {
 
 
                 break;
+
+                case 'mappingGroupSelect': // fixed
+
+                    const __selector = new HtmlMappingGroupSelector(this.ctrlr, li, this.ctrlr.slug, this.parameters);
+                    const __selectEl = __selector.draw(1);
+
+                    __selectEl.addEventListener("change", () => {
+
+                        if (localSegment.parameterIndex != parseInt(__selectEl.value)) {
+                            localSegment.parameterIndex = parseInt(__selectEl.value);
+                            self.ctrlr.update(self.ctrlr.group.data, true);
+                        }
+                    });
+
+                break;
             }
 
-            ul.appendChild(li);
+            if (this.master) {
+                ul.appendChild(li);
+            }
         }
     }
 

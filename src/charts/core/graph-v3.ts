@@ -10,14 +10,16 @@ import { ChartDimensions } from './chart-dimensions';
 
 
 // what about these? 
-import { DataObject } from "../../pages/shared/types";
+import { DataObject, Segment } from "../../pages/shared/types";
 import { IPageController } from '../../pages/shared/page.controller';
 import { GroupObject  } from '../../pages/shared/interfaces';
 import { HtmlFilters } from '../../pages/shared/html/html-filters';
 import { fixMultiple, graphIsMultiple } from '../../pages/shared/factories/multiples';
+import { parseSegment } from '../../pages/shared/factories/segment';
 
 export type IGraphControllerV3 = {
 
+    element: HTMLElement | null,
     slug: string,
     page: IPageController, 
     group: GroupObject,
@@ -27,7 +29,7 @@ export type IGraphControllerV3 = {
     modifiers: IParameterMapping[][],
     filters: string[],
     config: IGraphConfig,
-    segment: string,
+    segment: Segment,
     dimensions: Dimensions,
     scales: IScales,
     svg;
@@ -38,7 +40,7 @@ export type IGraphControllerV3 = {
     prepareData: (data: DataObject) => void,
     draw: (data: any) => Promise<void>,
     redraw: (data?: any, range?: number[]) => Promise<void>
-    update: (data: DataObject, segment: string, update: boolean, range?: number[]) => Promise<void>,
+    update: (data: DataObject, update: boolean, range?: number[]) => Promise<void>,
 
 }
 
@@ -69,8 +71,9 @@ export class GraphControllerV3 implements IGraphControllerV3  {
         public parameters: IParameterMapping[][],
         public modifiers: IParameterMapping[][],
         public filters: string[],
-        public segment: string,
-        public index: number
+        public segment: Segment,
+        public index: number,
+        // public element: HTMLElement | null
     ) {
      
         this.scales = {};
@@ -103,23 +106,27 @@ export class GraphControllerV3 implements IGraphControllerV3  {
         graphEl.classList.add("graph-view")
         if (this.element != null) {
             this.element.appendChild(graphEl);
-            graphEl.style.marginTop = this.config.margin.top + 'px';
-            graphEl.style.marginBottom = this.config.margin.bottom + 'px';
-            graphEl.style.marginLeft = this.config.margin.left + 'px';
-            graphEl.style.marginRight = this.config.margin.right + 'px';
-
+            graphEl.style.paddingTop = this.config.margin.top + 'px';
+            graphEl.style.paddingBottom = this.config.margin.bottom + 'px';
+            graphEl.style.paddingLeft = this.config.margin.left + 'px';
+            graphEl.style.paddingRight = this.config.margin.right + 'px';
         }
 
-        // if (this.element != null && this.mapping.description && this.mapping.description !== '' ) {
-        //     this.popup = new HtmlPopup(this.element,this.mapping.description);
-        // }
 
-        if(graphIsMultiple(this.slug) && this.slug.endsWith('0')) {
+        if(graphIsMultiple(this.slug)) {
             
             const graph = this.group.config.graphs.find( g => g.slug == fixMultiple(this.slug));
 
+            const master = this.slug.endsWith('0')
+
+            
+    
+            // can i expose update method on the group
+
             if (graph != undefined && graph.filters != undefined && graph.filters.length > 0) { 
-                this.filter = new HtmlFilters(this, graph.slug, graphEl.parentElement, graph.filters, this.parameters, this.modifiers,"");
+
+            
+                this.filter = new HtmlFilters(this, master, graph.slug, graphEl.parentElement, graph.filters, this.parameters, this.modifiers);
                 this.filter.draw();
             }
             
@@ -129,7 +136,7 @@ export class GraphControllerV3 implements IGraphControllerV3  {
             const graph = this.group.config.graphs.find( g => g.slug == this.slug);
 
             if (graph != undefined && graph.filters != undefined && graph.filters.length > 0) { 
-                this.filter = new HtmlFilters(this, graph.slug, graphEl, graph.filters, this.parameters, this.modifiers,"");
+                this.filter = new HtmlFilters(this, true, graph.slug, graphEl, graph.filters, this.parameters, this.modifiers);
                 this.filter.draw();
             }
         }
@@ -173,14 +180,22 @@ export class GraphControllerV3 implements IGraphControllerV3  {
             }
         }
 
-        for (let a of this.config.axes) {
-            this.axes[a.slug].redraw(this.dimensions,this.scales[a.scale].scale, data.slice)
+        if (this.segment.key) {
+            
+            const params = this.group.config.graphs[this.index].parameters || [];
+            const param = params[0].find( p => p.column == this.segment.key.replace("_cumulatief",""));
+            for (let a of this.config.axes) {
+                this.axes[a.slug].redraw(this.dimensions,this.scales[a.scale].scale, data.slice, param?.format)
+            }
         }
+        
 
         return;
     }
 
     async draw(data: DataObject) : Promise<void> {
+
+
         return;
     }
 
@@ -189,17 +204,18 @@ export class GraphControllerV3 implements IGraphControllerV3  {
         return data;
     }
 
-    async update(data: DataObject, segment: string, update: boolean) {
+    async update(data: DataObject, update: boolean) {
         return;
     }
 
-    async _update(newData: DataObject, segment: string, update: boolean, range?: number[]) {
-
+    async _update(newData: DataObject, update: boolean, range?: number[]) {
+        
+     
         let self = this;
 
-        if (update && this.config.extra.noUpdate) { return; }
+        this.segment = parseSegment(this.page, this.group.slug, this.slug);
 
-        this.segment = segment;
+        if (update && this.config.extra.noUpdate) { return; }
 
         const d = Object.assign({}, newData);
         const data = self.prepareData(d);

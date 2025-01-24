@@ -5,7 +5,9 @@
       "module": "esnext",
       "target": "es6",
       "allowJs": true,
-      "moduleResolution": "node"
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
     },
     "files": ["src/browser/dashboard/index.ts"]
 }

@@ -29,7 +29,7 @@ export class AOSNumberGroupV1 extends GroupControllerV1 {
         const dataGroup = this.config.endpoints[0];
         const rows: string[][] = []; 
 
-        const { tableParams, graphParams, graphData } = super.prepareData(data);
+        const { tableParams, graphParams, graphData, timeline, definitions } = super.prepareData(data);
         
         for (let period of data[dataGroup]) {
 
@@ -58,13 +58,11 @@ export class AOSNumberGroupV1 extends GroupControllerV1 {
             rows
         };
 
-    
-        const definitions = [];
-
         return {
             
             graphData,
             graphParams,
+            timeline,   
             definitions,
             table
         }

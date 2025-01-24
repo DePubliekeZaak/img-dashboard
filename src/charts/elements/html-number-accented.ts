@@ -87,8 +87,8 @@ export class HtmlNumberAccented {
         }
         
         else {
-    
-            let value =  (this.ctrlr.config.extra.decimal) ? Math.round(data[this.parameter['column']] * 10) / 10 : Math.round(data[this.parameter['column']]);
+            
+            let value =  (this.ctrlr.config.extra && this.ctrlr.config.extra.decimal) ? Math.round(data[this.parameter['column']] * 10) / 10 : Math.round(data[this.parameter['column']]);
             element.querySelector('.number.accented').innerText = (value > 9999) ? thousands(value) : value;
         }
 

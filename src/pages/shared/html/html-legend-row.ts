@@ -11,6 +11,9 @@ export class HtmlLegendRow {
 
     draw(location: string) {
 
+        const prevLegend = this.ctrlr.element.querySelector('div.legend');
+        if(prevLegend) this.ctrlr.element.removeChild(prevLegend);
+
         let legend = document.createElement('div');
         legend.classList.add('legend');
         legend.style.display = 'flex';

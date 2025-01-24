@@ -2,7 +2,7 @@
 import { breakpoints} from '../../img-modules/styleguide';
 import { IParamService, ParamService } from './param.service';
 import { screenSize } from './screen.factory';
-import { styleParentElement, createSideBar, createMobileNav, createPopupElement, pageHeader } from './html.factory';
+import { styleParentElement, createSideBar, createPopupElement, pageHeader, createSkipLink } from './html.factory';
 import { DataService, IDataService } from './data.service';
 import { switchTopic, toggleSubMenu, openMenu, closeMenu, setActiveMenuItem } from './interaction.factory';
 import { INavService, NavService, navItems } from './nav.service';
@@ -18,9 +18,9 @@ export interface IDashboardController {
     open_btn: HTMLElement,
     _reloadHtml: () => void;
     call(update: boolean);
-    switch: (topic: string, segment: string) => void;
+    switch: (topic: string, segment: string, isMobile: boolean) => void;
     // switchLanguage: (lan: string) => void;
-    _toggleSubMenu: (slug: string) => void
+    _toggleSubMenu: (slug: string, isMobile: boolean) => void
     _screenListener: () => void
 
 }
@@ -66,13 +66,10 @@ export class DashboardController implements IDashboardController {
             }
         }
 
-        // console.log(navItems);
-
         let navItem = navItemsArray.find( i => i.slug == this.params.topic);
         navItem = (navItem == undefined) ? navItems[0] : navItem;
         const pageTitle = this.params.language == 'en' ? navItem.title_en : navItem.title;
        
-        // console.log(pageTitle);
         pageHeader(pageTitle, this.htmlContainer);
 
         await import(/*webpackIgnore: true*/ `./${this.params.topic}.bundle.js`);
@@ -82,18 +79,20 @@ export class DashboardController implements IDashboardController {
         return;
     }
 
-    switch(paramKey: string, paramValue: string) : void {
+    switch(paramKey: string, paramValue: string, isMobile: boolean) : void {
 
-        closeMenu();
-        switchTopic(this,paramKey,paramValue);
-        this._closeMenu();
+        if (isMobile) closeMenu();
+        switchTopic(this,paramKey,paramValue, isMobile);
+        if (isMobile) this._closeMenu();
     }
 
-    _toggleSubMenu(slug: string) : void {
-        toggleSubMenu(slug);
+    _toggleSubMenu(slug: string, isMobile: boolean) : void {
+        toggleSubMenu(slug, isMobile);
     }
 
     _reloadHtml(): void {
+
+        const isMobile = (window.innerWidth < breakpoints.lg) ? true : false;
 
         this.htmlContainer = styleParentElement();
     
@@ -101,8 +100,16 @@ export class DashboardController implements IDashboardController {
         [].slice.call(document.getElementsByTagName("nav")).forEach( (a) => a.remove());
     
         let aside = createSideBar(this.htmlContainer);
-        aside.appendChild(this.nav.create());
-        setActiveMenuItem(this.params.topic);    
+        aside.appendChild(createSkipLink());
+        if (isMobile) {
+            aside.appendChild(this.nav.openButton());
+            aside.appendChild(this.nav.create(true));
+            aside.appendChild(this.nav.closeButton());
+            this._armMenuButton();
+        } else {
+            aside.appendChild(this.nav.create(false));
+        }
+        setActiveMenuItem(this.params.topic, isMobile);    
         createPopupElement();
     }
 
@@ -141,8 +148,8 @@ export class DashboardController implements IDashboardController {
 
         closeMenu();
         if (window.innerWidth < breakpoints.lg) {
-            this.close_btn.style.display = 'none'; 
-            this.open_btn.style.display = 'block';
+            this.close_btn.hidden = true; 
+            this.open_btn.hidden = false;
         }
     }
 
@@ -150,8 +157,8 @@ export class DashboardController implements IDashboardController {
 
         openMenu();
         if (window.innerWidth < breakpoints.lg) {
-            this.close_btn.style.display = 'block';
-            this.open_btn.style.display = 'none';
+            this.close_btn.hidden = false;
+            this.open_btn.hidden = true;
         }
     }
 }

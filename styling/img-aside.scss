@@ -1,27 +1,37 @@
+// display: flex;
+// position: absolute;
+// background: white;
+// z-index: 9;
+// min-height: 100vh;
+// width: calc(100vw - 4rem);
+// flex-direction: column;
+// padding: 2rem;
+
 aside {
 
-    display: none;
-    position: fixed;
-    overflow: auto;
-    order: 1;
-    left: 0;
-    width: 100vw;
-    height: calc(100% - 16.5rem);
+    // display: none;
+    // position: fixed;
+    // overflow: auto;
+    
+    // left: 0;
+    // width: 100vw;
+    // height: calc(100% - 16.5rem);
 
-    &.is_open {
-      display: block;
-      z-index: 99;
-      color: #fff;
-    }
+    // &.is_open {
+    //   display: block;
+    //   z-index: 99;
+    //   color: #fff;
+    // }
 
-    padding: 2rem 1rem 6rem 1.5rem;
-    background: $lightBlue;
+    // padding: 6.5rem 1rem 6rem 1.5rem;
+    // background: $lightBlue;
     margin: auto;
-    margin-top: 1rem;
+    // margin-top: 1rem;
 
     @media (min-width: $breakpoint-bax) {
-        padding: 2rem 1rem 6rem 1rem;
-        margin: 3.5rem 0 0 0;
+        // padding: 2rem 1rem 6rem 1rem;
+        // margin: 1.25rem 0 0 0;
+        // order: 1;
     }
 
     @media (min-width: $breakpoint-lg) {
@@ -32,93 +42,27 @@ aside {
         overflow: visible;
         background: transparent;
         padding: 2rem 2rem 2rem 0rem;
+        margin: 1.25rem 0 0 0;
+    }
+
+    a.skip {
+      display: block;
+      position: relative;
+      width: 0;
+      overflow: hidden;
+      margin-left: 1rem;
+      padding: .75rem 0;
+      padding-left: .5rem;
+      
+      border: none;
+      max-height: 0;
+
+      &:focus {
+          width: auto;
+          padding: .75rem inherit;
+          max-height: 5rem;
+      }
     }
     
-  }
+}
 
-// ul.dashboard_nav {
-
-//     display: flex;
-//     align-items: flex-start;
-
-//     li {
-
-//         padding: 0 0 0 0.75rem;
-//         display: inline-block;
-
-//         &:not([data-slug="company"]):hover {
-
-//             background: $lightBlue;
-//             color: white;
-//         }
-
-//         &.active {
-//             background: $lightBlue-light;
-//             color: $darkblue;
-//         }
-
-//         a {
-//             text-decoration: none;
-//             border: none;
-//             color: inherit;
-
-//             &:hover {
-//                 color: white;
-//             }
-//         }
-//     }
-
-//     li[data-slug="company"]:has(> a:hover) {
-
-//         background: $lightBlue;
-//         display: inline-block;
-        
-//     }
-
-//    > li {
-
-//         font-family: RO Sans Bold, sans-serif;
-//         font-size: 1rem;
-//         line-height: 1.3;
-//         font-weight: normal;
-//         padding: .5rem 0.75rem;
-//         margin-bottom: .5rem;
-
-//         > ul {
-
-//             transition: height 750ms ease-out;
-//             transition: opacity 250ms ease-out;
-//             height: 0;
-//             opacity: 0;
-
-
-//             li {
-                
-//                 font-family: RO Sans Regular, sans-serif;
-//                 font-size: 1rem;
-//                 line-height: 1.3;
-//                 font-weight: normal;
-//                 padding: .125rem 0.75rem;
-//                 pointer-events: none;
-
-//             }
-
-//             &.is_open {
-
-//                 height: auto;
-//                 opacity: 1;
-
-//                 li {
-//                     pointer-events: auto;
-//                 }
-
-//                 li:first-child {
-//                     margin-top: 1rem;
-//                 }
-            
-//             }
-
-//         }
-//     }
-
-// }

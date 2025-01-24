@@ -1,4 +1,3 @@
-
 export interface IDataService {
     collection: () => { [key:string]: any },
     gather: (string) => void,
@@ -30,7 +29,10 @@ export class DataService implements IDataService{
         return new Promise ( async (resolve, reject) => {
 
                 // @ts-ignore
-                const url = (["netherlands","licences2023"].indexOf(endpoint) > -1) ? './' + endpoint + '.geojson' : DOMAIN + APIBASE + endpoint;
+                const url = DOMAIN + APIBASE + endpoint;
+
+                console.log(url);
+
                 const response = await fetch(url);
                 if(response.ok) {
                     resolve(response.json())

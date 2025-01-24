@@ -34,7 +34,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
 
         data[dataGroup] = data[dataGroup].filter( p => p.complete);
 
-        const { tableParams, graphParams, graphData } = super.prepareData(data);
+        const { tableParams, graphParams, graphData, timeline, definitions } = super.prepareData(data);
 
         for (let period of data[dataGroup]) {
 
@@ -67,13 +67,12 @@ export class KTOGroupV1 extends GroupControllerV1 {
             rows
         };
                 
-        const definitions = [];
-
         return {
             
             graphData,
             definitions,
-            table
+            table,
+            timeline
         }
     }
     

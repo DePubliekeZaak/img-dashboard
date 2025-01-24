@@ -20,10 +20,17 @@ export class HtmlMonthSelector {
 
         if(selectEl && selectEl.parentNode != null) { selectEl.parentNode.removeChild(selectEl) }
 
+        let label = document.createElement('label');
+        label.id = this.id + '_label';
+        label.innerText = "Kies voor doorlopende data of data voor een specifieke maand";
+        label.classList.add("hidden-label");
+        label.setAttribute("for", this.id + "_el" + index);
+
         let dropdown = document.createElement('select');
         dropdown.id = this.id + '_' + index;
         dropdown.style.alignSelf = 'flex-start';
         dropdown.style.maxWidth = '90vw';
+        dropdown.setAttribute("aria-described-by",this.id + '_label')
 
         let option = document.createElement('option');
             option.label = "Doorlopend";
@@ -31,6 +38,17 @@ export class HtmlMonthSelector {
             option.innerText = "Doorlopend"
             if ("all" === segment) { option.selected = true }
             dropdown.appendChild(option);
+
+        this.data = this.data.filter( (m) => {
+            let complete = true;
+            Object.entries(m).forEach( ([key,value]) => {
+                if (value == undefined) {
+                    complete = false;
+                }
+            })
+
+            return complete
+        })
 
         for ( let m of this.data) {
             let option = document.createElement('option');
@@ -41,6 +59,7 @@ export class HtmlMonthSelector {
             dropdown.appendChild(option);
         }
     
+        this.element.appendChild(label) 
         this.element.appendChild(dropdown)   // insertBefore(dropdown,headerElement.nextSibling);
 
         return dropdown;
