@@ -1,7 +1,7 @@
 import { localTime, monthNames } from './_formats';
 import { convertToCurrency, convertToCurrencyInMillions, convertToMillions, thousands } from '../../pages/shared/_helpers';
 import { Dimensions } from './types';
-import { DataPart } from '../../pages/shared/types';
+import { DataPart, Segment } from '../../pages/shared/types';
 import { breakpoints } from '../../img-modules/styleguide';
 import { Bars } from '../../pages/shared/types_graphs';
 export class AxesService {
@@ -75,7 +75,7 @@ export class AxesService {
         }
     }
 
-    redraw(dimensions: Dimensions, scale: any, data: any[], format: string) {
+    redraw(dimensions: Dimensions, scale: any, data: any[], segment: Segment, format: string) {
 
            switch (this.ctrlr.scales[this.config.scale].config.type) {
 
@@ -118,11 +118,11 @@ export class AxesService {
 
                case 'linear' :
 
-                    if (this.config.format === "percentage") {
-
+                    if (this.config.format === "percentage" || segment.normalized) {
+                        
                         this.axis
                         .ticks(5)
-                        .tickFormat( d => d + "%")
+                        .tickFormat( d => segment.normalized ? (100 * d) + "%" : d + "%")
 
                     } else if (this.config.format === "currency") {
 
@@ -135,6 +135,12 @@ export class AxesService {
                             this.axis
                             .ticks(4)
                             .tickFormat( d => convertToMillions(d))
+
+                    } else if (this.config.format === "hidden") {
+
+                            this.axis
+                            .ticks(0)
+                          
 
                     } else {
 

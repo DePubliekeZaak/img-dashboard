@@ -14,3 +14,28 @@ export const segmentParse = (s: Segment | string): Segment =>  {
         return s
     }
 }
+
+// export const setMonthToSegment = (segment: Segment, yearmonth: string) => {
+
+//     if (yearmonth == 'all') {
+
+//         console.log('yes');
+
+//         return {
+//             ...segment,
+//             cumulative: true,
+//             key: "all"
+//         }
+
+//     } else {
+
+//         console.log('no');
+
+//         return {
+//             ...segment,
+//             cumulative: false,
+//             key: yearmonth
+//         }
+//     }
+
+// }

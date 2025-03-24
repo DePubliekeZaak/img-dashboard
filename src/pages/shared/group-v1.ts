@@ -48,7 +48,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
             this.groupWrapper = document.createElement('section');
             this.groupWrapper.classList.add('graph-container-12');
             this.groupWrapper.classList.add('group-wrapper');
-
+            this.groupWrapper.setAttribute('id', this.slug);
             this.element.appendChild(this.groupWrapper);
 
         } else {
@@ -62,10 +62,13 @@ export class GroupControllerV1 implements IGroupCtrlr {
             this.groupWrapper,  
             this.page.main.params.language == 'nl' ? this.config.header : this.config.header_en,
             this.page.main.params.language == 'nl' ? this.config.description : this.config.description_en,
-        );    
+        ); 
+        
+        this.htmlHeader.draw(); 
+        
         if (this.config.graphs.length > 0) {
 
-            this.htmlHeader.draw(); 
+            
 
             if (this.config.functionality) {
                 this.tabs = new HtmlTabs(this,this.groupWrapper,this.config,this.segment, this.index);
@@ -101,11 +104,10 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
     prepareData(data: any) : any {
 
-    
-        // const _data = JSON.parse(JSON.stringify(data));
+        // console.log(data);
 
         const dataGroup = this.config.endpoints[0];
-        const defaultColumns = ["_yearmonth","_yearweek","_month","_week","_year","_startdatum","_einddatum","gemeente","complete"];
+        const defaultColumns = ["_yearmonth","_yearweek","_month","_week","_year","_startdatum","_einddatum","gemeente","complete","periodization"];
 
         let tableParams = ([] as IParameterMapping[]);
         let graphParams = ([] as IParameterMapping[]);
@@ -113,11 +115,14 @@ export class GroupControllerV1 implements IGroupCtrlr {
         for (const graph of this.config.graphs) {
             for (const pg of graph.parameters) {
                 for (const p of pg) {
-                    if (tableParams.indexOf(p) < 0 && !p.excludeFromTable) {
-                        tableParams.push(p);
-                    }
-                    if (graphParams.indexOf(p) < 0) {
-                        graphParams.push(p)
+                    let columnNames = tableParams.map( p => p.column);
+                    if( !columnNames.includes(p.column)) {
+                        if (tableParams.indexOf(p) < 0 && !p.excludeFromTable) {
+                            tableParams.push(p);
+                        }
+                        if (graphParams.indexOf(p) < 0) {
+                            graphParams.push(p)
+                        }
                     }
                 }
             }
@@ -126,10 +131,17 @@ export class GroupControllerV1 implements IGroupCtrlr {
                     for (const m of mg) {
                         if (m.column != "{}") {
                             for (const p of JSON.parse(JSON.stringify(graphParams))) {
+                                if (p.column.includes("_cumulatief")) continue;
                                 let n: IParameterMapping = Object.assign({},m);
                                 n.column = n.column.replace('{}',p.column);
                                 n.label = p.label;
-                                graphParams.push(n)
+                                if (p.format != "" || p.format != undefined) n.format = p.format;
+                                graphParams.push(n);
+                                let columnNames = tableParams.map( p => p.column);
+                                if( !columnNames.includes(n.column)) {
+                                    tableParams.push(n);
+                                }
+                                
                             }
                         }
                     }
@@ -139,13 +151,17 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
         tableParams = removeDuplicates(tableParams);
 
+       // tableParams = tableParams.filter ( p => !p.column.includes("_cumulatief"))
 
-        const graphData = trimColumnsAndOrder(data[dataGroup], graphParams.map( p => p.column).concat(defaultColumns));
+        let graphData = trimColumnsAndOrder(data[dataGroup], graphParams.map( p => p.column).concat(defaultColumns));
 
         let graphData_alt: any[] = [];
         if (this.config.endpoints[1]) {      
             graphData_alt = trimColumnsAndOrder(data[this.config.endpoints[1]], graphParams.map( p => p.column).concat(defaultColumns)); 
+        } else {
+            graphData_alt = graphData
         }
+
         
         let timeline: Timeline[] = [];
 

@@ -11,6 +11,8 @@ export class HtmlMonthSelector {
         private id: string,
         private data: any[]
     ){
+
+        // this.data = data
        
     }
 
@@ -38,17 +40,6 @@ export class HtmlMonthSelector {
             option.innerText = "Doorlopend"
             if ("all" === segment) { option.selected = true }
             dropdown.appendChild(option);
-
-        this.data = this.data.filter( (m) => {
-            let complete = true;
-            Object.entries(m).forEach( ([key,value]) => {
-                if (value == undefined) {
-                    complete = false;
-                }
-            })
-
-            return complete
-        })
 
         for ( let m of this.data) {
             let option = document.createElement('option');

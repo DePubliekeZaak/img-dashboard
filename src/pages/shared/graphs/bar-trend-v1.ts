@@ -127,6 +127,7 @@ export class BarTrendV1 extends core.GraphControllerV3  {
             : data.graphData
         : data.graphData
         
+
         let _period = (this.segment.periodization == "weekly") ? "_yearweek" : "_yearmonth";
 
         _data = trimStart(_data, this.parameters, 2);
@@ -187,12 +188,16 @@ export class BarTrendV1 extends core.GraphControllerV3  {
 
         await super.redraw(data[this.segment.key]);
         this.chartBar.redraw(data[this.segment.key], this.segment.periodization);
-        this.timeline_1?.redraw(data.timeline, 0);  
+        let timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);  
         
         if (window.innerWidth < breakpoints.md) {
             if(this.graphEl != null) {
                 this.graphEl.scrollLeft += this.graphEl.scrollWidth - this.graphEl.clientWidth;
             }   
+        }
+
+        if (this.graphEl != null) {
+            this.graphEl.style.paddingBottom = (30 + timeLineHeight).toString() + "px";
         }
     }
 

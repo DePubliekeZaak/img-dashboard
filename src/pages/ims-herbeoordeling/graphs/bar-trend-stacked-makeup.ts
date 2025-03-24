@@ -68,7 +68,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3  {
 
         this.arrowY = new AxisArrow(this,'y','aantal aanvragen');
         
-        await this.update(this.group.data,this.segment, false);
+        await this.update(this.group.data, false);
 
         return;
     }
@@ -78,8 +78,6 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3  {
         let _data = (this.segment.periodization == "weekly") ? data.graphData : data.graphData_alt
 
         const period = (this.segment.periodization == "weekly") ? "_yearweek" : "_yearmonth";
-
-        // console.log(_data)
 
         for (let m of _data) {
             m.date = m[period]
@@ -114,8 +112,8 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3  {
     }
 
     
-    async update(data: DataObject, segment: Segment, update: boolean, range?: number[]) {
+    async update(data: DataObject, update: boolean, range?: number[]) {
 
-       await super._update(data,segment,update, range);
+       await super._update(data,update, range);
     } 
 }

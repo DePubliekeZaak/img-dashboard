@@ -1,4 +1,3 @@
-
 import { isLabeledStatement } from 'typescript';
 import { breakpoints, colours } from '../../img-modules/styleguide';
 import { Bar, Bars } from '../../pages/shared/types_graphs';
@@ -19,6 +18,7 @@ export default class ChartTimeline {
         this.htmlDiv = document.createElement("div");
         this.htmlDiv.classList.add("timeline_html_div");
         this.ctrlr.element.appendChild(this.htmlDiv);
+
     }
 
     draw(data: any[], index: number) {
@@ -82,6 +82,7 @@ export default class ChartTimeline {
     redraw(data: any[], index: number) {
 
         let self = this;
+        let timeLineHeight = 0;
 
         const bg = this.ctrlr.svg.layers.data.select("rect.timeline_bg" + index.toString());
 
@@ -118,11 +119,6 @@ export default class ChartTimeline {
 
         groups 
             .on("mouseover", function(event: any, d: any) {
-
-                // self.ctrlr.svg.layers.data.selectAll(".bar")
-                //     .style("fill", b => (b !== d) ? colours[b.colour][1] : colours[b.colour][0]);
-
-                
 
                 const t = window.d3.select('.tooltip')
                     .html(tooltip(d))
@@ -231,12 +227,13 @@ export default class ChartTimeline {
                 if(collusions.length > 0) {
 
                     const o = collusions.map( el => el.offsetHeight).reduce( (acc, height) => acc + height + 3, 0);
+                    if (o > timeLineHeight) timeLineHeight = o;
                     d.style.top = o.toString() + "px"; 
 
                 } else {
                     d.style.top = 0;
                     staggerTop = 0;
-                }
+                }   
             }
         });
 
@@ -256,6 +253,9 @@ export default class ChartTimeline {
         // height op svg zetten .. niet parent el
         self.ctrlr.element.style.height = (trim(self.ctrlr.element.style.height) + highest + 16).toString() + "px";
         self.htmlDiv.style.height = (highest + 16).toString() + "px";
+
+
+        return timeLineHeight;
  
 
     }

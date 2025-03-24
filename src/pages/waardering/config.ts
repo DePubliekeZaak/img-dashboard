@@ -3,70 +3,227 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 const group : IGroupMappingV2[] = [
     {
         "slug" : "waardering_alle_regelingen",
-        "ctrlr": "GeaggregeerdV1",
+        "ctrlr": "IntroGroupV1",
+        "filters" : [],
         "graphs": [
             {
-            "slug" : "algemeen_numbers",
-            "ctrlr" : "NumbersPlusRespondentsV1",
-            "args" : [],
-            "parameters": [
-                [
-                    { 
-                        "label" : "Sinds de start",
-                        "column": "doorlopend_cijfer",
-                        "units": "doorlopend",
-                        "colour": "blue",
-                        "format": "decimals"
-                    },
-                    { 
-                        "label" : "Afgelopen maand",
-                        "column": "maandcijfer",
-                        "units": "afgelopen maand",
-                        "colour": "moss",
-                        "format": "decimals"
-                    }
+                "slug" : "tevredenheid_numbers_v1",
+                "ctrlr" : "NumbersMultiplesTitledV1",
+                "args" : [],
+                "filters": [],
+                "multiples": "cumulative", 
+                "parameters": [
+                    [
+                        {
+                            "label" : "Alle regelingen",
+                            "column" : "aantal_respondenten",
+                            "colour" : "orange",
+                            "units" : "respondenten"
+                        },
+                        { 
+                            "label" : "Fysieke schade",
+                            "column" : "fysieke_schade_aantal_respondenten_doorlopend",
+                            "colour" : "moss",
+                            "units" : "respondenten"
+                        },
+                        { 
+                            "label" : "Vaste vergoeding",
+                            "column" : "ves_aantal_respondenten_doorlopend",
+                            "colour" : "blue",
+                            "units" : "respondenten"
+                        },
+                        { 
+                            "label" : "IMS volwassenen",
+                            "column" : "ims_aantal_respondenten_doorlopend",
+                            "colour" : "blue",
+                            "units": "respondenten"
+                        },
+                        { 
+                            "label" : "IMS kinderen & jeugd",
+                            "column" : "imkj_aantal_respondenten_doorlopend",
+                            "colour" : "blue",
+                            "units": "respondenten"
+                        },
+                        { 
+                            "label" : "Waardedaling",
+                            "column" : "waardedaling_aantal_respondenten_doorlopend",
+                            "colour" : "purple",
+                            "units" : "respondenten"
+                        }
+                    ],
+                    [   
+                        { 
+                            "label" : "Alle regelingen",
+                            "column" : "doorlopend_cijfer",
+                            "colour" : "orange",
+                            "format": "",
+                            // "units" : "bezwaren"
+                        },
+                        { 
+                            "label" : "Fysieke schade",
+                            "column" : "fysieke_schade_doorlopend_cijfer",
+                            "colour" : "moss",
+                            "format": "",
+                            // "units" : "bezwaren"
+                        },
+                        { 
+                            "label" : "Vaste vergoeding",
+                            "column" : "ves_doorlopend_cijfer",
+                            "colour" : "blue",
+                            "format": "",
+                            // "units" : "bezwaren"
+                        },
+                        { 
+                            "label" : "IMS volwassenen",
+                            "column" : "ims_doorlopend_cijfer",
+                            "colour" : "blue",
+                            "format": "",
+                            // "units": "bezwaren"
+                        },
+                        { 
+                            "label" : "IMS kinderen & jeugd",
+                            "column" : "imkj_doorlopend_cijfer",
+                            "colour" : "blue",
+                            "format": "",
+                            // "units": "bezwaren"
+                        },
+                        { 
+                            "label" : "Waardedaling",
+                            "column" : "waardedaling_doorlopend_cijfer",
+                            "colour" : "purple",
+                            "format": "",
+                            // "units" : "bezwaren"
+                        }
+                    ]
                 ],
-                [
-                    { 
-                        "label" : "Aantal respondenten",
-                        "column": "aantal_respondenten",
-                        "units": "respondenten sinds start",
-                        "colour": "orange"
-                    },
-                    { 
-                        "label" : "Maand respondenten",
-                        "column": "aantal_respondenten_maand",
-                        "units": "resp. afgelopen maand",
-                        "colour": "orange"
-                    }
-                ]
-            ]
+                "modifiers" : [],                 
+                "segment": {
+                    "key": "fs_bezwaren_totaal",
+                    "cumulative": false,
+                    "periodization": "weekly"
+                },
             },
+        ],
+        "functionality": ['table', 'definitions','download'],
+        "endpoints": ["tevredenheid"]
+    },
+    {
+        "slug" : "waardering_trend",
+        "ctrlr": "MakeupGroupTrendV1",
+        "graphs": [
             {
-                "slug" : "algemeen_trend",
-                "ctrlr" : "BarTrendV1",
+                "slug" : "waardering_trend",
+                "ctrlr" : "BarTrendStackedMakeupV2",
                 "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
                         { 
-                            "label" : "Afgelopen maand",
-                            "column": "maandcijfer",
-                            "units": "afgelopen maand",
-                            "colour": "blue",
-                            "format": "decimals"
+                            "label" : "Alle regelingen",
+                            "column" : "maandcijfer",
+                            "colour" : "orange"
+                        }
+                    ],
+                    [
+                        { 
+                            "label" : "Alle regelingen",
+                            "column" : "aantal_respondenten_maand",
+                            "colour" : "orange"
+                        }
+                    ]
+                ],
+                "segment": {
+                    "key": "maandcijfer",
+                    "cumulative": false,
+                    "periodization": "monthly",
+                    "parameterIndex": 0
+                }
+            
+            },
+            {
+                slug: "fs_trend_respondents_header",
+                ctrlr: "HeaderV1",
+                parameters: [
+                    [
+                        {
+                            "label": "Respondenten per regeling",
+                            "column": "",
+                            "colour": "",
+                            "excludeFromTable": true
                         }
                     ]
                 ]
+            },
+            {
+                "slug" : "fs_trend_respondents",
+                "ctrlr" : "BarTrendStackedMakeupV2",
+                "filters" : [],
+                "args" : [],
+                "parameters": [
+                    // [
+                    //     { 
+                    //         "label" : "Afgelopen maand",
+                    //         "column": "fysieke_schade_maandcijfer",
+                    //         "units": "afgelopen maand",
+                    //         "colour": "orange",
+                    //         "format": "decimals",
+                    //         "excludeFromTable": true
+                    //     }
+                    // ],
+                    [
+                        { 
+                            "label" : "Fysieke schade",
+                            "column": "fysieke_schade_aantal_respondenten",
+                            "units": "respondenten",
+                            "colour": "moss",
+                            // "format": "decimals",
+                            // "excludeFromTable": true
+                        },
+                        { 
+                            "label" : "Vaste vergoeding",
+                            "column": "ves_aantal_respondenten",
+                            "units": "respondenten",
+                            "colour": "orange",
+                            // "format": "decimals",
+                            // "excludeFromTable": true
+                        },
+                        { 
+                            "label" : "Waardedaling",
+                            "column": "waardedaling_aantal_respondenten",
+                            "units": "respondenten",
+                            "colour": "purple",
+                            // "format": "decimals",
+                            // "excludeFromTable": true
+                        },
+                        { 
+                            "label" : "Immateriele schade: volwassenen",
+                            "column": "ims_aantal_respondenten",
+                            "units": "respondenten",
+                            "colour": "blue",
+                            // "format": "decimals",
+                            // "excludeFromTable": true
+                        },
+                        { 
+                            "label" : "Immateriele schade: kinderen en jeugd",
+                            "column": "imkj_aantal_respondenten",
+                            "units": "respondenten",
+                            "colour": "yellow",
+                            // "format": "decimals",
+                            // "excludeFromTable": true
+                        },
+                        
+
+                    ]
+                ],
+                "segment": {
+                    "key":"fysieke_schade_aantal_respondenten",  
+                    "cumulative": false,
+                    "periodization": "monthly"
+                },
             }
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["tevredenheid"],
-        "segment": {
-            "key":"maandcijfer",  
-            "cumulative": false,
-            "periodization": "monthly"
-        },
+        "endpoints": ["tevredenheid","tevredenheid"]
     },
     {
         "slug" : "waardering_fs",
@@ -219,22 +376,32 @@ const group : IGroupMappingV2[] = [
             ],
             "segment": {
                     "key":"all",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             },
             {
-                "slug" : "algemeen_trend",
+                "slug" : "fs_trend",
                 "ctrlr" : "BarTrendV1",
                 "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
                         { 
-                            "label" : "Afgelopen maand",
+                            "label" : "Waardering",
                             "column": "fysieke_schade_maandcijfer",
-                            "units": "afgelopen maand",
+                            "units": "waardering",
                             "colour": "orange",
+                            "format": "decimals",
+                            "excludeFromTable": true
+                        }
+                    ],
+                    [
+                        { 
+                            "label" : "Respondenten",
+                            "column": "fysieke_schade_aantal_respondenten",
+                            "units": "respondenten",
+                            "colour": "moss",
                             "format": "decimals",
                             "excludeFromTable": true
                         }
@@ -242,7 +409,7 @@ const group : IGroupMappingV2[] = [
                 ],
                 "segment": {
                     "key":"fysieke_schade_maandcijfer",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 },
             }
@@ -400,21 +567,31 @@ const group : IGroupMappingV2[] = [
             ],
             "segment": {
                     "key":"all",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             },
             {
-                "slug" : "algemeen_trend",
+                "slug" : "ves_trend",
                 "ctrlr" : "BarTrendV1",
                 "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
                         { 
-                            "label" : "Afgelopen maand",
+                            "label" : "Waardering",
                             "column": "ves_maandcijfer",
-                            "units": "afgelopen maand",
+                            "units": "waardering",
+                            "colour": "moss",
+                            "format": "decimals",
+                            "excludeFromTable": true
+                        }
+                    ],
+                    [
+                        { 
+                            "label" : "Respondenten",
+                            "column": "ves_aantal_respondenten",
+                            "units": "respondenten",
                             "colour": "moss",
                             "format": "decimals",
                             "excludeFromTable": true
@@ -423,7 +600,7 @@ const group : IGroupMappingV2[] = [
                 ],
                 "segment": {
                     "key":"ves_maandcijfer",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             }
@@ -437,7 +614,7 @@ const group : IGroupMappingV2[] = [
         "ctrlr": "KTOGroupV1",
         "graphs": [
             {
-            "slug" : "fs_cijfer",
+            "slug" : "fs_cijfer_wd",
             "ctrlr" : "KTORatingsV1",
             "filters" : ["monthSelect"],
             "args" : [],
@@ -582,22 +759,32 @@ const group : IGroupMappingV2[] = [
             ],
             "segment": {
                     "key":"all",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             },
             {
-                "slug" : "algemeen_trend",
+                "slug" : "wd_trend",
                 "ctrlr" : "BarTrendV1",
                 "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
                         { 
-                            "label" : "Afgelopen maand",
+                            "label" : "Waardering",
                             "column": "waardedaling_maandcijfer",
-                            "units": "afgelopen maand",
+                            "units": "waardering",
                             "colour": "blue",
+                            "format": "decimals",
+                            "excludeFromTable": true
+                        }
+                    ],
+                    [
+                        { 
+                            "label" : "Respondenten",
+                            "column": "waardedaling_aantal_respondenten",
+                            "units": "respondenten",
+                            "colour": "moss",
                             "format": "decimals",
                             "excludeFromTable": true
                         }
@@ -605,7 +792,7 @@ const group : IGroupMappingV2[] = [
                 ],
                 "segment": {
                     "key":"waardedaling_maandcijfer",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 },
             }
@@ -763,21 +950,31 @@ const group : IGroupMappingV2[] = [
             ],
             "segment": {
                     "key":"all",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             },
             {
-                "slug" : "algemeen_trend",
+                "slug" : "ims_trend",
                 "ctrlr" : "BarTrendV1",
                 "filters" : [],
                 "args" : [],
                 "parameters": [
                     [
                         { 
-                            "label" : "Afgelopen maand",
+                            "label" : "Waardering",
                             "column": "ims_maandcijfer",
-                            "units": "afgelopen maand",
+                            "units": "waardering",
+                            "colour": "moss",
+                            "format": "decimals",
+                            "excludeFromTable": true
+                        }
+                    ],
+                    [
+                        { 
+                            "label" : "Respondenten",
+                            "column": "ims_aantal_respondenten",
+                            "units": "respondenten",
                             "colour": "moss",
                             "format": "decimals",
                             "excludeFromTable": true
@@ -786,7 +983,7 @@ const group : IGroupMappingV2[] = [
                 ],
                 "segment": {
                     "key":"ims_maandcijfer",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             }
@@ -944,21 +1141,31 @@ const group : IGroupMappingV2[] = [
             ],
             "segment": {
                     "key":"all",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             },
             {
-                "slug" : "algemeen_trend",
+                "slug" : "imkj_trend",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": [],
                 "parameters": [
                     [
                         { 
-                            "label" : "Afgelopen maand",
+                            "label" : "Waardering",
                             "column": "imkj_maandcijfer",
-                            "units": "afgelopen maand",
+                            "units": "",
+                            "colour": "moss",
+                            "format": "decimals",
+                            "excludeFromTable": true
+                        }
+                    ],
+                    [
+                        { 
+                            "label" : "Respondenten",
+                            "column": "imkj_aantal_respondenten",
+                            "units": "respondenten",
                             "colour": "moss",
                             "format": "decimals",
                             "excludeFromTable": true
@@ -967,7 +1174,7 @@ const group : IGroupMappingV2[] = [
                 ],
                 "segment": {
                     "key":"imkj_maandcijfer",  
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "monthly"
                 }
             }

@@ -45,7 +45,7 @@ const mappings : IGroupMappingV2[] = [
         "endpoints": ["totaal_wekelijks"]  
     },
     {
-        "slug" : "a_waardering",
+        "slug" : "all_waardering",
         "ctrlr": "KTOTrendV1",
         "graphs": [
             {
@@ -72,7 +72,7 @@ const mappings : IGroupMappingV2[] = [
                 ],
                 "segment": {
                     "key":"doorlopend_cijfer",  
-                    "cumulative": true,
+                    "cumulative": false,
                     "periodization": "latest"
                 }
         
@@ -114,7 +114,7 @@ const mappings : IGroupMappingV2[] = [
         
     },
     {
-        "slug" : "regelingen_overzicht",
+        "slug" : "all_regelingen_overzicht",
         "ctrlr": "MakeupGroupTrendV1",
         "graphs": [
             {
@@ -190,9 +190,8 @@ const mappings : IGroupMappingV2[] = [
                         "label": "cumulatief",
                         "column": "{}_cumulatief",
                         "colour": "orange"
-                    },   
+                    },      
                 ]
-             
             ],
             "segment": {
                     "key": "fysieke_schade_meldingen",
@@ -203,7 +202,7 @@ const mappings : IGroupMappingV2[] = [
             }
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["historie","historie"]
+        "endpoints": ["totaal_maandelijks_v1","totaal_wekelijks_v1"]
     }
 ];
 

@@ -6,7 +6,9 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
         key: "default",              
         cumulative: true,
         periodization: "month",  // Set a default periodization instead of undefined
-        parameterIndex: 0
+        parameterIndex: 0,
+        label: "",
+        normalized: false
     };
 
     segment.gemeente = page.segment?.gemeente || "all";
@@ -22,6 +24,9 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
             segment.periodization = group.periodization;
         }
         if (typeof group.parameterIndex === 'number') segment.parameterIndex = group.parameterIndex;
+
+        if (typeof group.normalized === 'boolean') segment.normalized = group.normalized;
+
     } else {
 
     }
@@ -35,6 +40,10 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
         }
         if (typeof graph.parameterIndex === 'number') segment.parameterIndex = graph.parameterIndex;
         if (typeof graph.key === 'string' && graph.key.length > 0) segment.key = graph.key;
+
+        if (typeof graph.label === 'string' && graph.label.length > 0) segment.label = graph.label;
+
+        if (typeof graph.normalized === 'boolean') segment.normalized = graph.normalized;
     }
 
    // console.log("segment", segment);

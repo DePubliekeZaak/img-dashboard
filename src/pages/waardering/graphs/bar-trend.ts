@@ -8,6 +8,7 @@ import { createBars } from '../../shared/data.format.factory';
 import { TrendBar } from '../../shared/types_graphs';
 import { segmentParse } from '../../shared/segment';
 import { parseSegment } from '../../shared/factories/segment';
+import ChartTimeline from '../../../charts/elements/chart-timeline';
 
 export class BarTrend extends core.GraphControllerV3  {
 
@@ -16,6 +17,7 @@ export class BarTrend extends core.GraphControllerV3  {
     legend;
     arrowX;
     arrowY;
+    timeline_1: ChartTimeline;
 
     constructor(
         public slug:  string,
@@ -44,12 +46,16 @@ export class BarTrend extends core.GraphControllerV3  {
         const top = window.innerWidth < breakpoints.sm ? 30 : 30;
         const bottom = 0;
 
+         // const marginForTimeline = 360;
+        // const paddingForTimeline = 60;
+
         this._addMargin(top,bottom,0,30);
         this._addPadding(0,0,30,0);
 
         this._addScale('x','band','horizontal-reverse','date');
         this._addScale('y','linear','vertical','value');
         this._addAxis('x','x','bottom','quarters');
+        this._addScale('x1','time','horizontal','date');
         this._addAxis('y','y','left')
     }
 
@@ -70,6 +76,7 @@ export class BarTrend extends core.GraphControllerV3  {
 
         this.chartBarTrend = new elements.ChartBarTrendwithNumber(this);
         this.arrowY = new AxisArrow(this,'y','waardering');
+        this.timeline_1 = new elements.ChartTimeline(this);
         
         await this.update(this.group.data, false);
 
@@ -107,6 +114,8 @@ export class BarTrend extends core.GraphControllerV3  {
     async draw(data: DataObject) {
 
         this.chartBarTrend.draw(data[this.parameters[0][0]["column"]]);
+
+        this.timeline_1?.draw(data.timeline, 0); 
     }
 
 
@@ -115,12 +124,27 @@ export class BarTrend extends core.GraphControllerV3  {
         const bars = data[this.parameters[0][0]["column"]];
 
         this.scales.x.set(bars.map ( d => d.date));
+        this.scales.x1.set(data.graphData.map ( (d) =>  { return d._startdatum }).filter( d => d != null));
+
         this.scales.y.set(bars.map( d => d.value).concat([0,10]));
 
         await super.redraw(bars);
 
         this.chartBarTrend.redraw(bars);
         await this.arrowY.redraw();
+
+        let timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);  
+        // await this.arrowY.redraw(); 
+
+        if (window.innerWidth < breakpoints.md) {
+            if(this.graphEl != null) {
+                this.graphEl.scrollLeft += this.graphEl.scrollWidth - this.graphEl.clientWidth;
+            }   
+        }
+        
+        if (timeLineHeight === 0 && this.graphEl != null) {
+            this.graphEl.style.paddingBottom = (30 +timeLineHeight).toString() + "px";
+        }
     }
 
     

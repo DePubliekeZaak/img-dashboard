@@ -44,7 +44,10 @@ export type Segment = {
     cumulative: boolean,
     periodization: string,
     parameterIndex?: number,
-    gemeente?: string
+    gemeente?: string,
+    label?: string,
+    normalized?: boolean,
+    yearmonth?: string
 }
 
 export type Timeline = {

@@ -30,8 +30,10 @@ export class MakeupGroupTrendV1 extends GroupControllerV1 {
         const dataGroup = this.config.endpoints[0];
         const rows: string[][] = []; 
 
-        const { tableParams, graphData, definitions, graphData_alt, timeline } = super.prepareData(data);
+        let { tableParams, graphData, definitions, graphData_alt, timeline } = super.prepareData(data);
         
+        tableParams = tableParams.filter( p =>  p.column.includes("_cumulatief"));
+
         for (let period of data[dataGroup]) {
 
             const row : string[] = [];

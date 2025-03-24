@@ -10,10 +10,13 @@ export default class HtmlLegendAsSum {
     legend;
 
     constructor(
-        private ctrlr
+        private ctrlr,
+        private withPercentage?: boolean
     ){}
 
     draw(data: PiePart[]) {
+
+        this.ctrlr.element.querySelector('.legend')?.remove();
 
         let legend = document.createElement('div');
         legend.classList.add('legend');
@@ -21,21 +24,16 @@ export default class HtmlLegendAsSum {
         legend.style.flexDirection = window.innerWidth < breakpoints.xsm ? 'column' : 'column';
         legend.style.paddingBottom = window.innerWidth < breakpoints.xsm ? this.ctrlr.config.padding.left + 'px' : '0';
         legend.style.justifyContent = 'center';
-        legend.style.width = '340px';
+        legend.style.width = '360px';
 
         let table = document.createElement('table');
         let tbody = document.createElement('tbody');
 
-        // table.style.border = "none";
-
         if (window.innerWidth < breakpoints.sm) {
-
             legend.style.width = "calc(100vw - 2rem)";
             legend.style.marginLeft = "-1rem";
         }
        
-
-
         data.forEach( (map: PiePart, i: number, data: PiePart[]) => {
             tbody.appendChild(this.createRow(map, i, data));
         });
@@ -79,7 +77,13 @@ export default class HtmlLegendAsSum {
                 
             default:
                 vEl.innerText = map.value.toString();
-        }   
+        } 
+        
+        if (this.withPercentage) {
+            const total = data[data.length - 1].value;
+            const percentage = Math.round(1000 * map.value / total) / 10;
+            vEl.innerText = vEl.innerText + " (" + percentage + "%)";
+        }
 
          row.appendChild(vEl);
 

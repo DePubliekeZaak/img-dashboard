@@ -2,7 +2,7 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group : IGroupMappingV2[] = [
     {
-        "slug" : "fs_maatwerk_totals",
+        "slug" : "maatwerk_totals",
         "ctrlr": "IntroGroupV1",
         "filters" : [],
         "graphs": [
@@ -65,7 +65,6 @@ const group : IGroupMappingV2[] = [
         "slug" : "maatwerk_ontwikkeling",
         "ctrlr": "ProgressGroupV1",
         "graphs": [
-            
             {
                 "slug" : "maatwerk_trend",
                 "ctrlr" : "BarTrendV1",
@@ -83,11 +82,6 @@ const group : IGroupMappingV2[] = [
                             "column": "maatwerk_afgehandeld",
                             "colour": "green"
                         },
-                        // {
-                        //     "label": "Werkvoorraad",
-                        //     "column": "vaste_vergoeding_werkvoorraad",
-                        //     "colour": "blue"
-                        // },
                         {
                             "label": "Verleend",
                             "column": "maatwerk_verleend_bedrag",
@@ -122,26 +116,26 @@ const group : IGroupMappingV2[] = [
         
     },
     {
-        "slug" : "fs_ves_toegewezen",
+        "slug" : "maatwerk_toegewezen",
         "ctrlr": "ToegewezenV1",
         "filters": [],
         "graphs": [
             {
-            "slug" : "fs_ves_toegewezen_taart",
+            "slug" : "fs_maatwerk_toegewezen_taart",
             "ctrlr" : "PieChartSumV1",
             "args" : [],
             "parameters": [
                 [
                     {
                         "label": "Toegewezen",
-                        "column": "vaste_vergoeding_toewijzingen_cumulatief",
-                        "colour": "moss",
+                        "column": "maatwerk_toekenningen_cumulatief",
+                        "colour": "moss",   
                         "scale" : "null",
                         "format": ""
                     },
                     {
                         "label": "Afgewezen",
-                        "column": "vaste_vergoeding_afwijzingen_cumulatief",
+                        "column": "maatwerk_afwijzingen_cumulatief",
                         "colour": "orange",
                         "scale" : "null",
                         "format": ""
@@ -150,19 +144,51 @@ const group : IGroupMappingV2[] = [
                 [
                     {
                         "label": "Afgehandeld",
-                        "column": "vaste_vergoeding_afgehandeld_cumulatief",
+                        "column": "maatwerk_afgehandeld_cumulatief",
                         "colour": "gray",
                         "scale" : "null",
                         "format": ""
                     }
                 ]
             ]
-            }
+            },
+            // datakwaliteit onvoldoende 
+            // {
+            //     "slug" : "fs_maatwerk_toegewezen_trend",
+            //     "ctrlr" : "BarTrendStackedMakeup",
+            //     "filters": ["absoluteVsNormalized","weekVsMonth"],
+            //     "args" : [],
+            //     "parameters": [
+            //         [
+            //             {
+            //                 "label": "Toekenningen",
+            //                 "column": "maatwerk_toekenningen",
+            //                 "colour": "moss",
+            //                 "scale" : "null",
+            //                 "format": ""
+            //             },
+            //             {
+            //                 "label": "Afgewezen",
+            //                 "column": "maatwerk_afwijzingen",
+            //                 "colour": "orange",
+            //                 "scale" : "null",
+            //                 "format": ""
+            //             },
+            //         ]
+            //     ],
+            //     "segment": {
+            //         "key" : "maatwerk_toekenningen",
+            //         "cumulative": false,
+            //         "periodization": "monthly",
+            //         "label": "besluiten",
+            //         "normalized": false
+            //     },
+            // }
         ],
         "functionality": ['table', 'definitions','download'],
         "endpoints": ["fs_wekelijks","fs_maandelijks"],
         "segment": {
-            "key" : "vaste_vergoeding_afwijzingen_cumulatief",
+            "key" : "maatwerk_toekenningen  _cumulatief",
             "cumulative": true,
             "periodization": "monthly"
         }

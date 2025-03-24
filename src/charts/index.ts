@@ -16,6 +16,8 @@ import { HtmlNumberSimple } from './elements/html-number-simple';
 import ChartBarTrendwithNumber from './elements/chart-bar-trend-with-number';
 import { ChartBarsHorizontalV1 } from './elements/chart-bars-horizontal-v1';
 import { ChartBlocksV1 } from './elements/chart-blocks-v1';
+import { HtmlNumberTitled } from './elements/html-number-titled';
+import ChartBarTrendV2 from './elements/chart-bar-trend-v2';
 
 export const core = {
     GraphControllerV3
@@ -23,6 +25,7 @@ export const core = {
 
 export const elements = {
     ChartBarTrend,
+    ChartBarTrendV2,
     ChartBarTrendwithNumber,
     ChartBarsHorizontalV1,
     ChartStackedBars,
@@ -38,5 +41,6 @@ export const elements = {
     HtmlNumberAccented,
     HtmlNumberCircle,
     HtmlNumberCircleRespondents,
-    HtmlNumberSimple
+    HtmlNumberSimple,
+    HtmlNumberTitled
 }

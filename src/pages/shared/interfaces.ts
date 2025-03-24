@@ -28,7 +28,8 @@ export interface IGraphMappingV2 {
     parameters: IParameterMapping[][],
     modifiers?: IParameterMapping[][],
     segment?: Segment,
-    classList?: string[]
+    classList?: string[],
+    header?: string
 }
 
 export type IMappingOption = IParameterMapping | boolean;
@@ -69,15 +70,15 @@ export interface GroupObject {
 }
 
 export interface GraphObject {
-    slug : string,
+    slug: string,
     multiples: string | boolean,
     ctrlrName: string,
     parameters: IParameterMapping,
     modifiers: IParameterMapping,
     filters: string[],
     segment: Segment,
-    ctrlr : IGraphControllerV3,
-    classList: string,
+    ctrlr: IGraphControllerV3,
+    classList: string
 }
 
 export interface IGroupCtrlr {

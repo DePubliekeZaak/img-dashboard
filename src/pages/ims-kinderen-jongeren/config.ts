@@ -274,7 +274,12 @@ const group : IGroupMappingV2[] = [
                         "format": ""
                     }
                 ]
-            ]
+            ],
+            "segment": {
+                "key" : "ims_kj_bezwaren_ingediend",
+                "cumulative": true,
+                "periodization": "none"
+            }
             },
             {
                 "slug" : "volw_bezwaren_taart",
@@ -314,12 +319,16 @@ const group : IGroupMappingV2[] = [
                         }
                     ]
                 ],
-                "classList": ["graph-container-6"]
+                "classList": ["graph-container-6"],
+                "segment": {
+                    "key" : "ims_kj_bezwaren_afgerond",
+                    "cumulative": true,
+                    "periodization": "none"
+                }
             }
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["ims_maandelijks"],
-        "segment": "all",
+        "endpoints": ["ims_maandelijks"]
     }
 ];
 

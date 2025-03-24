@@ -109,7 +109,7 @@ export class MapV2 extends core.GraphControllerV3  {
         }
 
       //  this.scales.y.set(allValues);
-      this.scales.y.set(data.geo[this.index].map( g => g.properties.value).concat([0]));
+        this.scales.y.set(data.geo[this.index].map( g => g.properties.value).concat([0]));
 
         this.map.draw(data.geo[this.index]);
         this.header.draw(data.geo[this.index][0].properties.year)

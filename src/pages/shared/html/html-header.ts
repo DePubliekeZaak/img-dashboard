@@ -1,3 +1,4 @@
+//  
 import { thousands } from "../_helpers";
 
 export class HtmlHeader {
@@ -12,22 +13,18 @@ export class HtmlHeader {
         private description
     ){}
 
-    draw(currentData: any) {
+    async draw(currentData: any) {
 
         const prevHeaderElement = this.element.querySelector('.article_header') 
-        // if (prevHeaderElement) prevHeaderElement.remove();
 
         this.headerElement = document.createElement('div');
         this.headerElement.classList.add('article_header');
         this.headerElement.style.position = 'relative';
 
-
         if(!this.element.classList.contains("graph-view")) {
 
-      //      this.headerElement.style.borderTop = '2px solid rgb(230, 230, 230)';
             this.headerElement.style.paddingBottom = '2rem';
             this.headerElement.style.paddingTop = '2rem';
-
         }
 
         this.headerElement.style.width = 'calc(100% - 0px)';
@@ -45,10 +42,10 @@ export class HtmlHeader {
             d.style.maxWidth = '640px';
 
             let p = document.createElement('p');
+            // p.innerHTML = await marked(this.description);
             p.innerHTML = this.description;
 
             d.style.color = 'white';
-            // p.style.background = '#eee';
 
             d.appendChild(p);
             this.headerElement.appendChild(d);
@@ -60,11 +57,15 @@ export class HtmlHeader {
 
     redraw(currentData: any) {
 
+
+        if (this.headerElement == null) return;
+
         const hasPattern = /{(\w+)}/.test(this.description);
         const descEl = this.headerElement.querySelector('div');
 
         if (hasPattern) {
-            const description = this.description.replace(/{(\w+)}/g, (_, key) => thousands(currentData[key]) || `{${key}}`);
+            let description = this.description.replace("{week}", parseInt(currentData._yearweek.slice(4)).toString()).replace(/{(\w+)}/g, (_, key) => thousands(currentData[key]) || `{${key}}`);
+       
             descEl.innerHTML = description;
         }
 

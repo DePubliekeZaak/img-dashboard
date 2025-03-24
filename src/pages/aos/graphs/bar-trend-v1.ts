@@ -1,15 +1,12 @@
 
 import { breakpoints } from '../../../img-modules/styleguide';
-import { DataPart, ImgData, Segment } from '../../shared/types';
+import { Segment } from '../../shared/types';
 
 import { DataObject } from '../../shared/types';
 import { core, elements } from '../../../charts';
-import { GroupObject, IGraphMappingV2, IParameterMapping } from '../../shared/interfaces';
+import { GroupObject, IParameterMapping } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
-import { HtmlLegendCustom } from '../../shared/html/html-legend-custom';
-import { HtmlRadio } from '../../shared/html/html-radio';
 import { TrendBar } from '../../shared/types_graphs';
-import { KeyValue } from '../../../charts/core/types';
 import { HtmlLegendRow } from '../../shared/html/html-legend-row';
 import { createBars } from '../../shared/data.format.factory';
 import { parseSegment } from '../../shared/factories/segment';
@@ -87,7 +84,7 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
     async init() {
 
         this.config.paddingInner = .2;
-        this.config.paddingOuter =  .2;
+        this.config.paddingOuter = .2;
 
         await super._init();
         if (this.graphEl != null) await super._svg(this.graphEl);
@@ -111,6 +108,7 @@ export class AOSBarTrendV1 extends core.GraphControllerV3  {
     }
 
     prepareData(data: DataObject) : DataObject {
+
 
         const bars: { [key : string] : TrendBar[] } = {};
 

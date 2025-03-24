@@ -39,21 +39,26 @@ export class DuurGroupV1 extends GroupControllerV1 {
     prepareData(data: ImgData) : any {
       
         const dataGroup = "historie";
-        const parts: PiePart[]  = [];
-        const rows: (string|number)[][] = [];  
-        const months: any[] = [];   
-        const line: Line = [];  
-
-        let params = ([] as IParameterMapping[]);
-        
-        for (let graph of this.config.graphs) {
-            params = params.concat(...graph.parameters[0]);
-        }
-
-        let columns = params.map( ( p => p.column));
-
         data[dataGroup] = data[dataGroup].filter ( p => p._yearmonth < '202305')
 
+        // const parts: PiePart[]  = [];
+        const rows: (string|number)[][] = [];  
+        // const months: any[] = [];   
+        const line: Line = [];  
+
+        // let params = ([] as IParameterMapping[]);
+
+        
+
+        const { tableParams, graphData, definitions, graphData_alt } = super.prepareData(data);
+        
+        // for (let graph of this.config.graphs) {
+        //     params = params.concat(...graph.parameters[0]);
+        // }
+
+        // let columns = params.map( ( p => p.column));
+
+        
 
         for (let period of data[dataGroup]) {
 
@@ -62,46 +67,24 @@ export class DuurGroupV1 extends GroupControllerV1 {
             row.push(period._month);
             row.push(new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}));
 
-            let total = 0;
-            for (let column of columns) {
-                row.push(period[column]);  
-                total = total + period[column]  
+            // let total = 0;
+            for (let param of tableParams) {
+                // console.log(param, period[param.column]);
+                row.push(period[param.column]);  
+                // total = total + period[column]  
             }
 
             rows.push(row);
 
-            const month = {};
-            month["date"] = period._yearmonth
-            month["year"] = period._year
-            month["month"] = period._month
-
-            for (let column of columns) {
-                month[column] = period[column]
-            }
-
-            months.push(month)
-
-            line.push({
-                time: period._yearmonth,
-                value: period[this.config.graphs[0].parameters[1][0].column],
-                label: this.config.graphs[0].parameters[1][0].column,
-                colour: this.config.graphs[0].parameters[1][0].colour
-            })
+    
         }
 
-        this.keys = Object.keys(months[0]).filter(key => {
-            return columns.indexOf(key) > -1
-        })
-
-        this.stack = window.d3.stack()
-            .keys(this.keys);
-
         const table = {
-            headers:  ["Jaar","Maand","Datum"].concat(params.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
+            headers:  ["Jaar","Maand","Datum"].concat(tableParams.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
             rows
         };
 
-        const definitions: Definitions = [];
+// const definitions: Definitions = [];
 
         definitions.push({
             name: "Percentage binnen half jaar afgehandeld",
@@ -109,10 +92,9 @@ export class DuurGroupV1 extends GroupControllerV1 {
         })
 
         return {
-            stacked : this.stack(months),
-            columns,
+            graphData,
+            graphData_alt,
             line,
-            months,
             table,
             definitions
         }

@@ -3,8 +3,7 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 const group : IGroupMappingV2[] = [
     {
         "slug" : "ims_sc_totals",
-        "ctrlr": "IntroGroupV1",
-        
+        "ctrlr": "IntroGroupV1",       
         "graphs": [
             {
                 "slug" : "ims_sc_numbers_v1",

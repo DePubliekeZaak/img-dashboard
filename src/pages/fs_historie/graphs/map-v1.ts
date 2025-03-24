@@ -76,10 +76,6 @@ export class MapV1 extends core.GraphControllerV3  {
         if (this.index == 4) {
             this.graphEl.style.margin = window.innerWidth < breakpoints.sm ? "0" : "0 auto 0 2.5rem"
         }
-
-
-        
-        // this.legend = new HtmlLegend(this);
     }
 
     async init() {

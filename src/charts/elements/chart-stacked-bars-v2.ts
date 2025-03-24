@@ -1,5 +1,5 @@
 import { colours } from "../../img-modules/styleguide";
-import { convertToCurrency, convertToCurrencyInMillions, toDutchMonths } from "../../pages/shared/_helpers";
+import { convertToCurrency, toDutchMonths } from "../../pages/shared/_helpers";
 import { Segment } from "../../pages/shared/types";
 
 export default class ChartStackedBarsV2 {
@@ -18,7 +18,6 @@ export default class ChartStackedBarsV2 {
     ){}
 
     draw(data) {
-
 
         this.series = this.ctrlr.svg.layers.data.selectAll("g.serie")
             .data(data.stacked)
@@ -42,8 +41,6 @@ export default class ChartStackedBarsV2 {
 
         this.bars
             .attr("x", (d: any, i: number)  => self.ctrlr.scales.x.scale(d.data["date"]))
-            .attr("y", self.ctrlr.dimensions.graphHeight) 
-            .attr("height", 0)
             .attr("width", width)
             .transition()
             .duration(300)
@@ -57,10 +54,10 @@ export default class ChartStackedBarsV2 {
         this.bars
             .on("mouseover", function (event:  any, d: any) {
 
+                console.log(segment?.normalized)
+
                 const t = window.d3.select('.tooltip')
                 .html(() => {
-
-                    console.log(d);
 
                     let html =  '<div>' + d.data._year + '</div>'; 
                     html +=  '<div>' + toDutchMonths(parseFloat(d.data._month)) + '</div>'; 
@@ -72,6 +69,11 @@ export default class ChartStackedBarsV2 {
 
                         if (map.format == 'currency') {
                             v = convertToCurrency(v);
+                        }
+
+                        if (segment?.normalized) {
+                            console.log("halllo")
+                            v = (v * 100).toFixed(1) + '%';
                         }
 
                         html +=  '<div>' + map.label + ' : ' + v + '</div>'; 
@@ -87,7 +89,6 @@ export default class ChartStackedBarsV2 {
                                 html +=  '<div>' + map.label + ' : ' + Math.round(period.value) + '%</div>'; 
                             }
                         }
-
                     }
 
                     // for (let p of self.ctrlr.mapping.parameters[0]) {

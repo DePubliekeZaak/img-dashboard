@@ -26,6 +26,10 @@ export class IntroGroupV1 extends GroupControllerV1 {
 
     prepareData(data: ImgData) : any {
 
+        if (this.config.graphs.length == 0) {
+            return
+        }
+
         const dataGroup = this.config.endpoints[0];
         const rows: string[][] = []; 
 

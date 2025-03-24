@@ -5,11 +5,13 @@ import { GroupObject, IParameterMapping } from '../interfaces';
 import { IPageController } from '../page.controller';
 import breakpoints from '../../../img-modules/styleguide/breakpoints';
 import { parseSegment } from '../factories/segment';
+import { HtmlHeader } from '../html/html-header';
 
 export class NumbersMultiplesV1 extends core.GraphControllerV3  {
 
     el;
     number;
+    header;
 
     constructor(
         public slug:  string,
@@ -49,8 +51,35 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3  {
 
     html() {
 
-        this.el = super._html(["graph-container-4"]);
+        let elClass = "";
+
+        switch (this.parameters[0].length) {
+            case 1:
+                elClass = "graph-container-12";
+                break;
+            case 2:
+                elClass = "graph-container-6";
+                break;
+            case 3:
+                elClass = "graph-container-4";
+                break;
+            case 4:
+                elClass = "graph-container-3";
+                break;
+            default:
+                elClass = "graph-container-4";
+                break;
+        }
+
+        this.el = super._html([elClass]);
         // this.el.parentElement.style.paddingTop = "5rem";
+
+        // if(this.index == 0) {
+
+        //     const header = document.createElement('h3');
+        //     header.innerText = "Aanvullende vaste vergoeding"
+        //     this.el.parentElement.parentElement.insertBefore(header, this.el.parentElement);
+        // }
     }
 
     async init() {

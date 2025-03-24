@@ -13,9 +13,9 @@ export class SchadevergoedingenGroupV1 extends GroupControllerV1 {
     barProgression: any;
 
     funcList: any;
-    table;
+    // table;
 
-    htmlHeader;
+    // htmlHeader;
     yearSelector;
 
     constructor(

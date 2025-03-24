@@ -36,7 +36,6 @@ export class MakeupGroupTrendV1 extends GroupControllerV1 {
         graphData = trimStart(graphData, graphParams, 2);
         graphData_alt = trimStart(graphData_alt, graphParams, 2);
 
-
         for (let period of data[dataGroup]) {
 
             const row : string[] = [];

@@ -13,9 +13,9 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
     barProgression: any;
 
     funcList: any;
-    table;
+    // table;
 
-    htmlHeader;
+    // htmlHeader;
     yearSelector;
 
     constructor(
@@ -45,7 +45,7 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
         const years: any[] = [];    
         const definitions: Definitions = [];
         const geo: any[] = [];
-        
+
         let graph_1 = this.config.graphs[0];
         let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
         let param = params_1[0];
@@ -96,8 +96,6 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
                 if(obj != undefined) {
                    
                     f.properties["value"] = obj[param.column];
-                    
-
                     f.properties.colour = param.colour;
                     f.properties.format = param.format;
                 }
@@ -123,12 +121,14 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
             rows
         };
 
+        console.log(geo);
+
         return {
             geo,
             definitions,
             table
         }
-       }
+    }
     
     populateTable(tableData: TableData) {
 

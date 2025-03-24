@@ -13,9 +13,6 @@ export class OrdesBedragGroupV1 extends GroupControllerV1 {
     barProgression: any;
 
     funcList: any;
-    table;
-
-    htmlHeader;
     yearSelector;
 
     constructor(
@@ -51,7 +48,8 @@ export class OrdesBedragGroupV1 extends GroupControllerV1 {
 
             const row : (number|string)[] = [];
             row.push(period._year);
-            row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}));
+            // row.push(period._month);
+            // row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}));
 
             const year : Bars = [];
 
@@ -71,7 +69,11 @@ export class OrdesBedragGroupV1 extends GroupControllerV1 {
 
             years.push(year);
 
-            row.push(convertToCurrencyInTable(period[columns_1[0]]));
+            console.log(columns_1);
+
+            for (let column of columns_1) {
+                row.push(period[column]);
+            }
 
             rows.push(row);
         }
@@ -86,7 +88,7 @@ export class OrdesBedragGroupV1 extends GroupControllerV1 {
         });
 
         const table = {
-            headers:  ["Jaar","Maand","Periode"].concat(params_1.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
+            headers:  ["Jaar"].concat(params_1.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
             rows
         };
 

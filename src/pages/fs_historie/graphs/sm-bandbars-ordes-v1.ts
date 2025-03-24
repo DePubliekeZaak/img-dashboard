@@ -61,12 +61,12 @@ export class SMBandBarsOrdes extends core.GraphControllerV3  {
         const bottom = 0;
 
         this._addMargin(top,bottom,0,0);
-        this._addPadding(30,30,45,0);
+        this._addPadding(45,45,30,30);
 
         this._addScale('x','band','horizontal-reverse','label');
         this._addScale('y','linear','vertical','value');
         this._addAxis('x','x','bottom','short');
-        this._addAxis('y','y','left')
+        this._addAxis('y','y','left','hidden')
     }
 
     html() {
@@ -76,8 +76,10 @@ export class SMBandBarsOrdes extends core.GraphControllerV3  {
         if(this.group.element == null ) return;
 
         this.graphEl = super._html();
+        if (this.graphEl.parentElement) this.graphEl.parentElement.style.justifyContent = "flex-start";
         this.graphEl.classList.remove("graph-container-12");
         this.graphEl.classList.add("graph-container-4");
+        this.graphEl.style.width = "33%";
 
         this.header = new HTMLYear(this,this.graphEl);
     }

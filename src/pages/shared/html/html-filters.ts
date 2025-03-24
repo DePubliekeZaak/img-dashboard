@@ -6,9 +6,9 @@ import { IGraphControllerV3 } from "../../../charts/core/graph-v3";
 import { HtmlMonthSelector } from "./month-selector";
 import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
 import { HtmlPeriodSelector } from "./period-selector";
-import { segmentParse } from "../segment";
 import { HtmlCumulativevsDeltaSelector } from "./cumulative-delta-selector";
 import { HtmlMappingGroupSelector } from "./mapping-group-selector";
+import { HtmlNormalizedSelector } from "./html-normalized-selector";
 
 // import { EitiEntity } from "../types";
 
@@ -98,11 +98,10 @@ export class HtmlFilters {
                             if ( newValue != self.ctrlr.segment.key) {
                                 self.ctrlr.update(self.ctrlr.group.data, true);
                             }
-                        });
-                        
+                        });  
                     }
 
-                    break;
+                break;
 
                 case 'totaalVsRecent': // fixed
 
@@ -131,7 +130,7 @@ export class HtmlFilters {
                         }
                     });
 
-                    break;
+                break;
 
                 case 'cumulativeVsDelta': // fixed
 
@@ -155,13 +154,13 @@ export class HtmlFilters {
                         }
                     });
 
-                    break;
-
+                break;
 
                     // could this and follwing both be done with above, using modifiers as mapping
                 case 'monthSelect':
 
                     if (this.master) {
+
                         selector = new HtmlMonthSelector(this.ctrlr, li, this.ctrlr.group.slug, this.ctrlr.group.data.graphData)
                         selectEl = selector.draw();
                     } else {
@@ -171,20 +170,32 @@ export class HtmlFilters {
                     if (selectEl == null) break;
 
                     selectEl.addEventListener("change", () => {
-                        // @ts-ignore
-                        if ( selectEl.value != self.ctrlr.segment.key) {
+
+                        if (selectEl != null) {
+
                             // @ts-ignore
-                            self.ctrlr.update(self.ctrlr.group.data, segmentParse(selectEl.value), true);
+                            if ( selectEl.value != self.ctrlr.segment.key) {
+                                // @ts-ignore
+                                if (selectEl.value == 'all') {
+                                    localSegment.cumulative = true;
+                                    localSegment.key = 'all'
+                                } else {
+                                    localSegment.cumulative = false;
+                                    localSegment.key = selectEl.value;
+                                }
+                                self.ctrlr.update(self.ctrlr.group.data, true);
+                            }
                         }
                     });
 
-                    break;
+                break;
 
                 case 'weekVsMonth': // fixed
 
                     if (this.master) {
-                        selector = new HtmlPeriodSelector(this.ctrlr, li, this.ctrlr.group.slug, this.ctrlr.group.data.graphData)
-                        selectEl = selector.draw();
+                        selector = new HtmlPeriodSelector(this.ctrlr, li, this.ctrlr.group.slug, this.ctrlr.group.data.graphData);
+                        let periodization = localSegment ? localSegment.periodization : "monthly";
+                        selectEl = selector.draw(periodization);
                     } else {
                         selectEl = this.ctrlr.page.main.window.document.querySelector(this.id + '_period_1');
                     }
@@ -203,7 +214,7 @@ export class HtmlFilters {
                         }
                     });
 
-                    break;
+                break;
 
                 case 'parameterSelect': // fixed
             
@@ -234,69 +245,6 @@ export class HtmlFilters {
                         }
                     });
                 
-                    break;
-
-                case 'combiSelect':
-
-
-                    li.style.display = "flex";
-
-                    const selectorA = new HtmlMappingSelector(this.ctrlr, li,this.id,this.parameters);
-                    const selectEl2a = selectorA.draw(0);
-                    selectEl2a.style.maxWidth =  window.innerWidth < breakpoints.sm ? "70vw" : "30vw";
-
-                    let selectEl2b : HTMLSelectElement|undefined = undefined;
-                    // dit zijn de modifiers ! 
-                    if(this.modifiers != undefined) {
-                        const selectorB = new HtmlMappingSelector(this.ctrlr, li,this.id,this.modifiers);
-                        selectEl2b = selectorB.draw(1);
-                        selectEl2a.style.marginRight = "1rem";
-                        selectEl2b.style.marginRight = "1rem";
-                    }
-
-                    const updateSegment = () => {
-
-
-                        let newValue;
-
-                        const newSegment = {
-                            key: selectEl2a.value == "cumulative" ? this.ctrlr.segment.key + "_cumulative" : this.ctrlr.segment.key,
-                            cumulative: selectEl2a.value == "cumulative" ? true : false,
-                            periodization: self.ctrlr.segment.periodization
-                        }
-
-
-                        // if(selectEl2b != undefined) {
-                        //     if(selectEl2a.value == 'fysieke_schade_werkvoorraad') {
-                        //         newValue = selectEl2a.value
-                        //     } else {
-                        //         newValue = selectEl2b.value.replace("{}",selectEl2a.value);  
-                        //     }
-                        // } else {
-                        //     newValue = selectEl2a.value
-                        // }
-
-
-                        // if ( newValue != self.ctrlr.segment) {
-                        //     self.ctrlr.update(self.ctrlr.group.data, newValue, true);
-                        // }
-                    }
-
-
-                    selectEl2a.addEventListener("change", () => {
-
-                        updateSegment();
-                    });
-
-                    if(selectEl2b != undefined) {
-
-                        selectEl2b.addEventListener("change", () => {
-
-                            updateSegment();
-                        });
-                    }
-
-
                 break;
 
                 case 'mappingGroupSelect': // fixed
@@ -308,6 +256,23 @@ export class HtmlFilters {
 
                         if (localSegment.parameterIndex != parseInt(__selectEl.value)) {
                             localSegment.parameterIndex = parseInt(__selectEl.value);
+                            self.ctrlr.update(self.ctrlr.group.data, true);
+                        }
+                    });
+
+                break;
+
+                case 'absoluteVsNormalized': // fixed
+
+                    const ___selector = new HtmlNormalizedSelector(this.ctrlr, li, this.ctrlr.slug, this.parameters);
+                    const ___selectEl = ___selector.draw(1);
+
+                    ___selectEl.addEventListener("change", () => {
+
+                        let b = ___selectEl.value == "normalized" ? true : false;
+
+                        if (localSegment.normalized != b) {
+                            localSegment.normalized = b;
                             self.ctrlr.update(self.ctrlr.group.data, true);
                         }
                     });

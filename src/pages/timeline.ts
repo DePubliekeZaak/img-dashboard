@@ -80,4 +80,11 @@ export const timelineList: Timeline[] =  [
             description: "",
             category: "regeling"
         },
+        {
+            date: "2024-03-18",
+            label: "Verhoging vaste vergoeding naar 10.000 euro",
+            html: "Verhoging vaste vergoeding naar 10.000 euro",
+            description: "",
+            category: "regeling"
+        }
     ];

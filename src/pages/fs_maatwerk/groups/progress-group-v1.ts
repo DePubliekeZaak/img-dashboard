@@ -31,13 +31,11 @@ export class ProgressGroupV1 extends GroupControllerV1 {
 
         const { tableParams, graphParams, graphData, graphData_alt, timeline, definitions } = super.prepareData(data);
 
- 
-        
         for (let period of data[dataGroup]) {
 
             const row : string[] = [];
             row.push(period._year);
-            row.push(period._month);
+            row.push(period._week);
             row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'})); 
 
             for (let p of tableParams) {
@@ -60,7 +58,8 @@ export class ProgressGroupV1 extends GroupControllerV1 {
 
         const table = {
     
-            headers:  ["Jaar","Maand","Periode"].concat(tableParams.map( p => p.label)), 
+            pre_headers: [{label: "", length: 3},{label: "Per week", length: 3},{label: "Cumulatief", length: 3}],
+            headers:  ["Jaar","Week","Periode"].concat(tableParams.map( p => p.label)), 
             rows
         };
 

@@ -42,7 +42,6 @@ export class PieChartSumV1 extends core.GraphControllerV3  {
 
     html() {
 
-
         this.config.graphRatio = 1;
 
         if (window.innerWidth < breakpoints.sm) {
@@ -67,7 +66,7 @@ export class PieChartSumV1 extends core.GraphControllerV3  {
             this.graphEl.style.flexDirection = "column"
         }
 
-        this.legend = new HtmlLegendAsSum(this);
+        this.legend = new HtmlLegendAsSum(this,true);
     }
 
     async init() {

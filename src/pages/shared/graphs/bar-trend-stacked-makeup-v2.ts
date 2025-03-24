@@ -1,13 +1,11 @@
 
 import { breakpoints } from '../../../img-modules/styleguide';
-import { ImgData, Segment } from '../types';
+import { Segment } from '../types';
 
 import { DataObject } from '../types';
 import { core, elements } from '../../../charts';
-import { GroupObject, IGraphMappingV2, IParameterMapping } from '../interfaces';
+import { GroupObject, IParameterMapping } from '../interfaces';
 import { IPageController } from '../page.controller';
-import { AxisArrow } from '../../../charts/elements/axis-arrow';
-import { HtmlLegendRowWithLines } from '../html/html-legend-row-with-lines';
 import { HtmlLegendRow } from '../html/html-legend-row';
 import { parseSegment } from '../factories/segment';
 
@@ -95,7 +93,6 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3  {
         if (this.graphEl != null) await super._svg(this.scrollingContainer);
 
         this.chartBars = new elements.ChartStackedBarsV2(this);
-
         this.timeline_1 = new elements.ChartTimeline(this);
 
 
@@ -108,11 +105,17 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3  {
 
     prepareData(data: DataObject) : DataObject {
 
-        let _data = (this.segment.periodization == "weekly") ? data.graphData : data.graphData_alt
+        let monthFirst = (data.graphData[0].periodization == "monthly") ? true : false;
+
+        let _data;
+
+        if (monthFirst) {
+            _data = (this.segment.periodization == "weekly") ? data.graphData_alt : data.graphData
+        } else {
+            _data = (this.segment.periodization == "weekly") ? data.graphData : data.graphData_alt
+        }
 
         const period = (this.segment.periodization == "weekly") ? "_yearweek" : "_yearmonth";
-
-        // console.log(_data)
 
         for (let m of _data) {
             m.date = m[period]
@@ -133,7 +136,7 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3  {
     async draw(data: DataObject) {
 
         this.chartBars.draw(data);
-        this.legend.draw("top");
+        this.legend.draw("top", this.index);
         this.timeline_1?.draw(data.timeline, 0); 
     }
 
@@ -149,13 +152,18 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3  {
         await super.redraw(data.stacked);
 
         this.chartBars.redraw(data, this.segment);
-        this.timeline_1?.redraw(data.timeline, 0);  
+        let timeLineHeight =this.timeline_1?.redraw(data.timeline, 0);  
         // await this.arrowY.redraw(); 
 
         if (window.innerWidth < breakpoints.md) {
             if(this.graphEl != null) {
                 this.graphEl.scrollLeft += this.graphEl.scrollWidth - this.graphEl.clientWidth;
             }   
+        }
+
+
+        if (timeLineHeight === 0 && this.graphEl != null) {
+            this.graphEl.style.paddingBottom = (30 +timeLineHeight).toString() + "px";
         }
     }
 

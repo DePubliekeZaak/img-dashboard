@@ -12,6 +12,7 @@ export class HtmlNumberCircleRespondents {
     draw() {
 
         let element = this.element != undefined ? this.element : this.ctrlr.element;
+        element.style.justifyContent = 'center';
 
         let marginTop = '0';
 
@@ -78,13 +79,13 @@ export class HtmlNumberCircleRespondents {
         element.appendChild(miniContainer)
     }
 
-    redraw(data: any, label: string, extraParameter: string) {
+    redraw(data: any, parameter: string, extraParameter: string) {
 
         let element = this.element != undefined ? this.element : this.ctrlr.element;
 
         element.querySelector('.second_number').innerText = data[extraParameter];
 
-        let value =  Math.round(data[this.parameter['column']] * 10) / 10;
+        let value =  Math.round(data[parameter] * 10) / 10;
         element.querySelector('.number.accented').innerText = value.toFixed(1);
         
     }

@@ -72,8 +72,7 @@ export class GraphControllerV3 implements IGraphControllerV3  {
         public modifiers: IParameterMapping[][],
         public filters: string[],
         public segment: Segment,
-        public index: number,
-        // public element: HTMLElement | null
+        public index: number
     ) {
      
         this.scales = {};
@@ -104,6 +103,7 @@ export class GraphControllerV3 implements IGraphControllerV3  {
         const graphEl = document.createElement('section');
         graphEl.classList.add(classes)
         graphEl.classList.add("graph-view")
+        graphEl.classList.add(this.slug);
         if (this.element != null) {
             this.element.appendChild(graphEl);
             graphEl.style.paddingTop = this.config.margin.top + 'px';
@@ -116,16 +116,9 @@ export class GraphControllerV3 implements IGraphControllerV3  {
         if(graphIsMultiple(this.slug)) {
             
             const graph = this.group.config.graphs.find( g => g.slug == fixMultiple(this.slug));
-
             const master = this.slug.endsWith('0')
 
-            
-    
-            // can i expose update method on the group
-
             if (graph != undefined && graph.filters != undefined && graph.filters.length > 0) { 
-
-            
                 this.filter = new HtmlFilters(this, master, graph.slug, graphEl.parentElement, graph.filters, this.parameters, this.modifiers);
                 this.filter.draw();
             }
@@ -181,14 +174,17 @@ export class GraphControllerV3 implements IGraphControllerV3  {
         }
 
         if (this.segment.key) {
+
+            let g = this.group.config.graphs[this.index] != undefined ? this.group.config.graphs[this.index] : this.group.config.graphs[0] 
             
-            const params = this.group.config.graphs[this.index].parameters || [];
-            const param = params[0].find( p => p.column == this.segment.key.replace("_cumulatief",""));
-            for (let a of this.config.axes) {
-                this.axes[a.slug].redraw(this.dimensions,this.scales[a.scale].scale, data.slice, param?.format)
+            if (g != undefined) {
+                const params = g.parameters || [];
+                const param = params[0].find( p => p.column == this.segment.key.replace("_cumulatief",""));
+                for (let a of this.config.axes) {
+                    this.axes[a.slug].redraw(this.dimensions,this.scales[a.scale].scale, data.slice, this.segment, param?.format)
+                }
             }
         }
-        
 
         return;
     }

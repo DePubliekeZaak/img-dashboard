@@ -2,7 +2,7 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping : IGroupMappingV2[] = [
     {
-        "slug" : "fs_ves_totals",
+        "slug" : "ves_totals",
         "ctrlr": "IntroGroupV1",
         "filters" : [],
         "graphs": [
@@ -10,6 +10,7 @@ const mapping : IGroupMappingV2[] = [
                 "slug" : "fs_ves_numbers_v1",
                 "ctrlr" : "NumbersMultiplesV1",
                 "args" : [],
+                "header": "Vaste Vergoeding (VES)",
                 "filters": ["totaalVsRecent"],
                 "multiples": "cumulative", 
                 "parameters": [
@@ -56,18 +57,9 @@ const mapping : IGroupMappingV2[] = [
                     "cumulative": true,
                     "periodization": "weekly"
                 },
-            }
-        ],
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": ["fs_wekelijks","fs_maandelijks"]
-    },
-    {
-        "slug" : "fs_ves_ontwikkeling",
-        "ctrlr": "ProgressGroupV1",
-        "graphs": [
-            
+            },
             {
-                "slug" : "vaste_vergoeding",
+                "slug" : "ves_trend",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": ["parameterSelect","cumulativeVsDelta","weekVsMonth"],
@@ -83,16 +75,12 @@ const mapping : IGroupMappingV2[] = [
                             "column": "vaste_vergoeding_afgehandeld",
                             "colour": "green"
                         },
-                        // {
-                        //     "label": "Werkvoorraad",
-                        //     "column": "vaste_vergoeding_werkvoorraad",
-                        //     "colour": "blue"
-                        // },
                         {
                             "label": "Verleend",
                             "column": "vaste_vergoeding_verleend_bedrag",
-                            "colour": "blue"
-                        },
+                            "colour": "blue",
+                            "format": "currency"
+                        }
                     ],
                 ],
                 "modifiers" : [
@@ -121,7 +109,7 @@ const mapping : IGroupMappingV2[] = [
         
     },
     {
-        "slug" : "fs_ves_toegewezen",
+        "slug" : "ves_toegewezen",
         "ctrlr": "ToegewezenV1",
         "filters": [],
         "graphs": [
@@ -133,7 +121,7 @@ const mapping : IGroupMappingV2[] = [
                 [
                     {
                         "label": "Toegewezen",
-                        "column": "vaste_vergoeding_toewijzingen_cumulatief",
+                        "column": "vaste_vergoeding_toekenningen_cumulatief",
                         "colour": "moss",
                         "scale" : "null",
                         "format": ""
@@ -155,41 +143,50 @@ const mapping : IGroupMappingV2[] = [
                         "format": ""
                     }
                 ]
-            ]
+            ],
+            "segment": {
+                "key" : "vaste_vergoeding_toekenningen_cumulatief",
+                "cumulative": true,
+                "periodization": "monthly"
+            }
+        // },
             },
-            // {
-            //     "slug" : "fs_ves_toegewezen_trend",
-            //     "ctrlr" : "BarTrendStackedMakeup",
-            //     "filters": ["weekVsMonth"],
-            //     "args" : [],
-            //     "parameters": [
-            //         [
-            //             {
-            //                 "label": "Toegewezen",
-            //                 "column": "ims_volw_toegewezen",
-            //                 "colour": "moss",
-            //                 "scale" : "null",
-            //                 "format": ""
-            //             },
-            //             {
-            //                 "label": "Afgewezen",
-            //                 "column": "ims_volw_afgewezen",
-            //                 "colour": "orange",
-            //                 "scale" : "null",
-            //                 "format": ""
-            //             },
-            //         ]
-            //     ]
-            // }
+            {
+                "slug" : "fs_ves_toegewezen_trend",
+                "ctrlr" : "BarTrendStackedMakeup",
+                "filters": ["absoluteVsNormalized","weekVsMonth"],
+                "args" : [],
+                "parameters": [
+                    [
+                        {
+                            "label": "Toekenningen",
+                            "column": "vaste_vergoeding_toekenningen",
+                            "colour": "moss",
+                            "scale" : "null",
+                            "format": ""
+                        },
+                        {
+                            "label": "Afgewezen",
+                            "column": "vaste_vergoeding_afwijzingen",
+                            "colour": "orange",
+                            "scale" : "null",
+                            "format": ""
+                        },
+                    ]
+                ],
+                "segment": {
+                    "key" : "vaste_vergoeding_toekenningen",
+                    "cumulative": false,
+                    "periodization": "monthly",
+                    "label": "besluiten",
+                    "normalized": false
+                },
+            }
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["fs_wekelijks","fs_maandelijks"],
-        "segment": {
-            "key" : "vaste_vergoeding_afwijzingen_cumulatief",
-            "cumulative": true,
-            "periodization": "monthly"
-        },
-    },
+        "endpoints": ["fs_wekelijks","fs_maandelijks"]
+    }
+       
 
 
 ];

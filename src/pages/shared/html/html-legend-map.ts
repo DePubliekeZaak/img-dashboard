@@ -33,7 +33,7 @@ export default class MapLegend {
           max = shortenCurrency(convertToCurrency(max));
         } 
 
-        if (this.ctrlr.config.extra.percentage) {
+        if (this.ctrlr.config.extra.percentage || this.ctrlr.parameters[0][0].format === 'percentage') {
           max = max + "%";
         } 
 

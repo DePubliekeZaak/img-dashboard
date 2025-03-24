@@ -64,6 +64,15 @@ const config = (env) =>  {
           export: 'default',
         }
       },
+      fs_aanvullende_vaste_vergoeding: {
+        filename: "scripts/fs_aanvullende_vaste_vergoeding.bundle.js",
+        import: "./src/pages/fs_aanvullende_vaste_vergoeding/index.ts",
+        library: {
+          name: 'fs_aanvullende_vaste_vergoeding',
+          type: 'window',
+          export: 'default',
+        }
+      },
       fs_historie: {
         filename: "scripts/fs_historie.bundle.js",
         import: "./src/pages/fs_historie/index.ts",

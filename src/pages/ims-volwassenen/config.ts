@@ -97,14 +97,14 @@ const group : IGroupMappingV2[] = [
                             "label": "cumulatief",
                             "column": "{}_cumulatief",
                             "colour": "orange"
-                        },   
+                        }   
                     ]
                 ],
                 "segment": {
                     "key": "ims_volw_aanvragen",
                     "cumulative": false,
                     "periodization": "weekly"
-                },
+                }
             }
         ],
         "functionality": ['table', 'definitions','download'],
@@ -268,7 +268,12 @@ const group : IGroupMappingV2[] = [
                         "format": ""
                     }
                 ]
-            ]
+            ],  
+            "segment": {
+                "key" : "ims_volw_bezwaren_ingediend",
+                "cumulative": false,
+                "periodization": "none"
+            }
             },
             {
                 "slug" : "volw_bezwaren_taart",
@@ -309,13 +314,17 @@ const group : IGroupMappingV2[] = [
                         }
                     ]
                 ],
-                "classList": ["graph-container-6"]
-            }
+                "classList": ["graph-container-6"],
+                "segment": {
+                    "key" : "ims_volw_bezwaren_ingediend",
+                    "cumulative": false,
+                    "periodization": "none"
+                }
+            },
           
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["ims_wekelijks"],
-        "segment": "all",
+        "endpoints": ["ims_wekelijks"]
     }
 
 ];

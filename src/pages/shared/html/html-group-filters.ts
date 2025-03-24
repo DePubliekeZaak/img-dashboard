@@ -40,7 +40,7 @@ export class HtmlGroupFilters {
 
             this.listElement.appendChild(ul);
 
-            element.insertBefore(this.listElement, element.firstChild);
+            element.insertBefore(this.listElement, element.querySelector('.tab_list'));
         }
 
         return true;
@@ -108,7 +108,7 @@ export class HtmlGroupFilters {
 
                     case 'gemeente': 
 
-                        console.log("inside html group filter",this.ctrlr.page.segment)
+                        // console.log("inside html group filter",this.ctrlr.page.segment)
 
                         const muniSelector = new HtmlMunicipalitySelector(this.ctrlr, li, this.ctrlr.slug);
                         const muniSelectEl = muniSelector.draw(this.ctrlr.page.segment, 1);

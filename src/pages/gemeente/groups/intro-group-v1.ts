@@ -1,8 +1,7 @@
-
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { ImgData } from "../../shared/types";
-import { TableData, Definitions } from "../../shared/types_graphs";
+import { TableData, Definitions, PiePart } from "../../shared/types_graphs";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
@@ -27,36 +26,53 @@ export class IntroGroupV1 extends GroupControllerV1 {
     prepareData(data: ImgData) : any {
 
         const _data = JSON.parse(JSON.stringify(data)); 
-
-        const dataGroup = this.config.endpoints[0];
         const muniData = {};
-        muniData[dataGroup] = _data[dataGroup].filter( p => p.gemeente == this.page.segment.gemeente);
+        for (let endpoint of this.config.endpoints) {
+            muniData[endpoint] = _data[endpoint].filter( p => p.gemeente == this.page.segment.gemeente);
+        }
 
         const rows: string[][] = []; 
 
-        const { tableParams, graphParams, graphData, timeline, definitions, graphData_alt } = super.prepareData(muniData);
+        let { tableParams, graphParams, graphData, timeline, definitions, graphData_alt } = super.prepareData(muniData);
         const incremental: string[] = [];
         const cumulative: string[] = [];
 
-        console.log("gr",graphData);
+        let index = 1; // this.segment.periodization == "monthly" ? 1 : 0;    
 
         for (let p of this.config.graphs[0].parameters[0]) {
 
             incremental.push(
-                muniData[dataGroup][0][p.column]
+                muniData[this.config.endpoints[0]][index][p.column]
             )
 
             cumulative.push(
-                muniData[dataGroup][0][p.column + '_cumulatief']
+                muniData[this.config.endpoints[0]][index][p.column + '_cumulatief']
             )
         }
+
+        const parts: PiePart[] = [];
+
+        this.config.graphs[2].parameters[0].concat(...this.config.graphs[2].parameters[1]).forEach( (p,i) =>  {
+
+            parts.push({
+                label: p.label,
+                value:  graphData_alt[0][p.column],
+                colour: p.colour,
+                accented: false,
+                format: "",
+            })
+        });
+
+
+
+        tableParams = tableParams.filter( p => p.column.includes("cumulatief"));
         
-        for (let period of muniData[dataGroup]) {
+        for (let period of muniData[this.config.endpoints[0]]) {
 
             const row : string[] = [];
             row.push(period._year);
             row.push(period._month);
-            row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'})); 
+            row.push(period.gemeente); 
 
             for (let p of tableParams) {
 
@@ -76,11 +92,12 @@ export class IntroGroupV1 extends GroupControllerV1 {
     
         const table = {
     
-            headers:  ["Jaar","Maand","Periode"].concat(tableParams.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
+            headers:  ["Jaar","Maand","Gemeente"].concat(tableParams.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
             rows
         };
 
         return {
+            pies: [parts,parts,parts],
             numbers: graphData[0],
             graphData,
             graphData_alt,

@@ -13,9 +13,9 @@ export class ToegewezenV1 extends GroupControllerV1 {
     barProgression: any;
 
     funcList: any;
-    table;
+    // table;
 
-    htmlHeader;
+    // htmlHeader;
     yearSelector;
 
     constructor(
@@ -41,19 +41,15 @@ export class ToegewezenV1 extends GroupControllerV1 {
         const parts: PiePart[]  = [];
         const rows: (string|number)[][] = [];  
 
-        const { tableParams, graphParams, graphData, timeline, definitions, graphData_alt } = super.prepareData(data);
+        let { tableParams, graphParams, graphData, timeline, definitions, graphData_alt } = super.prepareData(data);
         let params = ([] as IParameterMapping[]);
         
         let graph_1 = this.config.graphs[0];
         let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
         let columns_1 = params_1.map(( p => p.column));
 
-        for (let period of graphData.concat(graphData_alt)) {
-            
-            period.vaste_vergoeding_afgehandeld_cumulatief = period.vaste_vergoeding_afgehandeld_cumulatief || 0;
-            period.vaste_vergoeding_afwijzingen_cumulatief = period.vaste_vergoeding_afwijzingen_cumulatief || 0;
-            period.vaste_vergoeding_toewijzingen_cumulatief = period.vaste_vergoeding_afgehandeld_cumulatief - period.vaste_vergoeding_afwijzingen_cumulatief;
-        }
+        graphData = graphData.filter ( p => p._yearmonth > 202409)
+        graphData_alt = graphData_alt.filter ( p => p._yearmonth > 202409)
 
         for (let period of graphData.filter( p => p._year > 2019)) {
 
@@ -77,12 +73,12 @@ export class ToegewezenV1 extends GroupControllerV1 {
                 value:  graphData[0][p.column],
                 colour: p.colour,
                 accented: false,
-                format: "",
+                format: ""
             })
         });
 
         const table = {
-            headers:  ["Jaar","Week", "Datum"].concat(params_1.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
+            headers:  ["Jaar","Week","Datum"].concat(params_1.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
             rows
         };
 

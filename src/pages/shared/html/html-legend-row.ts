@@ -4,12 +4,12 @@ import { breakpoints, colours } from "../../../img-modules/styleguide";
 export class HtmlLegendRow {
 
     constructor(
-        private ctrlr: any
+        private ctrlr: any,
     ) {
         // this.draw();
     }
 
-    draw(location: string) {
+    draw(location: string, index: number = 0) {
 
         const prevLegend = this.ctrlr.element.querySelector('div.legend');
         if(prevLegend) this.ctrlr.element.removeChild(prevLegend);
@@ -22,7 +22,12 @@ export class HtmlLegendRow {
         legend.style.justifyContent = 'center';
         legend.style.width = '100%';
 
-        this.ctrlr.group.graphs[0].parameters[0].forEach( (map: any,i:  number) => {
+        if (this.ctrlr.group.graphs[index] == undefined) {
+            console.log("no parameters", index);
+            
+        }
+
+        this.ctrlr.group.graphs[index].parameters[0].forEach( (map: any,i:  number) => {
             let item = this.createDiv();
             item.appendChild(this.createCircle(map));
             item.appendChild(this.createLabel(map));

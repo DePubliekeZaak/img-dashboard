@@ -29,7 +29,7 @@ export class IntroGroupV1 extends GroupControllerV1 {
         const dataGroup = this.config.endpoints[0];
         const rows: string[][] = []; 
 
-        const { tableParams, graphData, definitions, graphData_alt } = super.prepareData(data);
+        const { tableParams, graphData, definitions, graphData_alt, timeline } = super.prepareData(data);
         const incremental: string[] = [];
         const cumulative: string[] = [];
 
@@ -73,6 +73,8 @@ export class IntroGroupV1 extends GroupControllerV1 {
             rows
         };
 
+    
+
         return {
             current: graphData[0],
             graphData,
@@ -80,7 +82,8 @@ export class IntroGroupV1 extends GroupControllerV1 {
             incremental,
             cumulative,
             table,
-            definitions
+            definitions,
+            timeline
         }
        }
     

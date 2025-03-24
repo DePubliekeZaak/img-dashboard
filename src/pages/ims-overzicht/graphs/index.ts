@@ -4,6 +4,7 @@ import { BarTrendStackedMakeup } from "../../shared/graphs/bar-trend-stacked-mak
 import { NumbersPlusRespondentsV1 } from "../../shared/graphs/numbers-respondents-v1";
 import { NumbersV1 } from "../../shared/graphs/numbers-v1";
 import { BarTrendV1 } from "../../shared/graphs/bar-trend-v1";
+import { NumbersMultiplesV1 } from "../../shared/graphs/numbers-multiples-v1";
 
 const graphs = { 
 
@@ -11,7 +12,8 @@ const graphs = {
     BarTrendStackedMakeup,
     NumbersV1,
     NumbersPlusRespondentsV1,
-    BarTrendKTOV1
+    BarTrendKTOV1,
+    NumbersMultiplesV1
 }
 
 export default graphs;

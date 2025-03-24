@@ -62,7 +62,7 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3  {
             this.numbers[p.column] = new elements.HtmlNumberCircleRespondents(this, p, this.els[p.column])
         }
         
-        await this.update(this.group.data,this.segment, false);
+        await this.update(this.group.data,false);
 
         return;
     }
@@ -89,7 +89,7 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3  {
         }
     }
 
-    async update(data: DataObject, segment: Segment, update: boolean, range?: number[]) {
+    async update(data: DataObject, update: boolean, range?: number[]) {
 
        await super._update(data,update, range);
     } 

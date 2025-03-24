@@ -11,9 +11,6 @@ export class BezwarenV1 extends GroupControllerV1 {
     barProgression: any;
 
     funcList: any;
-    table;
-
-    htmlHeader;
     yearSelector;
 
     constructor(

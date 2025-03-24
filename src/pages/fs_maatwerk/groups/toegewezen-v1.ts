@@ -13,9 +13,9 @@ export class ToegewezenV1 extends GroupControllerV1 {
     barProgression: any;
 
     funcList: any;
-    table;
+    // table;
 
-    htmlHeader;
+    // htmlHeader;
     yearSelector;
 
     constructor(
@@ -46,14 +46,7 @@ export class ToegewezenV1 extends GroupControllerV1 {
         
         let graph_1 = this.config.graphs[0];
         let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
-        let columns_1 = params_1.map(( p => p.column));
-
-        for (let period of graphData.concat(graphData_alt)) {
-            
-            period.vaste_vergoeding_afgehandeld_cumulatief = period.vaste_vergoeding_afgehandeld_cumulatief || 0;
-            period.vaste_vergoeding_afwijzingen_cumulatief = period.vaste_vergoeding_afwijzingen_cumulatief || 0;
-            period.vaste_vergoeding_toewijzingen_cumulatief = period.vaste_vergoeding_afgehandeld_cumulatief - period.vaste_vergoeding_afwijzingen_cumulatief;
-        }
+        let columns_1 = params_1.map(( p => p.column));     
 
         for (let period of graphData.filter( p => p._year > 2019)) {
 
@@ -71,10 +64,12 @@ export class ToegewezenV1 extends GroupControllerV1 {
         }
 
         params_1.forEach( (p,i) =>  {
-            
+
+          
+
             parts.push({
                 label: p.label,
-                value:  graphData[0][p.column],
+                value:  graphData_alt[0][p.column],
                 colour: p.colour,
                 accented: false,
                 format: "",

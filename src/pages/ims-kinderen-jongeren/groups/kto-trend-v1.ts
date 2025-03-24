@@ -6,7 +6,7 @@ import { TableData } from "../../shared/types_graphs";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 import { relyOnCompleted } from "../../shared/factories/group";
-import { trimStart } from "../../shared/factories/trend";
+
 
 export class KTOTrendV1 extends GroupControllerV1 { 
 

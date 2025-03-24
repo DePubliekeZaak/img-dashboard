@@ -122,8 +122,6 @@ export const createBars = (prop: string, param: IParameterMapping, data: KeyValu
 
     for (let period of data) {
 
-        console.log(period);
-
         bs.push({
             label: param?.label || "",
             name: "main",
@@ -131,6 +129,31 @@ export const createBars = (prop: string, param: IParameterMapping, data: KeyValu
             colour: param != undefined ? param.colour : "orange",
             meta: period,
             value: period[prop] == null ? 0 : parseFloat(period[prop].toString())
+        })
+    }
+
+    // console.log(bs);
+
+    return bs;
+}
+
+export const createBarsForStacked = (prop: string, param: IParameterMapping, data: any[], segment: Segment) => {
+
+    const bs: TrendBar[] = [];
+
+    const periodKey = segment.periodization == "monthly" ? "_yearmonth" : "_yearweek";
+
+    for (let period of data) {
+
+        console.log(period);
+
+        bs.push({
+            label: param?.label || "",
+            name: "main",
+            date: period.data.date.toString(),
+            colour: param != undefined ? param.colour : "orange",
+            meta: period.data,
+            value: period[1] == null ? 0 : parseFloat(period[1].toString())
         })
     }
 

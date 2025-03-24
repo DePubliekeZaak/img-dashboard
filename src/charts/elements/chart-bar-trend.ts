@@ -1,4 +1,3 @@
-
 import { breakpoints, colours } from '../../img-modules/styleguide';
 import { slugify } from '../../pages/shared/_helpers';
 import { TrendBar } from '../../pages/shared/types_graphs';
@@ -14,7 +13,7 @@ export default class ChartBarTrend {
 
     draw(data: TrendBar[]) {
 
-        // console.log(data)
+        let self = this;
 
         this.slug = (this.ctrlr.filters && this.ctrlr.filters.length > 0) ? this.ctrlr.slug : slugify(data[0].label);
 
@@ -30,24 +29,24 @@ export default class ChartBarTrend {
             .data(data, d => d.date)
             .join("rect")
             .attr("class", d => "bar " + this.slug)
+            .attr("y", self.ctrlr.dimensions.svgHeight)
+            .attr("height", 0)
           
         ;
     }
 
     redraw(data: TrendBar[], period?: string) {
 
+        let self = this;
         // can be called multiple times for extra trends 
         let groupSlug = data[0].name != undefined ? data[0].name  : this.ctrlr.slug;
 
-        let self = this;
+        
         const group = this.ctrlr.svg.layers.data.selectAll("g." + groupSlug)
        
         const bars = group.selectAll(".bar." + this.slug)
 
         let tooltip = function popup(d) {
-
-          
-
 
             if (period == 'weekly') {
 
@@ -69,23 +68,24 @@ export default class ChartBarTrend {
             }
           }
 
-        const space = 
-        period == 'weekly' 
-        ? 0 
-        : data.length < 10
-        ? 6
-        : 1;
+        // const space = 
+        // period == 'weekly' 
+        // ? 6 
+        // : data.length < 10
+        // ? 6
+        // : 1;
+        const space = data.length < 10 ? 6 : 1;
 
-        const effectiveWidth = this.ctrlr.dimensions.svgWidth - this.ctrlr.config.padding.left - this.ctrlr.config.padding.right;
-          
-        let barWidth = (effectiveWidth /(data.length - 1)) - space;
+        console.log(data.length)
+
+        const effectiveWidth = this.ctrlr.dimensions.svgWidth; // - this.ctrlr.config.padding.left - this.ctrlr.config.padding.right;
+        let barWidth = (effectiveWidth /(data.length)) - space;
 
         bars
             .attr("x", (d: TrendBar, i: number)  => {
                 return self.ctrlr.scales.x.fn(d.date)
             })
-            .attr("y", self.ctrlr.dimensions.svgHeight)
-            .attr("height", 0)
+     
             .attr("width", barWidth)
             .transition()
             .duration(300)
@@ -121,8 +121,6 @@ export default class ChartBarTrend {
                     t.style("right", (w - event.pageX + 0) + "px")
                     .style("left", "auto")
                 }
-
-
             })
             .on("mouseout", (d) => {
 

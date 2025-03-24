@@ -13,9 +13,9 @@ export class GeoGroupV1 extends GroupControllerV1 {
     barProgression: any;
 
     funcList: any;
-    table;
+    // table;
 
-    htmlHeader;
+    // htmlHeader;
     yearSelector;
 
     constructor(
@@ -64,8 +64,10 @@ export class GeoGroupV1 extends GroupControllerV1 {
                 if(o != undefined) { 
                     if(tableParams[0].format == "currency") {
                         row.push(convertToCurrencyInTable(o[tableParams[0].column]))
-                    } else {
+                    } else if(tableParams[0].format == "percentage") {
                         row.push(o[tableParams[0].column] + "%")
+                    } else {
+                        row.push(o[tableParams[0].column])
                     }
                 } else {
                     row.push("n < 25")

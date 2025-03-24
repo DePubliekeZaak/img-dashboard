@@ -40,11 +40,18 @@ export const navItems = [
                 title: 'Fysieke schade - Vaste vergoeding',
                 title_en: ""
             }, 
+            // {
+            //     slug: 'fs_daadwerkelijk_herstel',
+            //     label: 'Herstel',
+            //     label_en: "",
+            //     title: 'Fysieke schade - Herstel',
+            //     title_en: ""
+            // }, 
             {
-                slug: 'fs_daadwerkelijk_herstel',
-                label: 'Herstel',
+                slug: 'fs_aanvullende_vaste_vergoeding',
+                label: 'Aanvullende vaste vergoeding',
                 label_en: "",
-                title: 'Fysieke schade - Herstel',
+                title: 'Fysieke schade - Aanvullende vergoeding',
                 title_en: ""
             }, 
             {
@@ -84,13 +91,13 @@ export const navItems = [
                 title: 'Immateriele schade - kinderen en jongeren',
                 title_en: ""
             },
-            {
-                slug: 'ims-herbeoordeling',
-                label: 'Herbeoordeling',
-                label_en: "",
-                title: 'Immateriele schade - Herbeoordeling',
-                title_en: ""
-            }
+            // {
+            //     slug: 'ims-herbeoordeling',
+            //     label: 'Herbeoordeling',
+            //     label_en: "",
+            //     title: 'Immateriele schade - Herbeoordeling',
+            //     title_en: ""
+            // }
         ]
     },
     {
@@ -125,7 +132,7 @@ export const navItems = [
         slug: 'gemeente',
         label: 'Per gemeente',
         label_en: "",
-        title: 'Gemeente',
+        title: 'Data per gemeente',
         title_en: ""
     }, 
     {

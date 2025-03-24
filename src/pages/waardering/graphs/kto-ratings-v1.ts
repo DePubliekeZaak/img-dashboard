@@ -1,20 +1,22 @@
 import { core, elements } from "../../../charts";
 import { ChartBarsHorizontalV1 } from "../../../charts/elements/chart-bars-horizontal-v1";
+import ChartTimeline from "../../../charts/elements/chart-timeline";
+import { HtmlNumberCircleRespondents } from "../../../charts/elements/html-number-circle-respondents";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { parseSegment } from "../../shared/factories/segment";
+import { HtmlPeriodSelector } from "../../shared/html/period-selector";
 import { GroupObject, IParameterMapping } from "../../shared/interfaces";
 import { IPageController } from "../../shared/page.controller";
-import { segmentParse } from "../../shared/segment";
-import { DataObject, DataPart, Segment } from "../../shared/types";
-import { GraphData } from "../../shared/types_graphs";
-
+import { DataObject, Segment } from "../../shared/types";
 
 export class KTORatingsV1 extends core.GraphControllerV3  {
 
-    circleEl;
-    trendEl;
-    chartBar;
-    htmlCircle;
-    htmlPeriodSelector;
+    circleEl: HTMLElement;
+    trendEl: HTMLElement;
+    chartBar: ChartBarsHorizontalV1;
+    htmlCircle: HtmlNumberCircleRespondents;
+    htmlPeriodSelector: HtmlPeriodSelector;
+    
 
     constructor(
         public slug:  string,
@@ -38,11 +40,14 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
 
     pre() {
 
+        // const marginForTimeline = 360;
+        // const paddingForTimeline = 60;
+
         this._addScale("x","linear","horizontal","value");
         this._addScale("y","band","vertical","label");
 
-        this._addPadding(0,0,20,80);
-        this._addMargin(0,60,0,0);
+        this._addPadding(0, 0,20,80);
+        this._addMargin(0, 60,0,0);
     }
 
     html() {
@@ -80,16 +85,16 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
         this.htmlCircle.draw();
 
         this.chartBar = new ChartBarsHorizontalV1(this);
+       
+
 
         await this.update(this.group.data, false);
     }
 
     prepareData(data: DataObject) : DataObject {
 
-
-        const cumulative = (this.segment.key === 'all') ? true : false;
-        data.selectedMonth = cumulative ? data.graphData[0] : data.graphData.find( (m) => m['_yearmonth'] === this.segment.key);
-        const dataIndex  = cumulative ? 1 : 2;
+        data.selectedMonth = this.segment.cumulative ? data.graphData[0] : data.graphData.find( (m) => m['_yearmonth'] === this.segment.key);
+        const dataIndex  = this.segment.cumulative ? 1 : 2;
         data.numbers = [];
 
         for (let mapping of this.parameters[dataIndex]) {
@@ -113,6 +118,7 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
 
     async redraw(data: any, range: number[] | undefined) {
 
+
         // @ts-ignore
         let parameter = (this.segment.key === 'all') ? this.parameters[0][0].column : this.parameters[0][1].column;
         // @ts-ignore
@@ -121,16 +127,20 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
 
         super.redraw(data);
         
-        this.chartBar.redraw(data.numbers);
+        this.chartBar.redraw();
+        
+        
     }
 
     async draw(data : DataObject) {
 
         let self = this;
-        this.xScale = this.scales.x.set(data.numbers.map(d => d['value']).concat([0,100]));
+        this.xScale = this.scales.x.set(data.numbers.map(d => d['value']).concat([0]));
         this.yScale = this.scales.y.set(data.numbers.map(d => d['label']));
 
         this.chartBar.draw(data.numbers);
+
+        
     }
 
     async update(data: DataObject, update: boolean) {

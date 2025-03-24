@@ -75,6 +75,8 @@ export class HtmlNumberCircle {
 
     redraw(data,extraParameter) {
 
+        console.log(data);
+
         let element = this.element != undefined ? this.element : this.ctrlr.element;
 
         if (this.parameter.format === "decimals") {

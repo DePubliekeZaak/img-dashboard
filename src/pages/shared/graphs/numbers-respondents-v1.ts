@@ -84,7 +84,7 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3  {
 
         let i = 0;
         for (let p of this.parameters[0]) {
-            this.numbers[p.column].redraw(data.graphData[0], this.parameters[0][i]["label"], this.parameters[1][i]["column"])
+            this.numbers[p.column].redraw(data.graphData[0], this.parameters[0][i]["column"], this.parameters[1][i]["column"])
             i++;
         }
     }

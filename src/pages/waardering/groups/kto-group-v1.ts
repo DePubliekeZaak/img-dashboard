@@ -33,6 +33,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
         const rows: string[][] = []; 
 
         data[dataGroup] = data[dataGroup].filter( p => p.complete);
+        data[dataGroup] = data[dataGroup].filter( p => p[this.config.graphs[0].parameters[0][0].column] > 0);
 
         const { tableParams, graphParams, graphData, timeline, definitions } = super.prepareData(data);
 
@@ -70,6 +71,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
         return {
             
             graphData,
+            graphData_alt: graphData,
             definitions,
             table,
             timeline

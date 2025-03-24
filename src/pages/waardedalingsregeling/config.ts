@@ -14,23 +14,23 @@ const group : IGroupMappingV2[] = [
                 "parameters": [
                     [
                         { 
-                            "label" : "Aanvragen",
-                            "column" : "wd_aanvragen",
-                            "colour" : "orange",
-                            "units" : "aanvragen"
+                            "label": "Aanvragen",
+                            "column": "wd_aanvragen",
+                            "colour": "orange",
+                            "units": "aanvragen"
                         },
                         { 
-                            "label" : "Besluiten",
-                            "column" : "wd_besluiten",
-                            "colour" : "moss",
+                            "label": "Besluiten",
+                            "column": "wd_besluiten",
+                            "colour": "moss",
                             "units": "afgehandeld"
                         },
                         { 
-                            "label" : "Verleend",
-                            "column" : "wd_verleend",
-                            "colour" : "blue",
-                            "format" : "currency",
-                            "units" : "verleend"
+                            "label": "Verleend",
+                            "column": "wd_verleend",
+                            "colour": "blue",
+                            "format": "currency",
+                            "units": "verleend"
                         }
                     ],
                     [
@@ -58,9 +58,9 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-            "slug" : "wd_total_trend",
-            "ctrlr" : "BarTrendV1",
-            "args" : [],
+            "slug": "wd_total_trend",
+            "ctrlr": "BarTrendV1",
+            "args": [],
             "filters": ["parameterSelect","cumulativeVsDelta","weekVsMonth"],
             "parameters": [
                 [
@@ -268,14 +268,7 @@ const group : IGroupMappingV2[] = [
                         "colour": "orange",
                         "scale" : "null",
                         "format": ""
-                    },
-                    // {
-                    //     "label": "Besluiten zonder bezwaar",
-                    //     "column": "ims_volw_besluiten_zonder_bezwaar",
-                    //     "colour": "blue",
-                    //     "scale" : "null",
-                    //     "format": ""
-                    // },
+                    }
                 ],
                 [
                     {
@@ -286,12 +279,17 @@ const group : IGroupMappingV2[] = [
                         "format": ""
                     }
                 ]
-            ]
+            ],
+            "segment": {
+                "key" : "wd_bezwaren_ingediend",
+                "cumulative": true,
+                "periodization": "none"
+                },
             },
             {
-                "slug" : "wd_bezwaren_taart",
-                "ctrlr" : "PieChartSumV1",
-                "args" : [],
+                "slug": "wd_bezwaren_taart",
+                "ctrlr": "PieChartSumV1",
+                "args": [],
                 "parameters": [
                     [
                         {
@@ -326,14 +324,18 @@ const group : IGroupMappingV2[] = [
                         }
                     ]
                 ],
+                "segment": {
+                    "key" : "wd_bezwaren_afgehandeld",
+                    "cumulative": true,
+                    "periodization": "none"
+                },
                 "classList": ["graph-container-6"]
             }
           
         ],
         "header": "Bezwaren",
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["wd_maandelijks"],
-        "segment": "all",
+        "endpoints": ["wd_maandelijks"]
     }
 ];
 
