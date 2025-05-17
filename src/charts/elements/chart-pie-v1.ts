@@ -10,7 +10,6 @@ export class ChartPieV1 {
 
     draw(data: PiePart[]) {
 
-        console.log(data);              
 
         const config = this.ctrlr.config ? this.ctrlr.config : this.ctrlr.graphObject.config;
 

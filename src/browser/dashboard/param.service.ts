@@ -1,12 +1,12 @@
 import {  KeyValue } from "../../charts/core/types";
-
+import { Version } from "./types";
+import { versions } from "../../pages/versions";
 
 export interface IParamService {
 
     renew() : void,
-    topic : string
+    topic : string,
     language: string
-
 }
 
 export class ParamService implements IParamService {
@@ -15,11 +15,9 @@ export class ParamService implements IParamService {
     _topic: string;
     _language: string = 'nl'
     _segment:  string
-//    segment: string;
+    _version: Version
 
-    constructor() {
-
-    }
+    constructor() {}
 
     renew() {
 
@@ -36,6 +34,19 @@ export class ParamService implements IParamService {
         if (primKey === 'topic') {
             this._topic = primValue.toString();
             this._segment = '2022'
+        }
+
+        if(this._params.version == undefined || this._params.version == 'latest') {
+
+            this._version = {
+                slug: "v1",
+                tag: "latest",
+                name: "Actuele versie"
+            }
+
+        } else {
+
+            this._version = versions.find(v => v.slug == this._params.version)
         }
 
 
@@ -59,6 +70,10 @@ export class ParamService implements IParamService {
 
     get segment() {
         return this._segment;
+    }
+
+    get version() {
+        return this._version;
     }
 
     _getParams() : KeyValue {

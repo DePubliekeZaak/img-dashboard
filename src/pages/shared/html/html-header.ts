@@ -13,7 +13,7 @@ export class HtmlHeader {
         private description
     ){}
 
-    async draw(currentData: any) {
+    async draw() {
 
         const prevHeaderElement = this.element.querySelector('.article_header') 
 
@@ -55,7 +55,7 @@ export class HtmlHeader {
        return true;
     }
 
-    redraw(currentData: any) {
+    redraw(currentData: any | undefined) {
 
 
         if (this.headerElement == null) return;
@@ -63,7 +63,7 @@ export class HtmlHeader {
         const hasPattern = /{(\w+)}/.test(this.description);
         const descEl = this.headerElement.querySelector('div');
 
-        if (hasPattern) {
+        if (hasPattern && currentData) {
             let description = this.description.replace("{week}", parseInt(currentData._yearweek.slice(4)).toString()).replace(/{(\w+)}/g, (_, key) => thousands(currentData[key]) || `{${key}}`);
        
             descEl.innerHTML = description;

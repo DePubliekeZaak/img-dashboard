@@ -2,15 +2,16 @@ import { IDashboardController } from "../../browser/dashboard/dashboard.controll
 import { GroupObject, IGroupMappingV2, IGraphMappingV2 } from "./interfaces";
 import { GraphControllerV3 } from "../../charts/core/graph-v3";
 import cms_content from '../../json/groups.json' assert { type: "json" };
+import { Version } from "../../browser/dashboard/types";
 
 export interface IPageController {
     main: IDashboardController,
     slug: string,
     chartArray: any[],
     segment: any
-    init: (config, groups, graphs) => void,
+    init: (config: any, groups: any, graphs: any, version: Version) => void,
     initHtml: () => void,
-    gatherData: () => void,
+    gatherData: (version: Version) => void,
     prepareData: () => void,
     tables: () => void,
     initGraphs: () => void
@@ -35,8 +36,8 @@ export default class PageController implements IPageController {
     }
 
     mergeWithCMSContent(cms_content: any[], c: IGroupMappingV2) {
-
-        let groupContent = cms_content.find((g) => g.slug == c.slug);
+    
+        let groupContent = cms_content.find((g) => g.slug.trim() == c.slug.trim());
 
         if(groupContent == undefined) return c;
 
@@ -49,7 +50,7 @@ export default class PageController implements IPageController {
 
     }
 
-    async init(config, groups, graphs) {
+    async init(config: any, groups: any, graphs: any, version: Version) {
 
         for (let c of config) {
 
@@ -110,7 +111,7 @@ export default class PageController implements IPageController {
         }
 
         this.initHtml();
-        await this.gatherData();
+        await this.gatherData(version);
         this.addDateToPageHeader();
         this.prepareData();
         this.tables();
@@ -132,12 +133,12 @@ export default class PageController implements IPageController {
         }
     }
 
-    async gatherData() {
+    async gatherData(version: Version) {
 
         for (const group of this.chartArray) {
             for (const endpoint of group.config.endpoints) {
                 if (endpoint != "") {
-                    await this.main.data.gather(endpoint);
+                    await this.main.data.gather(endpoint, version);
                 }
             }
         }

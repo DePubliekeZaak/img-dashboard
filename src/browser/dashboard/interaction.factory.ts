@@ -2,7 +2,9 @@ import { IDashboardController } from "./dashboard.controller";
 
 export const switchTopic = (ctrlr: IDashboardController, paramKey: string, paramValue: string, isMobile: boolean) : void => {
 
-    let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?topic=' + paramValue;
+    const currentParams = new URLSearchParams(window.location.search);
+    currentParams.set('topic', paramValue);
+    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + currentParams.toString();
 
     window.history.pushState({path:newurl},'',newurl);
 

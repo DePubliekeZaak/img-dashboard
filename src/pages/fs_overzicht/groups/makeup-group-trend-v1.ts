@@ -30,7 +30,7 @@ export class MakeupGroupTrendV1 extends GroupControllerV1 {
         const dataGroup = this.config.endpoints[0];
         const rows: string[][] = []; 
 
-        const { tableParams, graphData, definitions, graphData_alt } = super.prepareData(data);
+        let { tableParams, graphData, definitions, graphData_alt } = super.prepareData(data);
         
         for (let period of data[dataGroup]) {
 
@@ -38,6 +38,8 @@ export class MakeupGroupTrendV1 extends GroupControllerV1 {
             row.push(period._year);
             row.push(period._week);
             row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'})); 
+
+            tableParams = tableParams.filter( p => p.column.includes("_cumulatief"));
 
             for (let p of tableParams) {
 

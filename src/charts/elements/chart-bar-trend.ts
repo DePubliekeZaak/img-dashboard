@@ -76,8 +76,6 @@ export default class ChartBarTrend {
         // : 1;
         const space = data.length < 10 ? 6 : 1;
 
-        console.log(data.length)
-
         const effectiveWidth = this.ctrlr.dimensions.svgWidth; // - this.ctrlr.config.padding.left - this.ctrlr.config.padding.right;
         let barWidth = (effectiveWidth /(data.length)) - space;
 

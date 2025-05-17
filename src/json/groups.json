@@ -1,27 +1,32 @@
 [
   {
-    "slug": "gemeente_totals",
-    "header": null,
+    "slug": "latest ",
+    "header": "Huidige versie",
     "definitions": [],
     "timeline": [],
-    "description": "<p>Voor de regeling fysieke schade hebben we sinds de start van de publieke datarapportage ook cijfers per gemeente beschikbaar.</p>\n<p>Gemeenten worden bepaald op basis van het correspondentieadres. Dit betekent dat de cijfers laten zien waar de schademelders nu wonen, maar niet per se  waar de schade heeft plaatsgevonden. Het correspondentieadres kan namelijk afwijken van het schadeadres.</p>\n<p>Om de privacy van de schademelders te waarborgen, toont het dashboard alleen schademeldingen per week per gemeente wanneer het aantal meldingen boven de 25 ligt. De data in het dashboard zijn zo niet  te herleiden  tot individuele gevallen.</p>\n"
+    "description": "<p>11.000 dossiers zijn zowel in de dataset voor maatwerk als in die voor de vaste vergoeding opgenomen als afgehandeld. </p>\n<p>In deze dataset staan ook weken  waarin er meer meldingen van fysieke schade naar de vaste vergoeding zijn verplaatst dan er nieuwe meldingen binnenkwamen, wat resulteerde in negatieve aantallen.</p>\n"
   },
   {
-    "slug": "waardering_trend",
-    "header": "Trend cijfer voor alle regelingen",
+    "slug": "001",
+    "header": "Versie 0.0.1 - December 2024",
+    "definitions": [],
+    "timeline": [],
+    "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas arcu vel sem eleifend interdum. Fusce sit amet massa eget massa scelerisque posuere. Donec vulputate nibh et lacinia tincidunt. Integer et vehicula turpis. Suspendisse scelerisque id nisl a convallis. Pellentesque consectetur tincidunt finibus. Maecenas in dignissim nibh, nec pellentesque est.</p>\n<p>Morbi interdum bibendum congue. Donec nisl lectus, luctus luctus convallis at, sodales eget nunc. Vivamus finibus consectetur tristique. Duis sed porttitor mauris, in euismod orci. Sed maximus rhoncus mauris, vel molestie odio fringilla id. Curabitur semper erat lacus, in pellentesque lacus varius fringilla. Suspendisse potenti. Donec sit amet justo sit amet tellus fringilla vulputate sit amet at metus. Curabitur auctor orci a mi finibus ullamcorper. Fusce suscipit, odio sit amet consectetur efficitur, tellus eros eleifend ante, feugiat imperdiet metus ipsum ac eros. Ut vel odio nibh.</p>\n<ul>\n<li>Aanpassing 1</li>\n<li>Aanpassing 2</li>\n<li>Aanpassing 3</li>\n</ul>\n"
+  },
+  {
+    "slug": "wd_waardering",
+    "header": "Waardering",
     "definitions": [
       "Waardering",
       "Respondenten"
     ],
     "timeline": [
-      "Actualisatie van het beoordelingskader",
-      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
-      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
-      "Start vaste vergoeding van 5000 euro",
-      "Start regeling Immateriële schade",
-      "Start waardedalingsregeling"
+      "Westerwijtwerd",
+      "Garrelsweer",
+      "Uithuizermeeden en Uithuizen",
+      "Wirdum"
     ],
-    "description": "<p>In de eerste jaren lag de gemiddelde waardering ruim boven een zeven. Destijds was fysieke schade de enige regeling. Vanaf juni 2021 daalt de waardering, samen met de invoering van het nieuwe beoordelingskader. Dit kader was bedoeld om meer eenduidigheid te brengen in de schadebeoordeling, maar leidde ook tot gemiddeld lagere schadevergoedingen in gebieden met een kleinere kans op schade en tot meer volledige afwijzingen naarmate die kans afneemt.</p>\n<p>Met de introductie van de regelingen voor immateriële schade en de vaste vergoeding zien we een herstel van het gemiddelde waarderingscijfer. Toch heeft de immateriële schadevergoeding een negatieve invloed op het totaalbeeld, aangezien deze regeling – zoals zichtbaar in andere grafieken – minder positief wordt beoordeeld.</p>\n<p>Voor de periode augustus 2023 tot en met december 2023 ontbreken gegevens. Het interne rapportagesysteem kampte toen met een storing, en er werden in die tijd ook weinig besluiten genomen. Dit was de periode na de parlementaire enquête en het kabinetsbesluit, waarin het IMG de regelingen herzag en een groot deel van de dossiers tijdelijk op pauze zette.</p>\n<p>Na de hervatting van de rapportage en de invoering van kabinetsmaatregelen stijgen de gemiddelde waarderingscijfers, al blijven ze lager dan in de eerste jaren.</p>\n"
+    "description": "<p>Voor elke regeling houden wij bij hoe aanvragers van schadevergoeding deze waarderen. In onderstaande cirkel is het waarderingscijfer voor de waardedalingsregeling te zien en het aantal mensen dat heeft meegedaan aan het klanttevredenheidsonderzoek. In de grafiek daarnaast is het maandelijkse en wekelijkse waarderingscijfer te zien.</p>\n"
   },
   {
     "slug": "wd_totals",
@@ -46,33 +51,6 @@
     "description": "<p>Eigenaren kunnen een vergoeding krijgen als hun woning minder waard is geworden doordat het in een gebied staat waar aardbevingen voorkomen. <a href=\"https://www.schadedoormijnbouw.nl/regelingen/waardedaling/waardedaling-woningen/voor-wie-is-deze-regeling?ta=16424\">Lees verder op de pagina over Waardedaling</a>.</p>\n<h3>Voortgang</h3>\n<p>In onderstaand overzicht is de doorlopende en wekelijkse voortgang te zien.</p>\n"
   },
   {
-    "slug": "ves_toegewezen",
-    "header": "Toegewezen / afgewezen",
-    "definitions": [],
-    "timeline": [
-      "Garrelsweer",
-      "Uithuizermeeden en Uithuizen",
-      "Westerwijtwerd",
-      "Wirdum"
-    ],
-    "description": "<p>De verhouding tussen toegewezen en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners van deze gebieden komen bij hun eerste schademelding in aanmerking voor de vaste vergoeding. Aanvragen voor de vaste vergoeding worden bijvoorbeeld afgewezen omdat de aanvragers er niet voor in aanmerking komt omdat er bijvoorbeeld op het adres al eerder schades zijn afgehandeld.</p>\n"
-  },
-  {
-    "slug": "wd_waardering",
-    "header": "Waardering",
-    "definitions": [
-      "Waardering",
-      "Respondenten"
-    ],
-    "timeline": [
-      "Westerwijtwerd",
-      "Garrelsweer",
-      "Uithuizermeeden en Uithuizen",
-      "Wirdum"
-    ],
-    "description": "<p>Voor elke regeling houden wij bij hoe aanvragers van schadevergoeding deze waarderen. In onderstaande cirkel is het waarderingscijfer voor de waardedalingsregeling te zien en het aantal mensen dat heeft meegedaan aan het klanttevredenheidsonderzoek. In de grafiek daarnaast is het maandelijkse en wekelijkse waarderingscijfer te zien.</p>\n"
-  },
-  {
     "slug": "wd_toegewezen",
     "header": "Toegewezen/afgewezen",
     "definitions": [
@@ -81,22 +59,6 @@
     ],
     "timeline": [],
     "description": "<p>In de onderstaande diagram is het totaalaantal aanvragen te zien dat is toe- en afgewezen. Bij een toewijzing krijgen aanvragers een schadevergoeding.</p>\n<p>De grafiek onder het diagram toont de trend aan van het aantal toe- en afgewezen aanvragen. Sinds juli 2023 neemt het aantal aanvragen af. De meeste eigenaren die voor deze regeling in aanmerking komen, hebben inmiddels een aanvraag gedaan.</p>\n"
-  },
-  {
-    "slug": "maatwerk_gem_schadebedrag",
-    "header": "Trend in  het gemiddeld uitgekeerd schadebedrag",
-    "definitions": [],
-    "timeline": [
-      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
-      "Garrelsweer",
-      "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe",
-      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
-      "Uithuizermeeden en Uithuizen",
-      "Westerwijtwerd",
-      "Wirdum",
-      "Start vaste vergoeding van 5000 euro"
-    ],
-    "description": "<p>Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet.</p>\n"
   },
   {
     "slug": "wd_bezwaren",
@@ -138,11 +100,21 @@
     "description": "<p>De vaste vergoeding scoort relatief goed. Deze optie is  waarschijnlijk aantrekkelijk vanwege de snelle en eenvoudige afhandeling en voorkomt daarnaast het gedoe met deskundigen en lange procedures. </p>\n<p>In Maart 2023 is de vaste vergoeding verhoogt van 5000 naar 10.000 euro.</p>\n"
   },
   {
-    "slug": "historie_doorstroom",
-    "header": "Doorstroomtijden",
-    "definitions": [],
-    "timeline": [],
-    "description": "<p>Tussen november 2019 en april 2023 rekenden we met verschillende methodes die inzicht gaven in de doorstroomtijden van dossiers.</p>\n<h5>Percentage binnen half jaar afgerond</h5>\n<p>Het percentage schademeldingen dat in minder dan een half jaar tijd sinds de binnenkomst van een schademelding is afgehandeld. Het IMG streeft ernaar alle reguliere schademeldingen binnen een half jaar (182 dagen) af te handelen. Het percentage wordt berekend over de laatste 2.500 besluiten over schademeldingen. Het vertoont daarmee een voortschrijdend gemiddelde.</p>\n<h5>Doorlooptijd afgehandelde dossiers</h5>\n<p>Dit is bij benadering het aantal dagen waarin de schademelding is afgehandeld sinds de schademelding is binnengekomen. Het gaat daarbij om de mediaan. Vijftig procent van de schademeldingen is daarmee in minder dan het genoemde aantal dagen afgehandeld en vijftig procent in meer dagen. De mediaan wordt berekend over de laatste 2.500 besluiten over schademeldingen.</p>\n<h5>Verwachte doorlooptijd nieuw dossier</h5>\n<p>oor nieuwe, reguliere schademeldingen streeft het IMG naar een maximale doorlooptijd van indiening tot besluit van een half jaar (182 dagen). We berekenen op basis van de huidige voortgang hoeveel dagen het op dit moment bij benadering duurt om een nieuwe schademelding af te handelen. Onder meer de huidige capaciteit van bijvoorbeeld schade-opnames, het opleveren van adviesrapporten en het voorbereiden van besluiten wordt daarbij meegewogen.</p>\n"
+    "slug": "waardering_trend",
+    "header": "Trend cijfer voor alle regelingen",
+    "definitions": [
+      "Waardering",
+      "Respondenten"
+    ],
+    "timeline": [
+      "Actualisatie van het beoordelingskader",
+      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
+      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
+      "Start vaste vergoeding van 5000 euro",
+      "Start regeling Immateriële schade",
+      "Start waardedalingsregeling"
+    ],
+    "description": "<p>In de eerste jaren lag de gemiddelde waardering ruim boven een zeven. Destijds was fysieke schade de enige regeling. Vanaf juni 2021 daalt de waardering, samen met de invoering van het nieuwe beoordelingskader. Dit kader was bedoeld om meer eenduidigheid te brengen in de schadebeoordeling, maar leidde ook tot gemiddeld lagere schadevergoedingen in gebieden met een kleinere kans op schade en tot meer volledige afwijzingen naarmate die kans afneemt.</p>\n<p>Met de introductie van de regelingen voor immateriële schade en de vaste vergoeding zien we een herstel van het gemiddelde waarderingscijfer. Toch heeft de immateriële schadevergoeding een negatieve invloed op het totaalbeeld, aangezien deze regeling – zoals zichtbaar in andere grafieken – minder positief wordt beoordeeld.</p>\n<p>Voor de periode augustus 2023 tot en met december 2023 ontbreken gegevens. Het interne rapportagesysteem kampte toen met een storing, en er werden in die tijd ook weinig besluiten genomen. Dit was de periode na de parlementaire enquête en het kabinetsbesluit, waarin het IMG de regelingen herzag en een groot deel van de dossiers tijdelijk op pauze zette.</p>\n<p>Na de hervatting van de rapportage en de invoering van kabinetsmaatregelen stijgen de gemiddelde waarderingscijfers, al blijven ze lager dan in de eerste jaren.</p>\n"
   },
   {
     "slug": "waardering_ims_volw",
@@ -182,6 +154,15 @@
     "description": "<p>De waardering voor de regeling voor fysieke schade volgt grotendeels dezelfde trends als de totale waardering. Het herstel vanaf december 2021 is waarschijnlijk toe te schrijven aan de introductie van de vaste vergoeding. Een deel van de eerder ontevreden schademelders koos sindsdien voor deze optie, die beter aansloot bij hun behoeften. Dit heeft waarschijnlijk bijgedragen aan een afname van negatieve beoordelingen.</p>\n"
   },
   {
+    "slug": "ves_totals",
+    "header": null,
+    "definitions": [],
+    "timeline": [
+      "Start vaste vergoeding van 5000 euro"
+    ],
+    "description": "<p>De vaste vergoeding is een eenmalig bedrag voor mijnbouwschade: € 10.000 bij een eerste schademelding, of € 5.000 voor kleinere gebouwen. De aanvraag verloopt snel zonder adviesrapport, maar wel met een verplichte nulmeting. Nieuwe schade melden is alleen mogelijk na een beving die op het adres heeft gezorgd voor een trillingssnelheid van meer dan 5 millimeter per seconde.</p>\n<p>De regeling is gestart in November 2021 en heeft enkele maanden stil gelegen tijdens de parlementaire enquête. Daarna is de vergoeding verhoogt van € 5.000 tot € 10.000 euro.</p>\n<p>Sinds de start van de regeling zijn er {vaste_vergoeding_meldingen_cumulatief} aanvragen ontvangen, waarvan er {vaste_vergoeding_afgehandeld_cumulatief} zijn afgerond. In totaal is voor de vaste vergoeding {vaste_vergoeding_verleend_bedrag_cumulatief} schadevergoeding uitgekeerd.</p>\n"
+  },
+  {
     "slug": "waardering_alle_regelingen",
     "header": null,
     "definitions": [
@@ -200,13 +181,16 @@
     "description": "<p>Sinds september 2019 onderzoekt het IMG hoe schademelders de verschillende regelingen ervaren. Na een besluit ontvangen zij per e-mail een uitnodiging om deel te nemen aan een tevredenheidsonderzoek. Iedereen die een besluit heeft ontvangen – inclusief aanvragers van wie de aanvraag (gedeeltelijk) is afgewezen – wordt gevraagd een waarderingscijfer te geven. De waardering wordt uitgedrukt in een cijfer van 1 tot 10.</p>\n<ul>\n<li>Na een besluit over een aanvraag tot vergoeding van fysieke schade luidt de vraag: <em>&quot;Welk rapportcijfer geeft u het besluit dat u ontvangen heeft? (1-10)&quot;</em></li>\n<li>Na een besluit over een aanvraag tot vergoeding van waardedaling wordt gevraagd: <em>&quot;Hoe tevreden bent u over het indienen en afhandelen van uw aanvraag? (1-10)&quot;</em></li>\n</ul>\n<p>Op deze pagina tonen we gegevens over de waarderingen, het aantal respondenten per maand en de gemiddelde scores: zowel een maandelijks gemiddelde als een doorlopend gemiddelde sinds de start van een regeling.</p>\n<p>We presenteren de data per maand omdat weekcijfers te weinig respondenten kunnen bevatten, waardoor gemiddelden vertekend raken. Intern wordt er echter wel per week gerapporteerd. Daarom bestrijken de getoonde periodes niet exact een kalendermaand, maar telkens vier weken rond een maandgrens.</p>\n<h3>Alle regelingen</h3>\n<p>De eerste grafiek toont een doorlopend tevredenheidscijfer voor alle regelingen. Dit cijfer wordt berekend door het gemiddelde van een regeling te vermenigvuldigen met het aantal besluiten binnen die regeling en de som daarvan te delen door het totaal aantal besluiten. Hoe meer besluiten binnen een specifieke regeling, hoe zwaarder dat gemiddelde meetelt in het algemene tevredenheidscijfer van het IMG.</p>\n"
   },
   {
-    "slug": "ves_totals",
-    "header": null,
+    "slug": "ves_toegewezen",
+    "header": "Toegewezen / afgewezen",
     "definitions": [],
     "timeline": [
-      "Start vaste vergoeding van 5000 euro"
+      "Garrelsweer",
+      "Uithuizermeeden en Uithuizen",
+      "Westerwijtwerd",
+      "Wirdum"
     ],
-    "description": "<p>De vaste vergoeding is een eenmalig bedrag voor mijnbouwschade: € 10.000 bij een eerste schademelding, of € 5.000 voor kleinere gebouwen. De aanvraag verloopt snel zonder adviesrapport, maar wel met een verplichte nulmeting. Nieuwe schade melden is alleen mogelijk na een beving die op het adres heeft gezorgd voor een trillingssnelheid van meer dan 5 millimeter per seconde.</p>\n<p>De regeling is gestart in November 2021 en heeft enkele maanden stil gelegen tijdens de parlementaire enquête. Daarna is de vergoeding verhoogt van € 5.000 tot € 10.000 euro.</p>\n<p>Sinds de start van de regeling zijn er {vaste_vergoeding_meldingen_cumulatief} aanvragen ontvangen, waarvan er {vaste_vergoeding_afgehandeld_cumulatief} zijn afgerond. In totaal is voor de vaste vergoeding {vaste_vergoeding_verleend_bedrag_cumulatief} schadevergoeding uitgekeerd.</p>\n"
+    "description": "<p>De verhouding tussen toegewezen en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners van deze gebieden komen bij hun eerste schademelding in aanmerking voor de vaste vergoeding. Aanvragen voor de vaste vergoeding worden bijvoorbeeld afgewezen omdat de aanvragers er niet voor in aanmerking komt omdat er bijvoorbeeld op het adres al eerder schades zijn afgehandeld.</p>\n"
   },
   {
     "slug": "regelingen_wd",
@@ -239,6 +223,22 @@
     "description": ""
   },
   {
+    "slug": "regelingen_fs",
+    "header": "Fysieke schade",
+    "definitions": [],
+    "timeline": [
+      "Garrelsweer",
+      "Uithuizermeeden en Uithuizen",
+      "Westerwijtwerd",
+      "Wirdum",
+      "Start vaste vergoeding van 5000 euro",
+      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
+      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
+      "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe"
+    ],
+    "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n"
+  },
+  {
     "slug": "maatwerk_totals",
     "header": "Voortgang",
     "definitions": [
@@ -257,22 +257,6 @@
       "Wirdum"
     ],
     "description": "<p>In maart 2018 startte de Tijdelijke Commissie Mijnbouwschade Groningen (TCMG), de voorganger van het Instituut Mijnbouwschade Groningen (IMG), met de afhandeling van mijnbouwschade. Sindsdien hebben wij {maatwerk_meldingen_cumulatief} aanvragen voor vergoeding voor fysieke schade ontvangen en {maatwerk_afgehandeld_cumulatief} aanvragen afgehandeld. In totaal is voor maatwerk {maatwerk_verleend_bedrag_cumulatief} vergoeding uitgekeerd. Meer weten over de regeling? Lees verder over <a href=\"https://www.schadedoormijnbouw.nl/regelingen/schade-aan-gebouwen-en-objecten/maatwerk-met-onderzoek-naar-oorzaak-schade\">maatwerk met onderzoek naar oorzaak</a>.</p>\n"
-  },
-  {
-    "slug": "regelingen_fs",
-    "header": "Fysieke schade",
-    "definitions": [],
-    "timeline": [
-      "Garrelsweer",
-      "Uithuizermeeden en Uithuizen",
-      "Westerwijtwerd",
-      "Wirdum",
-      "Start vaste vergoeding van 5000 euro",
-      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
-      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
-      "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe"
-    ],
-    "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n"
   },
   {
     "slug": "maatwerk_toegewezen",
@@ -323,11 +307,34 @@
     "description": "<p>De schadeopnames starten in mei 2018, door een tekort aan deskundigen verloopt de afhandeling nog traag. In 2019 neemt de capaciteit toe, waardoor meer schademeldingen worden afgehandeld. De aardbeving bij Westerwijtwerd (22 mei 2019) zorgt voor een piek in meldingen, waarna de stuwmeerregeling wordt ingevoerd om relatief kleine schades snel en eenvoudig af te handelen. Vanaf 2022 daalt het aantal meldingen door onder meer de komst van de vaste vergoeding en een nieuw beoordelingskader. In 2023 en 2024 neemt het aantal meldingen verder af door minder bevingen en beleidswijzigingen na de parlementaire enquête. In afwachting van nieuw beleid kunnen schademelders hun aanvraag tijdelijk aanhouden.</p>\n"
   },
   {
+    "slug": "maatwerk_gem_schadebedrag",
+    "header": "Trend in  het gemiddeld uitgekeerd schadebedrag",
+    "definitions": [],
+    "timeline": [
+      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
+      "Garrelsweer",
+      "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe",
+      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
+      "Uithuizermeeden en Uithuizen",
+      "Westerwijtwerd",
+      "Wirdum",
+      "Start vaste vergoeding van 5000 euro"
+    ],
+    "description": "<p>Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet.</p>\n"
+  },
+  {
     "slug": "maatwerk_besluiten",
     "header": "Besluiten",
     "definitions": [],
     "timeline": [],
     "description": "<p>Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet.</p>\n"
+  },
+  {
+    "slug": "imsc_subregelingen",
+    "header": "Ontwikkeling",
+    "definitions": [],
+    "timeline": [],
+    "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis aliquam dapibus. Cras ut magna consectetur, posuere erat vel, hendrerit erat. Morbi quis nisi id quam ultrices vulputate vel nec leo. Nulla facilisi. Aenean non augue quis est semper ornare. Ut efficitur posuere enim vel eleifend. Vivamus at posuere lorem.</p>\n"
   },
   {
     "slug": "ims_waardering",
@@ -344,13 +351,6 @@
       "Wirdum"
     ],
     "description": "<p>Voor elke regeling houden wij bij hoe aanvragers van schadevergoeding deze waarderen. In onderstaande cirkel is het waarderingscijfer voor immateriële schade te zien en het aantal mensen dat heeft meegedaan aan het klanttevredenheidsonderzoek. In de grafiek daarnaast is het maandelijkse en wekelijkse waarderingscijfer te zien.</p>\n"
-  },
-  {
-    "slug": "imsc_subregelingen",
-    "header": "Ontwikkeling",
-    "definitions": [],
-    "timeline": [],
-    "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis aliquam dapibus. Cras ut magna consectetur, posuere erat vel, hendrerit erat. Morbi quis nisi id quam ultrices vulputate vel nec leo. Nulla facilisi. Aenean non augue quis est semper ornare. Ut efficitur posuere enim vel eleifend. Vivamus at posuere lorem.</p>\n"
   },
   {
     "slug": "ims_volw_waardering",
@@ -400,6 +400,20 @@
     "description": "<p>In de onderstaande diagram is het aantal aanvragen te zien dat is toe- en afgewezen. Bij een toewijzing krijgen aanvragers een schadevergoeding. Om in aanmerking te komen voor een vergoeding moet worden voldaan aan een aantal criteria. <a href=\"https://www.schadedoormijnbouw.nl/regelingen/immateriele-schadevergoeding/beoordeling-van-uw-aanvraag/beoordeling-aanvraag-volwassenen\">Op de pagina over IMS</a> is meer te lezen over hoe wij een aanvraag beoordelen.</p>\n<p>De grafiek onder het diagram toont het verloop van het aantal toe- en afgewezen aanvragen. Van 17 juli 2023 tot en met 27 maart 2024 was het tijdelijk niet mogelijk om een nieuwe aanvraag te doen voor vergoeding voor immateriële schade. Dit had te maken met de verruiming van de regeling als gevolg van de uitkomsten van de parlementaire enquête naar de gaswinning in Groningen. Vanwege de verruiming hebben wij ruim 72.000 aanvragen opnieuw beoordeeld en hebben bijna 25.000 aanvragers een (hogere) vergoeding ontvangen.</p>\n"
   },
   {
+    "slug": "ims_volw_bezwaren",
+    "header": "Bewaren",
+    "definitions": [
+      "Bezwaren",
+      "Ingediende bezwaren,",
+      "Besluiten",
+      "Bezwaren beschikt",
+      "Bezwaren openstaand",
+      "Bezwaren ingetrokken"
+    ],
+    "timeline": [],
+    "description": "<p>Als iemand het oneens is met een besluit op zijn aanvraag tot vergoeding, kan diegene in bezwaar gaan. In het onderstaande vierkant is het aantal bezwaren te zien in verhouding tot het aantal besluiten. De cirkel ernaast toont het aantal afgehandelde bezwaren, openstaande bezwaren en ingetrokken bezwaren. Het totaal is de som van het aantal ingediende bezwaren.</p>\n"
+  },
+  {
     "slug": "ims_totals",
     "header": "Over immateriële schade",
     "definitions": [
@@ -423,27 +437,6 @@
     "description": "<p>Soms zijn de gevolgen van aardbevingen zo groot, dat bewoners in aanmerking komen voor een vergoeding voor immateriële schade. Dat is een vergoeding waarmee erkenning wordt gegeven voor ernstig leed en verdriet. We hebben een regeling voor volwassenen en voor kinderen en jongeren tot en met 17 jaar. <a href=\"https://www.schadedoormijnbouw.nl/regelingen/immateriele-schadevergoeding/over-deze-regeling\">Lees verder op de pagina over Immateriële schade.</a></p>\n<h4>Voortgang</h4>\n<p>In het onderstaande overzicht is het totaalaantal aanvragen, afgehandelde aanvragen en het verleende schadebedrag te zien voor volwassen en kinderen en jongeren tot en met 17 jaar. In de grafiek daaronder zijn de aantallen per maand of per week te zien.</p>\n<h4>Historie</h4>\n<p>Onder de tijdlijn op de horizontale as zijn gebeurtenissen te zien. Zo is naar aanleiding van de uitkomst van de parlementaire enquête het beleid gewijzigd. Als gevolg hiervan zijn ruim 72.000 aanvragen opnieuw beoordeeld. Met terugwerkende kracht hebben bijna 25.000 aanvragers een (hogere) vergoeding ontvangen. Tijdens deze herbeoordeling was het tijdelijk niet mogelijk om een nieuwe aanvraag te doen voor IMS. Sinds 23 oktober 2023 kunnen kinderen en jongeren tot en met 17 jaar ook een aanvraag doen voor IMS. Vanaf 27 maart is het voor alle volwassenen weer mogelijk om een vergoeding aan te vragen voor immateriële schade.</p>\n"
   },
   {
-    "slug": "ims_volw_bezwaren",
-    "header": "Bewaren",
-    "definitions": [
-      "Bezwaren",
-      "Ingediende bezwaren,",
-      "Besluiten",
-      "Bezwaren beschikt",
-      "Bezwaren openstaand",
-      "Bezwaren ingetrokken"
-    ],
-    "timeline": [],
-    "description": "<p>Als iemand het oneens is met een besluit op zijn aanvraag tot vergoeding, kan diegene in bezwaar gaan. In het onderstaande vierkant is het aantal bezwaren te zien in verhouding tot het aantal besluiten. De cirkel ernaast toont het aantal afgehandelde bezwaren, openstaande bezwaren en ingetrokken bezwaren. Het totaal is de som van het aantal ingediende bezwaren.</p>\n"
-  },
-  {
-    "slug": "ims_sc_totals",
-    "header": "Herbeoordeling",
-    "definitions": [],
-    "timeline": [],
-    "description": "<p>Naar aanleiding van de uitkomsten van de parlementaire enquête naar de gaswinning in Groningen is het onze opdracht om de schadeafhandeling milder, menselijker en makkelijker te maken. Daarom is ook de regeling voor immateriële schade aangepast. Zo krijgt iedereen binnen het huishouden hetzelfde bedrag en wordt bij versterking standaard de hoogste vergoeding van €5.000 toegekend. </p>\n<p>Deze wijziging geld met terugwerkende kracht. Daarom hebben wij ruim 72.000 dossiers opnieuw beoordeeld en hebben bijna 25.000 aanvragers een (hogere) vergoeding ontvangen. Tijdens deze herbeoordeling was het van 17 juli 2023 tot en met 27 maart 2024 tijdelijk niet mogelijk om een nieuwe aanvraag te doen voor vergoeding voor immateriële schade. Vanaf nu vinden er automatische aanvulrondes plaats voor mensen die al een aanvraag hebben gedaan en bij wie nu sprake is van versterking of het gelijktrekken van vergoedingen. De voortgang hiervan is op deze pagina te vinden.</p>\n<p>In het onderstaande overzicht is de voortgang te zien van de dossiers die zijn her beoordeeld en zijn aangevuld. Van links naar rechts is te zien: het aantal zaken die binnen zijn gekomen, het aantal zaken dat is afgehandeld en het verleende bedrag.</p>\n"
-  },
-  {
     "slug": "ims_subregelingen",
     "header": "Sub regelingen",
     "definitions": [
@@ -457,6 +450,29 @@
       "Garrelsweer"
     ],
     "description": "<p>In onderstaande grafiek is het maandelijkse en wekelijkse aantal aanvragen te zien en het aantal aanvragen dat is aangevuld of her beoordeeld. Vanaf 23 oktober 2023 is het voor kinderen en jongeren mogelijk om een vergoeding aan te vragen voor immateriële schade. Daarnaast is in de grafiek te zien dat het van 17 juli 2023 tot en met 27 maart 2024 tijdelijk niet mogelijk was om een nieuwe aanvraag te doen voor vergoeding voor immateriële schade. Dit had te maken met de verruiming van de regeling als gevolg van de uitkomsten van de parlementaire enquête naar de gaswinning in Groningen. Vanwege de verruiming hebben wij ruim 72.000 aanvragen opnieuw beoordeeld en hebben bijna 25.000 aanvragers een (hogere) vergoeding ontvangen.</p>\n"
+  },
+  {
+    "slug": "ims_sc_totals",
+    "header": "Herbeoordeling",
+    "definitions": [],
+    "timeline": [],
+    "description": "<p>Naar aanleiding van de uitkomsten van de parlementaire enquête naar de gaswinning in Groningen is het onze opdracht om de schadeafhandeling milder, menselijker en makkelijker te maken. Daarom is ook de regeling voor immateriële schade aangepast. Zo krijgt iedereen binnen het huishouden hetzelfde bedrag en wordt bij versterking standaard de hoogste vergoeding van €5.000 toegekend. </p>\n<p>Deze wijziging geld met terugwerkende kracht. Daarom hebben wij ruim 72.000 dossiers opnieuw beoordeeld en hebben bijna 25.000 aanvragers een (hogere) vergoeding ontvangen. Tijdens deze herbeoordeling was het van 17 juli 2023 tot en met 27 maart 2024 tijdelijk niet mogelijk om een nieuwe aanvraag te doen voor vergoeding voor immateriële schade. Vanaf nu vinden er automatische aanvulrondes plaats voor mensen die al een aanvraag hebben gedaan en bij wie nu sprake is van versterking of het gelijktrekken van vergoedingen. De voortgang hiervan is op deze pagina te vinden.</p>\n<p>In het onderstaande overzicht is de voortgang te zien van de dossiers die zijn her beoordeeld en zijn aangevuld. Van links naar rechts is te zien: het aantal zaken die binnen zijn gekomen, het aantal zaken dat is afgehandeld en het verleende bedrag.</p>\n"
+  },
+  {
+    "slug": "imkj_waardering",
+    "header": "Waardering",
+    "definitions": [
+      "IMS",
+      "Waardering",
+      "Respondenten"
+    ],
+    "timeline": [
+      "Westerwijtwerd",
+      "Garrelsweer",
+      "Uithuizermeeden en Uithuizen",
+      "Wirdum"
+    ],
+    "description": "<p>Voor elke regeling houden wij bij hoe aanvragers van schadevergoeding deze waarderen. In onderstaande cirkel is het waarderingscijfer voor immateriële schade te zien en het aantal mensen dat heeft meegedaan aan het klanttevredenheidsonderzoek. In de grafiek daarnaast is het maandelijkse en wekelijkse waarderingscijfer te zien.</p>\n"
   },
   {
     "slug": "imkj_totals",
@@ -476,22 +492,6 @@
       "Publicatie rapport Parlementaire enquête aardgaswinning Groningen"
     ],
     "description": "<p>Sinds 23 november 2023 is het voor kinderen en jongeren tot en met 17 jaar mogelijk om een aanvraag te doen voor een vergoeding voor immateriële schade. Dat is een vergoeding waarmee erkenning wordt gegeven voor ernstig leed en verdriet als gevolg de aardbevingen die worden veroorzaakt door gaswinning uit het Groningenveld.</p>\n<h4>Voortgang</h4>\n<p>In onderstaand overzicht is de doorlopende en wekelijkse voortgang te zien.</p>\n"
-  },
-  {
-    "slug": "imkj_waardering",
-    "header": "Waardering",
-    "definitions": [
-      "IMS",
-      "Waardering",
-      "Respondenten"
-    ],
-    "timeline": [
-      "Westerwijtwerd",
-      "Garrelsweer",
-      "Uithuizermeeden en Uithuizen",
-      "Wirdum"
-    ],
-    "description": "<p>Voor elke regeling houden wij bij hoe aanvragers van schadevergoeding deze waarderen. In onderstaande cirkel is het waarderingscijfer voor immateriële schade te zien en het aantal mensen dat heeft meegedaan aan het klanttevredenheidsonderzoek. In de grafiek daarnaast is het maandelijkse en wekelijkse waarderingscijfer te zien.</p>\n"
   },
   {
     "slug": "imkj_toegewezen",
@@ -517,13 +517,6 @@
     ],
     "timeline": [],
     "description": "<p>Als iemand het oneens is met een besluit op zijn aanvraag tot vergoeding, kan diegene in bezwaar gaan. In het onderstaande vierkant is het aantal bezwaren te zien in verhouding tot het aantal besluiten. De cirkel ernaast toont het aantal afgehandelde bezwaren, openstaande bezwaren en ingetrokken bezwaren. Het totaal is de som van het aantal ingediende bezwaren.</p>\n"
-  },
-  {
-    "slug": "avv_totals",
-    "header": null,
-    "definitions": [],
-    "timeline": [],
-    "description": "<p>Eigenaren van woningen of gebouwen die schadevergoeding hebben ontvangen van NAM, CVW, TCMG of IMG, kunnen dit bedrag laten aanvullen tot € 5.000 (kleine gebouwen) of € 10.000. Dit geldt zowel als aanvulling op een eerdere vaste vergoeding als op een andere vorm van schadevergoeding voor fysieke schade. De regeling is eind 2024 gestart en wordt gefaseerd opengesteld. Eerst voor voorinschrijvingen en later voor andere aanvragers.</p>\n<p>Sinds de start van de aanvullende vergoeding hebben wij {aanvullende_vaste_vergoeding_meldingen} aanvragen ontvangen, waarvan er {aanvullende_vaste_vergoeding_afgehandeld} zijn afgerond. In totaal is {aanvullende_vaste_vergoeding_verleend_bedrag} aan schade aanvullende schadevergoeding uitgekeerd.</p>\n"
   },
   {
     "slug": "historie_vergoedingen",
@@ -559,6 +552,16 @@
     "description": "<p>De verhouding tussen toegewezen en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. De beving van Huizinge heeft tot in Noord-Drenthe tot schade geleid. Hoe verder je van Huizinge af woont, hoe kleiner de kans op schade In de randen van het effectgebied (Peize, Haren en omgeving) worden meer schades afgewezen dan bijvoorbeeld in de kern (Loppersum en omgeving).</p>\n"
   },
   {
+    "slug": "historie_meldingen_geo",
+    "header": "Spreiding van schademeldingen per gemeente",
+    "definitions": [
+      "Schademelding",
+      "Gemeente"
+    ],
+    "timeline": [],
+    "description": "<p>Deze grafiek toont hoeveel schademeldingen er door de jaren heen per gemeente zijn gedaan. Hoe donkerder van kleur, hoe meer schademeldingen er in die gemeente zijn gedaan. De gemeente Groningen is ieder jaar het donkerst van kleur, wat betekent dat daarvandaan de meeste schademeldingen komen. Dit heeft onder meer te maken met de hoge bevolkingsdichtheid ten opzichte van andere gemeenten.</p>\n"
+  },
+  {
     "slug": "historie_meldingen",
     "header": null,
     "definitions": [
@@ -584,21 +587,60 @@
     "description": "<p>Op deze pagina tonen we data over de periode vanaf de start van de Tijdelijke Commissie Mijnbouwschade Groningen (TCMG) in 2018 tot aan de kabinetsmaatregelen naar aanleiding van de parlementaire enquête in april 2023. Als gevolg van deze maatregelen is de regeling voor fysieke schade opgesplitst in drie onderdelen: herstel, vaste vergoeding en maatwerk.</p>\n<p>Gedurende dit proces is ook onze kijk op de data veranderd. Sommige meetinstrumenten zijn in de huidige situatie niet langer relevant of kunnen niet meer op een consistente en eenduidige manier worden weergegeven, omdat de regelingen geleidelijk in elkaar zijn overgegaan of dusdanig zijn gewijzigd.</p>\n<p>Omdat het IMG inzicht wil blijven geven in de schadeafhandeling tussen 2018 en 2023, tonen we hier een selectie van grafieken uit deze periode.</p>\n"
   },
   {
-    "slug": "historie_meldingen_geo",
-    "header": "Spreiding van schademeldingen per gemeente",
-    "definitions": [
-      "Schademelding",
-      "Gemeente"
-    ],
-    "timeline": [],
-    "description": "<p>Deze grafiek toont hoeveel schademeldingen er door de jaren heen per gemeente zijn gedaan. Hoe donkerder van kleur, hoe meer schademeldingen er in die gemeente zijn gedaan. De gemeente Groningen is ieder jaar het donkerst van kleur, wat betekent dat daarvandaan de meeste schademeldingen komen. Dit heeft onder meer te maken met de hoge bevolkingsdichtheid ten opzichte van andere gemeenten.</p>\n"
-  },
-  {
     "slug": "historie_duur",
     "header": "Duur openstaande dossiers",
     "definitions": [],
     "timeline": [],
     "description": "<p>Het IMG streeft ernaar om reguliere schademeldingen binnen een half jaar af te handelen. Onderstaande grafiek toont het aantal openstaande schademeldingen onderverdeeld in de leeftijd van die melding sinds de indiening ervan. De grafiek toont de ontwikkeling door de tijd heen.</p>\n"
+  },
+  {
+    "slug": "historie_doorstroom",
+    "header": "Doorstroomtijden",
+    "definitions": [],
+    "timeline": [],
+    "description": "<p>Tussen november 2019 en april 2023 rekenden we met verschillende methodes die inzicht gaven in de doorstroomtijden van dossiers.</p>\n<h5>Percentage binnen half jaar afgerond</h5>\n<p>Het percentage schademeldingen dat in minder dan een half jaar tijd sinds de binnenkomst van een schademelding is afgehandeld. Het IMG streeft ernaar alle reguliere schademeldingen binnen een half jaar (182 dagen) af te handelen. Het percentage wordt berekend over de laatste 2.500 besluiten over schademeldingen. Het vertoont daarmee een voortschrijdend gemiddelde.</p>\n<h5>Doorlooptijd afgehandelde dossiers</h5>\n<p>Dit is bij benadering het aantal dagen waarin de schademelding is afgehandeld sinds de schademelding is binnengekomen. Het gaat daarbij om de mediaan. Vijftig procent van de schademeldingen is daarmee in minder dan het genoemde aantal dagen afgehandeld en vijftig procent in meer dagen. De mediaan wordt berekend over de laatste 2.500 besluiten over schademeldingen.</p>\n<h5>Verwachte doorlooptijd nieuw dossier</h5>\n<p>oor nieuwe, reguliere schademeldingen streeft het IMG naar een maximale doorlooptijd van indiening tot besluit van een half jaar (182 dagen). We berekenen op basis van de huidige voortgang hoeveel dagen het op dit moment bij benadering duurt om een nieuwe schademelding af te handelen. Onder meer de huidige capaciteit van bijvoorbeeld schade-opnames, het opleveren van adviesrapporten en het voorbereiden van besluiten wordt daarbij meegewogen.</p>\n"
+  },
+  {
+    "slug": "gemeente_totals",
+    "header": null,
+    "definitions": [],
+    "timeline": [],
+    "description": "<p>Voor de regeling fysieke schade hebben we sinds de start van de publieke datarapportage ook cijfers per gemeente beschikbaar.</p>\n<p>Gemeenten worden bepaald op basis van het correspondentieadres. Dit betekent dat de cijfers laten zien waar de schademelders nu wonen, maar niet per se  waar de schade heeft plaatsgevonden. Het correspondentieadres kan namelijk afwijken van het schadeadres.</p>\n<p>Om de privacy van de schademelders te waarborgen, toont het dashboard alleen  data  uit gemeenten  waar meer dan 1000 schademeldingen zijn gemaakt.</p>\n"
+  },
+  {
+    "slug": "fs_waardering",
+    "header": "Waardering",
+    "definitions": [
+      "Respondenten",
+      "Waardering",
+      "Doorlopend"
+    ],
+    "timeline": [],
+    "description": "<p>Het IMG wordt gemiddeld beoordeeld met een {doorlopend_cijfer} voor alle regelingen (Fysieke schade, Immateriële schade en Waardedaling). Gebaseerd op {aantal_respondenten} respondenten die de enquête hebben ingevuld na het ontvangen van het besluit. De waardering van elke afzonderlijke regeling wordt afgewogen tegen het aantal besluiten. Dus hoe meer besluiten er zijn genomen bij een specifieke regeling, hoe zwaarder deze meetelt bij het gemiddelde waarderingscijfer. Vanaf juli 2023 waren er door een storing geen waarderingscijfers beschikbaar.</p>\n"
+  },
+  {
+    "slug": "fs_ves_ontwikkeling",
+    "header": "Vaste vergoeding",
+    "definitions": [],
+    "timeline": [
+      "Garrelsweer",
+      "Uithuizermeeden en Uithuizen",
+      "Wirdum",
+      "Start vaste vergoeding van 5000 euro"
+    ],
+    "description": "<p>Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.</p>\n"
+  },
+  {
+    "slug": "fs_totals",
+    "header": "Voortgang",
+    "definitions": [
+      "Aanvragen",
+      "Fysieke schade",
+      "Afgehandeld",
+      "Verleend"
+    ],
+    "timeline": [],
+    "description": "<p>Onderstaand overzicht geeft de (wekelijkse) voortgang van de afhandeling van fysieke schade weer. Te zien is het aantal binnengekomen aanvragen voor schadevergoeding voor fysieke scheuren (scheuren in muren etc.), het aantal afgehandelde aanvragen en het verleende bedrag aan schadevergoeding. Naast het weekoverzicht is het mogelijk om het totaaloverzicht te zien (doorlopend). Voor fysieke schade kunnen eigenaren kiezen uit de volgende manieren om hun schade af te handelen: herstel (met eigen aannemer of aannemer van het IMG), schadevergoeding op maat en de vaste vergoeding van 10.000 euro. Deze opties zitten allemaal in dit totaaloverzicht.</p>\n"
   },
   {
     "slug": "fs_keuzepaden",
@@ -615,42 +657,7 @@
       "Westerwijtwerd",
       "Wirdum"
     ],
-    "description": "<p>Binnen de regeling voor fysieke schade aan gebouwen (zoals scheuren in muren etc.) zijn drie mogelijkheden om schade af te handelen: herstel (met eigen aannemer of aannemer van het IMG), schadevergoeding op maat en de vaste vergoeding van 10.000 euro. Onderstaande grafiek geeft de verhouding weer tussen die drie afhandel mogelijkheden.</p>\n"
-  },
-  {
-    "slug": "fs_ves_ontwikkeling",
-    "header": "Vaste vergoeding",
-    "definitions": [],
-    "timeline": [
-      "Garrelsweer",
-      "Uithuizermeeden en Uithuizen",
-      "Wirdum",
-      "Start vaste vergoeding van 5000 euro"
-    ],
-    "description": "<p>Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet. Urna porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi porta lorem mollis aliquam ut porttitor leo. Nibh ipsum consequat nisl vel. Eget est lorem ipsum dolor. Ornare suspendisse sed nisi lacus. Sagittis id consectetur purus ut faucibus.</p>\n"
-  },
-  {
-    "slug": "fs_waardering",
-    "header": "Waardering",
-    "definitions": [
-      "Respondenten",
-      "Waardering",
-      "Doorlopend"
-    ],
-    "timeline": [],
-    "description": "<p>Het IMG wordt gemiddeld beoordeeld met een {doorlopend_cijfer} voor alle regelingen (Fysieke schade, Immateriële schade en Waardedaling). Gebaseerd op {aantal_respondenten} respondenten die de enquête hebben ingevuld na het ontvangen van het besluit. De waardering van elke afzonderlijke regeling wordt afgewogen tegen het aantal besluiten. Dus hoe meer besluiten er zijn genomen bij een specifieke regeling, hoe zwaarder deze meetelt bij het gemiddelde waarderingscijfer. Vanaf juli 2023 waren er door een storing geen waarderingscijfers beschikbaar.</p>\n"
-  },
-  {
-    "slug": "fs_totals",
-    "header": "Voortgang",
-    "definitions": [
-      "Aanvragen",
-      "Fysieke schade",
-      "Afgehandeld",
-      "Verleend"
-    ],
-    "timeline": [],
-    "description": "<p>Onderstaand overzicht geeft de (wekelijkse) voortgang van de afhandeling van fysieke schade weer. Te zien is het aantal binnengekomen aanvragen voor schadevergoeding voor fysieke scheuren (scheuren in muren etc.), het aantal afgehandelde aanvragen en het verleende bedrag aan schadevergoeding. Naast het weekoverzicht is het mogelijk om het totaaloverzicht te zien (doorlopend). Voor fysieke schade kunnen eigenaren kiezen uit de volgende manieren om hun schade af te handelen: herstel (met eigen aannemer of aannemer van het IMG), schadevergoeding op maat en de vaste vergoeding van 10.000 euro. Deze opties zitten allemaal in dit totaaloverzicht.</p>\n"
+    "description": "<p>Binnen de regeling voor fysieke schade aan gebouwen (zoals scheuren in muren etc.) zijn drie mogelijkheden om schade af te handelen: herstel (met eigen aannemer of aannemer van het IMG), schadevergoeding op maat en de vaste vergoeding van 10.000 euro. </p>\n<p>We administreren de keuze voor de afhandelmogelijkheid op het moment dat het besluit wordt genomen. Hier zie je de verhouding in de keuze voor de afhandelogelijkheden op bais van de aantallen afgehandelde dossiers.</p>\n"
   },
   {
     "slug": "fs_herstel_totals",
@@ -660,11 +667,11 @@
     "description": "<p>Wanneer de eerste besluiten worden genomen voor deze regeling gaan we de data hier weergeven.</p>\n"
   },
   {
-    "slug": "avv_toegewezen",
-    "header": "Toegekend / afgewezen",
+    "slug": "correcties_intro ",
+    "header": null,
     "definitions": [],
     "timeline": [],
-    "description": "<p>De verhouding tussen toegewezen en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners die in het verleden minder dan € 10.000 of € 5.000 (bij kleine gebouwen) hebben ontvangen van NAM, CVW, TCMG of IMG, komen in aanmerking voor een aanvullende vergoeding. In het begin van een regeling is het percentage afwijzingen hoger, omdat deze aanvragen sneller worden beoordeeld. In de meeste gevallen wordt een aanvraag voor de aanvullende vergoeding afgewezen omdat aanvragers er niet voor in aanmerking komen. Bijvoorbeeld omdat op hun adres al een hoger bedrag aan schadevergoeding is uitgekeerd.</p>\n"
+    "description": "<p>Sinds 2019 publiceert IMG publieke data over de schadeafhandeling, onder andere via dit dashboard en het wekelijkse bericht op onze website. We streven ernaar om de cijfers op een consistente en eenduidige manier te communiceren, zodat het voor iedereen duidelijk is hoeveel schademeldingen er zijn gedaan, hoeveel daarvan zijn afgehandeld, welk totaalbedrag is uitgekeerd, wat het percentage afwijzingen is, en meer.</p>\n<p>Nu we deze gegevens al meerdere jaren publiceren, merken we dat het soms nodig is om eerder gecommuniceerde cijfers te corrigeren. Onze inzichten in de optimale ordening van datasets blijven zich ontwikkelen, en wijzigingen in het zaaksysteem kunnen de actuele weergave van historische data beïnvloeden. Elke week publiceren we de cijfers zoals we die op dat moment zien, maar als lerende organisatie willen we ook periodiek terugkijken en correcties aanbrengen om de historische gegevens zo accuraat mogelijk weer te geven.</p>\n<p>Op deze pagina vind je de correcties die we hebben doorgevoerd, inclusief uitleg over de redenen voor deze aanpassingen. Daarnaast kun je eerdere gecommuniceerde data bekijken en vergelijken via links naar oudere versies van het dashboard en API eindpunten.</p>\n"
   },
   {
     "slug": "bezwaren_wd",
@@ -702,27 +709,18 @@
     "description": "<p>Voor  de regeling Fysieke schade hebben we bijgehouden in welke mate bezwaren  gegrond, deels gegrond of  ongegrond zijn verklaard.</p>\n"
   },
   {
-    "slug": "all_regelingen_overzicht",
-    "header": "Overzicht",
-    "definitions": [
-      "Aanvragen",
-      "Afgehandeld",
-      "Verleend"
-    ],
-    "timeline": [
-      "Garrelsweer",
-      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
-      "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe",
-      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
-      "Start regeling Immateriële schade",
-      "Start vaste vergoeding van 5000 euro",
-      "Start waardedalingsregeling",
-      "Uithuizermeeden en Uithuizen",
-      "Westerwijtwerd",
-      "Wirdum",
-      "Actualisatie van het beoordelingskader"
-    ],
-    "description": "<p>Onderstaande grafiek toont de maandelijkse voortgang van alle regelingen. Het IMG (voorheen TCMG) startte in maart 2019 met bijna 20.000 meldingen voor fysieke schade. Deze heeft het Centrum Veilig Wonen (CVW), dat tot 31 maart 2017 de schade afhandelde, in het weekend van 17 en 18 maart 2019 aan ons overgedragen. Door de jaren heen zijn Immateriële schade en Waardedaling erbij gekomen als regeling.</p>\n"
+    "slug": "avv_totals",
+    "header": null,
+    "definitions": [],
+    "timeline": [],
+    "description": "<p>Eigenaren van woningen of gebouwen die schadevergoeding hebben ontvangen van NAM, CVW, TCMG of IMG, kunnen dit bedrag laten aanvullen tot € 5.000 (kleine gebouwen) of € 10.000. Dit geldt zowel als aanvulling op een eerdere vaste vergoeding als op een andere vorm van schadevergoeding voor fysieke schade. De regeling is eind 2024 gestart en wordt gefaseerd opengesteld. Eerst voor voorinschrijvingen en later voor andere aanvragers.</p>\n<p>Sinds de start van de aanvullende vergoeding hebben wij {aanvullende_vaste_vergoeding_meldingen} aanvragen ontvangen, waarvan er {aanvullende_vaste_vergoeding_afgehandeld} zijn afgerond. In totaal is {aanvullende_vaste_vergoeding_verleend_bedrag} aan schade aanvullende schadevergoeding uitgekeerd.</p>\n"
+  },
+  {
+    "slug": "avv_toegewezen",
+    "header": "Toegekend / afgewezen",
+    "definitions": [],
+    "timeline": [],
+    "description": "<p>De verhouding tussen toegewezen en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners die in het verleden minder dan € 10.000 of € 5.000 (bij kleine gebouwen) hebben ontvangen van NAM, CVW, TCMG of IMG, komen in aanmerking voor een aanvullende vergoeding. In het begin van een regeling is het percentage afwijzingen hoger, omdat deze aanvragen sneller worden beoordeeld. In de meeste gevallen wordt een aanvraag voor de aanvullende vergoeding afgewezen omdat aanvragers er niet voor in aanmerking komen. Bijvoorbeeld omdat op hun adres al een hoger bedrag aan schadevergoeding is uitgekeerd.</p>\n"
   },
   {
     "slug": "aos_voortgang",
@@ -774,5 +772,28 @@
     ],
     "timeline": [],
     "description": "<p>Het IMG (voorheen TCMG) communiceert sinds de start op 19 maart 2018 wekelijks over de voortgang van de schadeafhandeling. Een belangrijke bron daarvan is ons online dashboard, waarop de voortgang te zien is. Sinds de start heeft het IMG {alle_regelingen_meldingen_cumulatief} aanvragen ontvangen voor vergoeding voor fysieke schade, immateriële schade en waardedaling. Daarvan zijn er {alle_regelingen_afgehandeld_cumulatief} afgehandeld. In totaal is {alle_regelingen_verleend_cumulatief}  euro aan vergoeding toegekend.</p>\n"
+  },
+  {
+    "slug": "all_regelingen_overzicht",
+    "header": "Overzicht",
+    "definitions": [
+      "Aanvragen",
+      "Afgehandeld",
+      "Verleend"
+    ],
+    "timeline": [
+      "Garrelsweer",
+      "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
+      "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe",
+      "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
+      "Start regeling Immateriële schade",
+      "Start vaste vergoeding van 5000 euro",
+      "Start waardedalingsregeling",
+      "Uithuizermeeden en Uithuizen",
+      "Westerwijtwerd",
+      "Wirdum",
+      "Actualisatie van het beoordelingskader"
+    ],
+    "description": "<p>Onderstaande grafiek toont de maandelijkse voortgang van alle regelingen. Het IMG (voorheen TCMG) startte in maart 2019 met bijna 20.000 meldingen voor fysieke schade. Deze heeft het Centrum Veilig Wonen (CVW), dat tot 31 maart 2017 de schade afhandelde, in het weekend van 17 en 18 maart 2019 aan ons overgedragen. Door de jaren heen zijn Immateriële schade en Waardedaling erbij gekomen als regeling.</p>\n"
   }
 ]

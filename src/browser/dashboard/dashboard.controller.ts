@@ -6,6 +6,8 @@ import { styleParentElement, createSideBar, createPopupElement, pageHeader, crea
 import { DataService, IDataService } from './data.service';
 import { switchTopic, toggleSubMenu, openMenu, closeMenu, setActiveMenuItem } from './interaction.factory';
 import { INavService, NavService, navItems } from './nav.service';
+import { Version } from './types';
+import { versions } from '../../pages/versions';
 
 export interface IDashboardController {
 
@@ -19,7 +21,7 @@ export interface IDashboardController {
     _reloadHtml: () => void;
     call(update: boolean);
     switch: (topic: string, segment: string, isMobile: boolean) => void;
-    // switchLanguage: (lan: string) => void;
+    switchVersion: (slug: string) => void;
     _toggleSubMenu: (slug: string, isMobile: boolean) => void
     _screenListener: () => void
 
@@ -70,12 +72,14 @@ export class DashboardController implements IDashboardController {
         navItem = (navItem == undefined) ? navItems[0] : navItem;
         const pageTitle = this.params.language == 'en' ? navItem.title_en : navItem.title;
        
-        pageHeader(pageTitle, this.htmlContainer);
+        pageHeader(this, pageTitle, this.htmlContainer, this.params.version);
+
+        // include version in bundle to be loaded !!!!!!
 
         await import(/*webpackIgnore: true*/ `./${this.params.topic}.bundle.js`);
         // @ts-ignore
         const ctrlr = new window[this.params.topic](this);
-        ctrlr.init();
+        ctrlr.init(this.params.version);
         return;
     }
 
@@ -84,6 +88,22 @@ export class DashboardController implements IDashboardController {
         if (isMobile) closeMenu();
         switchTopic(this,paramKey,paramValue, isMobile);
         if (isMobile) this._closeMenu();
+    }
+
+    switchVersion(slug: string) : void {
+
+        const currentParams = new URLSearchParams(window.location.search);
+        currentParams.set('topic', 'regelingen');
+        currentParams.set('version', slug);
+        const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + currentParams.toString();
+
+        window.history.pushState({path:newurl},'',newurl);
+
+        this.data.clear();
+        this.params.renew();
+        // this._reloadHtml();
+      
+        this.call(false);
     }
 
     _toggleSubMenu(slug: string, isMobile: boolean) : void {

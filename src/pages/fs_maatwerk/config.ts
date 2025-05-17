@@ -14,12 +14,12 @@ const group : IGroupMappingV2[] = [
                 "multiples": "cumulative", 
                 "parameters": [
                     [
-                        { 
-                            "label" : "Aanvragen",
-                            "column" : "maatwerk_meldingen",
-                            "colour" : "orange",
-                            "units" : "aanvragen"
-                        },
+                        // { 
+                        //     "label" : "Aanvragen",
+                        //     "column" : "maatwerk_meldingen",
+                        //     "colour" : "orange",
+                        //     "units" : "aanvragen"
+                        // },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "maatwerk_afgehandeld",
@@ -72,15 +72,15 @@ const group : IGroupMappingV2[] = [
                 "filters": ["parameterSelect","cumulativeVsDelta","weekVsMonth"],
                 "parameters": [
                     [
-                        {
-                            "label": "Aanvragen",
-                            "column": "maatwerk_meldingen",
-                            "colour": "orange"
-                        },
+                        // {
+                        //     "label": "Aanvragen",
+                        //     "column": "maatwerk_meldingen",
+                        //     "colour": "orange"
+                        // },
                         {
                             "label": "Afgehandeld",
                             "column": "maatwerk_afgehandeld",
-                            "colour": "green"
+                            "colour": "moss"
                         },
                         {
                             "label": "Verleend",
@@ -105,7 +105,7 @@ const group : IGroupMappingV2[] = [
                     ]
                 ],
                 "segment": {
-                    "key" : "maatwerk_meldingen",
+                    "key" : "maatwerk_afgehandeld",
                     "cumulative": false,
                     "periodization": "monthly"
                 }

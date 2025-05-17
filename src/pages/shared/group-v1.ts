@@ -140,8 +140,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
                                 let columnNames = tableParams.map( p => p.column);
                                 if( !columnNames.includes(n.column)) {
                                     tableParams.push(n);
-                                }
-                                
+                                }   
                             }
                         }
                     }
@@ -153,13 +152,18 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
        // tableParams = tableParams.filter ( p => !p.column.includes("_cumulatief"))
 
-        let graphData = trimColumnsAndOrder(data[dataGroup], graphParams.map( p => p.column).concat(defaultColumns));
+       let graphData: any[] = [];
+       let graphData_alt: any[] = [];
 
-        let graphData_alt: any[] = [];
-        if (this.config.endpoints[1]) {      
-            graphData_alt = trimColumnsAndOrder(data[this.config.endpoints[1]], graphParams.map( p => p.column).concat(defaultColumns)); 
-        } else {
-            graphData_alt = graphData
+       if (dataGroup != undefined && data[dataGroup].length > 0) {
+
+            graphData = trimColumnsAndOrder(data[dataGroup], graphParams.map( p => p.column).concat(defaultColumns));
+
+            if (this.config.endpoints[1]) {      
+                graphData_alt = trimColumnsAndOrder(data[this.config.endpoints[1]], graphParams.map( p => p.column).concat(defaultColumns)); 
+            } else {
+                graphData_alt = graphData
+            }
         }
 
         
@@ -186,7 +190,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
         if (this.config.functionality && this.config.functionality.indexOf('table') > -1) {
             this.table.draw(tableData);
         }
-   }
+    }
 
    populateDefinitions(definitionData: Definitions) {
 
@@ -198,7 +202,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
     populateDescription() {
 
         const collection = this.page.main.data.collection();
-        const currentData = collection[this.config.endpoints[0]][0];
+        let currentData = (this.config.endpoints[0] && collection[this.config.endpoints[0]].length > 0) ? collection[this.config.endpoints[0]][0] : undefined;
         this.htmlHeader.redraw(currentData); 
     }
 
@@ -229,14 +233,12 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
    update(data: DataObject, segment: Segment | undefined, update: boolean) {
 
-    
         console.log("update group new segment object", this.page.segment);
 
         if (segment != undefined) {
             this.segment = segment;
         }
 
-        
         const group = this.page.chartArray.find( (i) => i.config.slug === this.slug );
 
         group.data = this.prepareData(this.page.main.data.collection());
@@ -252,7 +254,6 @@ export class GroupControllerV1 implements IGroupCtrlr {
         this.populateTable(group.data.table);
 
         this.populateDefinitions(group.data.definitions);
-
-   }  
+    }  
 
 }

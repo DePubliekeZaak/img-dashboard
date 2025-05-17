@@ -135,13 +135,13 @@ const mapping : IGroupMappingV2[] = [
             "parameters": [
                 [
                     { 
-                        "label" : "Maatwerk",
-                        "column" : "maatwerk_meldingen",
+                        "label" : "Afgehandeld via maatwerk",
+                        "column" : "maatwerk_afgehandeld",
                         "colour" : "blue"
                     },
                     { 
-                        "label" : "Vaste vergoeding",
-                        "column" : "vaste_vergoeding_meldingen",
+                        "label" : "Afgehandeld via vaste vergoeding",
+                        "column" : "vaste_vergoeding_afgehandeld",
                         "colour" : "orange"
                     }
                 ],
@@ -162,9 +162,10 @@ const mapping : IGroupMappingV2[] = [
                 ]
             ],
             "segment": {
-                    "key": "maatwerk_meldingen",
+                    "key": "maatwerk_afgehandeld",
                     "cumulative": false,
-                    "periodization": "monthly"
+                    "periodization": "monthly",
+                    "label": "afgehandelde dossiers "
                 }
             }
         ],

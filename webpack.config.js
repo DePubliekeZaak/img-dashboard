@@ -163,6 +163,15 @@ const config = (env) =>  {
           export: 'default',
         }
       },
+      correcties: {
+        filename: "scripts/correcties.bundle.js",
+        import: "./src/pages/correcties/index.ts",
+        library: {
+          name: 'correcties',
+          type: 'window',
+          export: 'default',
+        }
+      },
       charts: {
         import: "./src/charts/index.ts"
       },

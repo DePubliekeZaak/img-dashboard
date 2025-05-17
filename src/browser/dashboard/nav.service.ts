@@ -136,6 +136,13 @@ export const navItems = [
         title_en: ""
     }, 
     {
+        slug: 'correcties',
+        label: 'Correcties',
+        label_en: 'Corrections',
+        title: 'Correcties',
+        title_en: 'Corrections'
+    },
+    {
         slug: 'opendata',
         label: 'Open data',
         label_en: 'Open data',

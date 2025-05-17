@@ -4,6 +4,7 @@ import { IDashboardController } from './dashboard.controller';
 import { IGraphMapping } from '../../charts/core/types';
 import members from './members'
 import { breakpoints } from "../../img-modules/styleguide";
+import { Version } from "./types";
 
 export const styleParentElement = (): Element | null => {
 
@@ -55,7 +56,9 @@ export const createPopupElement = (): void => {
     }
 }
 
-export const pageHeader = (topic: string, container: HTMLElement): void => {
+export const pageHeader = (ctrlr: IDashboardController, topic: string, container: HTMLElement, version: Version): void => {
+
+        console.log(version);
 
         let prevBC = document.querySelector('div.page_header');
         if (prevBC) {
@@ -65,6 +68,15 @@ export const pageHeader = (topic: string, container: HTMLElement): void => {
         let h = document.createElement('div');
         h.classList.add('page_header');
 
+        let v = document.createElement('div');
+        v.classList.add('versie');
+        v.innerText = version.name;
+        v.addEventListener('click', () => {
+            // window.location.reload();
+            ctrlr.switch('topic', 'correcties', false);
+        });
+       
+
         let d = document.createElement('div');
         d.classList.add('datum');
         d.innerText = 'Laatst bijgewerkt op: ';
@@ -73,8 +85,10 @@ export const pageHeader = (topic: string, container: HTMLElement): void => {
         let h2 = document.createElement('h2');
         h2.innerText = topic; 
 
-        h.appendChild(d);
+        h.appendChild(v);
         h.appendChild(h2);
+        h.appendChild(d);
+        
         
         container.appendChild(h);
 }

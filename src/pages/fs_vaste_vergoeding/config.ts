@@ -15,12 +15,12 @@ const mapping : IGroupMappingV2[] = [
                 "multiples": "cumulative", 
                 "parameters": [
                     [
-                        { 
-                            "label" : "Aanvragen",
-                            "column" : "vaste_vergoeding_meldingen",
-                            "colour" : "orange",
-                            "units" : "aanvragen"
-                        },
+                        // { 
+                        //     "label" : "Aanvragen",
+                        //     "column" : "vaste_vergoeding_meldingen",
+                        //     "colour" : "orange",
+                        //     "units" : "aanvragen"
+                        // },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "vaste_vergoeding_afgehandeld",
@@ -65,15 +65,15 @@ const mapping : IGroupMappingV2[] = [
                 "filters": ["parameterSelect","cumulativeVsDelta","weekVsMonth"],
                 "parameters": [
                     [
-                        {
-                            "label": "Aanvragen",
-                            "column": "vaste_vergoeding_meldingen",
-                            "colour": "orange"
-                        },
+                        // {
+                        //     "label": "Aanvragen",
+                        //     "column": "vaste_vergoeding_meldingen",
+                        //     "colour": "orange"
+                        // },
                         {
                             "label": "Afgehandeld",
                             "column": "vaste_vergoeding_afgehandeld",
-                            "colour": "green"
+                            "colour": "moss"
                         },
                         {
                             "label": "Verleend",
@@ -98,7 +98,7 @@ const mapping : IGroupMappingV2[] = [
                     ]
                 ],
                 "segment": {
-                    "key" : "vaste_vergoeding_meldingen",
+                    "key" : "vaste_vergoeding_afgehandeld",
                     "cumulative": false,
                     "periodization": "monthly"
                 }

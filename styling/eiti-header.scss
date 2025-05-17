@@ -15,9 +15,9 @@ header {
         justify-content: center;
         align-items: flex-start;
 
-        > img {
-            // align-self: center;
-        }
+        // > img {
+        //     // align-self: center;
+        // }
     }
 
     > div:last-child {
@@ -106,3 +106,25 @@ ul#language-selector {
     }
     
 }
+
+.page_header {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    // padding: 1rem;
+
+    .versie {
+        margin-bottom: .25rem;
+        border-bottom: 1px solid black;
+        
+    }
+
+    h2 {
+        line-height: 1.33;
+    }
+    
+}
+
