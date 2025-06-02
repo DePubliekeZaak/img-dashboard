@@ -37,5 +37,3 @@ export const segmentParse = (s: Segment | string): Segment =>  {
 //             key: yearmonth
 //         }
 //     }
-
-// }

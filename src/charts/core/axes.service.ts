@@ -89,8 +89,10 @@ export class AxesService {
                         .tickFormat( (d, i) => {
                         
                             let v = ""
+                            if(d == undefined || d == null) {
+                                return;
+                            }
                             let newyear = d.slice(0,4);
-                            // console.log(newyear)
                             if (year != newyear && i != 0) {
                                 // console.log("new year: " + newyear)
                                 v = year

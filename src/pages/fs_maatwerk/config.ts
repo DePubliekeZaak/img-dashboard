@@ -14,21 +14,80 @@ const group : IGroupMappingV2[] = [
                 "multiples": "cumulative", 
                 "parameters": [
                     [
-                        // { 
-                        //     "label" : "Aanvragen",
-                        //     "column" : "maatwerk_meldingen",
-                        //     "colour" : "orange",
-                        //     "units" : "aanvragen"
-                        // },
+                        { 
+                            "label" : "Aanvragen",
+                            "column" : "maatwerk_ingediend",
+                            "colour" : "orange",
+                            "units" : "aanvragen"
+                        },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "maatwerk_afgehandeld",
+                            "column" : "maatwerk_afgerond",
                             "colour" : "moss",
                             "units": "afgehandeld"
                         },
                         { 
+                            "label" : "Voorraad",
+                            "column" : "maatwerk_voorraad",
+                            "colour" : "blue",
+                            "units": "voorraad"
+                        }
+                    ],
+                    [
+                    ]
+                ],
+                "modifiers" : [
+                    [
+                        {
+                            "label": "totaal",
+                            "column": "{}_cumul",
+                            "colour": "orange"
+                        }, 
+                        {
+                            "label": "afgelopen week",
+                            "column": "{}",
+                            "colour": "orange"
+                        }
+                    ]
+                ],
+                "segment": {
+                    "key": "maatwerk_ingediend",
+                    "cumulative": true,
+                    "periodization": "weekly"
+                },
+            }
+        ],
+        "functionality": ['table', 'definitions','download'],
+        "endpoints": ["fysiek_maatwerk_wekelijks","fysiek_maatwerk_maandelijks"]
+    },
+    {
+        "slug" : "maatwerk_besluiten",
+        "ctrlr": "IntroGroupV1",
+        "filters" : [],
+        "graphs": [
+            {
+                "slug" : "fs_maatwerk_numbers_besluiten_v1",
+                "ctrlr" : "NumbersMultiplesV1",
+                "args" : [],
+                "filters": ["totaalVsRecent"],
+                "multiples": "cumulative", 
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Besluiten",
+                            "column" : "maatwerk_beschikt",
+                            "colour" : "moss",
+                            "units": "besluiten"
+                        },
+                        { 
+                            "label" : "Anders afgehandeld",
+                            "column" : "maatwerk_anders_afgehandeld",
+                            "colour" : "moss",
+                            "units": "anders afgehandeld"
+                        },
+                        { 
                             "label" : "Verleend",
-                            "column" : "maatwerk_verleend_bedrag",
+                            "column" : "maatwerk_besch_totaal",
                             "colour" : "blue",
                             "format" : "currency",
                             "units" : "verleend"
@@ -41,7 +100,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "totaal",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         }, 
                         {
@@ -52,14 +111,14 @@ const group : IGroupMappingV2[] = [
                     ]
                 ],
                 "segment": {
-                    "key": "ims_totaal_meldingen",
+                    "key": "maatwerk_ingediend",
                     "cumulative": true,
                     "periodization": "weekly"
                 },
             }
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["fs_wekelijks","fs_maandelijks"]
+        "endpoints": ["fysiek_maatwerk_wekelijks","fysiek_maatwerk_maandelijks"]
     },
     {
         "slug" : "maatwerk_ontwikkeling",
@@ -72,19 +131,19 @@ const group : IGroupMappingV2[] = [
                 "filters": ["parameterSelect","cumulativeVsDelta","weekVsMonth"],
                 "parameters": [
                     [
-                        // {
-                        //     "label": "Aanvragen",
-                        //     "column": "maatwerk_meldingen",
-                        //     "colour": "orange"
-                        // },
+                        {
+                            "label": "Aanvragen",
+                            "column": "maatwerk_ingediend",
+                            "colour": "orange"
+                        },
                         {
                             "label": "Afgehandeld",
-                            "column": "maatwerk_afgehandeld",
+                            "column": "maatwerk_afgerond",
                             "colour": "moss"
                         },
                         {
                             "label": "Verleend",
-                            "column": "maatwerk_verleend_bedrag",
+                            "column": "maatwerk_besch_totaal",
                             "colour": "blue",
                             "format": "currency"
                         },
@@ -99,20 +158,20 @@ const group : IGroupMappingV2[] = [
                         },
                         {
                             "label": "cumulatief",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         },   
                     ]
                 ],
                 "segment": {
-                    "key" : "maatwerk_afgehandeld",
+                    "key" : "maatwerk_afgerond",
                     "cumulative": false,
                     "periodization": "monthly"
                 }
             }
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["fs_wekelijks","fs_maandelijks"],
+        "endpoints": ["fysiek_maatwerk_wekelijks","fysiek_maatwerk_maandelijks"],
         
     },
     {
@@ -128,14 +187,14 @@ const group : IGroupMappingV2[] = [
                 [
                     {
                         "label": "Toegewezen",
-                        "column": "maatwerk_toekenningen_cumulatief",
+                        "column": "maatwerk_toegekend_cumul",
                         "colour": "moss",   
                         "scale" : "null",
                         "format": ""
                     },
                     {
                         "label": "Afgewezen",
-                        "column": "maatwerk_afwijzingen_cumulatief",
+                        "column": "maatwerk_afgewezen_cumul",
                         "colour": "orange",
                         "scale" : "null",
                         "format": ""
@@ -143,8 +202,8 @@ const group : IGroupMappingV2[] = [
                 ],
                 [
                     {
-                        "label": "Afgehandeld",
-                        "column": "maatwerk_afgehandeld_cumulatief",
+                        "label": "Besluiten",
+                        "column": "maatwerk_beschikt_cumul",
                         "colour": "gray",
                         "scale" : "null",
                         "format": ""
@@ -152,47 +211,157 @@ const group : IGroupMappingV2[] = [
                 ]
             ]
             },
-            // datakwaliteit onvoldoende 
-            // {
-            //     "slug" : "fs_maatwerk_toegewezen_trend",
-            //     "ctrlr" : "BarTrendStackedMakeup",
-            //     "filters": ["absoluteVsNormalized","weekVsMonth"],
-            //     "args" : [],
-            //     "parameters": [
-            //         [
-            //             {
-            //                 "label": "Toekenningen",
-            //                 "column": "maatwerk_toekenningen",
-            //                 "colour": "moss",
-            //                 "scale" : "null",
-            //                 "format": ""
-            //             },
-            //             {
-            //                 "label": "Afgewezen",
-            //                 "column": "maatwerk_afwijzingen",
-            //                 "colour": "orange",
-            //                 "scale" : "null",
-            //                 "format": ""
-            //             },
-            //         ]
-            //     ],
-            //     "segment": {
-            //         "key" : "maatwerk_toekenningen",
-            //         "cumulative": false,
-            //         "periodization": "monthly",
-            //         "label": "besluiten",
-            //         "normalized": false
-            //     },
-            // }
+            {
+                "slug" : "fs_maatwerk_toegewezen_trend",
+                "ctrlr" : "BarTrendStackedMakeup",
+                "filters": ["absoluteVsNormalized","weekVsMonth"],
+                "args" : [],
+                "parameters": [
+                    [
+                        {
+                            "label": "Toekenningen",
+                            "column": "maatwerk_toegekend",
+                            "colour": "moss",
+                            "scale" : "null",
+                            "format": ""
+                        },
+                        {
+                            "label": "Afgewezen",
+                            "column": "maatwerk_afgewezen",
+                            "colour": "orange",
+                            "scale" : "null",
+                            "format": ""
+                        },
+                    ]
+                ],
+                "segment": {
+                    "key" : "maatwerk_toegekend",
+                    "cumulative": false,
+                    "periodization": "monthly",
+                    "label": "besluiten",
+                    "normalized": false
+                },
+            }
         ],
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["fs_wekelijks","fs_maandelijks"],
+        "endpoints": ["fysiek_maatwerk_wekelijks","fysiek_maatwerk_maandelijks"],
         "segment": {
-            "key" : "maatwerk_toekenningen  _cumulatief",
+            "key" : "maatwerk_toegekend_cumul",
             "cumulative": true,
             "periodization": "monthly"
         }
-    }
+    },
+    {
+        "slug" : "maatwerk_voorraad",
+        "ctrlr": "VoorraadGroupV1",
+        "graphs": [
+            {
+                "slug" : "fs_maatwerk_voorraad_numbers_v1",
+                "ctrlr" : "NumbersV1",
+                "args" : [],
+                "filters": [],
+                // "multiples": "cumulative", 
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Voorraad",
+                            "column" : "maatwerk_voorraad_cumul",
+                            "colour" : "orange",
+                            "units" : "voorraad"
+                        },
+                        { 
+                            "label" : "Gemiddeld",
+                            "column" : "ouderdom_voorraad_gemiddeld",
+                            "colour" : "moss",
+                            "units": "dagen"
+                        },
+                        { 
+                            "label" : "Mediaan",
+                            "column" : "ouderdom_voorraad_mediaan",
+                            "colour" : "blue",
+                            "units": "dagen"
+                        }
+                    ],
+                    [
+                    ]
+                ],
+                "modifiers" : [],
+                "segment": {
+                    "key": "maatwerk_voorraad",
+                    "cumulative": true,              
+                    "periodization": "weekly"
+                },
+            },
+            {
+                "slug" : "maatwerk_ouderdom_voorraad",
+                "ctrlr" : "SegmentsV1",
+                "args" : [],
+                "filters": [],
+                "parameters": [
+                    [
+                        {
+                            "label": "0 tot 8 weken",
+                            "column": "maatwerk_ouderdom_voorraad_0_8_weken",
+                            "colour": "orange"
+                        },
+                        {
+                            "label": "8 tot 16 weken",
+                            "column": "maatwerk_ouderdom_voorraad_8_16_weken",
+                            "colour": "moss"
+                        },
+                        {
+                            "label": "16+ weken",
+                            "column": "maatwerk_ouderdom_voorraad_16_plus_weken",
+                            "colour": "blue",
+                            "format": "currency"
+                        },
+                    ],
+                ],
+                "modifiers" : [],
+                "segment": {
+                    "key" : "maatwerk_ouderdom_voorraad_0_8_weken",
+                    "cumulative": false,
+                    "periodization": "monthly"
+                }
+            },
+            {
+                "slug" : "fs_maatwerk_voorrraad_trend",
+                "ctrlr" : "BarTrendStackedMakeup",
+                "filters": ["absoluteVsNormalized"],
+                "args" : [],
+                "parameters": [
+                    [
+                        {
+                            "label": "0 tot 8 weken",
+                            "column": "maatwerk_ouderdom_voorraad_0_8_weken",
+                            "colour": "orange"
+                        },
+                        {
+                            "label": "8 tot 16 weken",
+                            "column": "maatwerk_ouderdom_voorraad_8_16_weken",
+                            "colour": "moss"
+                        },
+                        {
+                            "label": "16+ weken",
+                            "column": "maatwerk_ouderdom_voorraad_16_plus_weken",
+                            "colour": "blue",
+                            "format": "currency"
+                        }
+                    ]
+                ],
+                "segment": {
+                    "key" : "maatwerk_ouderdom_voorraad_0_8_weken",
+                    "cumulative": false,
+                    "periodization": "monthly",
+                    "label": "dossiers",
+                    "normalized": false
+                },
+            }
+        ],
+        "functionality": ['table', 'definitions','download'],
+        "endpoints": ["fysiek_maatwerk_wekelijks","fysiek_maatwerk_maandelijks"],
+        
+    },
 ];
 
 export default group;

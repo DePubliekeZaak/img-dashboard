@@ -43,14 +43,14 @@ export default class ChartStackedBarsV2 {
             .attr("x", (d: any, i: number)  => self.ctrlr.scales.x.scale(d.data["date"]))
             .attr("width", width)
             .transition()
-            .duration(300)
+            .duration(100)
             .attr("y", (d) => self.ctrlr.scales.y.scale(d[1]))
             .attr("height", (d, i) => {
                 let h = self.ctrlr.scales.y.scale(d[0]) - self.ctrlr.scales.y.scale(d[1]);
                 return h > 0 ? h : 0;
             })
         ;
-
+ 
         this.bars
             .on("mouseover", function (event:  any, d: any) {
 

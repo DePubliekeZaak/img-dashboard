@@ -125,7 +125,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3  {
         const ps = this.parameters[index];
 
         const stack = window.d3.stack<StackDataItem>()
-            .keys(ps.map( p => this.segment.cumulative ? p.column + '_cumulatief': p.column));
+            .keys(ps.map( p => this.segment.cumulative ? p.column + '_cumul': p.column));
 
         if (!this.segment.normalized) {
 
@@ -165,8 +165,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3  {
 
     async redraw(data: any, range: number[]) {
 
-        const period = (this.segment.periodization == "weekly") ? "_yearweek" : "_yearmonth";
-        this.scales.x.set(data.graphData.map ( d => d[period]));
+        this.scales.x.set(data.stacked[0].map ( d => d.data.date));
         this.scales.y.set(data.stacked[data.stacked.length - 1].map( d => d[1] < 0 ? 0 : d[1]).concat([0]));
         this.scales.y2.set(data.stacked[data.stacked.length - 1].map( d => d[1] < 0 ? 0 : d[1]).concat([0]));
         await super.redraw(data.stacked);

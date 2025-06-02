@@ -105,6 +105,7 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3  {
 
     prepareData(data: DataObject) : DataObject {
 
+
         let monthFirst = (data.graphData[0].periodization == "monthly") ? true : false;
 
         let _data;
@@ -126,7 +127,7 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3  {
         const ps = this.parameters[index];
 
         const stack = window.d3.stack()
-            .keys(ps.map( p => this.segment.cumulative ? p.column + '_cumulatief': p.column));
+            .keys(ps.map( p => this.segment.cumulative ? p.column + '_cumul': p.column));
 
         data.stacked = stack(_data);
 

@@ -46,8 +46,8 @@ export class ChartBandBar {
             .attr("y", self.ctrlr.dimensions.height)
             .attr("height", 0)
             .attr("width",  (self.ctrlr.scales.x.config.type === 'band') ? self.ctrlr.scales.x.scale.bandwidth() : self.ctrlr.dimensions.width / data.length - 1)
-            .transition()
-            .duration(500)
+            // .transition()
+            // .duration(500)
             .attr("y", (d) => (this.ctrlr.config.extra.privacySensitive && d.value < 25) ? self.ctrlr.dimensions.height : self.ctrlr.scales.y.fn(d.value))
             .attr("height", (d) => self.ctrlr.dimensions.svgHeight - self.ctrlr.scales.y.fn(d.value))
 

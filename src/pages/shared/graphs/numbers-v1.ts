@@ -60,12 +60,16 @@ export class NumbersV1 extends core.GraphControllerV3 {
     }
 
     async draw(data: DataObject) {
+
         for (let p of this.parameters[0]) {
             this.numbers[p.column].draw();
         }
     }
 
     async redraw(data: any, range: number[]) {
+
+        
+
         for (let p of this.parameters[0]) {
             this.numbers[p.column].redraw(data.numbers);
         }

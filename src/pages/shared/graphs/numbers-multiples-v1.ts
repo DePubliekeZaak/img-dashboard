@@ -91,7 +91,6 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3  {
 
     prepareData(data: DataObject) : DataObject {
 
-
         data.numbers = this.segment.cumulative ? data.cumulative : data.incremental
         return data;
     }
@@ -103,6 +102,7 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3  {
 
 
     async redraw(data: any, range: number[]) {
+
         
         this.number.redraw(data.numbers[this.index])
     }

@@ -41,7 +41,7 @@ export class ToegewezenV1 extends GroupControllerV1 {
         const parts: PiePart[]  = [];
         const rows: (string|number)[][] = [];  
 
-        const { tableParams, graphParams, graphData, timeline, definitions, graphData_alt } = super.prepareData(data);
+        const { tableParams, graphParams, graphData, definitions, graphData_alt, timeline } = super.prepareData(data);
         let params = ([] as IParameterMapping[]);
         
         let graph_1 = this.config.graphs[0];
@@ -86,7 +86,8 @@ export class ToegewezenV1 extends GroupControllerV1 {
             graphData,
             graphData_alt,
             definitions,
-            table
+            table,
+            timeline
         }
        }
     

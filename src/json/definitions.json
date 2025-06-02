@@ -1,7 +1,19 @@
 [
   {
+    "name": "Verleend",
+    "description": "<p>Dit is het bedrag dat het IMG wekelijks of totaal heeft verleend. Hierin zitten ook de bedragen van de stuwmeerregeling, bijkomende kosten en de wettelijke rente verwerkt.</p>\n"
+  },
+  {
+    "name": "Schadevergoeding op maat",
+    "description": "<p>`Een deskundige beoordeelt de oorzaak van de schade en bepaalt de schadevergoeding.</p>\n"
+  },
+  {
     "name": "Wettelijke rente",
     "description": "<p> De wachttijd tussen het ontstaan van mijnbouwschade en de uitbetaling van schadevergoeding, wordt financieel gecompenseerd met wettelijke rente.</p>\n"
+  },
+  {
+    "name": "Vaste vergoeding",
+    "description": "<p>Als er op een adres nog niet eerder mijnbouwschade is gemeld en er wordt voldaan aan de voorwaarden, kunnen aanvragers kiezen voor de vaste vergoeding van. Dit is een eenmalig vast bedrag voor alle mijnbouwschades aan het gebouw. Vooral bedoeld voor relatief kleine en niet ingewikkelde schades.</p>\n"
   },
   {
     "name": "Waardering",
@@ -10,14 +22,6 @@
   {
     "name": "Volwassenen",
     "description": "<p>Personen boven de 18 jaar</p>\n"
-  },
-  {
-    "name": "Verleend",
-    "description": "<p>Dit is het bedrag dat het IMG wekelijks of totaal heeft verleend. Hierin zitten ook de bedragen van de stuwmeerregeling, bijkomende kosten en de wettelijke rente verwerkt.</p>\n"
-  },
-  {
-    "name": "Vaste vergoeding",
-    "description": "<p>Als er op een adres nog niet eerder mijnbouwschade is gemeld en er wordt voldaan aan de voorwaarden, kunnen aanvragers kiezen voor de vaste vergoeding van. Dit is een eenmalig vast bedrag voor alle mijnbouwschades aan het gebouw. Vooral bedoeld voor relatief kleine en niet ingewikkelde schades.</p>\n"
   },
   {
     "name": "Toename",
@@ -32,16 +36,16 @@
     "description": "<p>Tijdelijke Commissie Mijnbouwschade Groningen, voorloper van IMG.</p>\n"
   },
   {
-    "name": "Stuwmeerregeling",
-    "description": "<p>Het bedrag dat is verleend aan de hand van de stuurmeerregeling uit juni 2020. </p>\n"
-  },
-  {
-    "name": "Schadevergoeding op maat",
-    "description": "<p>`Een deskundige beoordeelt de oorzaak van de schade en bepaalt de schadevergoeding.</p>\n"
+    "name": "Cumulatief",
+    "description": "<p>Een overzicht met het totaalaantal dat oploopt</p>\n"
   },
   {
     "name": "Schademelding",
     "description": "<p>Wanneer bewoners schade ontdekken aan hun huis, die mogelijk veroorzaakt is door de gevolgen van de gaswinning uit het Groningenveld, kunnen ze die melden bij het IMG. Deze melding leidt tot een aanvraag van schadevergoeding.</p>\n"
+  },
+  {
+    "name": "Stuwmeerregeling",
+    "description": "<p>Het bedrag dat is verleend aan de hand van de stuurmeerregeling uit juni 2020. </p>\n"
   },
   {
     "name": "Respondenten",
@@ -68,12 +72,12 @@
     "description": "<p>In de kamerbrief van 6 oktober 2023 kondigt het kabinet aan hoe de schadeafhandeling wordt verbeterd. Waar voorheen de nadruk lag op het uitkeren van een financiële schadevergoeding, is het herstellen van schade het nieuwe uitgangspunt.</p>\n"
   },
   {
-    "name": "Instituut Mijnbouwschade Groningen",
-    "description": "<p>Het Instituut Mijnbouwschade Groningen (IMG) is het onafhankelijke en zelfstandige bestuursorgaan dat verantwoordelijk is voor de afhandeling van aardbevingsschade als gevolg van gaswinning uit het Groningenveld.</p>\n"
-  },
-  {
     "name": "Ingediende bezwaren",
     "description": "<p>Het aantal bezwaren die wij hebben ontvangen</p>\n"
+  },
+  {
+    "name": "Instituut Mijnbouwschade Groningen",
+    "description": "<p>Het Instituut Mijnbouwschade Groningen (IMG) is het onafhankelijke en zelfstandige bestuursorgaan dat verantwoordelijk is voor de afhandeling van aardbevingsschade als gevolg van gaswinning uit het Groningenveld.</p>\n"
   },
   {
     "name": "IMS",
@@ -96,20 +100,28 @@
     "description": "<p>Een gemeente is een bestuurlijke eenheid binnen een land, met een eigen afgebakend grondgebied, verantwoordelijk voor het regelen en besturen van lokale aangelegenheden.</p>\n"
   },
   {
-    "name": "Gegronde AOS-melding",
-    "description": "<p>Als na een bouwkundige inspectie blijkt dat er sprake is van een daadwerkelijk acuut onveilige situatie, spreken we van een gegronde melding.</p>\n"
-  },
-  {
     "name": "Fysieke schade",
     "description": "<p>Schade aan gebouwen, zoals scheuren in muren of barsten in vloeren.</p>\n"
+  },
+  {
+    "name": "Gegronde AOS-melding",
+    "description": "<p>Als na een bouwkundige inspectie blijkt dat er sprake is van een daadwerkelijk acuut onveilige situatie, spreken we van een gegronde melding.</p>\n"
   },
   {
     "name": "Doorlopend",
     "description": "<p>De voortgang sinds de start van de regeling</p>\n"
   },
   {
-    "name": "Cumulatief",
-    "description": "<p>Een overzicht met het totaalaantal dat oploopt</p>\n"
+    "name": "AOS melding",
+    "description": "<p>Als er een vermoeden is van een acuut onveilige situatie, kunnen bewoners dat bij ons melden. Wij komen dan zo snel mogelijk langs om het gevaar te beoordelen en indien nodig nemen we direct veiligheidsmaatregelen.</p>\n"
+  },
+  {
+    "name": "Afgehandeld",
+    "description": "<p>Het aantal aanvragen dat is afgehandeld. Op sommige adressen zijn meerdere schademeldingen gedaan. Deze worden, zover mogelijk, met een enkel besluit afgehandeld.</p>\n"
+  },
+  {
+    "name": "Aanvragen",
+    "description": "<p>Het totaalaantal aanvragen voor een vergoeding voor fysieke schade dat het IMG ontvangt (bevat: aanvragen voor herstel, schadevergoeding op maat en de vaste vergoeding).</p>\n"
   },
   {
     "name": "Centrum Veilig Wonen",
@@ -142,17 +154,5 @@
   {
     "name": "Afgelopen week",
     "description": "<p>De voortgang van de afgelopen week</p>\n"
-  },
-  {
-    "name": "Afgehandeld",
-    "description": "<p>Het aantal aanvragen dat is afgehandeld. Op sommige adressen zijn meerdere schademeldingen gedaan. Deze worden, zover mogelijk, met een enkel besluit afgehandeld.</p>\n"
-  },
-  {
-    "name": "Aanvragen",
-    "description": "<p>Het totaalaantal aanvragen voor een vergoeding voor fysieke schade dat het IMG ontvangt (bevat: aanvragen voor herstel, schadevergoeding op maat en de vaste vergoeding).</p>\n"
-  },
-  {
-    "name": "AOS melding",
-    "description": "<p>Als er een vermoeden is van een acuut onveilige situatie, kunnen bewoners dat bij ons melden. Wij komen dan zo snel mogelijk langs om het gevaar te beoordelen en indien nodig nemen we direct veiligheidsmaatregelen.</p>\n"
   }
 ]
