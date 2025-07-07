@@ -5,7 +5,7 @@ import { TableData } from "../../shared/types_graphs";
 import { accounting, convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
-export class VoorraadGroupV1 extends GroupControllerV1 {
+export class BedragenGroupV1 extends GroupControllerV1 {
   constructor(
     public page: any,
     public config: IGroupMappingV2,
@@ -29,7 +29,6 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
   prepareData(data: ImgData): any {
     const dataGroup = this.config.endpoints[0];
     const rows: string[][] = [];
-    const cumulative: string[] = [];
 
     const {
       tableParams,
@@ -40,8 +39,13 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
       definitions,
     } = super.prepareData(data);
 
+    const incremental: string[] = [];
+    const cumulative: string[] = [];
+
     for (let p of this.config.graphs[0].parameters[0]) {
-      cumulative.push(data[dataGroup][0][p.column + "_cumul"]);
+      incremental.push(data[dataGroup][0][p.column]);
+
+      cumulative.push(data[dataGroup][0][p.column + "_cumulatief"]);
     }
 
     for (let period of data[dataGroup]) {
@@ -69,6 +73,13 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
       rows.push(row);
     }
 
+    for (let period of graphData) {
+      period["fysieke_schade_meldingen_cvw"] =
+        period._yearmonth == "201811"
+          ? period["fysieke_schade_meldingen_cvw_cumulatief"]
+          : 0;
+    }
+
     const table = {
       pre_headers: [
         { label: "", length: 3 },
@@ -83,9 +94,10 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
 
     return {
       numbers: graphData[0],
-      cumulative,
       graphData,
       graphData_alt,
+      incremental,
+      cumulative,
       timeline,
       definitions,
       table,

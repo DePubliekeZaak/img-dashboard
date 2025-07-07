@@ -1,4 +1,3 @@
-
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { ImgData } from "../../shared/types";
@@ -7,91 +6,97 @@ import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 import { trimStart } from "../../shared/factories/trend";
 
-export class IntroGroupV1 extends GroupControllerV1 { 
+export class IntroGroupV1 extends GroupControllerV1 {
+  constructor(
+    public page: any,
+    public config: IGroupMappingV2,
+    public index: number,
+  ) {
+    super(page, config, index);
+  }
 
-    constructor(
-        public page: any,
-        public config: IGroupMappingV2,
-        public index: number
-    ){
-       super(page,config, index);
+  html() {
+    const graphWrapper = super.html();
+    let source = HTMLSourceV2(
+      graphWrapper?.parentElement as HTMLElement,
+      this.page.main.params.language,
+      "IMG",
+    );
+    return graphWrapper;
+  }
+
+  async init() {}
+
+  prepareData(data: ImgData): any {
+    const dataGroup = this.config.endpoints[0];
+    const rows: string[][] = [];
+
+    let { tableParams, graphData, definitions, graphData_alt, timeline } =
+      super.prepareData(data);
+    const incremental: string[] = [];
+    const cumulative: string[] = [];
+
+    graphData_alt = graphData_alt.filter((p) => p._yearmonth > "202410");
+    graphData = graphData.filter((p) => p._yearmonth > "202410");
+
+    for (let p of this.config.graphs[0].parameters[0]) {
+      incremental.push(data[dataGroup][0][p.column]);
+
+      cumulative.push(data[dataGroup][0][p.column + "_cumul"]);
     }
 
-    html() {
-        const graphWrapper = super.html();
-        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
-        return graphWrapper
+    for (let period of graphData.filter((p) => p._yearweek > "202447")) {
+      const row: string[] = [];
+      row.push(period._year);
+      row.push(period._week);
+      row.push(
+        new Date(period._startdatum).toLocaleDateString("nl-NL", {
+          dateStyle: "short",
+        }) +
+          " t/m " +
+          new Date(period._einddatum).toLocaleDateString("nl-NL", {
+            dateStyle: "short",
+          }),
+      );
+
+      for (let p of tableParams) {
+        if (p.format == "currency") {
+          row.push(convertToCurrencyInTable(period[p.column]));
+        } else if (p.format == "percentage") {
+          row.push((0.1 * Math.round(period[p.column] * 10)).toString() + "%");
+        } else {
+          row.push(period[p.column]);
+        }
+      }
+
+      rows.push(row);
     }
 
-    async init() {}
+    const table = {
+      pre_headers: [
+        { label: "", length: 3 },
+        { label: "Nieuw", length: 3 },
+        { label: "Cumulatief", length: 3 },
+      ],
+      headers: ["Jaar", "Week", "Periode"].concat(
+        tableParams.map((p) => p.label),
+      ), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
+      rows,
+    };
 
-    prepareData(data: ImgData) : any {
+    return {
+      current: graphData[0],
+      graphData,
+      graphData_alt,
+      incremental,
+      cumulative,
+      table,
+      definitions,
+      timeline,
+    };
+  }
 
-        const dataGroup = this.config.endpoints[0];
-        const rows: string[][] = []; 
-
-        let { tableParams, graphData, definitions, graphData_alt, timeline } = super.prepareData(data);
-        const incremental: string[] = [];
-        const cumulative: string[] = [];
-
-        graphData_alt = graphData_alt.filter ( p => p._yearmonth >'202410')
-        graphData = graphData.filter ( p => p._yearmonth >'202410')
-
-        for (let p of this.config.graphs[0].parameters[0]) {
-
-            incremental.push(
-                data[dataGroup][0][p.column]
-            )
-
-            cumulative.push(
-                data[dataGroup][0][p.column + '_cumulatief']
-            )
-        }
-        
-        for (let period of graphData.filter ( p => p._yearweek >'202447')) {
-
-            const row : string[] = [];
-            row.push(period._year);
-            row.push(period._week);
-            row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'})); 
-
-            for (let p of tableParams) {
-
-                if (p.format == "currency") {
-                    row.push(convertToCurrencyInTable(period[p.column]));  
-
-                } else if (p.format == "percentage") {
-                    row.push((0.1 * (Math.round(period[p.column] * 10))).toString() + "%");  
-                }
-                else {
-                    row.push(period[p.column]);  
-                }     
-            }
-
-            rows.push(row);
-        }
-    
-        const table = {
-    
-            pre_headers: [{label: "", length: 3},{label: "Nieuw", length: 3},{label: "Cumulatief", length: 3}],
-            headers:  ["Jaar","Week","Periode"].concat(tableParams.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
-            rows
-        };
-
-        return {
-            current: graphData[0],
-            graphData,
-            graphData_alt,
-            incremental,
-            cumulative,
-            table,
-            definitions,
-            timeline
-        }
-       }
-    
-    populateTable(tableData: TableData) {
-
-        super.populateTable(tableData);
-    } 
+  populateTable(tableData: TableData) {
+    super.populateTable(tableData);
+  }
 }

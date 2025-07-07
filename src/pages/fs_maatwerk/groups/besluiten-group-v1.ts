@@ -1,11 +1,11 @@
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { ImgData } from "../../shared/types";
-import { TableData } from "../../shared/types_graphs";
-import { accounting, convertToCurrencyInTable } from "../../shared/_helpers";
+import { TableData, PiePart, Definitions } from "../../shared/types_graphs";
+import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
-export class VoorraadGroupV1 extends GroupControllerV1 {
+export class BesluitenGroupV1 extends GroupControllerV1 {
   constructor(
     public page: any,
     public config: IGroupMappingV2,
@@ -13,8 +13,6 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
   ) {
     super(page, config, index);
   }
-
-  async init() {}
 
   html() {
     const graphWrapper = super.html();
@@ -26,25 +24,39 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
     return graphWrapper;
   }
 
+  async init() {}
+
   prepareData(data: ImgData): any {
     const dataGroup = this.config.endpoints[0];
+    const parts: PiePart[] = [];
     const rows: string[][] = [];
+
+    const { tableParams, graphData, definitions, graphData_alt, timeline } =
+      super.prepareData(data);
+    const incremental: string[] = [];
     const cumulative: string[] = [];
 
-    const {
-      tableParams,
-      graphParams,
-      graphData,
-      graphData_alt,
-      timeline,
-      definitions,
-    } = super.prepareData(data);
-
     for (let p of this.config.graphs[0].parameters[0]) {
-      cumulative.push(data[dataGroup][0][p.column + "_cumul"]);
+      incremental.push(data[dataGroup][0][p.column]);
+
+      cumulative.push(data[dataGroup][0][p.column + "_cumulatief"]);
     }
 
-    for (let period of data[dataGroup]) {
+    //PIE CHA
+    let graph_1 = this.config.graphs[1];
+    let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
+
+    params_1.forEach((p, i) => {
+      parts.push({
+        label: p.label,
+        value: graphData_alt[0][p.column],
+        colour: p.colour,
+        accented: false,
+        format: "",
+      });
+    });
+
+    for (let period of graphData) {
       const row: string[] = [];
       row.push(period._year);
       row.push(period._week);
@@ -58,11 +70,15 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
           }),
       );
 
+      // console.log(tableParams)
+
       for (let p of tableParams) {
         if (p.format == "currency") {
           row.push(convertToCurrencyInTable(period[p.column]));
+        } else if (p.format == "percentage") {
+          row.push((0.1 * Math.round(period[p.column] * 10)).toString() + "%");
         } else {
-          row.push(accounting(period[p.column]));
+          row.push(period[p.column]);
         }
       }
 
@@ -77,18 +93,20 @@ export class VoorraadGroupV1 extends GroupControllerV1 {
       ],
       headers: ["Jaar", "Week", "Periode"].concat(
         tableParams.map((p) => p.label),
-      ),
+      ), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
       rows,
     };
 
     return {
       numbers: graphData[0],
-      cumulative,
+      pies: [[], parts],
       graphData,
       graphData_alt,
-      timeline,
-      definitions,
+      incremental,
+      cumulative,
       table,
+      definitions,
+      timeline,
     };
   }
 
