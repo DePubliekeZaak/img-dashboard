@@ -45,6 +45,7 @@ export class ChartDimensions implements IChartDimensions {
 
         this.dimensions.graphWidth = this.config.graphRatio == undefined ? parentWidth : this.config.graphRatio * this.dimensions.svgHeight;
         this.dimensions.svgWidth = dimensions.graphWidth - this.config.padding.left - this.config.padding.right;
+        this.dimensions.coreWidth = this.dimensions.svgWidth - this.config.innerPadding.left - this.config.innerPadding.right;
 
         return this.dimensions;
     }

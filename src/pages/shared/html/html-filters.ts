@@ -32,7 +32,7 @@ export class HtmlFilters {
   }
 
   init(el: HTMLElement | undefined) {
-    const element = el != undefined ? el : this.element;
+    const element = el != undefined ? el : this.element; 
 
     const prevElement = element.querySelector(".filter_list");
 
@@ -45,8 +45,7 @@ export class HtmlFilters {
         "filter-wrapper",
       );
 
-      this.listElement =
-        this.ctrlr.page.main.window.document.createElement("div");
+      this.listElement = this.ctrlr.page.main.window.document.createElement("div");
       this.listElement.classList.add("filter_list");
 
       const ul = this.ctrlr.page.main.window.document.createElement("ul");
@@ -65,6 +64,15 @@ export class HtmlFilters {
 
   draw() {
     const self = this;
+
+    // Ensure segment structure exists
+    if (!this.ctrlr.page.segment.groups[this.ctrlr.group.slug]) {
+      this.ctrlr.page.segment.groups[this.ctrlr.group.slug] = { graphs: {} };
+    }
+    if (!this.ctrlr.page.segment.groups[this.ctrlr.group.slug].graphs) {
+      this.ctrlr.page.segment.groups[this.ctrlr.group.slug].graphs = {};
+    }
+
     const localSegment =
       this.ctrlr.page.segment.groups[this.ctrlr.group.slug].graphs[
         this.ctrlr.slug
@@ -184,7 +192,7 @@ export class HtmlFilters {
               this.ctrlr,
               li,
               this.ctrlr.group.slug,
-              this.ctrlr.group.data.graphData,
+              this.ctrlr.group.data.graphDataMonth,
             );
             selectEl = selector.draw();
           } else {
@@ -265,17 +273,15 @@ export class HtmlFilters {
           selectEl.addEventListener("change", () => {
             if (selectEl != null) {
               if (selectEl.value != localSegment.key) {
-                if (selectEl.value.includes("voorraad")) {
-                  localSegment.cumulative = true;
-                }
-                if (localSegment.cumulative) {
+                if (
+                  localSegment.cumulative ||
+                  selectEl.value.includes("voorraad")
+                ) {
                   localSegment.key = selectEl.value + "_cumulatief";
                 } else {
                   localSegment.key = selectEl.value.replace("_cumulatief", "");
                 }
 
-                console.log(localSegment);
-                console.log(self.ctrlr.group.data);
                 self.ctrlr.update(self.ctrlr.group.data, true);
               }
             }

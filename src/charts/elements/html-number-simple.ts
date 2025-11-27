@@ -76,7 +76,7 @@ export class HtmlNumberSimple {
       element.querySelector(".number.accented").innerText =
         convertToCurrency(data);
     } else if (this.parameter.format === "percentage") {
-      let value = (100 * Math.round(data * 10)) / 10;
+      let value = Math.round(data * 10) / 10;
       element.querySelector(".number.accented").innerText = value + "%";
     } else {
       let value = this.ctrlr.config.extra.decimal

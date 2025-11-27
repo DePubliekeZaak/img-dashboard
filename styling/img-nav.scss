@@ -34,7 +34,7 @@ ul.dashboard_nav, ul.dashboard_nav_mobile {
                 }
             }
 
-           
+
             &.active {
                 background: $moss-light;
                 border-radius: 6px;
@@ -50,16 +50,16 @@ ul.dashboard_nav, ul.dashboard_nav_mobile {
 
    > li {
 
-        &[aria-expanded="false"] {    
-        
+        &[aria-expanded="false"] {
+
             a > span > svg {
 
                 transform: rotate(0deg);
             }
         }
 
-        &[aria-expanded="true"] {    
-        
+        &[aria-expanded="true"] {
+
             a > span > svg {
 
                 transform: rotate(180deg);
@@ -69,14 +69,27 @@ ul.dashboard_nav, ul.dashboard_nav_mobile {
         > ul {
 
             margin-left: .75rem;
-            padding-left: .75rem;
+           padding-left: .75rem;
             border-left: 1px solid rgb(230, 230, 230);
             margin-bottom: .75rem;
 
-            li {
+            > li {
                 padding: .125rem 0.75rem .125rem 0;
                 pointer-events: auto;
-       
+
+                > ul {
+
+                    margin-left: .75rem;
+                    padding-left: .75rem;
+                    border-left: 1px solid rgb(230, 230, 230);
+                    margin-bottom: .75rem;
+
+                    > li {
+                        padding: .125rem 0.75rem .125rem 0;
+                        pointer-events: auto;
+                    }
+                }
+
             }
         }
     }

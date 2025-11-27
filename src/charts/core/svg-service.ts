@@ -26,6 +26,8 @@ export class SvgService implements ISvgService {
     }
 
 
+    // ADD CONCEPT OF INNERPADDING? 
+
     render() {
 
         this.svg.body = window.d3.select(this.element)
@@ -55,7 +57,7 @@ export class SvgService implements ISvgService {
 
         this.svg.layers.data = this.svg.body.append('g')
             .attr('class', 'data')
-        //    .attr('transform', 'translate(' + (this.config.padding.left) + ',' + (this.config.padding.top) + ')');
+            .attr('transform', 'translate(' + (this.config.innerPadding.left) + ',' + (this.config.innerPadding.top) + ')');
 
         this.svg.layers.axes = this.svg.body.append('g')
             .attr('class', 'axes')

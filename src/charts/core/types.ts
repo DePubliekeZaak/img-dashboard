@@ -33,13 +33,19 @@ export interface IGraphConfig {
 
     graphRatio?: number;
     graphHeight?: number,
+    margin: {
+        top : number,
+        bottom : number,
+        left : number,
+        right : number
+    },
     padding: {
         top : number,
         bottom : number,
         left : number,
         right : number
     },
-    margin: {
+    innerPadding: {
         top : number,
         bottom : number,
         left : number,
@@ -64,6 +70,7 @@ export interface Dimensions {
 
     svgWidth: number,
     graphWidth: number,
+    coreWidth: number,
     svgHeight: number,
     graphHeight: number
 }

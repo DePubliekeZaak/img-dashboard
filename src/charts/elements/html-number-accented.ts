@@ -11,6 +11,8 @@ export class HtmlNumberAccented {
   draw() {
     let element = this.element != undefined ? this.element : this.ctrlr.element;
 
+    element.innerHTML = "";
+  
     let marginTop = "0";
 
     if (window.innerWidth < breakpoints.sm) {
@@ -71,22 +73,26 @@ export class HtmlNumberAccented {
   }
 
   redraw(data, extraParameter) {
-    let element = this.element != undefined ? this.element : this.ctrlr.element;
 
-    console.log(data);
+
+
+    let element = this.element != undefined ? this.element : this.ctrlr.element;
 
     if (this.parameter.format === "currency") {
       element.querySelector(".number.accented").innerText = convertToCurrency(
-        data[this.parameter["column"]],
+        data
       );
     } else if (this.parameter.format === "percentage") {
-      let value = Math.round(100 * data[this.parameter["column"]] * 10) / 10;
+      let value = Math.round(data * 10) / 10;
       element.querySelector(".number.accented").innerText = value + "%";
+    } else if (this.parameter.format === "decimals") {
+      let value = Math.round(data * 10) / 10;
+      element.querySelector(".number.accented").innerText = value;
     } else {
       let value =
         this.ctrlr.config.extra && this.ctrlr.config.extra.decimal
-          ? Math.round(data[this.parameter["column"]] * 10) / 10
-          : Math.round(data[this.parameter["column"]]);
+          ? Math.round(data * 10) / 10
+          : Math.round(data);
       element.querySelector(".number.accented").innerText =
         value > 9999 ? thousands(value) : value;
     }

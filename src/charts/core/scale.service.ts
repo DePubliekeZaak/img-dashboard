@@ -102,6 +102,8 @@ export class ScaleService implements IScaleService{
 
     reset() {
 
+        const self = this;
+
         if (!this.config.type) return;
 
         if(this.scale.domain().length < 2) {
@@ -112,15 +114,15 @@ export class ScaleService implements IScaleService{
 
             case 'horizontal':
 
-                this.scale
-                    .range([0, this.ctrlr.dimensions.svgWidth]);
+                this.scale 
+                    .range([0, this.ctrlr.dimensions.coreWidth]); // - self.ctrlr.config.innerPadding.right
 
                 break;
 
             case 'horizontal-reverse':
 
                     this.scale
-                        .range([this.ctrlr.dimensions.svgWidth,0]);
+                        .range([this.ctrlr.dimensions.coreWidth,  0]);  // - self.ctrlr.config.innerPadding.right,
     
                     break;
 
@@ -145,7 +147,7 @@ export class ScaleService implements IScaleService{
                     return
                 }
 
-                let langsteZijde = this.ctrlr.dimensions.svgWidth > this.ctrlr.dimensions.svgHeight ? this.ctrlr.dimensions.svgWidth : this.ctrlr.dimensions.svgHeight;
+                let langsteZijde = this.ctrlr.dimensions.coreWidth > this.ctrlr.dimensions.svgHeight ? this.ctrlr.dimensions.coreWidth : this.ctrlr.dimensions.svgHeight;
 
                 this.scale
                     .range([this.ctrlr.config.minRadius, (langsteZijde / this.dataLength) * this.ctrlr.config.radiusFactor]);
@@ -157,7 +159,7 @@ export class ScaleService implements IScaleService{
                     // let langsteZijde = this.ctrlr.dimensions.width > this.ctrlr.dimensions.height ? this.ctrlr.dimensions.width : this.ctrlr.dimensions.height;
     
                     this.scale
-                        .range([0, this.ctrlr.dimensions.svgWidth / 2]);
+                        .range([0, this.ctrlr.dimensions.coreWidth / 2]);
     
                     break;
 

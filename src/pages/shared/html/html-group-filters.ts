@@ -53,6 +53,7 @@ export class HtmlGroupFilters {
 
         const ul = this.listElement.querySelector('ul');
 
+    
         if(this.ctrlr.config.filters != undefined) {
      
             for (const func of this.ctrlr.config.filters) {
@@ -78,7 +79,7 @@ export class HtmlGroupFilters {
                                 periodization: self.ctrlr.segment.periodization
                             }
 
-                            if ( newSegment.key != self.ctrlr.segment.key || newSegment.cumulative != self.ctrlr.segment.cumulative) {
+                            if ( newSegment.key != self.ctrlr.segment.key || newSegment.cumulative != (self.ctrlr.config.segment as any).cumulative!) {
                                 self.ctrlr.update(this.ctrlr.page.main.data.collection(), newSegment, true);
                             }
 
@@ -94,7 +95,7 @@ export class HtmlGroupFilters {
 
                         const months = [];
 
-                        const selector = new HtmlMonthSelector(this.ctrlr, li, this.ctrlr.slug, this.ctrlr.page.main.data.collection().graphData)
+                        const selector = new HtmlMonthSelector(this.ctrlr, li, this.ctrlr.slug, this.ctrlr.page.main.data.collection().graphDataMonth)
                         const selectEl = selector.draw(segment);
 
                         selectEl.addEventListener("change", () => {

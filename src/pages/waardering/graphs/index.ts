@@ -1,5 +1,5 @@
 // import { BarTrendV1 } from "../../shared/graphs/bar-trend-v1";
-import { BarTrendV1 } from "./bar-trend-v1";
+import { BarTrendV1 } from "../../shared/graphs/bar-trend-v1";
 import { KTORatingsV1 } from "./kto-ratings-v1";
 import { NumbersPlusRespondentsV1 } from "../../shared/graphs/numbers-respondents-v1";
 import { NumbersMultiplesCircledV1 } from "../../shared/graphs/numbers-multiples-circled-v1";

@@ -3,55 +3,17 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 const group : IGroupMappingV2[] = [
     {
         "slug" : "waardering_alle_regelingen",
-        "ctrlr": "IntroGroupV1",
+        "ctrlr": "DefaultGroupV1",
         "filters" : [],
         "graphs": [
             {
                 "slug" : "tevredenheid_numbers_v1",
-                "ctrlr" : "NumbersMultiplesTitledV1",
+                "ctrlr" : "NumbersPlusRespondentsV1",
                 "args" : [],
                 "filters": [],
-                "multiples": "cumulative", 
+                // "multiples": "cumulative", 
                 "parameters": [
-                    [
-                        {
-                            "label" : "Alle regelingen",
-                            "column" : "aantal_respondenten",
-                            "colour" : "orange",
-                            "units" : "respondenten"
-                        },
-                        { 
-                            "label" : "Fysieke schade",
-                            "column" : "fysieke_schade_aantal_respondenten_doorlopend",
-                            "colour" : "moss",
-                            "units" : "respondenten"
-                        },
-                        { 
-                            "label" : "Vaste vergoeding",
-                            "column" : "ves_aantal_respondenten_doorlopend",
-                            "colour" : "blue",
-                            "units" : "respondenten"
-                        },
-                        { 
-                            "label" : "IMS volwassenen",
-                            "column" : "ims_aantal_respondenten_doorlopend",
-                            "colour" : "blue",
-                            "units": "respondenten"
-                        },
-                        { 
-                            "label" : "IMS kinderen & jeugd",
-                            "column" : "imkj_aantal_respondenten_doorlopend",
-                            "colour" : "blue",
-                            "units": "respondenten"
-                        },
-                        { 
-                            "label" : "Waardedaling",
-                            "column" : "waardedaling_aantal_respondenten_doorlopend",
-                            "colour" : "purple",
-                            "units" : "respondenten"
-                        }
-                    ],
-                    [   
+                     [   
                         { 
                             "label" : "Alle regelingen",
                             "column" : "doorlopend_cijfer",
@@ -94,7 +56,46 @@ const group : IGroupMappingV2[] = [
                             "format": "",
                             // "units" : "bezwaren"
                         }
-                    ]
+                    ],
+                    [
+                        {
+                            "label" : "Alle regelingen",
+                            "column" : "aantal_respondenten",
+                            "colour" : "orange",
+                            "units" : "respondenten"
+                        },
+                        { 
+                            "label" : "Fysieke schade",
+                            "column" : "fysieke_schade_aantal_respondenten_doorlopend",
+                            "colour" : "moss",
+                            "units" : "respondenten"
+                        },
+                        { 
+                            "label" : "Vaste vergoeding",
+                            "column" : "ves_aantal_respondenten_doorlopend",
+                            "colour" : "blue",
+                            "units" : "respondenten"
+                        },
+                        { 
+                            "label" : "IMS volwassenen",
+                            "column" : "ims_aantal_respondenten_doorlopend",
+                            "colour" : "blue",
+                            "units": "respondenten"
+                        },
+                        { 
+                            "label" : "IMS kinderen & jeugd",
+                            "column" : "imkj_aantal_respondenten_doorlopend",
+                            "colour" : "blue",
+                            "units": "respondenten"
+                        },
+                        { 
+                            "label" : "Waardedaling",
+                            "column" : "waardedaling_aantal_respondenten_doorlopend",
+                            "colour" : "purple",
+                            "units" : "respondenten"
+                        }
+                    ],
+                   
                 ],
                 "modifiers" : [],                 
                 "segment": {
@@ -104,16 +105,21 @@ const group : IGroupMappingV2[] = [
                 },
             },
         ],
+        "segment": {
+            "key": "fs_bezwaren_totaal",
+            "cumulative": false,
+            "periodization": "weekly"
+        },
         "functionality": ['table', 'definitions','download'],
         "endpoints": ["tevredenheid"]
     },
     {
         "slug" : "waardering_trend",
-        "ctrlr": "MakeupGroupTrendV1",
+        "ctrlr": "DefaultGroupV1",
         "graphs": [
             {
                 "slug" : "waardering_trend",
-                "ctrlr" : "BarTrendStackedMakeupV2",
+                "ctrlr" : "BarTrendStackedMakeup",
                 "filters" : [],
                 "args" : [],
                 "parameters": [
@@ -156,7 +162,7 @@ const group : IGroupMappingV2[] = [
             },
             {
                 "slug" : "fs_trend_respondents",
-                "ctrlr" : "BarTrendStackedMakeupV2",
+                "ctrlr" : "BarTrendStackedMakeup",
                 "filters" : [],
                 "args" : [],
                 "parameters": [
@@ -222,12 +228,17 @@ const group : IGroupMappingV2[] = [
                 },
             }
         ],
+        "segment": {
+            "key":"fysieke_schade_aantal_respondenten",  
+            "cumulative": false,
+            "periodization": "monthly"
+        },
         "functionality": ['table', 'definitions','download'],
         "endpoints": ["tevredenheid","tevredenheid"]
     },
     {
         "slug" : "waardering_fs",
-        "ctrlr": "KTOGroupV1",
+        "ctrlr": "DefaultGroupV1",
         "graphs": [
             {
             "slug" : "fs_cijfer",
@@ -414,12 +425,17 @@ const group : IGroupMappingV2[] = [
                 },
             }
         ],
+        "segment": {
+                    "key":"fysieke_schade_maandcijfer",  
+                    "cumulative": true,
+                    "periodization": "monthly"
+                },
         "functionality": ['table', 'definitions','download'],
         "endpoints": ["tevredenheid","tevredenheid"]
     },
     {
         "slug" : "waardering_ves",
-        "ctrlr": "KTOGroupV1",
+        "ctrlr": "DefaultGroupV1",
         "graphs": [
             {
             "slug" : "fs_cijfer",
@@ -605,13 +621,18 @@ const group : IGroupMappingV2[] = [
                 }
             }
         ],
+        "segment": {
+            "key":"ves_maandcijfer",  
+            "cumulative": true,
+            "periodization": "monthly"
+        },
         "functionality": ['table', 'definitions','download'],
         "endpoints": ["tevredenheid","tevredenheid"]
         
     },
     {
         "slug" : "waardering_wd",
-        "ctrlr": "KTOGroupV1",
+        "ctrlr": "DefaultGroupV1",
         "graphs": [
             {
             "slug" : "fs_cijfer_wd",
@@ -797,12 +818,17 @@ const group : IGroupMappingV2[] = [
                 },
             }
         ],
+         "segment": {
+            "key":"waardedaling_maandcijfer",  
+            "cumulative": true,
+            "periodization": "monthly"
+        },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["tevredenheid"]
+        "endpoints": ["tevredenheid","tevredenheid"]
     },
     {
         "slug" : "waardering_ims_volw",
-        "ctrlr": "KTOGroupV1",
+        "ctrlr": "DefaultGroupV1",
         "graphs": [
             {
             "slug" : "ims_cijfer_volw",
@@ -988,12 +1014,17 @@ const group : IGroupMappingV2[] = [
                 }
             }
         ],
+         "segment": {
+            "key":"imkj_maandcijfer",  
+            "cumulative": true,
+            "periodization": "monthly"
+        },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["tevredenheid"],
+        "endpoints": ["tevredenheid","tevredenheid"]
     },
     {
         "slug" : "waardering_imkj",
-        "ctrlr": "KTOGroupV1",
+        "ctrlr": "DefaultGroupV1",
         "graphs": [
             {
             "slug" : "im_cijfer_kj",
@@ -1179,8 +1210,13 @@ const group : IGroupMappingV2[] = [
                 }
             }
         ],
+        "segment": {
+            "key":"imkj_maandcijfer",  
+            "cumulative": true,
+            "periodization": "monthly"
+        },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["tevredenheid"],
+        "endpoints": ["tevredenheid","tevredenheid"]
     }
 ];
 

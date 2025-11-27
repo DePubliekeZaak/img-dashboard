@@ -1,9 +1,12 @@
 
-import { IntroGroupV1 } from "./intro-group-v1";
+import { MuniGroupV1 } from "./muni-group-v1";
+import { DefaultGroupV1 } from "../../shared/default-group-v1";
+
 
 const groups = {
 
-    IntroGroupV1,
+    MuniGroupV1,
+    DefaultGroupV1
 
 }
 

@@ -29,13 +29,15 @@ export class IntroGroupV1 extends GroupControllerV1 {
 
         const rows: string[][] = []; 
 
-        // console.log("x",data[dataGroup]);
+        console.log("x",data);
 
         data[dataGroup] = data[dataGroup].filter( p => p.complete ==  true);
 
-        const { tableParams, graphParams, graphData, timeline, definitions, graphData_alt } = super.prepareData(data);
+        const { tableParams, graphParams,  graphDataWeek, graphDataMonth, timeline, definitions, graphData_alt } = super.prepareData(data);
         const incremental: Array<{[key: number]: string}> = [];
         const cumulative: Array<{[key: number]: string}> = [];
+
+        console.log(graphDataWeek);
 
         for (let i = 0; i < this.config.graphs[0].parameters[0].length; i++) {
 
@@ -97,9 +99,9 @@ export class IntroGroupV1 extends GroupControllerV1 {
         };
 
         return {
-            numbers: graphData[0],
-            graphData,
-            graphData_alt,
+            numbers: graphDataWeek[0],
+            graphDataWeek,
+            graphDataMonth,
             incremental,
             cumulative,
             table,

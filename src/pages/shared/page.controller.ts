@@ -32,7 +32,7 @@ export default class PageController implements IPageController {
     };
   }
 
-  mergeWithCMSContent(cms_content: any[], c: IGroupMappingV2) {
+  mergeWithCMSContent(cms_content: any, c: IGroupMappingV2) {
     let groupContent = cms_content.find((g) => g.slug.trim() == c.slug.trim());
 
     if (groupContent == undefined) return c;
@@ -46,11 +46,18 @@ export default class PageController implements IPageController {
   }
 
   async init(config: any, groups: any, graphs: any, version: Version) {
+    // Ensure segment.groups exists
+    if (!this.segment.groups) {
+      this.segment.groups = {};
+    }
+
     for (let c of config) {
       this.segment.groups[c.slug] = c.segment || {};
-      this.segment.groups[c.slug]["graphs"] = {};
 
-      c = this.mergeWithCMSContent(cms_content, c);
+      // Ensure graphs property exists
+      this.segment.groups[c.slug].graphs ||= {};
+
+      c = this.mergeWithCMSContent(cms_content.groups, c);
 
       let j = 0;
 
@@ -86,6 +93,7 @@ export default class PageController implements IPageController {
               ? false
               : graph.multiples,
           ctrlrName: graph.ctrlr,
+          header: graph.header ?? undefined,
           parameters: graph.parameters,
           modifiers: graph.modifiers,
           filters: graph.filters,
@@ -175,8 +183,8 @@ export default class PageController implements IPageController {
 
   tables() {
     for (const group of this.chartArray) {
-      if (group.data != undefined && group.data.table != undefined) {
-        group.ctrlr.populateTable(group.data.table);
+      if (group.data != undefined && group.data != undefined) {
+        group.ctrlr.populateTable(group.data);
       }
     }
   }
@@ -263,6 +271,14 @@ export default class PageController implements IPageController {
                 i,
               ),
             });
+
+            // Ensure segment.groups[group.slug] and graphs property exist
+            if (!this.segment.groups[group.slug]) {
+              this.segment.groups[group.slug] = {};
+            }
+            if (!this.segment.groups[group.slug].graphs) {
+              this.segment.groups[group.slug].graphs = {};
+            }
 
             this.segment.groups[group.slug]["graphs"][slug] = graph.segment;
 

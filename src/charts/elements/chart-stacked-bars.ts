@@ -2,128 +2,115 @@ import { colours } from "../../img-modules/styleguide";
 import { toDutchMonths } from "../../pages/shared/_helpers";
 
 export default class ChartStackedBars {
+  bars;
+  barsEnter;
 
-    bars;
-    barsEnter;
+  barLabels;
+  barLabelsEnter;
 
-    barLabels;
-    barLabelsEnter;
+  group;
+  series;
 
-    group;
-    series;
+  constructor(private ctrlr) {}
 
-    constructor(
-        private ctrlr
-    ){}
+  draw(data) {
+    this.series = this.ctrlr.svg.layers.data
+      .selectAll("g.serie")
+      .data(data.stacked)
+      .join("g")
+      .attr("class", (d, i) => "serie " + this.ctrlr.parameters[0][i]["colour"])
+      // .attr("stroke", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][0])
+      .attr(
+        "fill",
+        (d, i) => colours[this.ctrlr.parameters[0][i]["colour"]][1],
+      );
 
-    draw(data) {
+    this.bars = this.series
+      .selectAll(".bar")
+      .data((d) => d)
+      .join("rect")
+      .attr("class", "bar");
+  }
 
+  redraw(data: any) {
+    let self = this;
 
-        this.series = this.ctrlr.svg.layers.data.selectAll("g.serie")
-            .data(data.stacked)
-            .join("g")
-            .attr("class", (d,i) => "serie " + this.ctrlr.parameters[0][i]['colour'])
-            // .attr("stroke", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][0])
-            .attr("fill", (d,i) => colours[this.ctrlr.parameters[0][i]['colour']][1])
+    const width = self.ctrlr.dimensions.svgWidth / data.stacked[0].length - 1;
 
-        this.bars = this.series.selectAll(".bar")
-            .data(d => d)
-            .join("rect")
-            .attr("class", "bar")
-        ;
-    }
+    this.bars
+      .attr("x", (d: any, i: number) =>
+        self.ctrlr.scales.x.scale(d.data["date"]),
+      )
+      .attr("y", self.ctrlr.dimensions.graphHeight)
+      .attr("height", 0)
+      .attr("width", width)
+      .transition()
+      .duration(300)
+      .attr("y", (d) => self.ctrlr.scales.y.scale(d[1]))
+      .attr("height", (d, i) => {
+        let h =
+          self.ctrlr.scales.y.scale(d[0]) - self.ctrlr.scales.y.scale(d[1]);
+        return h > 0 ? h : 0;
+      });
 
-    redraw(data: any) {
+    this.bars
+      .on("mouseover", function (event: any, d: any) {
+        const t = window.d3
+          .select(".tooltip")
+          .html(() => {
+            let html = "<div>" + d.data.year + "</div>";
+            html +=
+              "<div>" + toDutchMonths(parseFloat(d.data.month)) + "</div>";
 
-        let self = this;
+            for (let map of self.ctrlr.parameters[0]) {
+              html +=
+                "<div>" + map.label + " : " + d.data[map.column] + "</div>";
+            }
 
-        const width = self.ctrlr.dimensions.svgWidth / data.stacked[0].length - 1;
+            // if (data.line != undefined) {
 
-        this.bars
-            .attr("x", (d: any, i: number)  => self.ctrlr.scales.x.scale(d.data["date"]))
-            .attr("y", self.ctrlr.dimensions.graphHeight) 
-            .attr("height", 0)
-            .attr("width", width)
-            .transition()
-            .duration(300)
-            .attr("y", (d) => self.ctrlr.scales.y.scale(d[1]))
-            .attr("height", (d, i) => {
-                let h = self.ctrlr.scales.y.scale(d[0]) - self.ctrlr.scales.y.scale(d[1]);
-                return h > 0 ? h : 0;
-            })
-        ;
+            //     let period = data.line.find( dd => dd.time == d.data.date);
 
-        this.bars
-            .on("mouseover", function (event:  any, d: any) {
+            //     if(period != undefined) {
 
-                const t = window.d3.select('.tooltip')
-                .html(() => {
+            //         for (let map of self.ctrlr.parameters[1]) {
 
-                    let html =  '<div>' + d.data.year + '</div>'; 
-                    html +=  '<div>' + toDutchMonths(parseFloat(d.data.month)) + '</div>'; 
+            //             html +=  '<div>' + map.label + ' : ' + Math.round(period.value) + '%</div>';
 
-                    console.log(self.ctrlr);
+            //         }
+            //     }
 
-                    for (let map of self.ctrlr.parameters[0]) {
+            // }
 
-                        html +=  '<div>' + map.label + ' : ' + d.data[map.column] + '</div>'; 
+            // for (let p of self.ctrlr.mapping.parameters[0]) {
+            //         html += p.short + ': ' + d.data[p.column] + '<br/>';
+            // }
 
-                    }
+            // html += 'cummulatief' + ': ' + Math.round(d.data['percentage'] * 10) / 10 + '%<br/>';
 
-                    // if (data.line != undefined) {
+            return html;
+          })
+          .style("top", event.pageY + "px");
 
-                    //     let period = data.line.find( dd => dd.time == d.data.date);
+        if (event.pageX < window.innerWidth / 2) {
+          t.style("left", event.pageX + "px").style("right", "auto");
+        } else {
+          t.style("right", window.innerWidth - event.pageX + "px").style(
+            "left",
+            "auto",
+          );
+        }
 
-                    //     if(period != undefined) {
+        t.transition().duration(250).style("opacity", 1);
+      })
+      .on("mouseout", function (event: any, d: any, i: number) {
+        window.d3.select(event.target).attr("fill", "inherit");
 
-                    //         for (let map of self.ctrlr.parameters[1]) {
-
-                    //             html +=  '<div>' + map.label + ' : ' + Math.round(period.value) + '%</div>'; 
-
-                    //         }
-                    //     }
-
-                    // }
-
-                    // for (let p of self.ctrlr.mapping.parameters[0]) {
-                    //         html += p.short + ': ' + d.data[p.column] + '<br/>';
-                    // }
-
-                    // html += 'cummulatief' + ': ' + Math.round(d.data['percentage'] * 10) / 10 + '%<br/>';
-
-                    return html;
-
-                })
-                .style("top", (event.pageY) + "px");
-
-                if (event.pageX < window.innerWidth / 2) {
-
-                    t
-                    .style("left", (event.pageX) + "px")
-                    .style("right", "auto");
-                } else {
-                    t
-                    .style("right", (window.innerWidth - event.pageX) + "px")
-                    .style("left", "auto");
-                }
-                
-                t.transition()
-                .duration(250)
-                .style("opacity", 1);
-        })
-        .on("mouseout", function (event: any, d: any, i: number) {
-
-            window.d3.select(event.target)
-                .attr("fill", "inherit")
-
-            window.d3.select('.tooltip')
-                .transition()
-                .duration(250)
-                .style("opacity", 0);
-        });
-    ;
-
-    }
+        window.d3
+          .select(".tooltip")
+          .transition()
+          .duration(250)
+          .style("opacity", 0);
+      });
+  }
 }
-
-

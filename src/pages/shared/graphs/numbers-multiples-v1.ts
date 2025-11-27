@@ -102,8 +102,6 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-    console.log(data);
-
     this.number.draw();
   }
 

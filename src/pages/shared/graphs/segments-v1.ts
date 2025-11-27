@@ -121,7 +121,10 @@ export class SegmentsV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
-    let _data = data.graphData;
+    let _data =
+      this.segment.periodization == "monthly"
+        ? data.graphDataMonth
+        : data.graphDataWeek;
 
     const createBar = (
       prop: string,

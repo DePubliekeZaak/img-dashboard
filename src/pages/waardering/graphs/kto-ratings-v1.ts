@@ -85,15 +85,13 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
         this.htmlCircle.draw();
 
         this.chartBar = new ChartBarsHorizontalV1(this);
-       
-
 
         await this.update(this.group.data, false);
     }
 
     prepareData(data: DataObject) : DataObject {
 
-        data.selectedMonth = this.segment.cumulative ? data.graphData[0] : data.graphData.find( (m) => m['_yearmonth'] === this.segment.key);
+        data.selectedMonth = this.segment.cumulative ? data.graphDataMonth[0] : data.graphDataMonth.find( (m) => m['_yearmonth'] === this.segment.key);
         const dataIndex  = this.segment.cumulative ? 1 : 2;
         data.numbers = [];
 
@@ -108,10 +106,7 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
             }
                 
             data.numbers.push(cijfer);
-            
         }
-
-     
 
         return data;
     }
@@ -126,10 +121,7 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
         this.htmlCircle.redraw(data.selectedMonth, parameter, extraParameter);
 
         super.redraw(data);
-        
-        this.chartBar.redraw();
-        
-        
+        this.chartBar.redraw();  
     }
 
     async draw(data : DataObject) {

@@ -1,9 +1,7 @@
-import { AOSGroupV1 } from './aos-group-v1';
-import { AOSNumberGroupV1 } from './aos-number-group-v1';
+import { DefaultGroupV1 } from "../../shared/default-group-v1";
 
 const groups = {
-    AOSNumberGroupV1,
-    AOSGroupV1,
-}
+  DefaultGroupV1,
+};
 
 export default groups;

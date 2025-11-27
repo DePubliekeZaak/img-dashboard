@@ -62,22 +62,28 @@ export class BarTrendV1 extends core.GraphControllerV3 {
   }
 
   pre() {
-    this.config.graphHeight = window.innerWidth > breakpoints.sm ? 360 : 400; //  this.index < 1 ? 420 : 210;
+    this.config.graphHeight = window.innerWidth > breakpoints.sm ? 380 : 400; //  this.index < 1 ? 420 : 210;
 
     const marginForTimeline = 180;
-    const paddingForTimeline = 60;
+    const paddingForTimeline = 90;
     const paddingForAxis = 50;
     // const filters = (this.filters.length > 0) ? window.innerWidth < breakpoints.sm ? 60 : 100 : 0;
 
     this._addMargin(0, marginForTimeline, 0, 0);
-    this._addPadding(0, paddingForTimeline, paddingForAxis, paddingForAxis);
+    this._addPadding(0, paddingForTimeline, 0, 0);
+    this._addInnerPadding(0, 0 , paddingForAxis, paddingForAxis);
 
     this._addScale("x", "band", "horizontal-reverse", "label");
     this._addScale("x1", "time", "horizontal", "date");
     this._addScale("y", "linear", "vertical", "value");
     this._addAxis("x", "x", "bottom", "quarters");
     this._addAxis("y", "y", "left");
-    this._addAxis("y2", "y", "right");
+
+    const yFormat =
+      this.parameters[0][0].format != undefined
+        ? this.parameters[0][0].format
+        : "linear";
+    this._addAxis("y2", "y", "right", yFormat);
   }
 
   html() {
@@ -91,6 +97,7 @@ export class BarTrendV1 extends core.GraphControllerV3 {
           ? this.config.graphHeight?.toString() + "px"
           : this.config.graphHeight?.toString() + "px";
       this.graphEl.style.overflowX = "auto";
+      this.graphEl.style.overflowY = "hidden";
       this.graphEl.style.marginBottom = "2rem";
       this.graphEl.style.whiteSpace = "nowrap";
     }
@@ -102,9 +109,14 @@ export class BarTrendV1 extends core.GraphControllerV3 {
     if (this.filters.length > 0) this.graphEl.classList.add("has-filters");
     this.graphEl.appendChild(this.scrollingContainer);
 
-    // if (window.innerWidth > breakpoints.sm && this.graphEl.parentElement && this.mapping[2]) {
-    //     let radiobuttons = new HtmlRadio(this, this.mapping[2],this.graphEl.parentElement);
-    // }
+    let h = this.group.graphs[this.index].header;
+    if (h != undefined) {
+      const div = document.createElement("div");
+      div.innerHTML = h + ":";
+      div.style.width = "100%";
+      div.style.margin = "1.5rem 0";
+      this.graphEl.parentNode?.insertBefore(div, this.graphEl);
+    }
   }
 
   async init() {
@@ -126,13 +138,15 @@ export class BarTrendV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+
     let _data =
-      data.graphData_alt != undefined && this.group.config.endpoints.length == 2
+      data.graphDataMonth != undefined &&
+      this.group.config.endpoints.length == 2
         ? this.group.config.endpoints[1] != undefined &&
           this.segment.periodization == "monthly"
-          ? data.graphData_alt
-          : data.graphData
-        : data.graphData;
+          ? data.graphDataMonth
+          : data.graphDataWeek
+        : data.graphDataWeek;
 
     let _period =
       this.segment.periodization == "weekly" ? "_yearweek" : "_yearmonth";
@@ -155,6 +169,7 @@ export class BarTrendV1 extends core.GraphControllerV3 {
           colour: param != undefined ? param.colour : "orange",
           meta: period,
           value: period[prop] == null ? 0 : parseFloat(period[prop].toString()),
+          format: param?.format || undefined,
         });
       }
 
@@ -201,7 +216,20 @@ export class BarTrendV1 extends core.GraphControllerV3 {
         .concat([0]),
     );
 
-    await super.redraw(data[this.segment.key]);
+
+    if (this.segment.periodization == "weekly") {
+      const w = data.graphDataWeek.length * 8;
+      this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ???? 
+      this.dimensions.svgWidth = w + 100;
+      this.dimensions.coreWidth = w;
+
+      await super.redraw(data[this.segment.key], [], this.dimensions);
+    } else {
+      await super.redraw(data[this.segment.key], []);
+    }
+
+    
+
     this.chartBar.redraw(data[this.segment.key], this.segment.periodization);
     let timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);
 

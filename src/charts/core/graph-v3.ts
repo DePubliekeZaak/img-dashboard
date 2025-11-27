@@ -87,6 +87,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     this.config = {
       margin: { top: 0, bottom: 0, left: 0, right: 0 },
       padding: { top: 0, bottom: 0, left: 0, right: 0 },
+      innerPadding: { top: 0, bottom: 0, left: 0, right: 0 },
       scales: [],
       axes: [],
       extra: {},
@@ -131,6 +132,8 @@ export class GraphControllerV3 implements IGraphControllerV3 {
         graph.filters != undefined &&
         graph.filters.length > 0
       ) {
+
+        console.log(1)
         this.filter = new HtmlFilters(
           this,
           master,
@@ -150,6 +153,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
         graph.filters != undefined &&
         graph.filters.length > 0
       ) {
+     
         this.filter = new HtmlFilters(
           this,
           true,
@@ -194,10 +198,10 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     return;
   }
 
-  async redraw(data?: any, range?: number[]) {
+  async redraw(data?: any, range?: number[], dimensions?: Dimensions) {
     if (this.svg && this.svg.body == undefined) return;
 
-    this.dimensions = this.chartDimensions.measure(this.dimensions);
+    this.dimensions = dimensions ? dimensions : this.chartDimensions.measure(this.dimensions);
 
     this.svgService.redraw(this.dimensions);
 
@@ -307,6 +311,15 @@ export class GraphControllerV3 implements IGraphControllerV3 {
 
   _addPadding(top: number, bottom: number, left: number, right: number) {
     this.config.padding = {
+      top,
+      bottom,
+      left,
+      right,
+    };
+  }
+
+  _addInnerPadding(top: number, bottom: number, left: number, right: number) {
+    this.config.innerPadding = {
       top,
       bottom,
       left,

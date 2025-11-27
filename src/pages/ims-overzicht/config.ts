@@ -1,261 +1,451 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
-const group : IGroupMappingV2[] = [
-    {
-        "slug" : "ims_totals",
-        "ctrlr": "TotalGroupTrendV1",
-        "graphs": [
+const group: IGroupMappingV2[] = [
+  {
+    slug: "ims_totaal_intro",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
+      {
+        slug: "ims_numbers_v1",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: ["totaalVsRecent"],
+        multiples: "cumulative",
+        parameters: [
+          [
             {
-                "slug" : "ims_total_numbers",
-                "ctrlr" : "NumbersV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Aanvragen",
-                            "column" : "ims_totaal_aanvragen_cumulatief",
-                            "colour" : "orange",
-                            "format" : "",
-                            "units" : "aanvragen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "ims_totaal_afgehandeld_cumulatief",
-                            "colour" : "moss",
-                            "format" : "",
-                            "units": "afgehandeld"
-                        },
-                        { 
-                            "label" : "Verleend",
-                            "column" : "ims_totaal_verleend_cumulatief",
-                            "colour" : "blue",
-                            "format" : "currency",
-                            "units" : "verleend"
-                        }
-                    ],
-                    [
-                    ]
-                ],
-                "segment": {
-                    "key": "ims_totaal_aanvragen_cumulatief",
-                    "cumulative": true,
-                    "periodization": "weekly"
-                }
+              label: "Aanvragen",
+              column: "ims_totaal_ingediend",
+              colour: "orange",
+              units: "ingediende aanvragen",
             },
             {
-            "slug" : "ims_total_trend",
-            "ctrlr" : "BarTrendV1",
-            "args" : [],
-            "filters": ["parameterSelect","cumulativeVsDelta","weekVsMonth"],
-            "parameters": [
-                [
-                    { 
-                        "label" : "Aanvragen",
-                        "column" : "ims_totaal_aanvragen",
-                        "colour" : "orange"
-                    },
-                    { 
-                        "label" : "Afgehandeld",
-                        "column" : "ims_totaal_afgehandeld",
-                        "colour" : "moss"
-                    },
-                    { 
-                        "label" : "Verleend",
-                        "column" : "ims_totaal_verleend",
-                        "colour" : "blue",
-                        "format" : "currency"
-                    }
-                ]
-            ],
-            "modifiers" : [
-                [
-                    {
-                        "label": "toename",
-                        "column": "{}",
-                        "colour": "orange"
-                    },
-                    {
-                        "label": "cumulatief",
-                        "column": "{}_cumulatief",
-                        "colour": "orange"
-                    },   
-                ]
-            ],
-            "segment": {
-                    "key": "ims_totaal_aanvragen",
-                    "cumulative": false,
-                    "periodization": "weekly"
-                }
-            }
-        ],
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": ["ims_wekelijks","ims_maandelijks"]
-      
-    },
-    {
-        "slug" : "ims_waardering",
-        "ctrlr": "KTOTrendV1",
-        "graphs": [
-            {
-                "slug" : "ims_waardering_numbers",
-                "ctrlr" : "NumbersPlusRespondentsV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Sinds start",
-                            "column" : "ims_totaal_doorlopend",
-                            "colour" : "orange",
-                            "format" : "decimals"
-                        }
-                    ],
-                    [
-                        { 
-                            "label" : "Totaal respondenten",
-                            "column": "ims_totaal_doorlopend_n",
-                            "units": "respondenten sinds start",
-                            "colour": "orange"
-                        }
-                    ]
-                ]
+              label: "Voorraad",
+              column: "ims_totaal_voorraad",
+              colour: "moss",
+              units: "aanvragen in werkvoorraad",
             },
             {
-            "slug" : "ims_waardering_trend",
-            "ctrlr" : "BarTrendKTOV1",
-            "args" : [],
-            "filters": [],
-            "parameters": [
-                [
-                    { 
-                        "label" : "Maand cijfer",
-                        "column" : "ims_totaal_maand",
-                        "colour" : "orange",
-                        "format" : "decimals"
-                    }
-                ],
-                [
-                    { 
-                        "label" : "Aantal nieuwe respondenten",
-                        "column" : "ims_totaal_maand_n",
-                        "colour" : "orange",
-                        "units": "respondenten"
-                    }
-                ]
-            ],
-            "modifiers" : []
-            }
+              label: "Afgerond",
+              column: "ims_totaal_afgerond",
+              colour: "blue",
+              units: "afgeronde aanvragen",
+            },
+          ],
+          [],
         ],
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": ["tevredenheid"],
-        "segment": {
-            "key":"ims_totaal_maand",  
-            "cumulative": false,
-            "periodization": "monthly"
-        }
-        
-    },
-    {
-        "slug" : "ims_subregelingen",
-        "ctrlr": "MakeupGroupTrendV1",
-        "graphs": [
+        modifiers: [
+          [
             {
-            "slug" : "ims_makeup_trend",
-            "ctrlr" : "BarTrendStackedMakeup",
-            "args" : [],
-            "filters": ["weekVsMonth"],
-            "parameters": [
-                [
-                    { 
-                        "label" : "Volwassenen",
-                        "column" : "ims_volw_aanvragen",
-                        "colour" : "blue"
-                    },
-                    { 
-                        "label" : "Kinderen en Jeugd",
-                        "column" : "ims_kj_aanvragen",
-                        "colour" : "orange"
-                    },
-                    { 
-                        "label" : "Herbeoordeling",
-                        "column" : "ims_sc_zaken",
-                        "colour" : "moss"
-                    }
-                ],
-                []
-            ],
-            "modifiers" : [
-            ],
-            "segment": {
-                    "key": "ims_volw_aanvragen",
-                    "cumulative": false,
-                    "periodization": "monthly"
-                }
-            }
-        ],
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": ["ims_wekelijks","ims_maandelijks"]
-    },
-    {
-        "slug" : "ims_sc_totals",
-        "ctrlr": "HerbeoordelingsGroupV1",       
-        "graphs": [
+              label: "totaal",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
             {
-                "slug" : "ims_sc_numbers_v1",
-                "ctrlr" : "NumbersMultiplesV1",
-                "args" : [],
-                "filters" : ["totaalVsRecent"],
-                "multiples": "cumulative", 
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Zaken",
-                            "column" : "ims_sc_zaken",
-                            "colour" : "orange",
-                            "units" : "zaken"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "ims_sc_verstuurd_besluit",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                        { 
-                            "label" : "Verleend",
-                            "column" : "ims_sc_verleend",
-                            "colour" : "blue",
-                            "format" : "currency",
-                            "units" : "verleend"
-                        }
-                    ],
-                    [
-                    ]
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "totaal",
-                            "column": "{}_cumulatief",
-                            "colour": "orange"
-                        }, 
-                        {
-                            "label": "afgelopen week",
-                            "column": "{}",
-                            "colour": "orange"
-                        },
-                            
-                    ]
-                ]
-            }
+              label: "afgelopen week",
+              column: "{}",
+              colour: "orange",
+            },
+          ],
         ],
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": ["ims_wekelijks","ims_maandelijks"],
-        "segment": {
-            "key": "ims_sc_zaken",
-            "cumulative": true,
-            "periodization": "weekly"
-        }
-    }
-
+        segment: {
+          key: "ims_totaal_ingediend",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+    ],
+    segment: {
+      key: "ims_totaal_ingediend",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
+  },
+  {
+    slug: "ims_totaal_bedragen",
+    ctrlr: "DefaultGroupV1",
+    graphs: [
+      {
+        slug: "ims_totaal_numbers_2",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: [],
+        multiples: "cumulative",
+        parameters: [
+          [
+            {
+              label: "Verleende schade",
+              column: "ims_totaal_bedrag_verleend_schade",
+              colour: "blue",
+              format: "currency",
+              units: "totaal verleende schade",
+            },
+            {
+              label: "Verleend",
+              column: "ims_totaal_bedrag_verleend_totaal",
+              colour: "moss",
+              format: "currency",
+              units: "totaal verleende bedragen",
+            },
+            {
+              label: "Uitgekeerd",
+              column: "ims_totaal_bedrag_uitgekeerd_totaal",
+              colour: "orange",
+              format: "currency",
+              units: "totaal uitgekeerde bedragen",
+            },
+          ],
+          [],
+        ],
+        modifiers: [
+          [
+            {
+              label: "totaal",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+            {
+              label: "afgelopen week",
+              column: "{}",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "ims_totaal_bedrag_verleend_totaal",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+    ],
+    segment: {
+      key: "ims_totaal_bedrag_verleend_totaal",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
+  },
+  {
+    slug: "ims_totaal_waardering",
+    ctrlr: "KTOGroupV1",
+    graphs: [
+      {
+        slug: "ims_totaal_waardering_numbers",
+        ctrlr: "NumbersPlusRespondentsV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Sinds start",
+              column: "ims_totaal_doorlopend",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Totaal respondenten",
+              column: "ims_totaal_doorlopend_n",
+              units: "respondenten sinds start",
+              colour: "orange",
+            },
+          ],
+        ],
+      },
+      {
+        slug: "ims_totaal_waardering_trend",
+        ctrlr: "BarTrendKTOV1",
+        args: [],
+        filters: [],
+        parameters: [
+          [
+            {
+              label: "Maand cijfer",
+              column: "ims_totaal_maand",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Aantal nieuwe respondenten",
+              column: "ims_totaal_maand_n",
+              colour: "orange",
+              units: "respondenten",
+            },
+          ],
+        ],
+        modifiers: [],
+      },
+    ],
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["tevredenheid"],
+    segment: {
+      key: "ims_totaal_maand",
+      cumulative: false,
+      periodization: "monthly",
+    },
+  },
+  {
+    slug: "ims_totaal_keuzepaden",
+    ctrlr: "DefaultGroupV1",
+    graphs: [
+      {
+        slug: "ims_totaal_numbers_volw",
+        ctrlr: "NumbersV1",
+        args: [],
+        filters: [],
+        header: "Volwassenen",
+        // multiples: "cumulative",
+        parameters: [
+          [
+            {
+              label: "Ingediend",
+              column: "ims_volw_ingediend_cumulatief",
+              colour: "blue",
+              units: "aanvragen",
+            },
+            {
+              label: "Afgehandeld",
+              column: "ims_volw_afgerond_cumulatief",
+              colour: "blue",
+              units: "afgehandeld",
+            },
+            {
+              label: "Verleende schade",
+              column: "ims_volw_bedrag_verleend_schade_cumulatief",
+              colour: "blue",
+              units: "verleende schade",
+              format: "currency",
+            },
+          ],
+          [],
+        ],
+        modifiers: [
+          // [
+          //   {
+          //     label: "totaal",
+          //     column: "{}_cumulatief",
+          //     colour: "orange",
+          //   },
+          //   {
+          //     label: "afgelopen week",
+          //     column: "{}",
+          //     colour: "orange",
+          //   },
+          // ],
+        ],
+        segment: {
+          key: "ims_volw_ingediend_cumulatief",
+          cumulative: false,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "ims_totaal_numbers_kj",
+        ctrlr: "NumbersV1",
+        args: [],
+        filters: [],
+        header: "Kinderen en jeugd",
+        // multiples: "cumulative",
+        parameters: [
+          [
+            {
+              label: "Ingediend",
+              column: "ims_kj_ingediend_cumulatief",
+              colour: "orange",
+              units: "aanvragen",
+            },
+            {
+              label: "Afgehandeld",
+              column: "ims_kj_afgerond_cumulatief",
+              colour: "orange",
+              units: "afgehandeld",
+            },
+            {
+              label: "Verleende schade",
+              column: "ims_kj_bedrag_verleend_schade_cumulatief",
+              colour: "orange",
+              units: "verleende schade",
+              format: "currency",
+            },
+          ],
+          [],
+        ],
+        modifiers: [
+          // [
+          //   {
+          //     label: "totaal",
+          //     column: "{}_cumulatief",
+          //     colour: "orange",
+          //   },
+          //   {
+          //     label: "afgelopen week",
+          //     column: "{}",
+          //     colour: "orange",
+          //   },
+          // ],
+        ],
+        segment: {
+          key: "ims_kj_ingediend_cumulatief",
+          cumulative: false,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "ims_totaal_makeup_trend",
+        ctrlr: "BarTrendStackedMakeup",
+        args: [],
+        filters: ["mappingGroupSelect", "cumulativeVsDelta", "weekVsMonth"],
+        parameters: [
+          [
+            {
+              label: "Volwassenen",
+              column: "ims_volw_ingediend",
+              colour: "blue",
+              units: "aanvragen",
+              excludeFromTable: true,
+            },
+            {
+              label: "Kinderen en jeugd",
+              column: "ims_kj_ingediend",
+              colour: "orange",
+              units: "aanvragen",
+              excludeFromTable: true,
+            },
+          ],
+          [
+            {
+              label: "Volwassenen",
+              column: "ims_volw_afgerond",
+              colour: "blue",
+              units: "afgehandeld",
+              excludeFromTable: true,
+            },
+            {
+              label: "Kinderen en jeugd",
+              column: "ims_kj_afgerond",
+              colour: "orange",
+              units: "afgehandeld",
+              excludeFromTable: true,
+            },
+          ],
+          [
+            {
+              label: "Volwassenen",
+              column: "ims_volw_bedrag_verleend_schade",
+              colour: "blue",
+              units: "verleende schade",
+              format: "currency",
+              excludeFromTable: true,
+            },
+            {
+              label: "Kinderen en jeugd",
+              column: "ims_kj_bedrag_verleend_schade",
+              colour: "orange",
+              units: "verleende schade",
+              format: "currency",
+              excludeFromTable: true,
+            },
+          ],
+        ],
+        modifiers: [
+          [
+            {
+              label: "toename",
+              column: "{}",
+              colour: "orange",
+            },
+            {
+              label: "cumulatief",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "ims_volw_afgehandeld",
+          cumulative: false,
+          periodization: "monthly",
+          parameterIndex: 0,
+        },
+      },
+    ],
+    segment: {
+      key: "ims_volw_afgehandeld",
+      cumulative: false,
+      periodization: "monthly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
+  },
+  {
+    slug: "ims_totaal_herbeoordeling",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
+      {
+        slug: "ims_numbers_v1",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: ["totaalVsRecent"],
+        multiples: "cumulative",
+        parameters: [
+          [
+            // {
+            //   label: "Aanvragen",
+            //   column: "ims_totaal_ingediend",
+            //   colour: "orange",
+            //   units: "ingediende aanvragen",
+            // },
+            // {
+            //   label: "Voorraad",
+            //   column: "ims_totaal_voorraad",
+            //   colour: "moss",
+            //   units: "aanvragen in werkvoorraad",
+            // },
+            // {
+            //   label: "Afgerond",
+            //   column: "ims_totaal_afgerond",
+            //   colour: "blue",
+            //   units: "afgeronde aanvragen",
+            // },
+          ],
+          [],
+        ],
+        modifiers: [
+          [
+            {
+              label: "totaal",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+            {
+              label: "afgelopen week",
+              column: "{}",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "ims_totaal_ingediend",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+    ],
+    segment: {
+      key: "ims_totaal_ingediend",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
+  },
 ];
 
 export default group;

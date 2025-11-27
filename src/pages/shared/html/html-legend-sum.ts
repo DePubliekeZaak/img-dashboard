@@ -3,131 +3,134 @@ import { breakpoints, colours } from "../../../img-modules/styleguide";
 import { convertToCurrencyInTable } from "../_helpers";
 import { PiePart } from "../types_graphs";
 
-
 export default class HtmlLegendAsSum {
+  rowHeight = 22;
+  legend;
 
-    rowHeight = 22;
-    legend;
+  constructor(
+    private ctrlr,
+    private withPercentage?: boolean,
+  ) {}
 
-    constructor(
-        private ctrlr,
-        private withPercentage?: boolean
-    ){}
+  draw(data: PiePart[]) {
+    this.ctrlr.element.querySelector(".legend")?.remove();
 
-    draw(data: PiePart[]) {
+    let legend = document.createElement("div");
+    legend.classList.add("legend");
+    legend.style.display = "flex";
+    legend.style.flexDirection =
+      window.innerWidth < breakpoints.xsm ? "column" : "column";
+    legend.style.paddingBottom =
+      window.innerWidth < breakpoints.xsm
+        ? this.ctrlr.config.padding.left + "px"
+        : "0";
+    legend.style.justifyContent = "center";
+    legend.style.width = "360px";
 
-        this.ctrlr.element.querySelector('.legend')?.remove();
+    let table = document.createElement("table");
+    let tbody = document.createElement("tbody");
 
-        let legend = document.createElement('div');
-        legend.classList.add('legend');
-        legend.style.display = 'flex';
-        legend.style.flexDirection = window.innerWidth < breakpoints.xsm ? 'column' : 'column';
-        legend.style.paddingBottom = window.innerWidth < breakpoints.xsm ? this.ctrlr.config.padding.left + 'px' : '0';
-        legend.style.justifyContent = 'center';
-        legend.style.width = '360px';
-
-        let table = document.createElement('table');
-        let tbody = document.createElement('tbody');
-
-        if (window.innerWidth < breakpoints.sm) {
-            legend.style.width = "calc(100vw - 2rem)";
-            legend.style.marginLeft = "-1rem";
-        }
-       
-        data.forEach( (map: PiePart, i: number, data: PiePart[]) => {
-            tbody.appendChild(this.createRow(map, i, data));
-        });
-
-        table.appendChild(tbody);
-        legend.appendChild(table);
-        
-        this.ctrlr.element.appendChild(legend);    // insertBefore(legend,this.ctrlr.element.querySelector('svg'))
-
-        return legend;
+    if (window.innerWidth < breakpoints.sm) {
+      legend.style.width = "calc(100vw - 2rem)";
+      legend.style.marginLeft = "-1rem";
     }
 
-    createRow(map: PiePart, index: number, data: PiePart[]) : HTMLDivElement {
+    data.forEach((map: PiePart, i: number, data: PiePart[]) => {
+      if (map.value !== undefined) {
+        tbody.appendChild(this.createRow(map, i, data));
+      }
+    });
 
-        let row = document.createElement('tr');
-        if (index == data.length -1) {
-            row.classList.add("top_border");
-        } else {
-            row.classList.add("no_border");
-        }
+    table.appendChild(tbody);
+    legend.appendChild(table);
 
-         let colour = document.createElement('td');
-         colour.appendChild(this.createCircle(map));
-         row.appendChild(colour);
+    this.ctrlr.element.appendChild(legend); // insertBefore(legend,this.ctrlr.element.querySelector('svg'))
 
-         let label = document.createElement('td');
-         label.innerText = map.label;
-         row.appendChild(label);
+    return legend;
+  }
 
-         let vEl = document.createElement('td');
-
-        switch (map.format) {
-
-            case 'currency': 
-                vEl.innerText = convertToCurrencyInTable(map.value);
-                break;
-
-            case 'percentage': 
-                vEl.innerText = (Math.round(10 * map.value) / 10).toString()  + "%";
-                break;  
-                
-            default:
-                vEl.innerText = map.value.toString();
-        } 
-        
-        if (this.withPercentage) {
-            const total = data[data.length - 1].value;
-            const percentage = Math.round(1000 * map.value / total) / 10;
-            vEl.innerText = vEl.innerText + " (" + percentage + "%)";
-        }
-
-         row.appendChild(vEl);
-
-        return row;
+  createRow(map: PiePart, index: number, data: PiePart[]): HTMLDivElement {
+    let row = document.createElement("tr");
+    if (index == data.length - 1) {
+      row.classList.add("top_border");
+    } else {
+      row.classList.add("no_border");
     }
 
-    createDiv() : HTMLDivElement {
+    let colour = document.createElement("td");
+    colour.appendChild(this.createCircle(map));
+    row.appendChild(colour);
 
-        let item = document.createElement('div');
-        item.style.display = 'flex';
-        item.style.flexDirection = 'row';
-        item.style.alignItems = 'center';
-        item.style.marginBottom = (window.innerWidth > 700) ? '.5rem' : '.5rem';
+    let label = document.createElement("td");
+    label.innerText = map.label;
+    row.appendChild(label);
 
-        return item;
+    let vEl = document.createElement("td");
+
+    switch (map.format) {
+      case "currency":
+        vEl.innerText = convertToCurrencyInTable(map.value);
+        break;
+
+      case "percentage":
+        vEl.innerText = (Math.round(10 * map.value) / 10).toString() + "%";
+        break;
+
+      default:
+        vEl.innerText = map.value.toString();
     }
 
-    createCircle(map: PiePart) : HTMLSpanElement {
-
-        let circle = document.createElement('span');
-        circle.style.width = (window.innerWidth > 700) ? '1rem' : '.5rem';
-        circle.style.height = (window.innerWidth > 700) ? '1rem' : '.5rem';
-        circle.style.borderRadius = '50%';
-        circle.style.marginRight = (window.innerWidth > 700) ? '.5rem' : '.25rem';
-        circle.style.display = 'flex';
-        circle.style.background = map['colour'] != undefined ? colours[map['colour']][1] : "#eee";
-        circle.style.borderWidth = '1px';
-        circle.style.borderColor = map['colour'] != undefined ? colours[map['colour']][0] : "#ccc";
-        circle.style.borderStyle = 'solid';
-        return circle;   
+    if (this.withPercentage) {
+      const total = data[data.length - 1].value;
+      const percentage = Math.round((1000 * map.value) / total) / 10;
+      vEl.innerText = vEl.innerText + " (" + percentage + "%)";
     }
 
-    createLabel(map: PiePart) : HTMLSpanElement {
+    row.appendChild(vEl);
 
-        let label = document.createElement('span');
-        const labelText = this.ctrlr.page.main.params.language == 'en' ? map['label_en'] : map['label'];
+    return row;
+  }
 
-        if (labelText != undefined) {
-            label.style.fontFamily = "RO Sans Regular";
-            label.style.fontSize = (window.innerWidth > 700) ? '.8rem' : '.71em';
-            label.style.lineHeight = "1.33";
-            label.innerText = labelText;
-        }
+  createDiv(): HTMLDivElement {
+    let item = document.createElement("div");
+    item.style.display = "flex";
+    item.style.flexDirection = "row";
+    item.style.alignItems = "center";
+    item.style.marginBottom = window.innerWidth > 700 ? ".5rem" : ".5rem";
 
-        return label;
+    return item;
+  }
+
+  createCircle(map: PiePart): HTMLSpanElement {
+    let circle = document.createElement("span");
+    circle.style.width = window.innerWidth > 700 ? "1rem" : ".5rem";
+    circle.style.height = window.innerWidth > 700 ? "1rem" : ".5rem";
+    circle.style.borderRadius = "50%";
+    circle.style.marginRight = window.innerWidth > 700 ? ".5rem" : ".25rem";
+    circle.style.display = "flex";
+    circle.style.background =
+      map["colour"] != undefined ? colours[map["colour"]][1] : "#eee";
+    circle.style.borderWidth = "1px";
+    circle.style.borderColor =
+      map["colour"] != undefined ? colours[map["colour"]][0] : "#ccc";
+    circle.style.borderStyle = "solid";
+    return circle;
+  }
+
+  createLabel(map: PiePart): HTMLSpanElement {
+    let label = document.createElement("span");
+    const labelText =
+      this.ctrlr.page.main.params.language == "en"
+        ? map["label_en"]
+        : map["label"];
+
+    if (labelText != undefined) {
+      label.style.fontFamily = "RO Sans Regular";
+      label.style.fontSize = window.innerWidth > 700 ? ".8rem" : ".71em";
+      label.style.lineHeight = "1.33";
+      label.innerText = labelText;
     }
+
+    return label;
+  }
 }

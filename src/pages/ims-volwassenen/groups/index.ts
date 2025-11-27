@@ -1,14 +1,9 @@
-import { KTOTrendV1 } from "./kto-trend-v1";
-import { IntroGroupV1 } from "./intro-group-v1";
-import { BezwarenV1 } from "./bezwaren-v1";
-import { ToegewezenV1 } from "./toegewezen-v1";
+import { DefaultGroupV1 } from "../../shared/default-group-v1";
+import { KTOGroupV1 } from "../../shared/kto-group-v1";
 
 const groups = {
-
-    IntroGroupV1,
-    ToegewezenV1,
-    BezwarenV1,
-    KTOTrendV1
-}
+  DefaultGroupV1,
+  KTOGroupV1,
+};
 
 export default groups;

@@ -31,6 +31,13 @@ export const timelineList: Timeline[] =  [
             description: "(magnitude 3.1)",
             category: "beving"
         },
+        {
+            date: "2025-11-13",
+            label: "Zeerijp",
+            html: "Zeerijp",
+            description: "(magnitude 3.4)",
+            category: "beving"
+        },
         {   
             date: "2020-09-01",
             label: "Start waardedalingsregeling",

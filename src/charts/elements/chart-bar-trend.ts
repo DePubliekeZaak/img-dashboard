@@ -1,5 +1,9 @@
 import { breakpoints, colours } from "../../img-modules/styleguide";
-import { slugify } from "../../pages/shared/_helpers";
+import {
+  convertToCurrencyInMillions,
+  convertToCurrency,
+  slugify,
+} from "../../pages/shared/_helpers";
 import { TrendBar } from "../../pages/shared/types_graphs";
 import { IGraphControllerV3 } from "../core/graph-v3";
 
@@ -44,21 +48,35 @@ export default class ChartBarTrend {
     const bars = group.selectAll(".bar." + this.slug);
 
     let tooltip = function popup(d) {
+      let value = "0";
+
+      switch (d.format) {
+        case "number":
+          value = d.value;
+          break;
+        case "percentage":
+          value = d.value + "%";
+          break;
+        case "currency":self.ctrlr.config.innerPadding.right
+          value = convertToCurrency(d.value);
+          break;
+        default:
+          value = d.value;
+      }
+
       if (period == "weekly") {
         return `
-                    <div>${d.label}</div>
-                    <div>week ${d.meta._week} - ${d.meta._year}</div>
-                    <div>${d.meta._startdatum} t/m ${d.meta._einddatum}</div>
-                    <div>${d.value}</div>
-                `;
+          <div>${d.label}</div>
+          <div>week ${d.meta._week} - ${d.meta._year}</div>
+          <div>${value}</div>
+      `;
       } else {
         return `
-                    <div>${d.label}</div>
-                    <div>maand ${d.meta._month} - ${d.meta._year}</div>
-                    <div>${d.meta._startdatum} t/m ${d.meta._einddatum}</div>
-                    <div>${d.value}</div>
-                `;
-      }
+          <div>${d.label}</div>
+          <div>maand ${d.meta._month} - ${d.meta._year}</div>
+          <div>${value}</div>
+      `;
+}
     };
 
     // const space =
@@ -67,10 +85,12 @@ export default class ChartBarTrend {
     // : data.length < 10
     // ? 6
     // : 1;
+
+
+
     const space = data.length < 10 ? 6 : 1;
 
-    const effectiveWidth = this.ctrlr.dimensions.svgWidth; // - this.ctrlr.config.padding.left - this.ctrlr.config.padding.right;
-    let barWidth = effectiveWidth / data.length - space;
+    let barWidth = (this.ctrlr.dimensions.coreWidth / (data.length)) - 2;
 
     bars
       .attr("x", (d: TrendBar, i: number) => {

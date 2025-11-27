@@ -40,3 +40,112 @@ tr td {
 
 }
 
+table.hidden {
+    display: none;
+}
+
+.toggler {
+    display: inline-flex;
+    background: white;
+    border: 1px solid #ccc;
+
+    padding: 2px;
+    margin: auto auto 1.5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.toggler-option {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+
+    transition: all 0.3s ease;
+    z-index: 2;
+    position: relative;
+    color: #000;
+    min-width: 60px;
+    text-align: center;
+    line-height: 1;
+
+    &.active {
+        font-family: "RO Sans Bold"
+    }
+
+    &:hover {
+        color: #333;
+        background: transparent;
+    }
+}
+
+.toggler-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: calc(100% - 4px);
+    background: $lightBlue-light;
+
+    transition: transform 0.3s ease;
+    z-index: 1;
+   // box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggler[data-active="month"] .toggler-slider {
+    transform: translateX(0);
+    width: calc(50% - 1px);
+}
+
+.toggler[data-active="week"] .toggler-slider {
+    transform: translateX(calc(100% + 1px));
+    width: calc(50% - 1px);
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus indicators for accessibility - only show on keyboard focus */
+.toggler-option:focus {
+    outline: none;
+}
+
+.toggler-option:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .toggler {
+        border: 2px solid;
+    }
+
+    .toggler-option {
+        border: 1px solid;
+    }
+
+    .toggler-slider {
+        background: ButtonText;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .toggler-option,
+    .toggler-slider {
+        transition: none;
+    }
+}

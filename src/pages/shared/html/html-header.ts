@@ -32,6 +32,8 @@ export class HtmlHeader {
       this.headerElement.appendChild(h);
     }
 
+    console.log(this.description)
+
     if (this.description) {
       let d = document.createElement("div");
       d.style.maxWidth = "640px";
@@ -57,17 +59,17 @@ export class HtmlHeader {
     const descEl = this.headerElement.querySelector("div");
     let description = "";
     if (hasPattern && currentData) {
-      // if (currentData.jaar_week != undefined) {
-      //   description = this.description
-      //     .replace(
-      //       "{week}",
-      //       parseInt(currentData.jaar_week.slice(5)).toString(),
-      //     )
-      //     .replace(
-      //       /{(\w+)}/g,
-      //       (_, key) => thousands(currentData[key]) || `{${key}}`,
-      //     );
-      // }
+      if (currentData._yearweek != undefined) {
+        description = this.description
+          .replace(
+            "{week}",
+            parseInt(currentData._yearweek.slice(5)).toString(),
+          )
+          .replace(
+            /{(\w+)}/g,
+            (_, key) => thousands(currentData[key]) || `{${key}}`,
+          );
+      }
 
       descEl.innerHTML = description;
     }

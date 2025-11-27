@@ -1,6 +1,6 @@
 import { HtmlTabs } from "./html/html-tabs";
 import { HtmlHeader } from "./html/html-header";
-import { HTMLTable } from "./html/html-table";
+import { HTMLTables } from "./html/html-tables";
 import { HTMLDefinitions } from "./html/html-definitions";
 import { IGroupCtrlr, IGroupMappingV2, IParameterMapping } from "./interfaces";
 import { DataObject, ImgData, Segment, TableData, Timeline } from "./types";
@@ -99,7 +99,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
       this.config.functionality &&
       this.config.functionality.indexOf("table") > -1
     ) {
-      this.table = new HTMLTable(this, this.groupWrapper);
+      this.table = new HTMLTables(this, this.groupWrapper, this.segment);
     }
 
     if (
@@ -113,9 +113,13 @@ export class GroupControllerV1 implements IGroupCtrlr {
   }
 
   prepareData(data: any): any {
-    // console.log(data);
+    const weekGroup = this.config.endpoints.find(
+      (e) => e.includes("wekelijks") || e.includes("tevredenheid"),
+    );
+    const monthGroup = this.config.endpoints.find(
+      (e) => e.includes("maandelijks") || e.includes("tevredenheid"),
+    );
 
-    const dataGroup = this.config.endpoints[0];
     const defaultColumns = [
       "_yearmonth",
       "_yearweek",
@@ -170,26 +174,29 @@ export class GroupControllerV1 implements IGroupCtrlr {
     }
 
     tableParams = removeDuplicates(tableParams);
+    graphParams = removeDuplicates(graphParams);
 
     // tableParams = tableParams.filter ( p => !p.column.includes("_cumulatief"))
 
-    let graphData: any[] = [];
-    let graphData_alt: any[] = [];
+    let graphDataWeek: any[] = [];
+    let graphDataMonth: any[] = [];
 
-    if (dataGroup != undefined && data[dataGroup].length > 0) {
-      graphData = trimColumnsAndOrder(
-        data[dataGroup],
+    if (weekGroup != undefined && data[weekGroup].length > 0) {
+      graphDataWeek = trimColumnsAndOrder(
+        data[weekGroup],
         graphParams.map((p) => p.column).concat(defaultColumns),
       );
+    }
 
-      if (this.config.endpoints[1]) {
-        graphData_alt = trimColumnsAndOrder(
-          data[this.config.endpoints[1]],
-          graphParams.map((p) => p.column).concat(defaultColumns),
-        );
-      } else {
-        graphData_alt = graphData;
-      }
+    if (monthGroup != undefined && data[monthGroup].length > 0) {
+      graphDataMonth = trimColumnsAndOrder(
+        data[monthGroup],
+        graphParams.map((p) => p.column).concat(defaultColumns),
+      );
+    }
+
+    if (monthGroup == 'tevredenheid') {
+       graphDataMonth = graphDataMonth.filter( p => p.complete ==  true);
     }
 
     let timeline: Timeline[] = [];
@@ -200,7 +207,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
     ) {
       // @ts-ignore
       timeline = timelineList.filter(
-        (ti: Timeline) => this.config.timeline.indexOf(ti.label) > -1,
+        (ti: Timeline) => this.config.timeline!.indexOf(ti.label) > -1,
       );
       timeline.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
     }
@@ -209,26 +216,26 @@ export class GroupControllerV1 implements IGroupCtrlr {
     const definitions =
       this.config.definitions && this.config.definitions?.length > 0
         ? definitionList
-            .filter((d) => this.config.definitions?.indexOf(d.name) > -1)
+            .filter((d) => this.config.definitions!.indexOf(d.name) > -1)
             .sort()
         : [];
 
     return {
       tableParams,
       graphParams,
-      graphData,
+      graphDataMonth,
+      graphDataWeek,
       timeline,
       definitions,
-      graphData_alt,
     };
   }
 
-  populateTable(tableData: TableData) {
+  populateTable(data: any) {
     if (
       this.config.functionality &&
       this.config.functionality.indexOf("table") > -1
     ) {
-      this.table.draw(tableData);
+      this.table.draw(data);
     }
   }
 
@@ -272,11 +279,13 @@ export class GroupControllerV1 implements IGroupCtrlr {
   }
 
   update(data: DataObject, segment: Segment | undefined, update: boolean) {
-    console.log("update group new segment object", this.page.segment);
+
 
     if (segment != undefined) {
-      this.segment = segment;
+      this.config.segment = segment;
     }
+
+    console.log("updated group new segment object", this.segment);
 
     const group = this.page.chartArray.find((i) => i.config.slug === this.slug);
 
@@ -284,13 +293,13 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
     this.tabs.redraw();
 
-    this.htmlHeader.redraw(group.data);
+    // this.htmlHeader.redraw(group.data);
 
     for (const graph of group.graphs) {
-      graph.ctrlr.update(group.data, segment, false);
+      graph.ctrlr.update(group.data, true);
     }
 
-    this.populateTable(group.data.table);
+    this.populateTable(group.data);
 
     this.populateDefinitions(group.data.definitions);
   }

@@ -2,8 +2,8 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group : IGroupMappingV2[] = [
     {
-        "slug" : "gemeente_totals",
-        "ctrlr": "IntroGroupV1",
+        "slug" : "gemeenten_maatwerk",
+        "ctrlr": "MuniGroupV1",
         "filters" : ["gemeente"],
         "graphs": [
             {
@@ -16,19 +16,19 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "fysieke_schade_meldingen",
+                            "column" : "meldingen",
                             "colour" : "orange",
-                            "units" : "zaken"
+                            "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "fysieke_schade_afgehandeld",
+                            "column" : "afgehandeld",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "afgehandeld"
                         },
                         { 
                             "label" : "Verleend",
-                            "column" : "fysieke_schade_verleend_bedrag",
+                            "column" : "verleend_bedrag",
                             "colour" : "blue",
                             "format" : "currency",
                             "units" : "verleend"
@@ -40,7 +40,7 @@ const group : IGroupMappingV2[] = [
                 "modifiers" : [
                     [
                         {
-                            "label": "fysieke_schade",
+                            "label": "maatwerk",
                             "column": "{}_cumulatief",
                             "colour": "orange"
                         }, 
@@ -53,7 +53,7 @@ const group : IGroupMappingV2[] = [
                     ]
                 ],
                 "segment": {
-                    "key": "fysieke_schade_meldingen",
+                    "key": "meldingen",
                     "cumulative": true,
                     "periodization": "latest",
                     // "gemeente": "Groningen"
@@ -68,19 +68,19 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "fysieke_schade_meldingen",
+                            "column" : "meldingen",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "fysieke_schade_afgehandeld",
+                            "column" : "afgehandeld",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "afgehandeld"
                         },
                         { 
                             "label" : "Verleend",
-                            "column" : "fysieke_schade_verleend_bedrag",
+                            "column" : "verleend_bedrag",
                             "colour" : "blue",
                             "format" : "currency",
                             "units" : "verleend"
@@ -102,7 +102,7 @@ const group : IGroupMappingV2[] = [
                     ]
                 ],
                 "segment": {
-                    "key": "fysieke_schade_meldingen",
+                    "key": "meldingen",
                     "cumulative": true,
                     "periodization": "monthly",
                     // "gemeente": "Groningen"
@@ -116,14 +116,14 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Toegewezen",
-                            "column": "fysieke_schade_toekenningen_cumulatief",
-                            "colour": "moss",   
+                            "column": "toekenningen_cumulatief",
+                            "colour": "moss",  
                             "scale" : "null",
                             "format": ""
                         },
                         {
                             "label": "Afgewezen",
-                            "column": "fysieke_schade_afwijzingen_cumulatief",
+                            "column": "afwijzingen_cumulatief",
                             "colour": "orange",
                             "scale" : "null",
                             "format": ""
@@ -132,7 +132,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Afgehandeld",
-                            "column": "fysieke_schade_afgehandeld_cumulatief",
+                            "column": "afgehandeld_cumulatief",
                             "colour": "gray",
                             "scale" : "null",
                             "format": ""
@@ -141,8 +141,759 @@ const group : IGroupMappingV2[] = [
                 ]
             }
         ],
+        "segment": {
+            "key": "maatwerk_meldingen",
+            "cumulative": true,
+            "periodization": "monthly",
+            "gemeente": "Groningen"
+        },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gemeente_wekelijks_v3","gemeente_maandelijks_v3"],
+        "endpoints": ["gem_maandelijks?regeling_code=eq.MW","gem_wekelijks?regeling_code=eq.MW"],
+    },
+    {
+        "slug" : "gemeenten_ves",
+        "ctrlr": "MuniGroupV1",
+        "filters" : ["gemeente"],
+        "graphs": [
+            {
+                "slug" : "gemeente_numbers_v1",
+                "ctrlr" : "NumbersMultiplesV1",
+                "args" : [],
+                "filters" : ["totaalVsRecent"],
+                "multiples": "cumulative", 
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Meldingen",
+                            "column" : "meldingen",
+                            "colour" : "orange",
+                            "units" : "zaken"
+                        },
+                        { 
+                            "label" : "Afgehandeld",
+                            "column" : "afgehandeld",
+                            "colour" : "moss",
+                            "units": "besluiten"
+                        },
+                        { 
+                            "label" : "Verleend",
+                            "column" : "verleend_bedrag",
+                            "colour" : "blue",
+                            "format" : "currency",
+                            "units" : "verleend"
+                        }
+                    ],
+                    [
+                    ]
+                ],
+                "modifiers" : [
+                    [
+                        {
+                            "label": "maatwerk",
+                            "column": "{}_cumulatief",
+                            "colour": "orange"
+                        }, 
+                        {
+                            "label": "afgelopen week",
+                            "column": "{}",
+                            "colour": "orange"
+                        },
+                          
+                    ]
+                ],
+                "segment": {
+                    "key": "meldingen",
+                    "cumulative": true,
+                    "periodization": "latest",
+                    // "gemeente": "Groningen"
+                }
+            },
+            {
+                "slug" : "gemeente_trend",
+                "ctrlr" : "BarTrendV1",
+                "args" : [],
+                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Meldingen",
+                            "column" : "meldingen",
+                            "colour" : "orange",
+                            "units" : "meldingen"
+                        },
+                        { 
+                            "label" : "Afgehandeld",
+                            "column" : "afgehandeld",
+                            "colour" : "moss",
+                            "units": "besluiten"
+                        },
+                        { 
+                            "label" : "Verleend",
+                            "column" : "verleend_bedrag",
+                            "colour" : "blue",
+                            "format" : "currency",
+                            "units" : "verleend"
+                        }
+                    ]
+                ],
+                "modifiers" : [
+                    [
+                        {
+                            "label": "toename",
+                            "column": "{}",
+                            "colour": "orange"
+                        },
+                        {
+                            "label": "cumulatief",
+                            "column": "{}_cumulatief",
+                            "colour": "orange"
+                        },   
+                    ]
+                ],
+                "segment": {
+                    "key": "meldingen",
+                    "cumulative": true,
+                    "periodization": "monthly",
+                    // "gemeente": "Groningen"
+                }
+            },
+            {
+                "slug" : "gemeente_toegewezen_taart",
+                "ctrlr" : "PieChartSumV1",
+                "args" : [],
+                "parameters": [
+                    [
+                        {
+                            "label": "Toegewezen",
+                            "column": "toekenningen_cumulatief",
+                            "colour": "moss",  
+                            "scale" : "null",
+                            "format": ""
+                        },
+                        {
+                            "label": "Afgewezen",
+                            "column": "afwijzingen_cumulatief",
+                            "colour": "orange",
+                            "scale" : "null",
+                            "format": ""
+                        },
+                    ],
+                    [
+                        {
+                            "label": "Afgehandeld",
+                            "column": "afgehandeld_cumulatief",
+                            "colour": "gray",
+                            "scale" : "null",
+                            "format": ""
+                        }
+                    ]
+                ]
+            }
+        ],
+        "segment": {
+            "key": "maatwerk_meldingen",
+            "cumulative": true,
+            "periodization": "monthly",
+            "gemeente": "Groningen"
+        },
+        "functionality": ['table', 'definitions','download'],
+        "endpoints": ["gem_maandelijks?regeling_code=eq.VES","gem_wekelijks?regeling_code=eq.VES"],
+    },
+    // {
+    //     "slug" : "gemeenten_ims",
+    //     "ctrlr": "MuniGroupV1",
+    //     "filters" : ["gemeente"],
+    //     "graphs": [
+    //         {
+    //             "slug" : "gemeente_numbers_v1",
+    //             "ctrlr" : "NumbersMultiplesV1",
+    //             "args" : [],
+    //             "filters" : ["totaalVsRecent"],
+    //             "multiples": "cumulative", 
+    //             "parameters": [
+    //                 [
+    //                     { 
+    //                         "label" : "Meldingen",
+    //                         "column" : "meldingen",
+    //                         "colour" : "orange",
+    //                         "units" : "zaken"
+    //                     },
+    //                     { 
+    //                         "label" : "Afgehandeld",
+    //                         "column" : "afgehandeld",
+    //                         "colour" : "moss",
+    //                         "units": "besluiten"
+    //                     },
+    //                     { 
+    //                         "label" : "Verleend",
+    //                         "column" : "verleend_bedrag",
+    //                         "colour" : "blue",
+    //                         "format" : "currency",
+    //                         "units" : "verleend"
+    //                     }
+    //                 ],
+    //                 [
+    //                 ]
+    //             ],
+    //             "modifiers" : [
+    //                 [
+    //                     {
+    //                         "label": "maatwerk",
+    //                         "column": "{}_cumulatief",
+    //                         "colour": "orange"
+    //                     }, 
+    //                     {
+    //                         "label": "afgelopen week",
+    //                         "column": "{}",
+    //                         "colour": "orange"
+    //                     },
+                          
+    //                 ]
+    //             ],
+    //             "segment": {
+    //                 "key": "meldingen",
+    //                 "cumulative": true,
+    //                 "periodization": "latest",
+    //                 // "gemeente": "Groningen"
+    //             }
+    //         },
+    //         {
+    //             "slug" : "gemeente_trend",
+    //             "ctrlr" : "BarTrendV1",
+    //             "args" : [],
+    //             "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+    //             "parameters": [
+    //                 [
+    //                     { 
+    //                         "label" : "Meldingen",
+    //                         "column" : "meldingen",
+    //                         "colour" : "orange",
+    //                         "units" : "meldingen"
+    //                     },
+    //                     { 
+    //                         "label" : "Afgehandeld",
+    //                         "column" : "afgehandeld",
+    //                         "colour" : "moss",
+    //                         "units": "besluiten"
+    //                     },
+    //                     { 
+    //                         "label" : "Verleend",
+    //                         "column" : "verleend_bedrag",
+    //                         "colour" : "blue",
+    //                         "format" : "currency",
+    //                         "units" : "verleend"
+    //                     }
+    //                 ]
+    //             ],
+    //             "modifiers" : [
+    //                 [
+    //                     {
+    //                         "label": "toename",
+    //                         "column": "{}",
+    //                         "colour": "orange"
+    //                     },
+    //                     {
+    //                         "label": "cumulatief",
+    //                         "column": "{}_cumulatief",
+    //                         "colour": "orange"
+    //                     },   
+    //                 ]
+    //             ],
+    //             "segment": {
+    //                 "key": "meldingen",
+    //                 "cumulative": true,
+    //                 "periodization": "monthly",
+    //                 // "gemeente": "Groningen"
+    //             }
+    //         },
+    //         {
+    //             "slug" : "gemeente_toegewezen_taart",
+    //             "ctrlr" : "PieChartSumV1",
+    //             "args" : [],
+    //             "parameters": [
+    //                 [
+    //                     {
+    //                         "label": "Toegewezen",
+    //                         "column": "toekenningen_cumulatief",
+    //                         "colour": "moss",  
+    //                         "scale" : "null",
+    //                         "format": ""
+    //                     },
+    //                     {
+    //                         "label": "Afgewezen",
+    //                         "column": "afwijzingen_cumulatief",
+    //                         "colour": "orange",
+    //                         "scale" : "null",
+    //                         "format": ""
+    //                     },
+    //                 ],
+    //                 [
+    //                     {
+    //                         "label": "Afgehandeld",
+    //                         "column": "afgehandeld_cumulatief",
+    //                         "colour": "gray",
+    //                         "scale" : "null",
+    //                         "format": ""
+    //                     }
+    //                 ]
+    //             ]
+    //         }
+    //     ],
+    //     "segment": {
+    //         "key": "meldingen",
+    //         "cumulative": true,
+    //         "periodization": "monthly",
+    //         "gemeente": "Groningen"
+    //     },
+    //     "functionality": ['table', 'definitions','download'],
+    //     "endpoints": ["gem_maandelijks?regeling_code=eq.IMS","gem_wekelijks?regeling_code=eq.IMS"],
+    // },
+    // {
+    //     "slug" : "gemeenten_imk",
+    //     "ctrlr": "MuniGroupV1",
+    //     "filters" : ["gemeente"],
+    //     "graphs": [
+    //         {
+    //             "slug" : "gemeente_numbers_v1",
+    //             "ctrlr" : "NumbersMultiplesV1",
+    //             "args" : [],
+    //             "filters" : ["totaalVsRecent"],
+    //             "multiples": "cumulative", 
+    //             "parameters": [
+    //                 [
+    //                     { 
+    //                         "label" : "Meldingen",
+    //                         "column" : "meldingen",
+    //                         "colour" : "orange",
+    //                         "units" : "zaken"
+    //                     },
+    //                     { 
+    //                         "label" : "Afgehandeld",
+    //                         "column" : "afgehandeld",
+    //                         "colour" : "moss",
+    //                         "units": "besluiten"
+    //                     },
+    //                     { 
+    //                         "label" : "Verleend",
+    //                         "column" : "verleend_bedrag",
+    //                         "colour" : "blue",
+    //                         "format" : "currency",
+    //                         "units" : "verleend"
+    //                     }
+    //                 ],
+    //                 [
+    //                 ]
+    //             ],
+    //             "modifiers" : [
+    //                 [
+    //                     {
+    //                         "label": "maatwerk",
+    //                         "column": "{}_cumulatief",
+    //                         "colour": "orange"
+    //                     }, 
+    //                     {
+    //                         "label": "afgelopen week",
+    //                         "column": "{}",
+    //                         "colour": "orange"
+    //                     },
+                          
+    //                 ]
+    //             ],
+    //             "segment": {
+    //                 "key": "meldingen",
+    //                 "cumulative": true,
+    //                 "periodization": "latest",
+    //                 // "gemeente": "Groningen"
+    //             }
+    //         },
+    //         {
+    //             "slug" : "gemeente_trend",
+    //             "ctrlr" : "BarTrendV1",
+    //             "args" : [],
+    //             "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+    //             "parameters": [
+    //                 [
+    //                     { 
+    //                         "label" : "Meldingen",
+    //                         "column" : "meldingen",
+    //                         "colour" : "orange",
+    //                         "units" : "meldingen"
+    //                     },
+    //                     { 
+    //                         "label" : "Afgehandeld",
+    //                         "column" : "afgehandeld",
+    //                         "colour" : "moss",
+    //                         "units": "besluiten"
+    //                     },
+    //                     { 
+    //                         "label" : "Verleend",
+    //                         "column" : "verleend_bedrag",
+    //                         "colour" : "blue",
+    //                         "format" : "currency",
+    //                         "units" : "verleend"
+    //                     }
+    //                 ]
+    //             ],
+    //             "modifiers" : [
+    //                 [
+    //                     {
+    //                         "label": "toename",
+    //                         "column": "{}",
+    //                         "colour": "orange"
+    //                     },
+    //                     {
+    //                         "label": "cumulatief",
+    //                         "column": "{}_cumulatief",
+    //                         "colour": "orange"
+    //                     },   
+    //                 ]
+    //             ],
+    //             "segment": {
+    //                 "key": "meldingen",
+    //                 "cumulative": true,
+    //                 "periodization": "monthly",
+    //                 // "gemeente": "Groningen"
+    //             }
+    //         },
+    //         {
+    //             "slug" : "gemeente_toegewezen_taart",
+    //             "ctrlr" : "PieChartSumV1",
+    //             "args" : [],
+    //             "parameters": [
+    //                 [
+    //                     {
+    //                         "label": "Toegewezen",
+    //                         "column": "toekenningen_cumulatief",
+    //                         "colour": "moss",  
+    //                         "scale" : "null",
+    //                         "format": ""
+    //                     },
+    //                     {
+    //                         "label": "Afgewezen",
+    //                         "column": "afwijzingen_cumulatief",
+    //                         "colour": "orange",
+    //                         "scale" : "null",
+    //                         "format": ""
+    //                     },
+    //                 ],
+    //                 [
+    //                     {
+    //                         "label": "Afgehandeld",
+    //                         "column": "afgehandeld_cumulatief",
+    //                         "colour": "gray",
+    //                         "scale" : "null",
+    //                         "format": ""
+    //                     }
+    //                 ]
+    //             ]
+    //         }
+    //     ],
+    //     "segment": {
+    //         "key": "meldingen",
+    //         "cumulative": true,
+    //         "periodization": "monthly",
+    //         "gemeente": "Groningen"
+    //     },
+    //     "functionality": ['table', 'definitions','download'],
+    //     "endpoints": ["gem_maandelijks?regeling_code=eq.IMK","gem_wekelijks?regeling_code=eq.IMK"],
+    // },
+    {
+        "slug" : "gemeenten_wd",
+        "ctrlr": "MuniGroupV1",
+        "filters" : ["gemeente"],
+        "graphs": [
+            {
+                "slug" : "gemeente_numbers_v1",
+                "ctrlr" : "NumbersMultiplesV1",
+                "args" : [],
+                "filters" : ["totaalVsRecent"],
+                "multiples": "cumulative", 
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Meldingen",
+                            "column" : "meldingen",
+                            "colour" : "orange",
+                            "units" : "zaken"
+                        },
+                        { 
+                            "label" : "Afgehandeld",
+                            "column" : "afgehandeld",
+                            "colour" : "moss",
+                            "units": "besluiten"
+                        },
+                        { 
+                            "label" : "Verleend",
+                            "column" : "verleend_bedrag",
+                            "colour" : "blue",
+                            "format" : "currency",
+                            "units" : "verleend"
+                        }
+                    ],
+                    [
+                    ]
+                ],
+                "modifiers" : [
+                    [
+                        {
+                            "label": "maatwerk",
+                            "column": "{}_cumulatief",
+                            "colour": "orange"
+                        }, 
+                        {
+                            "label": "afgelopen week",
+                            "column": "{}",
+                            "colour": "orange"
+                        },
+                          
+                    ]
+                ],
+                "segment": {
+                    "key": "meldingen",
+                    "cumulative": true,
+                    "periodization": "latest",
+                    // "gemeente": "Groningen"
+                }
+            },
+            {
+                "slug" : "gemeente_trend",
+                "ctrlr" : "BarTrendV1",
+                "args" : [],
+                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Meldingen",
+                            "column" : "meldingen",
+                            "colour" : "orange",
+                            "units" : "meldingen"
+                        },
+                        { 
+                            "label" : "Afgehandeld",
+                            "column" : "afgehandeld",
+                            "colour" : "moss",
+                            "units": "besluiten"
+                        },
+                        { 
+                            "label" : "Verleend",
+                            "column" : "verleend_bedrag",
+                            "colour" : "blue",
+                            "format" : "currency",
+                            "units" : "verleend"
+                        }
+                    ]
+                ],
+                "modifiers" : [
+                    [
+                        {
+                            "label": "toename",
+                            "column": "{}",
+                            "colour": "orange"
+                        },
+                        {
+                            "label": "cumulatief",
+                            "column": "{}_cumulatief",
+                            "colour": "orange"
+                        },   
+                    ]
+                ],
+                "segment": {
+                    "key": "meldingen",
+                    "cumulative": true,
+                    "periodization": "monthly",
+                    // "gemeente": "Groningen"
+                }
+            },
+            {
+                "slug" : "gemeente_toegewezen_taart",
+                "ctrlr" : "PieChartSumV1",
+                "args" : [],
+                "parameters": [
+                    [
+                        {
+                            "label": "Toegewezen",
+                            "column": "toekenningen_cumulatief",
+                            "colour": "moss",  
+                            "scale" : "null",
+                            "format": ""
+                        },
+                        {
+                            "label": "Afgewezen",
+                            "column": "afwijzingen_cumulatief",
+                            "colour": "orange",
+                            "scale" : "null",
+                            "format": ""
+                        },
+                    ],
+                    [
+                        {
+                            "label": "Afgehandeld",
+                            "column": "afgehandeld_cumulatief",
+                            "colour": "gray",
+                            "scale" : "null",
+                            "format": ""
+                        }
+                    ]
+                ]
+            }
+        ],
+        "segment": {
+            "key": "meldingen",
+            "cumulative": true,
+            "periodization": "monthly",
+            "gemeente": "Groningen"
+        },
+        "functionality": ['table', 'definitions','download'],
+        "endpoints": ["gem_maandelijks?regeling_code=eq.WD","gem_wekelijks?regeling_code=eq.WD"],
+    },
+    {
+        "slug" : "gemeenten_wnw",
+        "ctrlr": "MuniGroupV1",
+        "filters" : ["gemeente"],
+        "graphs": [
+            {
+                "slug" : "gemeente_numbers_v1",
+                "ctrlr" : "NumbersMultiplesV1",
+                "args" : [],
+                "filters" : ["totaalVsRecent"],
+                "multiples": "cumulative", 
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Meldingen",
+                            "column" : "meldingen",
+                            "colour" : "orange",
+                            "units" : "zaken"
+                        },
+                        { 
+                            "label" : "Afgehandeld",
+                            "column" : "afgehandeld",
+                            "colour" : "moss",
+                            "units": "besluiten"
+                        },
+                        { 
+                            "label" : "Verleend",
+                            "column" : "verleend_bedrag",
+                            "colour" : "blue",
+                            "format" : "currency",
+                            "units" : "verleend"
+                        }
+                    ],
+                    [
+                    ]
+                ],
+                "modifiers" : [
+                    [
+                        {
+                            "label": "maatwerk",
+                            "column": "{}_cumulatief",
+                            "colour": "orange"
+                        }, 
+                        {
+                            "label": "afgelopen week",
+                            "column": "{}",
+                            "colour": "orange"
+                        },
+                          
+                    ]
+                ],
+                "segment": {
+                    "key": "meldingen",
+                    "cumulative": true,
+                    "periodization": "latest",
+                    // "gemeente": "Groningen"
+                }
+            },
+            {
+                "slug" : "gemeente_trend",
+                "ctrlr" : "BarTrendV1",
+                "args" : [],
+                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "parameters": [
+                    [
+                        { 
+                            "label" : "Meldingen",
+                            "column" : "meldingen",
+                            "colour" : "orange",
+                            "units" : "meldingen"
+                        },
+                        { 
+                            "label" : "Afgehandeld",
+                            "column" : "afgehandeld",
+                            "colour" : "moss",
+                            "units": "besluiten"
+                        },
+                        { 
+                            "label" : "Verleend",
+                            "column" : "verleend_bedrag",
+                            "colour" : "blue",
+                            "format" : "currency",
+                            "units" : "verleend"
+                        }
+                    ]
+                ],
+                "modifiers" : [
+                    [
+                        {
+                            "label": "toename",
+                            "column": "{}",
+                            "colour": "orange"
+                        },
+                        {
+                            "label": "cumulatief",
+                            "column": "{}_cumulatief",
+                            "colour": "orange"
+                        },   
+                    ]
+                ],
+                "segment": {
+                    "key": "meldingen",
+                    "cumulative": true,
+                    "periodization": "monthly",
+                    // "gemeente": "Groningen"
+                }
+            },
+            {
+                "slug" : "gemeente_toegewezen_taart",
+                "ctrlr" : "PieChartSumV1",
+                "args" : [],
+                "parameters": [
+                    [
+                        {
+                            "label": "Toegewezen",
+                            "column": "toekenningen_cumulatief",
+                            "colour": "moss",  
+                            "scale" : "null",
+                            "format": ""
+                        },
+                        {
+                            "label": "Afgewezen",
+                            "column": "afwijzingen_cumulatief",
+                            "colour": "orange",
+                            "scale" : "null",
+                            "format": ""
+                        },
+                    ],
+                    [
+                        {
+                            "label": "Afgehandeld",
+                            "column": "afgehandeld_cumulatief",
+                            "colour": "gray",
+                            "scale" : "null",
+                            "format": ""
+                        }
+                    ]
+                ]
+            }
+        ],
+        "segment": {
+            "key": "meldingen",
+            "cumulative": true,
+            "periodization": "monthly",
+            "gemeente": "Groningen"
+        },
+        "functionality": ['table', 'definitions','download'],
+        "endpoints": ["gem_maandelijks?regeling_code=eq.WNW","gem_wekelijks?regeling_code=eq.WNW"],
     }
 ]
 

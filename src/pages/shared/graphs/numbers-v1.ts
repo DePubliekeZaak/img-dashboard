@@ -56,6 +56,19 @@ export class NumbersV1 extends core.GraphControllerV3 {
 
     const els: HTMLElement[] = Object.values(this.els);
     els[els.length - 1].style.marginBottom = "0";
+
+    let h = this.group.graphs[this.index].header;
+    if (h != undefined) {
+      const div = document.createElement("div");
+      div.innerHTML = h + ":";
+      div.style.width = "100%";
+      div.style.margin = "1.5rem 0";
+      if (Object.values(this.els)[0]) {
+        const n = Object.values(this.els)[0] as HTMLElement;
+        n.parentNode?.insertBefore(div, n);
+      }
+      // console.log(h);
+    }
   }
 
   async init() {
@@ -82,8 +95,9 @@ export class NumbersV1 extends core.GraphControllerV3 {
   }
 
   async redraw(data: any, range: number[]) {
-    for (let p of this.parameters[0]) {
-      this.numbers[p.column].redraw(data.numbers);
+    for (let p of this.parameters[0]) { 
+      const number = typeof this.group.config.segment === 'object' && this.group.config.segment.cumulative ? data.numbers[p.column  + '_cumulatief'] : data.numbers[p.column];
+      this.numbers[p.column].redraw(number);
     }
   }
 

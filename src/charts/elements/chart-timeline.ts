@@ -18,7 +18,6 @@ export default class ChartTimeline {
         this.htmlDiv = document.createElement("div");
         this.htmlDiv.classList.add("timeline_html_div");
         this.ctrlr.element.appendChild(this.htmlDiv);
-
     }
 
     draw(data: any[], index: number) {
@@ -34,7 +33,6 @@ export default class ChartTimeline {
         group
             .append("rect")
             .attr("class", "timeline_bg" + index.toString())
-            // .style('stroke','#ccc')
             .style('fill','#eee')
 
         const groups = group.selectAll("g.timeline_item")
@@ -88,7 +86,7 @@ export default class ChartTimeline {
 
         bg
             .attr("x", 0)
-            .attr("width", this.ctrlr.dimensions.svgWidth)
+            .attr("width", this.ctrlr.dimensions.coreWidth)
             .attr("y", this.ctrlr.dimensions.svgHeight + (30 * (index + 1)))
             .attr("height", 10);
 
@@ -164,7 +162,7 @@ export default class ChartTimeline {
                 div.classList.add("html_label");
                 div.setAttribute("data_label", slugify(d.html))
                 div.innerHTML = d.html;
-                div.style.left = self.ctrlr.scales.x1.fn(new Date(d.date)) + self.ctrlr.config.padding.left + "px";
+                div.style.left = self.ctrlr.scales.x1.fn(new Date(d.date)) + self.ctrlr.config.innerPadding.left + "px";
                 self.htmlDiv.appendChild(div);
             }
 
@@ -253,7 +251,7 @@ export default class ChartTimeline {
         // height op svg zetten .. niet parent el
         self.ctrlr.element.style.height = (trim(self.ctrlr.element.style.height) + highest + 16).toString() + "px";
         self.htmlDiv.style.height = (highest + 16).toString() + "px";
-
+        self.htmlDiv.style.top = "-36px" // changed after adding more padding
 
         return timeLineHeight;
  

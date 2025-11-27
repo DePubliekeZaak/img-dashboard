@@ -27,7 +27,7 @@ export class IntroGroupV1 extends GroupControllerV1 {
         let { tableParams, graphData, definitions, graphData_alt, timeline } = super.prepareData(data);
         
         return {
-            current: graphData[0],
+            // current: graphData[0],
             graphData,
             graphData_alt,
             tableParams,

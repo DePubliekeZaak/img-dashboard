@@ -30,6 +30,7 @@ export const ChartObject = () =>  {
         return {
             svgWidth: 0, 
             graphWidth : 0, 
+            coreWidth: 0,
             graphHeight: this.config.graphHeight != undefined ? this.config.graphHeight : 0, // height of element minus config.margin
             svgHeight : 0,
         }

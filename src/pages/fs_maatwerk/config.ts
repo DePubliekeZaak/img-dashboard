@@ -2,8 +2,8 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
   {
-    slug: "maatwerk_totals",
-    ctrlr: "IntroGroupV1",
+    slug: "maatwerk_intro",
+    ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
@@ -94,18 +94,23 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "maatwerk_afgerond",
+          key: "maatwerk_ingediend",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
+    segment: {
+      key: "maatwerk_ingediend",
+      cumulative: true,
+      periodization: "monthly",
+    },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
   {
     slug: "maatwerk_bedragen",
-    ctrlr: "BedragenGroupV1",
+    ctrlr: "DefaultGroupV1",
     graphs: [
       {
         slug: "fs_maatwerk_numbers_2",
@@ -127,7 +132,7 @@ const group: IGroupMappingV2[] = [
               column: "maatwerk_bedrag_verleend_totaal",
               colour: "moss",
               format: "currency",
-              units: "totaal beschikte bedragen",
+              units: "totaal verleende bedragen",
             },
             {
               label: "Uitgekeerd",
@@ -167,7 +172,7 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verleend totaal",
+              label: "Totaal verleende schade",
               column: "maatwerk_bedrag_verleend_totaal",
               colour: "blue",
               format: "currency",
@@ -195,12 +200,78 @@ const group: IGroupMappingV2[] = [
         },
       },
     ],
+    segment: {
+      key: "maatwerk_bedrag_verleend_totaal",
+      cumulative: false,
+      periodization: "monthly",
+    },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
   {
+    slug: "maatwerk_waardering",
+    ctrlr: "KTOGroupV1",
+    graphs: [
+      {
+        slug: "mw_waardering_numbers",
+        ctrlr: "NumbersPlusRespondentsV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Sinds start",
+              column: "fysieke_schade_doorlopend_cijfer",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Totaal respondenten",
+              column: "fysieke_schade_aantal_respondenten_doorlopend",
+              units: "respondenten sinds start",
+              colour: "orange",
+            },
+          ],
+        ],
+      },
+      {
+        slug: "mw_waardering_trend",
+        ctrlr: "BarTrendKTOV1",
+        args: [],
+        filters: [],
+        parameters: [
+          [
+            {
+              label: "Maand cijfer",
+              column: "fysieke_schade_maandcijfer",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Aantal nieuwe respondenten",
+              column: "fysieke_schade_aantal_respondenten",
+              colour: "orange",
+              units: "respondenten",
+            },
+          ],
+        ],
+        modifiers: [],
+      },
+    ],
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["tevredenheid", "tevredenheid"],
+    segment: {
+      key: "fysieke_schade_maandcijfer",
+      cumulative: false,
+      periodization: "monthly",
+    },
+  },
+  {
     slug: "maatwerk_besluiten",
-    ctrlr: "BesluitenGroupV1",
+    ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
@@ -259,6 +330,20 @@ const group: IGroupMappingV2[] = [
           periodization: "weekly",
         },
       },
+    ],
+    segment: {
+      key: "maatwerk_beschikt_binn_termijn_perc",
+      cumulative: false,
+      periodization: "monthly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
+  },
+  {
+    slug: "maatwerk_binnen_buiten",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
       {
         slug: "fs_maatwerk_binnen_termijn",
         ctrlr: "PieChartSumV1",
@@ -315,12 +400,17 @@ const group: IGroupMappingV2[] = [
         },
       },
     ],
+    segment: {
+      key: "maatwerk_beschikt_binn_termijn_perc",
+      cumulative: false,
+      periodization: "monthly",
+    },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
   {
     slug: "maatwerk_toegewezen",
-    ctrlr: "ToegewezenV1",
+    ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
@@ -363,7 +453,7 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Toekenningen",
+              label: "Toegewezen",
               column: "maatwerk_toegekend",
               colour: "moss",
               scale: "null",
@@ -396,34 +486,34 @@ const group: IGroupMappingV2[] = [
     },
   },
   {
-    slug: "duur",
-    ctrlr: "DuurGroupV1",
+    slug: "maatwerk_duur",
+    ctrlr: "DefaultGroupV1",
     graphs: [
       {
         slug: "fs_maatwerk_duur_numbers_v1",
-        ctrlr: "NumbersV1",
+        ctrlr: "NumbersMultiplesTitledV1",
         args: [],
         filters: [],
-        // "multiples": "cumulative"
+        multiples: "incremental",
         parameters: [
           [
             {
-              label: "Verwacht aantal dagen tot besluit",
+              label: "Verwacht",
               column: "maatwerk_dlt_verwacht_rolling8_dagen",
               colour: "moss",
-              units: "verwacht aantal dagen",
+              units: "aantal dagen",
             },
             {
-              label: "Gerealiseerd gemiddelds aantal dagen tot besluit",
-              column: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            },
-            {
-              label: "Gerealiseerde mediaan aantal dagen tot besluit",
+              label: "Mediaan",
               column: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
-              units: "mediaan gerealiseerd aantal dagen",
+              units: "gerealiseerd aantal dagen",
+            },
+            {
+              label: "Gemiddelde",
+              column: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
+              colour: "blue",
+              units: "gerealiseerd aantal dagen",
             },
           ],
           [],
@@ -431,7 +521,7 @@ const group: IGroupMappingV2[] = [
         modifiers: [],
         segment: {
           key: "maatwerk_dlt_verwacht_rolling8_dagen",
-          cumulative: true,
+          cumulative: false,
           periodization: "monthly",
         },
       },
@@ -470,37 +560,79 @@ const group: IGroupMappingV2[] = [
         },
       },
     ],
+    segment: {
+      key: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
+      cumulative: false,
+      periodization: "monthly",
+      label: "dagen",
+    },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
   {
     slug: "maatwerk_voorraad",
-    ctrlr: "VoorraadGroupV1",
+    ctrlr: "DefaultGroupV1",
     graphs: [
       {
-        slug: "maatwerk_ouderdom_voorraad",
+        slug: "maatwerk_voorrraad_getallen",
+        ctrlr: "NumbersMultiplesTitledV1",
+        args: [],
+        filters: [],
+        multiples: "incremental",
+        parameters: [
+          [
+            {
+              label: "Beslistermijn",
+              column: "maatwerk_beslistermijn_dagen",
+              colour: "moss",
+              units: "dagen",
+            },
+            {
+              label: "Mediaan",
+              column: "maatwerk_oud_voorraad_mediaan_dagen",
+              colour: "orange",
+              units: "dagen in voorraad",
+            },
+            {
+              label: "Gemiddelde",
+              column: "maatwerk_oud_voorraad_gemiddeld_dagen",
+              colour: "blue",
+              units: "dagen in voorraad",
+            },
+          ],
+          [],
+        ],
+        modifiers: [],
+        segment: {
+          key: "maatwerk_oud_voorraad_gemiddeld_dagen",
+          cumulative: false,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "maatwerk_voorraad_groepen",
         ctrlr: "SegmentsV1",
         args: [],
         filters: [],
         parameters: [
           [
             {
-              label: "0 tot 8 weken",
+              label: "< 182 dagen",
               column: "maatwerk_oud_voorraad_binnen_termijn",
               colour: "orange",
             },
             {
-              label: "1 - 2 x termijn",
+              label: "182 - 364 dagen",
               column: "maatwerk_oud_voorraad_1_2_termijn",
               colour: "moss",
             },
             {
-              label: "2 - 4 x termijn",
+              label: "364 - 728 dagen",
               column: "maatwerk_oud_voorraad_2_4_termijn",
               colour: "blue",
             },
             {
-              label: "4 x termijn",
+              label: "> 728 dagen",
               column: "maatwerk_oud_voorraad_buiten_4_termijn",
               colour: "purple",
             },
@@ -515,38 +647,50 @@ const group: IGroupMappingV2[] = [
       },
       //
     ],
+    segment: {
+      key: "maatwerk_oud_voorraad_binnen_termijn",
+      cumulative: false,
+      periodization: "monthly",
+    },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
   {
-    slug: "bezwaren_mw",
-    ctrlr: "BezwarenV1",
+    slug: "maatwerk_bezwaren",
+    ctrlr: "DefaultGroupV1",
     graphs: [
       {
         slug: "fs_maatwerk_bezwaren_numbers_v1",
-        ctrlr: "NumbersMultiplesV1",
+        ctrlr: "NumbersMultiplesTitledV1",
         args: [],
         filters: [],
-        multiples: "cumulative",
+        multiples: "incremental",
         parameters: [
           [
             {
-              label: "Ingediende bezwaren",
-              column: "maatwerk_bz_ingediend",
+              label: "Ingediend",
+              column: "maatwerk_bz_ingediend_cumulatief",
               colour: "moss",
-              units: "ingediende bezwaren",
+              units: "bezwaren",
             },
             {
-              label: "Voorraad",
-              column: "maatwerk_bz_voorraad",
+              label: "In procedure",
+              column: "maatwerk_bz_voorraad_cumulatief",
               colour: "green",
-              units: "bewzaren in procedure",
+              units: "bewzaren",
             },
             {
               label: "Afgerond",
-              column: "maatwerk_bz_afgerond",
+              column: "maatwerk_bz_afgerond_cumulatief",
               colour: "blue",
-              units: "afgeronde bezwaren",
+              units: "bezwaren",
+            },
+            {
+              label: "Bezwaarpercentage",
+              column: "maatwerk_bz_perc_cumulatief",
+              colour: "orange",
+              format: "percentage",
+              units: "t.o.v. aantal besluiten",
             },
           ],
           [],
@@ -554,7 +698,7 @@ const group: IGroupMappingV2[] = [
         modifiers: [],
         segment: {
           key: "maatwerk_bz_ingediend",
-          cumulative: true,
+          cumulative: false,
           periodization: "monthly",
         },
       },
@@ -595,6 +739,11 @@ const group: IGroupMappingV2[] = [
         },
       },
     ],
+    segment: {
+      key: "maatwerk_bz_toegekend_cumulatief",
+      cumulative: false,
+      periodization: "monthly",
+    },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
