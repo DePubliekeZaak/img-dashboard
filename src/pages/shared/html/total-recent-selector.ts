@@ -38,9 +38,9 @@ export class HtmlTotalvsRecentSelector {
         dropdown.appendChild(option_1);
 
         let option_2 = document.createElement('option');
-        option_2.label = "Afgelopen week"
+        option_2.label = "Afgelopen periode"
         option_2.value = "recent";
-        option_2.innerText = "Afgelopen week"
+        option_2.innerText = "Afgelopen periode"
         // if (!segment.cumulative) { option_2.selected = true }
         dropdown.appendChild(option_2);
     

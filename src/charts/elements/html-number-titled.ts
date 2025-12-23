@@ -137,9 +137,11 @@ export class HtmlNumberTitled {
     } else {
       let value = this.ctrlr.config.extra.decimal
         ? Math.round(data * 10) / 10
-        : Math.round(data);
+        : Math.ceil(data - 0.5);
+
+        console.log(value)
       element.querySelector(".number.accented").innerText =
-        value > 9999 ? thousands(value) : value;
+        value > 999 ? thousands(value) : value;
 
       // element.querySelector(".number.percentage").innerText =
       //   parseFloat(data[1]).toFixed(1) + "%";

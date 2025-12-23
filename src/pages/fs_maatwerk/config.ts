@@ -111,6 +111,7 @@ const group: IGroupMappingV2[] = [
   {
     slug: "maatwerk_bedragen",
     ctrlr: "DefaultGroupV1",
+    filters: ["totaalVsRecent"],
     graphs: [
       {
         slug: "fs_maatwerk_numbers_2",
@@ -121,26 +122,33 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verleende schade",
-              column: "maatwerk_bedrag_verleend_schade",
+              label: "beschikte schade",
+              column: "maatwerk_bedrag_beschikt_schade",
               colour: "blue",
               format: "currency",
-              units: "totaal verleende schade",
+              units: "beschikt schadebedrag",
             },
             {
-              label: "Verleend",
-              column: "maatwerk_bedrag_verleend_totaal",
+              label: "beschikt totaal",
+              column: "maatwerk_bedrag_beschikt_totaal",
+              colour: "blue",
+              format: "currency",
+              units: "beschikt totaalbedrag",
+            },
+            {
+              label: "betaalde schade",
+              column: "maatwerk_bedrag_betaald_schade",
               colour: "moss",
               format: "currency",
-              units: "totaal verleende bedragen",
+              units: "betaald schadebedrag",
             },
             {
-              label: "Uitgekeerd",
-              column: "maatwerk_bedrag_uitgekeerd_totaal",
+              label: "betaald totaal",
+              column: "maatwerk_bedrag_betaald_totaal",
               colour: "orange",
               format: "currency",
-              units: "totaal uitgekeerde bedragen",
-            },
+              units: "betaald totaalbedrag",
+            }
           ],
           [],
         ],
@@ -173,7 +181,7 @@ const group: IGroupMappingV2[] = [
           [
             {
               label: "Totaal verleende schade",
-              column: "maatwerk_bedrag_verleend_totaal",
+              column: "maatwerk_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
             },
@@ -194,14 +202,14 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "maatwerk_bedrag_verleend_totaal",
+          key: "maatwerk_bedrag_betaald_totaal",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "maatwerk_bedrag_verleend_totaal",
+      key: "maatwerk_bedrag_betaald_totaal",
       cumulative: false,
       periodization: "monthly",
     },
@@ -409,18 +417,18 @@ const group: IGroupMappingV2[] = [
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
   {
-    slug: "maatwerk_toegewezen",
+    slug: "maatwerk_toegekend",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
-        slug: "fs_maatwerk_toegewezen_taart",
+        slug: "fs_maatwerk_toegekend_taart",
         ctrlr: "PieChartSumV1",
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "maatwerk_toegekend_cumulatief",
               colour: "moss",
               scale: "null",
@@ -446,14 +454,14 @@ const group: IGroupMappingV2[] = [
         ],
       },
       {
-        slug: "fs_maatwerk_toegewezen_trend",
+        slug: "fs_maatwerk_toegekend_trend",
         ctrlr: "BarTrendStackedMakeup",
         filters: ["absoluteVsNormalized", "weekVsMonth"],
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "maatwerk_toegekend",
               colour: "moss",
               scale: "null",
@@ -498,12 +506,6 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verwacht",
-              column: "maatwerk_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
-            {
               label: "Mediaan",
               column: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
@@ -515,12 +517,18 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
+            {
+              label: "Verwacht",
+              column: "maatwerk_dlt_verwacht_rolling8_dagen",
+              colour: "moss",
+              units: "aantal dagen",
+            }
           ],
           [],
         ],
         modifiers: [],
         segment: {
-          key: "maatwerk_dlt_verwacht_rolling8_dagen",
+          key: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "monthly",
         },
@@ -533,12 +541,6 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-              column: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            },
-            {
               label: "Gerealiseerde mediaan aantal dagen tot besluit",
               column: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
@@ -550,10 +552,16 @@ const group: IGroupMappingV2[] = [
               colour: "moss",
               units: "verwacht aantal dagen",
             },
+            {
+              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
+              column: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
+              colour: "blue",
+              units: "gemiddeld gerealiseerd aantal dagen",
+            }
           ],
         ],
         segment: {
-          key: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
+          key: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "monthly",
           label: "dagen",
@@ -561,7 +569,7 @@ const group: IGroupMappingV2[] = [
       },
     ],
     segment: {
-      key: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
+      key: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
       periodization: "monthly",
       label: "dagen",
@@ -582,23 +590,30 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
+              label: "Voorraad",
+              column: "maatwerk_voorraad_cumulatief",
+              colour: "blue",
+              units: "voorraad",
+            },
+            {
               label: "Beslistermijn",
               column: "maatwerk_beslistermijn_dagen",
               colour: "moss",
+              format: "decimal",
               units: "dagen",
             },
-            {
-              label: "Mediaan",
-              column: "maatwerk_oud_voorraad_mediaan_dagen",
-              colour: "orange",
-              units: "dagen in voorraad",
-            },
-            {
-              label: "Gemiddelde",
-              column: "maatwerk_oud_voorraad_gemiddeld_dagen",
-              colour: "blue",
-              units: "dagen in voorraad",
-            },
+            // {
+            //   label: "Mediaan",
+            //   column: "maatwerk_oud_voorraad_mediaan_dagen",
+            //   colour: "orange",
+            //   units: "dagen in voorraad",
+            // },
+            // {
+            //   label: "Gemiddelde",
+            //   column: "maatwerk_oud_voorraad_gemiddeld_dagen",
+            //   colour: "blue",
+            //   units: "dagen in voorraad",
+            // },
           ],
           [],
         ],

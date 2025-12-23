@@ -1,4 +1,4 @@
-import { localTime, monthNames } from "./_formats";
+import { localTime, monthAbbrevs, monthNames } from "./_formats";
 import {
   convertToCurrency,
   convertToCurrencyInMillions,
@@ -92,7 +92,28 @@ export class AxesService {
           });
         } else if (this.config.format == "month") {
           this.axis.tickFormat((d, i) => {
-            return monthNames[parseInt(d.slice(-2))];
+        
+            if (segment.periodization == 'weekly') {
+
+              const week = parseInt(d.slice(-2));
+              const monthStartWeeks = [1, 5, 9, 14, 18, 22, 27, 31, 36, 40, 44, 48];
+              const monthIndex = monthStartWeeks.findIndex((w, idx) => 
+                week >= w && (idx === 11 || week < monthStartWeeks[idx + 1])
+              );
+              
+              // Only show label at month start
+              if (monthStartWeeks.includes(week)) {
+                return monthAbbrevs[monthIndex];
+              }
+              return '';
+              
+            } else {
+
+              return monthAbbrevs[parseInt(d.slice(-2)) - 1]
+                         
+            }
+
+            
           });
         } else {
           this.axis.tickFormat((d, i) => {

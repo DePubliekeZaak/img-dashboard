@@ -2,12 +2,12 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping: IGroupMappingV2[] = [
   {
-    slug: "ves_intro",
+    slug: "vv_intro",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
-        slug: "ves_numbers_v1",
+        slug: "vv_numbers_v1",
         ctrlr: "NumbersMultiplesV1",
         args: [],
         filters: [],
@@ -16,19 +16,19 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "Aanvragen",
-              column: "ves_ingediend",
+              column: "vv_ingediend",
               colour: "orange",
               units: "aanvragen",
             },
             {
               label: "Voorraad",
-              column: "ves_voorraad",
+              column: "vv_voorraad",
               colour: "blue",
               units: "voorraad",
             },
             {
               label: "Afgehandeld",
-              column: "ves_afgerond",
+              column: "vv_afgerond",
               colour: "moss",
               units: "afgehandeld",
             },
@@ -50,13 +50,13 @@ const mapping: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ves_ingediend",
+          key: "vv_ingediend",
           cumulative: true,
           periodization: "weekly",
         },
       },
       {
-        slug: "ves_trend",
+        slug: "vv_trend",
         ctrlr: "BarTrendV1",
         args: [],
         filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
@@ -64,17 +64,17 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "Aanvragen",
-              column: "ves_ingediend",
+              column: "vv_ingediend",
               colour: "orange",
             },
             {
               label: "Afgehandeld",
-              column: "ves_afgerond",
+              column: "vv_afgerond",
               colour: "moss",
             },
             {
               label: "Vooraad",
-              column: "ves_voorraad",
+              column: "vv_voorraad",
               colour: "moss",
             },
           ],
@@ -94,26 +94,27 @@ const mapping: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ves_ingediend",
+          key: "vv_ingediend",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "ves_ingediend",
+      key: "vv_ingediend",
       cumulative: true,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_ves_wekelijks", "fysiek_ves_maandelijks"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
   {
-    slug: "ves_bedragen",
+    slug: "vv_toegekend_als",
     ctrlr: "DefaultGroupV1",
+    filters: [],
     graphs: [
       {
-        slug: "fs_ves_numbers_2",
+        slug: "vv_numbers_v1",
         ctrlr: "NumbersMultiplesV1",
         args: [],
         filters: [],
@@ -121,26 +122,17 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verleende schade",
-              column: "ves_bedrag_verleend_schade",
-              colour: "blue",
-              format: "currency",
-              units: "totaal verleende schade",
-            },
-            {
-              label: "Verleend",
-              column: "ves_bedrag_verleend_totaal",
+              label: "Vaste vergoeding",
+              column: "vv_toegekend_ves",
               colour: "moss",
-              format: "currency",
-              units: "totaal verleende bedragen",
+              units: "vaste vergoeding",
             },
             {
-              label: "Uitgekeerd",
-              column: "ves_bedrag_uitgekeerd_totaal",
-              colour: "orange",
-              format: "currency",
-              units: "totaal uitgekeerde bedragen",
-            },
+              label: "Aanvullende vaste vergoeding",
+              column: "vv_toegekend_avv",
+              colour: "blue",
+              units: "aanvullende vaste vergoeding",
+            }
           ],
           [],
         ],
@@ -159,21 +151,132 @@ const mapping: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ves_bedrag_verleend_totaal",
+          key: "vv_afgerond_ves",
           cumulative: true,
           periodization: "weekly",
         },
       },
       {
-        slug: "ves_bedragen_trend",
+        slug: "vv_trend_toegekend_als",
+        ctrlr: "BarTrendStackedMakeup",
+        args: [],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
+        parameters: [
+          [
+            {
+              label: "Vaste vergoeding",
+              column: "vv_toegekend_ves",
+              colour: "moss",
+            },
+            {
+              label: "Aanvullende vaste vergoeding",
+              column: "vv_toegekend_avv",
+              colour: "blue",
+            }
+          ],
+        ],
+        modifiers: [
+          [
+            {
+              label: "toename",
+              column: "{}",
+              colour: "orange",
+            },
+            {
+              label: "cumulatief",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "vv_ingediend",
+          cumulative: false,
+          periodization: "monthly",
+        },
+      },
+    ],
+    segment: {
+      key: "vv_afgerond_ves",
+      cumulative: true,
+      periodization: "monthly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
+  },
+  {
+    slug: "vv_bedragen",
+    ctrlr: "DefaultGroupV1",
+    graphs: [
+      {
+        slug: "fs_vv_numbers_2",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: [],
+        multiples: "cumulative",
+        parameters: [
+          [
+            {
+              label: "beschikte schade",
+              column: "vv_bedrag_beschikt_schade",
+              colour: "blue",
+              format: "currency",
+              units: "beschikt schadebedrag",
+            },
+            {
+              label: "beschikt totaal",
+              column: "vv_bedrag_beschikt_totaal",
+              colour: "blue",
+              format: "currency",
+              units: "beschikt totaalbedrag",
+            },
+            {
+              label: "betaalde schade",
+              column: "vv_bedrag_betaald_schade",
+              colour: "moss",
+              format: "currency",
+              units: "betaald schadebedrag",
+            },
+            {
+              label: "betaald totaal",
+              column: "vv_bedrag_betaald_totaal",
+              colour: "orange",
+              format: "currency",
+              units: "betaald totaalbedrag",
+            }
+          ],
+          [],
+        ],
+        modifiers: [
+          [
+            {
+              label: "totaal",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+            {
+              label: "afgelopen week",
+              column: "{}",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "vv_bedrag_betaald_totaal",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "vv_bedragen_trend",
         ctrlr: "BarTrendV1",
         args: [],
         filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
         parameters: [
           [
             {
-              label: "Totaal verleende schade",
-              column: "ves_bedrag_verleend_totaal",
+              label: "Totaal betaald bedrag",
+              column: "vv_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
             },
@@ -194,26 +297,26 @@ const mapping: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ves_bedrag_verleend_totaal",
+          key: "vv_bedrag_betaald_totaal",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "ves_bedrag_verleend_totaal",
+      key: "vv_bedrag_betaald_totaal",
       cumulative: false,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_ves_wekelijks", "fysiek_ves_maandelijks"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
   {
-    slug: "ves_waardering",
+    slug: "vv_waardering",
     ctrlr: "KTOGroupV1",
     graphs: [
       {
-        slug: "ves_waardering_numbers",
+        slug: "vv_waardering_numbers",
         ctrlr: "NumbersPlusRespondentsV1",
         args: [],
         parameters: [
@@ -236,7 +339,7 @@ const mapping: IGroupMappingV2[] = [
         ],
       },
       {
-        slug: "ves_waardering_trend",
+        slug: "vv_waardering_trend",
         ctrlr: "BarTrendKTOV1",
         args: [],
         filters: [],
@@ -270,12 +373,12 @@ const mapping: IGroupMappingV2[] = [
     },
   },
   {
-    slug: "ves_besluiten",
+    slug: "vv_besluiten",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
-        slug: "fs_ves_numbers_besluiten_v1",
+        slug: "fs_vv_numbers_besluiten_v1",
         ctrlr: "NumbersMultiplesV1",
         args: [],
         filters: [],
@@ -284,25 +387,25 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "Besluiten",
-              column: "ves_beschikt",
+              column: "vv_beschikt",
               colour: "moss",
               units: "besluiten",
             },
             {
               label: "Anders afgehandeld",
-              column: "ves_anders_afgehandeld",
+              column: "vv_anders_afgehandeld",
               colour: "moss",
               units: "anders afgehandeld",
             },
             {
               label: "Afgehandeld",
-              column: "ves_afgerond",
+              column: "vv_afgerond",
               colour: "moss",
               units: "afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
-              column: "ves_beschikt_binn_termijn_perc",
+              column: "vv_beschikt_binn_termijn_perc",
               colour: "blue",
               format: "percentage",
               units: "afgehandeld binnen termijn",
@@ -325,41 +428,41 @@ const mapping: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ves_beschikt",
+          key: "vv_beschikt",
           cumulative: true,
           periodization: "weekly",
         },
       },
     ],
     segment: {
-      key: "ves_beschikt_binn_termijn_perc",
+      key: "vv_beschikt_binn_termijn_perc",
       cumulative: false,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_ves_wekelijks", "fysiek_ves_maandelijks"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
   {
-    slug: "ves_toegewezen",
+    slug: "vv_toegekend",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
-        slug: "ves_maatwerk_toegewezen_taart",
+        slug: "vv_maatwerk_toegekend_taart",
         ctrlr: "PieChartSumV1",
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
-              column: "ves_toegekend_cumulatief",
+              label: "Toegekend",
+              column: "vv_toegekend_cumulatief",
               colour: "moss",
               scale: "null",
               format: "",
             },
             {
               label: "Afgewezen",
-              column: "ves_afgewezen_cumulatief",
+              column: "vv_afgewezen_cumulatief",
               colour: "orange",
               scale: "null",
               format: "",
@@ -368,7 +471,7 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "Besluiten",
-              column: "ves_beschikt_cumulatief",
+              column: "vv_beschikt_cumulatief",
               colour: "gray",
               scale: "null",
               format: "",
@@ -377,22 +480,22 @@ const mapping: IGroupMappingV2[] = [
         ],
       },
       {
-        slug: "ves_maatwerk_toegewezen_trend",
+        slug: "vv_maatwerk_toegekend_trend",
         ctrlr: "BarTrendStackedMakeup",
         filters: ["absoluteVsNormalized", "weekVsMonth"],
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
-              column: "ves_toegekend",
+              label: "Toegekend",
+              column: "vv_toegekend",
               colour: "moss",
               scale: "null",
               format: "",
             },
             {
               label: "Afgewezen",
-              column: "ves_afgewezen",
+              column: "vv_afgewezen",
               colour: "orange",
               scale: "null",
               format: "",
@@ -400,28 +503,29 @@ const mapping: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ves_toegekend",
+          key: "vv_toegekend",
           cumulative: false,
           periodization: "monthly",
           label: "besluiten",
           normalized: false,
         },
       },
+
     ],
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_ves_wekelijks", "fysiek_ves_maandelijks"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
     segment: {
-      key: "ves_toegekend_cumulatief",
+      key: "vv_toegekend_cumulatief",
       cumulative: true,
       periodization: "monthly",
     },
   },
   {
-    slug: "ves_duur",
+    slug: "vv_duur",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {
-        slug: "ves_duur_numbers_v1",
+        slug: "vv_duur_numbers_v1",
         ctrlr: "NumbersMultiplesTitledV1",
         args: [],
         filters: [],
@@ -429,62 +533,62 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verwacht",
-              column: "ves_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
-            {
               label: "Mediaan",
-              column: "ves_dlt_gerealiseerd_mediaan_dagen",
+              column: "vv_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
               units: "gerealiseerd aantal dagen",
             },
             {
               label: "Gemiddelde",
-              column: "ves_dlt_gerealiseerd_gemiddeld_dagen",
+              column: "vv_dlt_gerealiseerd_gemiddeld_dagen",
               colour: "blue",
               units: "gerealiseerd aantal dagen",
+            },
+            {
+              label: "Verwacht",
+              column: "vv_dlt_verwacht_rolling8_dagen",
+              colour: "moss",
+              units: "aantal dagen",
             },
           ],
           [],
         ],
         modifiers: [],
         segment: {
-          key: "ves_dlt_verwacht_rolling8_dagen",
+          key: "vv_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "monthly",
         },
       },
       {
-        slug: "ves_duur_trend",
+        slug: "vv_duur_trend",
         ctrlr: "BarTrendV1",
         filters: ["parameterSelect"],
         args: [],
         parameters: [
           [
-            {
-              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-              column: "ves_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            },
-            {
+                 {
               label: "Gerealiseerde mediaan aantal dagen tot besluit",
-              column: "ves_dlt_gerealiseerd_mediaan_dagen",
+              column: "vv_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
               units: "mediaan gerealiseerd aantal dagen",
             },
             {
+              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
+              column: "vv_dlt_gerealiseerd_gemiddeld_dagen",
+              colour: "blue",
+              units: "gemiddeld gerealiseerd aantal dagen",
+            },
+            {
               label: "Verwacht aantal dagen tot besluit",
-              column: "ves_dlt_verwacht_rolling8_dagen",
+              column: "vv_dlt_verwacht_rolling8_dagen",
               colour: "moss",
               units: "verwacht aantal dagen",
             },
           ],
         ],
         segment: {
-          key: "ves_dlt_gerealiseerd_gemiddeld_dagen",
+          key: "vv_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "monthly",
           label: "dagen",
@@ -492,20 +596,20 @@ const mapping: IGroupMappingV2[] = [
       },
     ],
     segment: {
-      key: "ves_dlt_gerealiseerd_gemiddeld_dagen",
+      key: "vv_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
       periodization: "monthly",
       label: "dagen",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_ves_wekelijks", "fysiek_ves_maandelijks"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
   {
-    slug: "ves_voorraad",
+    slug: "vv_voorraad",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {
-        slug: "ves_voorrraad_getallen",
+        slug: "vv_voorrraad_getallen",
         ctrlr: "NumbersMultiplesTitledV1",
         args: [],
         filters: [],
@@ -513,65 +617,71 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
+              label: "Voorraad",
+              column: "vv_voorraad_cumulatief",
+              colour: "blue",
+              units: "voorraad",
+            },
+            {
               label: "Beslistermijn",
-              column: "ves_beslistermijn_dagen",
+              column: "vv_beslistermijn_dagen",
               colour: "moss",
               units: "dagen",
             },
-            {
-              label: "Mediaan",
-              column: "ves_oud_voorraad_mediaan_dagen",
-              colour: "orange",
-              units: "dagen in voorraad",
-            },
-            {
-              label: "Gemiddelde",
-              column: "ves_oud_voorraad_gemiddeld_dagen",
-              colour: "blue",
-              units: "dagen in voorraad",
-            },
+            // {
+            //   label: "Mediaan",
+            //   column: "vv_oud_voorraad_mediaan_dagen",
+            //   colour: "orange",
+            //   units: "dagen in voorraad",
+            // },
+            // {
+            //   label: "Gemiddelde",
+            //   column: "vv_oud_voorraad_gemiddeld_dagen",
+            //   colour: "blue",
+            //   units: "dagen in voorraad",
+            // },
           ],
           [],
         ],
         modifiers: [],
         segment: {
-          key: "ves_oud_voorraad_gemiddeld_dagen",
+          key: "vv_beslistermijn_dagen",
           cumulative: false,
           periodization: "weekly",
         },
       },
       {
-        slug: "ves_voorraad_groepen",
+        slug: "vv_voorraad_groepen",
         ctrlr: "SegmentsV1",
         args: [],
         filters: [],
         parameters: [
           [
             {
-              label: "< 182 dagen",
-              column: "ves_oud_voorraad_binnen_termijn",
+              label: "< 56 dagen",
+              column: "vv_oud_voorraad_binnen_termijn",
               colour: "orange",
             },
             {
-              label: "182 - 364 dagen",
-              column: "ves_oud_voorraad_1_2_termijn",
+              label: "56 - 112 dagen",
+              column: "vv_oud_voorraad_1_2_termijn",
               colour: "moss",
             },
             {
-              label: "364 - 728 dagen",
-              column: "ves_oud_voorraad_2_4_termijn",
+              label: "112 - 224 dagen",
+              column: "vv_oud_voorraad_2_4_termijn",
               colour: "blue",
             },
             {
-              label: "> 728 dagen",
-              column: "ves_oud_voorraad_buiten_4_termijn",
+              label: "> 224 dagen",
+              column: "vv_oud_voorraad_buiten_4_termijn",
               colour: "purple",
             },
           ],
         ],
         modifiers: [],
         segment: {
-          key: "ves_oud_voorraad_binnen_termijn",
+          key: "vv_oud_voorraad_binnen_termijn",
           cumulative: false,
           periodization: "monthly",
         },
@@ -579,19 +689,19 @@ const mapping: IGroupMappingV2[] = [
       //
     ],
     segment: {
-      key: "ves_oud_voorraad_binnen_termijn",
+      key: "vv_oud_voorraad_binnen_termijn",
       cumulative: false,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_ves_wekelijks", "fysiek_ves_maandelijks"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
   {
-    slug: "ves_bezwaren",
+    slug: "vv_bezwaren",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {
-        slug: "fs_ves_bezwaren_numbers_v1",
+        slug: "fs_vv_bezwaren_numbers_v1",
         ctrlr: "NumbersMultiplesTitledV1",
         args: [],
         filters: [],
@@ -600,25 +710,25 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "Ingediend",
-              column: "ves_bz_ingediend_cumulatief",
+              column: "vv_bz_ingediend_cumulatief",
               colour: "moss",
               units: "bezwaren",
             },
             {
               label: "In procedure",
-              column: "ves_bz_voorraad_cumulatief",
+              column: "vv_bz_voorraad_cumulatief",
               colour: "green",
               units: "bewzaren",
             },
             {
               label: "Afgerond",
-              column: "ves_bz_afgerond_cumulatief",
+              column: "vv_bz_afgerond_cumulatief",
               colour: "blue",
               units: "bezwaren",
             },
             {
               label: "Bezwaarpercentage",
-              column: "ves_bz_perc_cumulatief",
+              column: "vv_bz_perc_cumulatief",
               colour: "orange",
               format: "percentage",
               units: "t.o.v. aantal besluiten",
@@ -628,7 +738,7 @@ const mapping: IGroupMappingV2[] = [
         ],
         modifiers: [],
         segment: {
-          key: "ves_bz_ingediend",
+          key: "vv_bz_ingediend",
           cumulative: false,
           periodization: "monthly",
         },
@@ -641,42 +751,42 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "Toegekend",
-              column: "ves_bz_toegekend_cumulatief",
+              column: "vv_bz_toegekend_cumulatief",
               colour: "moss",
             },
             {
               label: "Afgewezen",
-              column: "ves_bz_afgewezen_cumulatief",
+              column: "vv_bz_afgewezen_cumulatief",
               colour: "orange",
             },
             {
               label: "Anders afgerond",
-              column: "ves_bz_anders_afgehandeld_cumulatief",
+              column: "vv_bz_anders_afgehandeld_cumulatief",
               colour: "blue",
             },
           ],
           [
             {
               label: "Totaal afgerond",
-              column: "ves_bz_afgerond_cumulatief",
+              column: "vv_bz_afgerond_cumulatief",
               colour: "gray",
             },
           ],
         ],
         segment: {
-          key: "ves_bz_toegekend_cumulatief",
+          key: "vv_bz_toegekend_cumulatief",
           cumulative: true,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "ves_bz_toegekend_cumulatief",
+      key: "vv_bz_toegekend_cumulatief",
       cumulative: false,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_ves_wekelijks", "fysiek_ves_maandelijks"],
+    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
 ];
 

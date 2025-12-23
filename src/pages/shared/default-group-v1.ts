@@ -44,7 +44,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
     const numbers =
       nIndex !== -1
         ? graphDataWeek[0]
-        : this.segment.cumulative
+        : this.page.segment.groups[this.config.slug]
           ? cumulative
           : incremental;
 
@@ -57,6 +57,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
     }
 
     const pre_headers = preHeaders(this.config.graphs, this.segment);
+
 
     const { weekTable, monthTable } = tables(
       graphDataWeek,

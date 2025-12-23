@@ -87,14 +87,14 @@ export class HtmlNumberAccented {
       element.querySelector(".number.accented").innerText = value + "%";
     } else if (this.parameter.format === "decimals") {
       let value = Math.round(data * 10) / 10;
-      element.querySelector(".number.accented").innerText = value;
+      element.querySelector(".number.accented").innerText = value.toFixed(1);
     } else {
       let value =
         this.ctrlr.config.extra && this.ctrlr.config.extra.decimal
           ? Math.round(data * 10) / 10
           : Math.round(data);
       element.querySelector(".number.accented").innerText =
-        value > 9999 ? thousands(value) : value;
+        value > 999 ? thousands(value) : value;
     }
   }
 }

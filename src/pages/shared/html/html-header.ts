@@ -32,8 +32,6 @@ export class HtmlHeader {
       this.headerElement.appendChild(h);
     }
 
-    console.log(this.description)
-
     if (this.description) {
       let d = document.createElement("div");
       d.style.maxWidth = "640px";
@@ -66,10 +64,18 @@ export class HtmlHeader {
             parseInt(currentData._yearweek.slice(5)).toString(),
           )
           .replace(
-            /{(\w+)}/g,
-            (_, key) => thousands(currentData[key]) || `{${key}}`,
-          );
-      }
+            /{\s*(\w+)\s*}/g,
+            (_, key) => {
+
+              const value = currentData[key];
+
+              if (value === null || value === undefined) {
+                return "-"; // or "N/A" or whatever you prefer
+              } else{
+                return thousands(value) || `{${key}}`
+              }
+            });
+      }``
 
       descEl.innerHTML = description;
     }

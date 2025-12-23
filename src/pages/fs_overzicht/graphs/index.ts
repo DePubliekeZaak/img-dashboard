@@ -9,6 +9,8 @@ import { NumbersPlusRespondentsV1 } from "../../shared/graphs/numbers-respondent
 import { NumbersV1 } from "../../shared/graphs/numbers-v1";
 // import { NumbersTitledV1 } from "../../shared/graphs/numbers-titled-v1";
 import { NumbersMultiplesTitledV1 } from "../../shared/graphs/numbers-multiples-titled-v1";
+import { BarTrendBedragenV1 } from "../../shared/graphs/bar-trend-bedragen-v1";
+import { BarTrendBedragenV2 } from "../../shared/graphs/bar-trend-bedragen-v2";
 
 const graphs = {
   BarTrendStackedMakeup,
@@ -21,6 +23,8 @@ const graphs = {
   NumbersPlusRespondentsV1,
   NumbersV1,
   NumbersMultiplesTitledV1,
+  BarTrendBedragenV1,
+  BarTrendBedragenV2 
 };
 
 export default graphs;

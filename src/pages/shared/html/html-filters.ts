@@ -225,10 +225,8 @@ export class HtmlFilters {
         case "weekVsMonth": // fixed
           if (this.master) {
             selector = new HtmlPeriodSelector(
-              this.ctrlr,
               li,
               this.ctrlr.group.slug,
-              this.ctrlr.group.data.graphData,
             );
             let periodization = localSegment
               ? localSegment.periodization

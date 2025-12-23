@@ -3,6 +3,7 @@ import {
   convertToCurrencyInMillions,
   convertToCurrency,
   slugify,
+  thousands,
 } from "../../pages/shared/_helpers";
 import { TrendBar } from "../../pages/shared/types_graphs";
 import { IGraphControllerV3 } from "../core/graph-v3";
@@ -61,7 +62,7 @@ export default class ChartBarTrend {
           value = convertToCurrency(d.value);
           break;
         default:
-          value = d.value;
+          value = thousands(d.value);
       }
 
       if (period == "weekly") {
@@ -76,7 +77,7 @@ export default class ChartBarTrend {
           <div>maand ${d.meta._month} - ${d.meta._year}</div>
           <div>${value}</div>
       `;
-}
+      }
     };
 
     // const space =

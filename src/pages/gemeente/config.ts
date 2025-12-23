@@ -109,13 +109,13 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegewezen_taart",
+                "slug" : "gemeente_toegekend_taart",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
                     [
                         {
-                            "label": "Toegewezen",
+                            "label": "toegekend",
                             "column": "toekenningen_cumulatief",
                             "colour": "moss",  
                             "scale" : "null",
@@ -258,13 +258,13 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegewezen_taart",
+                "slug" : "gemeente_toegekend_taart",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
                     [
                         {
-                            "label": "Toegewezen",
+                            "label": "toegekend",
                             "column": "toekenningen_cumulatief",
                             "colour": "moss",  
                             "scale" : "null",
@@ -407,13 +407,13 @@ const group : IGroupMappingV2[] = [
     //             }
     //         },
     //         {
-    //             "slug" : "gemeente_toegewezen_taart",
+    //             "slug" : "gemeente_toegekend_taart",
     //             "ctrlr" : "PieChartSumV1",
     //             "args" : [],
     //             "parameters": [
     //                 [
     //                     {
-    //                         "label": "Toegewezen",
+    //                         "label": "toegekend",
     //                         "column": "toekenningen_cumulatief",
     //                         "colour": "moss",  
     //                         "scale" : "null",
@@ -556,13 +556,13 @@ const group : IGroupMappingV2[] = [
     //             }
     //         },
     //         {
-    //             "slug" : "gemeente_toegewezen_taart",
+    //             "slug" : "gemeente_toegekend_taart",
     //             "ctrlr" : "PieChartSumV1",
     //             "args" : [],
     //             "parameters": [
     //                 [
     //                     {
-    //                         "label": "Toegewezen",
+    //                         "label": "toegekend",
     //                         "column": "toekenningen_cumulatief",
     //                         "colour": "moss",  
     //                         "scale" : "null",
@@ -705,13 +705,13 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegewezen_taart",
+                "slug" : "gemeente_toegekend_taart",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
                     [
                         {
-                            "label": "Toegewezen",
+                            "label": "toegekend",
                             "column": "toekenningen_cumulatief",
                             "colour": "moss",  
                             "scale" : "null",
@@ -854,13 +854,13 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegewezen_taart",
+                "slug" : "gemeente_toegekend_taart",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
                     [
                         {
-                            "label": "Toegewezen",
+                            "label": "toegekend",
                             "column": "toekenningen_cumulatief",
                             "colour": "moss",  
                             "scale" : "null",

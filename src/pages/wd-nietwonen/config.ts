@@ -2,7 +2,7 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
   {
-    slug: "wd_nietwonen_intro",
+    slug: "wdl_nietwonen_intro",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
@@ -109,7 +109,7 @@ const group: IGroupMappingV2[] = [
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
   {
-    slug: "wd_nietwonen_bedragen",
+    slug: "wdl_nietwonen_bedragen",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {
@@ -121,26 +121,33 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verleende schade",
-              column: "wd_nietwonen_bedrag_verleend_schade",
+              label: "beschikte schade",
+              column: "wd_nietwonen_bedrag_beschikt_schade",
               colour: "blue",
               format: "currency",
-              units: "totaal verleende schade",
+              units: "beschikt schadebedrag",
             },
             {
-              label: "Verleend",
-              column: "wd_nietwonen_bedrag_verleend_totaal",
+              label: "beschikt totaal",
+              column: "wd_nietwonen_bedrag_beschikt_totaal",
+              colour: "blue",
+              format: "currency",
+              units: "beschikt totaalbedrag",
+            },
+            {
+              label: "betaalde schade",
+              column: "wd_nietwonen_bedrag_betaald_schade",
               colour: "moss",
               format: "currency",
-              units: "totaal verleende bedragen",
+              units: "betaald schadebedrag",
             },
             {
-              label: "Uitgekeerd",
-              column: "wd_nietwonen_bedrag_uitgekeerd_totaal",
+              label: "betaald totaal",
+              column: "wd_nietwonen_bedrag_betaald_totaal",
               colour: "orange",
               format: "currency",
-              units: "totaal uitgekeerde bedragen",
-            },
+              units: "betaald totaalbedrag",
+            }
           ],
           [],
         ],
@@ -159,7 +166,7 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wd_nietwonen_bedrag_verleend_totaal",
+          key: "wd_nietwonen_bedrag_betaald_totaal",
           cumulative: true,
           periodization: "weekly",
         },
@@ -172,8 +179,8 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Totaal verleende schade",
-              column: "wd_nietwonen_bedrag_verleend_totaal",
+              label: "Totaal betaald bedrag",
+              column: "wd_nietwonen_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
             },
@@ -194,83 +201,83 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wd_nietwonen_bedrag_verleend_totaal",
+          key: "wd_nietwonen_bedrag_betaald_totaal",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "wd_nietwonen_bedrag_verleend_totaal",
+      key: "wd_nietwonen_bedrag_betaald_totaal",
       cumulative: false,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
+  // {
+  //   slug: "wdl_nietwonen_waardering",
+  //   ctrlr: "KTOGroupV1",
+  //   graphs: [
+  //     {
+  //       slug: "wd_nietwonen_waardering_numbers",
+  //       ctrlr: "NumbersPlusRespondentsV1",
+  //       args: [],
+  //       parameters: [
+  //         [
+  //           {
+  //             label: "Sinds start",
+  //             column: "ims_doorlopend_cijfer",
+  //             colour: "orange",
+  //             format: "decimals",
+  //           },
+  //         ],
+  //         [
+  //           {
+  //             label: "Totaal respondenten",
+  //             column: "ims_aantal_respondenten_doorlopend",
+  //             units: "respondenten sinds start",
+  //             colour: "orange",
+  //           },
+  //         ],
+  //       ],
+  //     },
+  //     {
+  //       slug: "wd_nietwonen_waardering_trend",
+  //       ctrlr: "BarTrendKTOV1",
+  //       args: [],
+  //       filters: [],
+  //       parameters: [
+  //         [
+  //           {
+  //             label: "Maand cijfer",
+  //             column: "ims_maandcijfer",
+  //             colour: "orange",
+  //             format: "decimals",
+  //           },
+  //         ],
+  //         [
+  //           {
+  //             label: "Aantal nieuwe respondenten",
+  //             column: "ims_aantal_respondenten",
+  //             colour: "orange",
+  //             units: "respondenten",
+  //           },
+  //         ],
+  //       ],
+  //       modifiers: [],
+  //     },
+  //   ],
+  //   functionality: ["table", "definitions", "download"],
+  //   endpoints: ["tevredenheid", "tevredenheid"],
+  //   segment: {
+  //     key: "ims_maandcijfer",
+  //     cumulative: false,
+  //     periodization: "monthly",
+  //   },
+  // },
   {
-    slug: "wd_nietwonen_waardering",
-    ctrlr: "KTOGroupV1",
-    graphs: [
-      {
-        slug: "wd_nietwonen_waardering_numbers",
-        ctrlr: "NumbersPlusRespondentsV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Sinds start",
-              column: "ims_doorlopend_cijfer",
-              colour: "orange",
-              format: "decimals",
-            },
-          ],
-          [
-            {
-              label: "Totaal respondenten",
-              column: "ims_aantal_respondenten_doorlopend",
-              units: "respondenten sinds start",
-              colour: "orange",
-            },
-          ],
-        ],
-      },
-      {
-        slug: "wd_nietwonen_waardering_trend",
-        ctrlr: "BarTrendKTOV1",
-        args: [],
-        filters: [],
-        parameters: [
-          [
-            {
-              label: "Maand cijfer",
-              column: "ims_maandcijfer",
-              colour: "orange",
-              format: "decimals",
-            },
-          ],
-          [
-            {
-              label: "Aantal nieuwe respondenten",
-              column: "ims_aantal_respondenten",
-              colour: "orange",
-              units: "respondenten",
-            },
-          ],
-        ],
-        modifiers: [],
-      },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["tevredenheid", "tevredenheid"],
-    segment: {
-      key: "ims_maandcijfer",
-      cumulative: false,
-      periodization: "monthly",
-    },
-  },
-  {
-    slug: "wd_nietwonen_besluiten",
+    slug: "wdl_nietwonen_besluiten",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
@@ -340,18 +347,18 @@ const group: IGroupMappingV2[] = [
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
   {
-    slug: "wd_nietwonen_toegewezen",
+    slug: "wdl_nietwonen_toegekend",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
-        slug: "wd_nietwonen_toegewezen_taart",
+        slug: "wd_nietwonen_toegekend_taart",
         ctrlr: "PieChartSumV1",
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "wd_nietwonen_toegekend_cumulatief",
               colour: "moss",
               scale: "null",
@@ -377,14 +384,14 @@ const group: IGroupMappingV2[] = [
         ],
       },
       {
-        slug: "wd_nietwonen_toegewezen_trend",
+        slug: "wd_nietwonen_toegekend_trend",
         ctrlr: "BarTrendStackedMakeup",
         filters: ["absoluteVsNormalized", "weekVsMonth"],
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "wd_nietwonen_toegekend",
               colour: "moss",
               scale: "null",
@@ -417,7 +424,7 @@ const group: IGroupMappingV2[] = [
     },
   },
   {
-    slug: "wd_nietwonen_duur",
+    slug: "wdl_nietwonen_duur",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {
@@ -428,12 +435,7 @@ const group: IGroupMappingV2[] = [
         multiples: "incremental",
         parameters: [
           [
-            {
-              label: "Verwacht",
-              column: "wd_nietwonen_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
+            
             {
               label: "Mediaan",
               column: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",
@@ -446,12 +448,18 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
+            {
+              label: "Verwacht",
+              column: "wd_nietwonen_dlt_verwacht_rolling8_dagen",
+              colour: "moss",
+              units: "aantal dagen",
+            },
           ],
           [],
         ],
         modifiers: [],
         segment: {
-          key: "wd_nietwonen_dlt_verwacht_rolling8_dagen",
+          key: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "monthly",
         },
@@ -464,16 +472,16 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-              column: "wd_nietwonen_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            },
-            {
               label: "Gerealiseerde mediaan aantal dagen tot besluit",
               column: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
               units: "mediaan gerealiseerd aantal dagen",
+            },
+            {
+              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
+              column: "wd_nietwonen_dlt_gerealiseerd_gemiddeld_dagen",
+              colour: "blue",
+              units: "gemiddeld gerealiseerd aantal dagen",
             },
             {
               label: "Verwacht aantal dagen tot besluit",
@@ -484,7 +492,7 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wd_nietwonen_dlt_gerealiseerd_gemiddeld_dagen",
+          key: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "monthly",
           label: "dagen",
@@ -492,7 +500,7 @@ const group: IGroupMappingV2[] = [
       },
     ],
     segment: {
-      key: "wd_nietwonen_dlt_gerealiseerd_gemiddeld_dagen",
+      key: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
       periodization: "monthly",
       label: "dagen",
@@ -501,7 +509,7 @@ const group: IGroupMappingV2[] = [
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
   {
-    slug: "wd_nietwonen_voorraad",
+    slug: "wdl_nietwonen_voorraad",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {
@@ -513,29 +521,35 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
+              label: "Voorraad",
+              column: "wd_nietwonen_voorraad_cumulatief",
+              colour: "blue",
+              units: "voorraad",
+            },
+            {
               label: "Beslistermijn",
               column: "wd_nietwonen_beslistermijn_dagen",
               colour: "moss",
               units: "dagen",
             },
-            {
-              label: "Mediaan",
-              column: "wd_nietwonen_oud_voorraad_mediaan_dagen",
-              colour: "orange",
-              units: "dagen in voorraad",
-            },
-            {
-              label: "Gemiddelde",
-              column: "wd_nietwonen_oud_voorraad_gemiddeld_dagen",
-              colour: "blue",
-              units: "dagen in voorraad",
-            },
+            // {
+            //   label: "Mediaan",
+            //   column: "wd_nietwonen_oud_voorraad_mediaan_dagen",
+            //   colour: "orange",
+            //   units: "dagen in voorraad",
+            // },
+            // {
+            //   label: "Gemiddelde",
+            //   column: "wd_nietwonen_oud_voorraad_gemiddeld_dagen",
+            //   colour: "blue",
+            //   units: "dagen in voorraad",
+            // },
           ],
           [],
         ],
         modifiers: [],
         segment: {
-          key: "wd_nietwonen_oud_voorraad_gemiddeld_dagen",
+          key: "wd_nietwonen_voorraad_cumulatief",
           cumulative: false,
           periodization: "weekly",
         },
@@ -548,22 +562,22 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "< 182 dagen",
+              label: "< 56 dagen",
               column: "wd_nietwonen_oud_voorraad_binnen_termijn",
               colour: "orange",
             },
             {
-              label: "182 - 364 dagen",
+              label: "56 - 112 dagen",
               column: "wd_nietwonen_oud_voorraad_1_2_termijn",
               colour: "moss",
             },
             {
-              label: "364 - 728 dagen",
+              label: "112 - 224 dagen",
               column: "wd_nietwonen_oud_voorraad_2_4_termijn",
               colour: "blue",
             },
             {
-              label: "> 728 dagen",
+              label: "> 224 dagen",
               column: "wd_nietwonen_oud_voorraad_buiten_4_termijn",
               colour: "purple",
             },
@@ -587,7 +601,7 @@ const group: IGroupMappingV2[] = [
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
   {
-    slug: "wd_nietwonen_bezwaren",
+    slug: "wdl_nietwonen_bezwaren",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {

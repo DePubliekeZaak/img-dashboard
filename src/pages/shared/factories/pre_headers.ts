@@ -31,7 +31,125 @@ export const preHeaders = (graphs: any[], segment: any) => {
     ];
   }
 
-  const pieIndex = graphs.findIndex((g) => g.slug.includes("toegewezen"));
+  // for (let g of graphs) {
+  //   console.log(g.slug)
+  // }
+
+  const overzichtIndex = graphs.findIndex((g) => g.slug == "reg_makeup_trend");
+  if (overzichtIndex > -1) {
+
+    pre_headers = [
+      [
+        { label: "", length: 3 },
+        {
+          label: "Ingediend",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Afgerond",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Verleend bedrag",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Ingediend cumulatief",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Afgerond cumulatief",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Verleend bedrag cumulatief",
+          length: graphs[0].parameters.length,
+        },
+      ],
+      [
+        { label: "", length: 3 },
+        {
+          label: "Ingediend",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Afgerond",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Verleend bedrag",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Ingediend cumulatief",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Afgerond cumulatief",
+          length: graphs[0].parameters.length,
+        },
+        {
+          label: "Verleend bedrag cumulatief",
+          length: graphs[0].parameters.length,
+        },
+      ],
+    ]
+  }
+
+  const vergelijkIndex = graphs.findIndex((g) => g.slug == "vergelijk_numbers");
+  if (vergelijkIndex > -1) {
+
+    pre_headers = [
+      [
+        { label: "", length: 3 },
+        {
+          label: "Fysieke schade: maatwerk",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Fysieke_schade: vaste vergoeding",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Immateriele schade: volwassenen",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Immateriele schade: kinderen en jongeren",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Waardedaling: wonen",
+          length: graphs[0].parameters[0].length,
+        },
+      ],
+      [
+        { label: "", length: 3 },
+        {
+          label: "Fysieke schade: maatwerk",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Fysieke_schade: vaste vergoeding",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Immateriele schade: volwassenen",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Immateriele schade: kinderen en jongeren",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "Waardedaling: wonen",
+          length: graphs[0].parameters[0].length,
+        },
+      ],
+    ]
+  }
+
+  const pieIndex = graphs.findIndex((g) => g.slug.includes("toegekend"));
   if (pieIndex !== -1) {
     pre_headers = [
       [
@@ -73,7 +191,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
             .length,
         },
         {
-          label: "Kinderen en jeugd",
+          label: "Kinderen en jongeren",
           length: graphs[0].parameters[0].length,
         },
       ],
@@ -85,7 +203,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
             .length,
         },
         {
-          label: "Kinderen en jeugd",
+          label: "Kinderen en jongeren",
           length: graphs[0].parameters[0].length,
         },
       ],
@@ -118,7 +236,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: 4,
         },
         {
-          label: "IMS: Kinderen en jeugd",
+          label: "IMS: Kinderen en jongeren",
           length: 4,
         },
         {
@@ -153,7 +271,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: 4,
         },
         {
-          label: "IMS: Kinderen en jeugd",
+          label: "IMS: Kinderen en jongeren",
           length: 4,
         },
         {
@@ -171,6 +289,8 @@ export const preHeaders = (graphs: any[], segment: any) => {
       ],
     ];
   }
+
+  // console.log(pre_headers)
 
   return pre_headers;
 };

@@ -67,36 +67,44 @@ const mapping: IGroupMappingV2[] = [
   {
     slug: "fs_bedragen",
     ctrlr: "DefaultGroupV1",
+    filters: ["totaalVsRecent","weekVsMonth"],
     graphs: [
       {
         slug: "fs_totaal_numbers_2",
-        ctrlr: "NumbersMultiplesV1",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
         multiples: "cumulative",
         parameters: [
           [
+            // {
+            //   label: "beschikte schade",
+            //   column: "fysiek_bedrag_beschikt_schade",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt schadebedrag",
+            // },
+            // {
+            //   label: "beschikt totaal",
+            //   column: "fysiek_bedrag_beschikt_totaal",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt totaalbedrag",
+            // },
+            // {
+            //   label: "betaalde schade",
+            //   column: "fysiek_bedrag_betaald_schade",
+            //   colour: "moss",
+            //   format: "currency",
+            //   units: "uitbetaald schadebedrag",
+            // },
             {
-              label: "Verleende schade",
-              column: "fysiek_bedrag_verleend_schade",
+              label: "betaald totaal",
+              column: "fysiek_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
-              units: "totaal verleende schade",
-            },
-            {
-              label: "Verleend",
-              column: "fysiek_bedrag_verleend_totaal",
-              colour: "moss",
-              format: "currency",
-              units: "totaal verleende bedragen",
-            },
-            {
-              label: "Uitgekeerd",
-              column: "fysiek_bedrag_uitgekeerd_totaal",
-              colour: "orange",
-              format: "currency",
-              units: "totaal uitgekeerde bedragen",
-            },
+              units: "betaald totaalbedrag",
+            }
           ],
           [],
         ],
@@ -105,24 +113,59 @@ const mapping: IGroupMappingV2[] = [
             {
               label: "totaal",
               column: "{}_cumulatief",
-              colour: "orange",
+              colour: "blue",
             },
             {
               label: "afgelopen week",
               column: "{}",
-              colour: "orange",
+              colour: "blue",
             },
           ],
         ],
         segment: {
-          key: "fysiek_bedrag_verleend_totaal",
+          key: "fysiek_bedrag_betaald_totaal",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "fs_bedrag_trend",
+        ctrlr: "BarTrendBedragenV1",
+        args: [],
+        filters: [],
+        parameters: [
+          [
+            {
+              label: "Maand cijfer",
+              column: "fysiek_bedrag_betaald_totaal",
+              colour: "blue",
+              format: "decimals",
+            },
+          ]
+        ],
+        modifiers: [
+          [
+            {
+              label: "totaal",
+              column: "{}_cumulatief",
+              colour: "blue",
+            },
+            {
+              label: "afgelopen week",
+              column: "{}",
+              colour: "blue",
+            },
+          ]
+        ],
+        segment: {
+          key: "fysiek_bedrag_betaald_totaal",
           cumulative: true,
           periodization: "weekly",
         },
       },
     ],
     segment: {
-      key: "fysiek_bedrag_verleend_totaal",
+      key: "fysiek_bedrag_betaald_totaal",
       cumulative: true,
       periodization: "weekly",
     },
@@ -211,7 +254,7 @@ const mapping: IGroupMappingV2[] = [
             },
             {
               label: "Voorraad",
-              column: "ves_afgerond_cumulatief",
+              column: "vv_afgerond_cumulatief",
               colour: "orange",
               units: "afgerond via vaste vergoeding",
             },
@@ -247,7 +290,7 @@ const mapping: IGroupMappingV2[] = [
             },
             {
               label: "VES",
-              column: "fysiek_peag_ves_afgerond_cumulatief",
+              column: "fysiek_peag_vv_afgerond_cumulatief",
               colour: "orange",
               units: "afgerond via vaste vergoeding",
             },
@@ -281,7 +324,7 @@ const mapping: IGroupMappingV2[] = [
             },
             {
               label: "Afgehandeld via vaste vergoeding",
-              column: "ves_afgerond",
+              column: "vv_afgerond",
               colour: "orange",
             },
             // {
@@ -319,92 +362,6 @@ const mapping: IGroupMappingV2[] = [
       cumulative: false,
       periodization: "monthly",
       label: "afgehandelde dossiers ",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],
-  },
-  {
-    slug: "fs_aanvulrondes",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "fs_aanvulrondes_uitgekeerde_schade",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "cumulative",
-        parameters: [
-          [
-            {
-              label: "Aanvullende vaste vergoeding",
-              column: "avv_bedrag_verleend_schade",
-              colour: "blue",
-              format: "currency",
-              units: "totaal verleende schade",
-            },
-          ],
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        modifiers: [],
-        segment: {
-          key: "avv_bedrag_verleend_schade",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "fs_aanvulrondes_trend",
-        ctrlr: "BarTrendStackedMakeup",
-        args: [],
-        filters: ["cumulativeVsDelta", "weekVsMonth"],
-        parameters: [
-          [
-            {
-              label: "Aavullende Vaste Vergoeding (AVV)",
-              column: "avv_bedrag_verleend_schade",
-              format: "currency",
-              colour: "blue",
-            },
-          ],
-          [],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "avv_verleende_schade",
-          cumulative: false,
-          periodization: "monthly",
-          label: "schade",
-        },
-      },
-    ],
-    segment: {
-      key: "avv_verleende_schade",
-      cumulative: false,
-      periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],

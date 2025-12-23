@@ -31,27 +31,11 @@ export const navItems = [
         title_en: "",
       },
       {
-        slug: "fs_vaste_vergoedingen",
+        slug: "fs_vaste_vergoeding",
         label: "Vaste vergoedingen",
         label_en: "",
         title: "Fysieke schade - Vaste vergoedingen",
-        title_en: "",
-        sub: [
-          {
-            slug: "fs_vaste_vergoeding",
-            label: "Vaste vergoeding",
-            label_en: "",
-            title: "Fysieke schade - Vaste vergoeding",
-            title_en: "",
-          },
-          {
-            slug: "fs_aanvullende_vaste_vergoeding",
-            label: "Aanvullende vaste vergoeding",
-            label_en: "",
-            title: "Fysieke schade - Aanvullende vergoeding",
-            title_en: "",
-          },
-        ],
+        title_en: ""
       },
       // {
       //     slug: 'fs_daadwerkelijk_herstel',
@@ -137,9 +121,9 @@ export const navItems = [
       },
       {
         slug: "wd-namco",
-        label: "NAM compensatie",
+        label: "NAM tegemoetkoming",
         label_en: "",
-        title: "Waardedalingsregeling - NAM compensatie",
+        title: "Waardedalingsregeling - NAM tegemoetkoming",
         title_en: "",
       },
     ],

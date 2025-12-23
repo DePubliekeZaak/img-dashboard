@@ -121,26 +121,33 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verleende schade",
-              column: "wdl_wd_bedrag_verleend_schade",
+              label: "beschikte schade",
+              column: "wdl_wd_bedrag_beschikt_schade",
               colour: "blue",
               format: "currency",
-              units: "totaal verleende schade",
+              units: "beschikt schadebedrag",
             },
             {
-              label: "Verleend",
-              column: "wdl_wd_bedrag_verleend_totaal",
+              label: "beschikt totaal",
+              column: "wdl_wd_bedrag_beschikt_totaal",
+              colour: "blue",
+              format: "currency",
+              units: "beschikt totaalbedrag",
+            },
+            {
+              label: "betaalde schade",
+              column: "wdl_wd_bedrag_betaald_schade",
               colour: "moss",
               format: "currency",
-              units: "totaal verleende bedragen",
+              units: "betaald schadebedrag",
             },
             {
-              label: "Uitgekeerd",
-              column: "wdl_wd_bedrag_uitgekeerd_totaal",
+              label: "betaald totaal",
+              column: "wdl_wd_bedrag_betaald_totaal",
               colour: "orange",
               format: "currency",
-              units: "totaal uitgekeerde bedragen",
-            },
+              units: "betaald totaalbedrag",
+            }
           ],
           [],
         ],
@@ -159,7 +166,7 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wdl_wd_bedrag_verleend_totaal",
+          key: "wdl_wd_bedrag_betaald_totaal",
           cumulative: true,
           periodization: "weekly",
         },
@@ -172,8 +179,8 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Totaal verleende schade",
-              column: "wdl_wd_bedrag_verleend_totaal",
+              label: "Totaal betaald bedrag",
+              column: "wdl_wd_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
             },
@@ -194,14 +201,14 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wdl_wd_bedrag_verleend_totaal",
+          key: "wdl_wd_bedrag_betaald_totaal",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "wdl_wd_bedrag_verleend_totaal",
+      key: "wdl_wd_bedrag_betaald_totaal",
       cumulative: false,
       periodization: "monthly",
     },
@@ -340,18 +347,18 @@ const group: IGroupMappingV2[] = [
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
   },
   {
-    slug: "wdl_wd_toegewezen",
+    slug: "wdl_wd_toegekend",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
-        slug: "wdl_wd_toegewezen_taart",
+        slug: "wdl_wd_toegekend_taart",
         ctrlr: "PieChartSumV1",
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "wdl_wd_toegekend_cumulatief",
               colour: "moss",
               scale: "null",
@@ -377,14 +384,14 @@ const group: IGroupMappingV2[] = [
         ],
       },
       {
-        slug: "wdl_wd_toegewezen_trend",
+        slug: "wdl_wd_toegekend_trend",
         ctrlr: "BarTrendStackedMakeup",
         filters: ["absoluteVsNormalized", "weekVsMonth"],
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "wdl_wd_toegekend",
               colour: "moss",
               scale: "null",
@@ -429,12 +436,6 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verwacht",
-              column: "wdl_wd_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
-            {
               label: "Mediaan",
               column: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
@@ -446,6 +447,12 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
+            {
+              label: "Verwacht",
+              column: "wdl_wd_dlt_verwacht_rolling8_dagen",
+              colour: "moss",
+              units: "aantal dagen",
+            }
           ],
           [],
         ],
@@ -462,19 +469,19 @@ const group: IGroupMappingV2[] = [
         filters: ["parameterSelect"],
         args: [],
         parameters: [
-          [
+          [ {
+              label: "Gerealiseerde mediaan aantal dagen tot besluit",
+              column: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
+              colour: "orange",
+              units: "mediaan gerealiseerd aantal dagen",
+            },
             {
               label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
               column: "wdl_wd_dlt_gerealiseerd_gemiddeld_dagen",
               colour: "blue",
               units: "gemiddeld gerealiseerd aantal dagen",
             },
-            {
-              label: "Gerealiseerde mediaan aantal dagen tot besluit",
-              column: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
-              colour: "orange",
-              units: "mediaan gerealiseerd aantal dagen",
-            },
+            
             {
               label: "Verwacht aantal dagen tot besluit",
               column: "wdl_wd_dlt_verwacht_rolling8_dagen",
@@ -484,7 +491,7 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wdl_wd_dlt_gerealiseerd_gemiddeld_dagen",
+          key: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "monthly",
           label: "dagen",
@@ -492,7 +499,7 @@ const group: IGroupMappingV2[] = [
       },
     ],
     segment: {
-      key: "wdl_wd_dlt_gerealiseerd_gemiddeld_dagen",
+      key: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
       periodization: "monthly",
       label: "dagen",
@@ -513,23 +520,29 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
+              label: "Voorraad",
+              column: "wdl_wd_voorraad_cumulatief",
+              colour: "blue",
+              units: "voorraad",
+            },
+            {
               label: "Beslistermijn",
               column: "wdl_wd_beslistermijn_dagen",
               colour: "moss",
               units: "dagen",
             },
-            {
-              label: "Mediaan",
-              column: "wdl_wd_oud_voorraad_mediaan_dagen",
-              colour: "orange",
-              units: "dagen in voorraad",
-            },
-            {
-              label: "Gemiddelde",
-              column: "wdl_wd_oud_voorraad_gemiddeld_dagen",
-              colour: "blue",
-              units: "dagen in voorraad",
-            },
+            // {
+            //   label: "Mediaan",
+            //   column: "wdl_wd_oud_voorraad_mediaan_dagen",
+            //   colour: "orange",
+            //   units: "dagen in voorraad",
+            // },
+            // {
+            //   label: "Gemiddelde",
+            //   column: "wdl_wd_oud_voorraad_gemiddeld_dagen",
+            //   colour: "blue",
+            //   units: "dagen in voorraad",
+            // },
           ],
           [],
         ],
@@ -548,22 +561,22 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "< 182 dagen",
+              label: "< 56 dagen",
               column: "wdl_wd_oud_voorraad_binnen_termijn",
               colour: "orange",
             },
             {
-              label: "182 - 364 dagen",
+              label: "56 - 112 dagen",
               column: "wdl_wd_oud_voorraad_1_2_termijn",
               colour: "moss",
             },
             {
-              label: "364 - 728 dagen",
+              label: "112 - 224 dagen",
               column: "wdl_wd_oud_voorraad_2_4_termijn",
               colour: "blue",
             },
             {
-              label: "> 728 dagen",
+              label: "> 224 dagen",
               column: "wdl_wd_oud_voorraad_buiten_4_termijn",
               colour: "purple",
             },

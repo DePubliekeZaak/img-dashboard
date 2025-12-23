@@ -6,10 +6,8 @@ import { toDutchMonths } from "../_helpers";
 export class HtmlPeriodSelector {
 
     constructor(
-        private ctrlr,
         private element,
         private id: string,
-        private data: any[]
     ){
        
     }
@@ -35,14 +33,14 @@ export class HtmlPeriodSelector {
         let option = document.createElement('option');
             option.label = "maand";
             option.value = "monthly";
-            option.innerText = "maand"
+            option.innerText = "Maand"
             if ("monthly" === segment) { option.selected = true }
             dropdown.appendChild(option);
 
         option = document.createElement('option');
             option.label = "week";
             option.value = "weekly";
-            option.innerText = "week"
+            option.innerText = "Week"
             if ("weekly" === segment) { option.selected = true }
             dropdown.appendChild(option);
         

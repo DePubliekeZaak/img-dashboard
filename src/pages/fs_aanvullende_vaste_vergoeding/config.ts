@@ -421,12 +421,6 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Verwacht",
-              column: "avv_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
-            {
               label: "Mediaan",
               column: "avv_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",
@@ -438,6 +432,12 @@ const mapping: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
+            {
+              label: "Verwacht",
+              column: "avv_dlt_verwacht_rolling8_dagen",
+              colour: "moss",
+              units: "aantal dagen",
+            }
           ],
           [],
         ],
@@ -455,12 +455,7 @@ const mapping: IGroupMappingV2[] = [
         args: [],
         parameters: [
           [
-            {
-              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-              column: "avv_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            },
+            
             {
               label: "Gerealiseerde mediaan aantal dagen tot besluit",
               column: "avv_dlt_gerealiseerd_mediaan_dagen",
@@ -473,6 +468,12 @@ const mapping: IGroupMappingV2[] = [
               colour: "moss",
               units: "verwacht aantal dagen",
             },
+            {
+              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
+              column: "avv_dlt_gerealiseerd_gemiddeld_dagen",
+              colour: "blue",
+              units: "gemiddeld gerealiseerd aantal dagen",
+            }
           ],
         ],
         segment: {
@@ -496,42 +497,42 @@ const mapping: IGroupMappingV2[] = [
     slug: "avv_voorraad",
     ctrlr: "DefaultGroupV1",
     graphs: [
-      {
-        slug: "avv_voorrraad_getallen",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "incremental",
-        parameters: [
-          [
-            {
-              label: "Beslistermijn",
-              column: "avv_beslistermijn_dagen",
-              colour: "moss",
-              units: "dagen",
-            },
-            {
-              label: "Mediaan",
-              column: "avv_oud_voorraad_mediaan_dagen",
-              colour: "orange",
-              units: "dagen in voorraad",
-            },
-            {
-              label: "Gemiddelde",
-              column: "avv_oud_voorraad_gemiddeld_dagen",
-              colour: "blue",
-              units: "dagen in voorraad",
-            },
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "avv_oud_voorraad_gemiddeld_dagen",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
+      // {
+      //   slug: "avv_voorrraad_getallen",
+      //   ctrlr: "NumbersMultiplesTitledV1",
+      //   args: [],
+      //   filters: [],
+      //   multiples: "incremental",
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Beslistermijn",
+      //         column: "avv_beslistermijn_dagen",
+      //         colour: "moss",
+      //         units: "dagen",
+      //       },
+      //       {
+      //         label: "Mediaan",
+      //         column: "avv_oud_voorraad_mediaan_dagen",
+      //         colour: "orange",
+      //         units: "dagen in voorraad",
+      //       },
+      //       {
+      //         label: "Gemiddelde",
+      //         column: "avv_oud_voorraad_gemiddeld_dagen",
+      //         colour: "blue",
+      //         units: "dagen in voorraad",
+      //       },
+      //     ],
+      //     [],
+      //   ],
+      //   modifiers: [],
+      //   segment: {
+      //     key: "avv_oud_voorraad_gemiddeld_dagen",
+      //     cumulative: false,
+      //     periodization: "weekly",
+      //   },
+      // },
       {
         slug: "avv_voorraad_groepen",
         ctrlr: "SegmentsV1",
@@ -540,22 +541,22 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "< 182 dagen",
+              label: "< 56 dagen",
               column: "avv_oud_voorraad_binnen_termijn",
               colour: "orange",
             },
             {
-              label: "182 - 364 dagen",
+              label: "56 - 112 dagen",
               column: "avv_oud_voorraad_1_2_termijn",
               colour: "moss",
             },
             {
-              label: "364 - 728 dagen",
+              label: "112 - 224 dagen",
               column: "avv_oud_voorraad_2_4_termijn",
               colour: "blue",
             },
             {
-              label: "> 728 dagen",
+              label: "> 224 dagen",
               column: "avv_oud_voorraad_buiten_4_termijn",
               colour: "purple",
             },

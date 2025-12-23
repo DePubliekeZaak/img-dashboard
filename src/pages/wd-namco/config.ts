@@ -2,7 +2,7 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
   {
-    slug: "wd_namco_intro",
+    slug: "wdl_namco_intro",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
@@ -109,7 +109,7 @@ const group: IGroupMappingV2[] = [
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
   },
   {
-    slug: "wd_namco_bedragen",
+    slug: "wdl_namco_bedragen",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {
@@ -120,27 +120,34 @@ const group: IGroupMappingV2[] = [
         multiples: "cumulative",
         parameters: [
           [
-            {
-              label: "Verleende schade",
-              column: "wd_namco_bedrag_verleend_schade",
+             {
+              label: "beschikte schade",
+              column: "wd_namco_bedrag_beschikt_schade",
               colour: "blue",
               format: "currency",
-              units: "totaal verleende schade",
+              units: "beschikt schadebedrag",
             },
             {
-              label: "Verleend",
-              column: "wd_namco_bedrag_verleend_totaal",
+              label: "beschikt totaal",
+              column: "wd_namco_bedrag_beschikt_totaal",
+              colour: "blue",
+              format: "currency",
+              units: "beschikt totaalbedrag",
+            },
+            {
+              label: "betaalde schade",
+              column: "wd_namco_bedrag_betaald_schade",
               colour: "moss",
               format: "currency",
-              units: "totaal verleende bedragen",
+              units: "betaald schadebedrag",
             },
             {
-              label: "Uitgekeerd",
-              column: "wd_namco_bedrag_uitgekeerd_totaal",
+              label: "betaald totaal",
+              column: "wd_namco_bedrag_betaald_totaal",
               colour: "orange",
               format: "currency",
-              units: "totaal uitgekeerde bedragen",
-            },
+              units: "betaald totaalbedrag",
+            }
           ],
           [],
         ],
@@ -159,7 +166,7 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wd_namco_bedrag_verleend_totaal",
+          key: "wd_namco_bedrag_betaald_totaal",
           cumulative: true,
           periodization: "weekly",
         },
@@ -173,7 +180,7 @@ const group: IGroupMappingV2[] = [
           [
             {
               label: "Totaal verleende schade",
-              column: "wd_namco_bedrag_verleend_totaal",
+              column: "wd_namco_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
             },
@@ -194,14 +201,14 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "wd_namco_bedrag_verleend_totaal",
+          key: "wd_namco_bedrag_betaald_totaal",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "wd_namco_bedrag_verleend_totaal",
+      key: "wd_namco_bedrag_betaald_totaal",
       cumulative: false,
       periodization: "monthly",
     },
@@ -270,7 +277,7 @@ const group: IGroupMappingV2[] = [
   //   },
   // },
   {
-    slug: "wd_namco_besluiten",
+    slug: "wdl_namco_besluiten",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
@@ -340,18 +347,18 @@ const group: IGroupMappingV2[] = [
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
   },
   {
-    slug: "wd_namco_toegewezen",
+    slug: "wdl_namco_toegekend",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
       {
-        slug: "wd_namco_toegewezen_taart",
+        slug: "wd_namco_toegekend_taart",
         ctrlr: "PieChartSumV1",
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "wd_namco_toegekend_cumulatief",
               colour: "moss",
               scale: "null",
@@ -377,14 +384,14 @@ const group: IGroupMappingV2[] = [
         ],
       },
       {
-        slug: "wd_namco_toegewezen_trend",
+        slug: "wd_namco_toegekend_trend",
         ctrlr: "BarTrendStackedMakeup",
         filters: ["absoluteVsNormalized", "weekVsMonth"],
         args: [],
         parameters: [
           [
             {
-              label: "Toegewezen",
+              label: "Toegekend",
               column: "wd_namco_toegekend",
               colour: "moss",
               scale: "null",
@@ -416,90 +423,91 @@ const group: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
-  {
-    slug: "wd_namco_duur",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "wd_namco_duur_numbers_v1",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "incremental",
-        parameters: [
-          [
-            {
-              label: "Verwacht",
-              column: "wd_namco_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
-            {
-              label: "Mediaan",
-              column: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
-              colour: "orange",
-              units: "gerealiseerd aantal dagen",
-            },
-            {
-              label: "Gemiddelde",
-              column: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gerealiseerd aantal dagen",
-            },
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "wd_namco_dlt_verwacht_rolling8_dagen",
-          cumulative: false,
-          periodization: "monthly",
-        },
-      },
-      {
-        slug: "wd_namco_duur_trend",
-        ctrlr: "BarTrendV1",
-        filters: ["parameterSelect"],
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-              column: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            },
-            {
-              label: "Gerealiseerde mediaan aantal dagen tot besluit",
-              column: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
-              colour: "orange",
-              units: "mediaan gerealiseerd aantal dagen",
-            },
-            {
-              label: "Verwacht aantal dagen tot besluit",
-              column: "wd_namco_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "verwacht aantal dagen",
-            },
-          ],
-        ],
-        segment: {
-          key: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
-          cumulative: false,
-          periodization: "monthly",
-          label: "dagen",
-        },
-      },
-    ],
-    segment: {
-      key: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
-      cumulative: false,
-      periodization: "monthly",
-      label: "dagen",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
-  },
+  // {
+  //   slug: "wdl_namco_duur",
+  //   ctrlr: "DefaultGroupV1",
+  //   graphs: [
+  //     {
+  //       slug: "wd_namco_duur_numbers_v1",
+  //       ctrlr: "NumbersMultiplesTitledV1",
+  //       args: [],
+  //       filters: [],
+  //       multiples: "incremental",
+  //       parameters: [
+  //         [
+            
+  //           {
+  //             label: "Mediaan",
+  //             column: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
+  //             colour: "orange",
+  //             units: "gerealiseerd aantal dagen",
+  //           },
+  //           {
+  //             label: "Gemiddelde",
+  //             column: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
+  //             colour: "blue",
+  //             units: "gerealiseerd aantal dagen",
+  //           },
+  //           {
+  //             label: "Verwacht",
+  //             column: "wd_namco_dlt_verwacht_rolling8_dagen",
+  //             colour: "moss",
+  //             units: "aantal dagen",
+  //           },
+  //         ],
+  //         [],
+  //       ],
+  //       modifiers: [],
+  //       segment: {
+  //         key: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
+  //         cumulative: false,
+  //         periodization: "monthly",
+  //       },
+  //     },
+  //     {
+  //       slug: "wd_namco_duur_trend",
+  //       ctrlr: "BarTrendV1",
+  //       filters: ["parameterSelect"],
+  //       args: [],
+  //       parameters: [
+  //         [
+  //           {
+  //             label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
+  //             column: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
+  //             colour: "blue",
+  //             units: "gemiddeld gerealiseerd aantal dagen",
+  //           },
+  //           {
+  //             label: "Verwacht aantal dagen tot besluit",
+  //             column: "wd_namco_dlt_verwacht_rolling8_dagen",
+  //             colour: "moss",
+  //             units: "verwacht aantal dagen",
+  //           },
+  //           {
+  //             label: "Gerealiseerde mediaan aantal dagen tot besluit",
+  //             column: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
+  //             colour: "orange",
+  //             units: "mediaan gerealiseerd aantal dagen",
+  //           },
+  //         ],
+  //       ],
+  //       segment: {
+  //         key: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
+  //         cumulative: false,
+  //         periodization: "monthly",
+  //         label: "dagen",
+  //       },
+  //     },
+  //   ],
+  //   segment: {
+  //     key: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
+  //     cumulative: false,
+  //     periodization: "monthly",
+  //     label: "dagen",
+  //   },
+  //   functionality: ["table", "definitions", "download"],
+  //   endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
+  // },
   // {
   //   slug: "wd_namco_voorraad",
   //   ctrlr: "DefaultGroupV1",
@@ -587,7 +595,7 @@ const group: IGroupMappingV2[] = [
   //   endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
   // },
   {
-    slug: "wd_namco_bezwaren",
+    slug: "wdl_namco_bezwaren",
     ctrlr: "DefaultGroupV1",
     graphs: [
       {

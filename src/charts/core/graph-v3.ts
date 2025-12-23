@@ -133,7 +133,6 @@ export class GraphControllerV3 implements IGraphControllerV3 {
         graph.filters.length > 0
       ) {
 
-        console.log(1)
         this.filter = new HtmlFilters(
           this,
           master,

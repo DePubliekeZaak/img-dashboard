@@ -35,6 +35,8 @@ export class GroupControllerV1 implements IGroupCtrlr {
     this.slug = config.slug;
     this.element = page.main.htmlContainer;
     if (config.segment) this.segment = segmentParse(config.segment);
+
+    this.segment.key = this.segment.cumulative ? this.segment.key.replace("_cumulatief","") + "_cumulatief" : this.segment.key.replace("_cumulatief","")
   }
 
   html(groupEl?: HTMLElement) {
@@ -210,7 +212,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
         (ti: Timeline) => this.config.timeline!.indexOf(ti.label) > -1,
       );
       timeline.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-    }
+    }     
 
     // @ts-ignore
     const definitions =
@@ -280,20 +282,15 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
   update(data: DataObject, segment: Segment | undefined, update: boolean) {
 
-
-    if (segment != undefined) {
-      this.config.segment = segment;
-    }
-
-    console.log("updated group new segment object", this.segment);
+    // if (segment != undefined) {
+    //   this.config.segment = segment;
+    // }
 
     const group = this.page.chartArray.find((i) => i.config.slug === this.slug);
 
     group.data = this.prepareData(this.page.main.data.collection());
 
     this.tabs.redraw();
-
-    // this.htmlHeader.redraw(group.data);
 
     for (const graph of group.graphs) {
       graph.ctrlr.update(group.data, true);

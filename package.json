@@ -57,8 +57,8 @@
   },
   "scripts": {
     "build:prod": "webpack --env ENV=prod DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/dev/api/",
-    "build:dev": "webpack --env ENV=prod DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/new/api/",
-    "serve": "webpack serve --env ENV=dev DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/new/api/"
+    "build:dev": "webpack --env ENV=prod DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/v2/api/",
+    "serve": "webpack serve --env ENV=dev DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/v2/api/"
   },
   "sideEffects": false
 }

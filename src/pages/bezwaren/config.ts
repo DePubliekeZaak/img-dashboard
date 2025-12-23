@@ -155,7 +155,7 @@ const bezwaren: IGroupMappingV2[] = [
         ctrlr: "NumbersV1",
         args: [],
         filters: [],
-        header: "Immateriele schade: kinderen en jeugd",
+        header: "Immateriele schade: kinderen en jongeren",
         parameters: [
           [
             {
@@ -544,7 +544,7 @@ const bezwaren: IGroupMappingV2[] = [
         },
       },
     ],
-    header: "Immateriele schade: kinderen en jeugd",
+    header: "Immateriele schade: kinderen en jongeren",
     functionality: ["table", "definitions", "download"],
     endpoints: ["bezwaren_maandelijks", "bezwaren_wekelijks"],
     segment: {

@@ -59,7 +59,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
 
     // const marginForTimeline = 180;
     // const paddingForTimeline = 60;
-    const paddingForAxis = 50;
+    const paddingForAxis = 0;
     // const filters = (this.filters.length > 0) ? window.innerWidth < breakpoints.sm ? 60 : 100 : 0;
 
     this._addMargin(0, 30, 0, 0);
@@ -68,8 +68,8 @@ export class SegmentsV1 extends core.GraphControllerV3 {
     this._addScale("x", "band", "horizontal", "label");
     this._addScale("y", "linear", "vertical", "value");
     this._addAxis("x", "x", "bottom", "");
-    this._addAxis("y", "y", "left");
-    this._addAxis("y2", "y", "right");
+    // this._addAxis("y", "y", "left");
+    // this._addAxis("y2", "y", "right");
   }
 
   html() {

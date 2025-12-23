@@ -1,5 +1,5 @@
 import { colours } from "../../img-modules/styleguide";
-import { convertToCurrency, toDutchMonths } from "../../pages/shared/_helpers";
+import { convertToCurrency, thousands, toDutchMonths } from "../../pages/shared/_helpers";
 import { Segment } from "../../pages/shared/types";
 
 export default class ChartStackedBarsV2 {
@@ -33,11 +33,10 @@ export default class ChartStackedBarsV2 {
       .attr("class", "bar");
   }
 
-  redraw(data: any, segment?: Segment) {
+  redraw(data: any, segment: Segment) {
     let self = this;
 
     const width = self.ctrlr.dimensions.svgWidth / data.stacked[0].length - 2;
-
 
     this.bars
       .attr("x", (d: any, i: number) =>
@@ -60,14 +59,19 @@ export default class ChartStackedBarsV2 {
         const t = window.d3
           .select(".tooltip")
           .html(() => {
+
+            let tijdsbepaling = segment.periodization == 'monthly' ? toDutchMonths(parseFloat(d.data._month)) : "week " + d.data._week;
+
             let html = "<div>" + d.data._year + "</div>";
             html +=
-              "<div>" + toDutchMonths(parseFloat(d.data._month)) + "</div>";
+              "<div>" + tijdsbepaling + "</div>";
 
             for (let map of self.ctrlr.parameters[
               segment?.parameterIndex || 0
             ]) {
-              let v = d.data[map.column];
+
+              let c = segment && segment.cumulative ? map.column + '_cumulatief' : map.column
+              let v = d.data[c];
               v = v == null ? 0 : v;
 
               if (map.format == "currency") {
@@ -78,23 +82,23 @@ export default class ChartStackedBarsV2 {
                 v = (v * 100).toFixed(1) + "%";
               }
 
-              html += "<div>" + map.label + " : " + v + "</div>";
+              html += "<div>" + map.label + " : " + thousands(v) + "</div>";
             }
 
-            if (data.line != undefined) {
-              let period = data.line.find((dd) => dd.time == d.data.date);
+            // if (data.line != undefined) {
+            //   let period = data.line.find((dd) => dd.time == d.data.date);
 
-              if (period != undefined) {
-                for (let map of self.ctrlr.parameters[1]) {
-                  html +=
-                    "<div>" +
-                    map.label +
-                    " : " +
-                    Math.round(period.value) +
-                    "%</div>";
-                }
-              }
-            }
+            //   if (period != undefined) {
+            //     for (let map of self.ctrlr.parameters[1]) {
+            //       html +=
+            //         "<div>" +
+            //         map.label +
+            //         " : " +
+            //         Math.round(period.value) +
+            //         "%</div>";
+            //     }
+            //   }
+            // }
 
             // for (let p of self.ctrlr.mapping.parameters[0]) {
             //         html += p.short + ': ' + d.data[p.column] + '<br/>';

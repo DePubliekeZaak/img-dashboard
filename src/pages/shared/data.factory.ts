@@ -65,6 +65,8 @@ export const tables = (
     rows: [] as string[][],
   };
 
+
+
   if (graphDataMonth.length > 0) {
     for (let period of graphDataMonth) {
       const row: string[] = [];
@@ -79,6 +81,7 @@ export const tables = (
             dateStyle: "short",
           }),
       );
+
 
       for (let p of tableParams) {
         if (p.format == "currency") {

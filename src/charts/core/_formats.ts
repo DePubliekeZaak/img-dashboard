@@ -20,7 +20,9 @@ const localTime = window.d3.timeFormatLocale({
 
 const monthNames = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
 
+const monthAbbrevs = ["jan", "feb", "ma", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+
 // const formatDates = localTime.format("%B %Y");
 // const currency = localCurrency.format("$,");
 
-export { localCurrency, localTime, monthNames }
+export { localCurrency, localTime, monthNames, monthAbbrevs }

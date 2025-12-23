@@ -15,6 +15,7 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
     const group = page.segment?.groups?.[groupSlug];
 
     if (group) {
+
         // Only override the key if group.key is a non-empty string
         if (typeof group.key === 'string' && group.key.length > 0) {
             segment.key = group.key;
@@ -34,6 +35,7 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
     const graph = group?.graphs?.[graphSlug];
 
     if (graph) {
+
         if (graph.cumulative !== undefined) segment.cumulative = graph.cumulative;
         if (typeof graph.periodization === 'string' && graph.periodization.length > 0) {
             segment.periodization = graph.periodization;
@@ -46,7 +48,9 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
         if (typeof graph.normalized === 'boolean') segment.normalized = graph.normalized;
     }
 
-   // console.log("segment", segment);
+    const strippedKey = segment.key.replace("_cumulatief","");
+
+    segment.key = (segment.cumulative) ? strippedKey + "_cumulatief" : strippedKey;
 
     return segment;
 

@@ -402,8 +402,8 @@ const group : IGroupMappingV2[] = [
                 "parameters": [
                     [
                         {
-                            "label": "Percentage toegewezen besluiten",
-                            "column": "percentage_toegewezen_besluiten",
+                            "label": "Percentage toegekende besluiten",
+                            "column": "percentage_toegekend_besluiten",
                             "colour": "blue",
                             "format": "percentage"
                         }
@@ -411,7 +411,7 @@ const group : IGroupMappingV2[] = [
                     []
                 ],
                 "segment": {
-                    "key": "percentage_toegewezen_besluiten",
+                    "key": "percentage_toegekende_besluiten",
                     "cumulative": true,
                     "periodization": "none"  
                 }

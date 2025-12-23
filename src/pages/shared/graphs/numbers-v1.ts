@@ -90,13 +90,21 @@ export class NumbersV1 extends core.GraphControllerV3 {
 
   async draw(data: DataObject) {
     for (let p of this.parameters[0]) {
+
+      if (p.column == "---") return;
       this.numbers[p.column].draw();
     }
   }
 
   async redraw(data: any, range: number[]) {
     for (let p of this.parameters[0]) { 
-      const number = typeof this.group.config.segment === 'object' && this.group.config.segment.cumulative ? data.numbers[p.column  + '_cumulatief'] : data.numbers[p.column];
+
+      const _segment = this.page.segment.groups[this.group.slug];
+
+      // console.log(this.page.segment.groups[this.group.slug])
+      
+      if (p.column == "---") return;
+      const number = data.numbers[_segment.key];
       this.numbers[p.column].redraw(number);
     }
   }

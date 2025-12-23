@@ -43,7 +43,7 @@ const group : IGroupMappingV2[] = [
                             // "units": "bezwaren"
                         },
                         { 
-                            "label" : "IMS kinderen & jeugd",
+                            "label" : "IMS kinderen & jongeren",
                             "column" : "imkj_doorlopend_cijfer",
                             "colour" : "blue",
                             "format": "",
@@ -83,7 +83,7 @@ const group : IGroupMappingV2[] = [
                             "units": "respondenten"
                         },
                         { 
-                            "label" : "IMS kinderen & jeugd",
+                            "label" : "IMS kinderen & jongeren",
                             "column" : "imkj_aantal_respondenten_doorlopend",
                             "colour" : "blue",
                             "units": "respondenten"
@@ -210,7 +210,7 @@ const group : IGroupMappingV2[] = [
                             // "excludeFromTable": true
                         },
                         { 
-                            "label" : "Immateriele schade: kinderen en jeugd",
+                            "label" : "Immateriele schade: kinderen en jongeren",
                             "column": "imkj_aantal_respondenten",
                             "units": "respondenten",
                             "colour": "yellow",

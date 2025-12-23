@@ -46,7 +46,12 @@ var hasValue = function (array, value) {
 };
 
 export function thousands(number: any) {
-  return number != undefined ? number.toLocaleString("nl-NL") : ``;
+
+  const dutchFormatter = new Intl.NumberFormat("nl-NL", {
+    useGrouping: true
+  });
+
+  return number != undefined ? dutchFormatter.format(number) : ``;
 }
 
 export function miljarden(number): string {
@@ -101,7 +106,13 @@ export function convertToCurrencyInTable(number: number) {
 }
 
 export function convertToMillions(number: number) {
-  return thousands(Math.round(number / (1000 * 1000))).toString() + "M";
+
+  if (number >= 1000 * 1000 * 1000) {
+    return "€ " + (number / (1000 * 1000 * 1000)).toFixed(0) + " mrd";
+  } else { 
+      return "€ " + (number / (1000 * 1000)).toFixed(0) + " mln";
+  }
+  
 }
 
 export function sanitizeCurrency(string: string) {

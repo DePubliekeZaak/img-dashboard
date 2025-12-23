@@ -70,8 +70,8 @@ export const definitionList = [
         description: "De voortgang van de afgelopen week"
     },
     { 
-        name: "Toegewezen",
-        description: "Het aantal aanvragers dat een vergoeding krijgt toegewezen"
+        name: "Toegekend",
+        description: "Het aantal aanvragers dat een vergoeding krijgt toegekend"
     },
     {
         name: "Afgewezen",

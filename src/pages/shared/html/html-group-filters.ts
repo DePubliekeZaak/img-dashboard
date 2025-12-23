@@ -5,6 +5,7 @@ import { Segment } from "../types";
 import { segmentParse } from "../segment";
 import { HtmlMappingGroupSelector } from "./mapping-group-selector";
 import { HtmlMunicipalitySelector } from "./municipality-selector";
+import { HtmlPeriodSelector } from "./period-selector";
 
 export class HtmlGroupFilters {
 
@@ -22,7 +23,7 @@ export class HtmlGroupFilters {
         this.init(undefined);
     }
 
-    init(el: HTMLElement | undefined) {
+    init(el: HTMLElement | undefined, place?: string) {
 
         const element = (el != undefined) ? el : this.ctrlr.groupWrapper
 
@@ -40,11 +41,17 @@ export class HtmlGroupFilters {
 
             this.listElement.appendChild(ul);
 
-            element.insertBefore(this.listElement, element.querySelector('.tab_list'));
+           //  element.insertBefore(this.listElement, element.querySelector('.tab_list'));
+
+            element.querySelector('.source_attribution')?.after(this.listElement);
         }
 
         return true;
 
+    }
+
+    strip(s: string) {
+            return s.replace(/_cumulatief$/, "");
     }
 
     draw(segment: string | Segment) {
@@ -52,7 +59,6 @@ export class HtmlGroupFilters {
         const self = this;
 
         const ul = this.listElement.querySelector('ul');
-
     
         if(this.ctrlr.config.filters != undefined) {
      
@@ -71,21 +77,54 @@ export class HtmlGroupFilters {
 
                         _selectEl.addEventListener("change", () => {
 
-                           // const segment_key = (typeof this.ctrlr.segment === "string") ?  this.ctrlr.segment : this.ctrlr.segment.key;
-
                             const newSegment = {
-                                key: _selectEl.value == "cumulative" ? this.ctrlr.segment.key: this.ctrlr.segment.key,
+                                key: _selectEl.value == "cumulative" ? this.strip(this.ctrlr.segment.key) + "_cumulatief": this.strip(this.ctrlr.segment.key),
                                 cumulative: _selectEl.value == "cumulative" ? true : false,
-                                periodization: self.ctrlr.segment.periodization
+                                periodization: this.ctrlr.page.segment.groups[this.ctrlr.slug].periodization
                             }
 
-                            if ( newSegment.key != self.ctrlr.segment.key || newSegment.cumulative != (self.ctrlr.config.segment as any).cumulative!) {
-                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), newSegment, true);
-                            }
+                            // if ( newSegment.key != self.ctrlr.segment.key || newSegment.cumulative != (self.ctrlr.config.segment as any).cumulative!) {
+                      
+                                this.ctrlr.page.segment.groups[this.ctrlr.slug] = newSegment;
+                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), undefined, true);
+                            // }
 
                         });
 
                         break;
+
+                    case "weekVsMonth": // fixed
+
+                  
+                             
+                            const __selector = new HtmlPeriodSelector(
+                                li,
+                                this.ctrlr.slug,
+                            );
+
+
+                            let periodization = this.ctrlr.page.segment.groups[this.ctrlr.slug] ? this.ctrlr.page.segment.groups[this.ctrlr.slug].periodization : "monthly";
+                            const __selectEl = __selector.draw(periodization);
+                              
+                    
+                            if (__selectEl == null) break;
+                
+                            __selectEl.addEventListener("change", () => {
+            
+                                const newSegment = {
+                                    key: this.ctrlr.page.segment.groups[this.ctrlr.slug].key,
+                                    cumulative: this.ctrlr.page.segment.groups[this.ctrlr.slug].cumulative,
+                                    periodization: __selectEl.value
+                                }
+
+                                console.log("ns", newSegment)
+                                this.ctrlr.page.segment.groups[this.ctrlr.slug] = newSegment;
+                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), undefined, true);
+                            //   }
+                            // }
+                            });
+                    
+                        break; 
 
                     case 'mappingSelect':
 
