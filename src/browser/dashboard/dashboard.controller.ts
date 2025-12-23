@@ -36,6 +36,17 @@ export interface IDashboardController {
   _screenListener: () => void;
 }
 
+const getScriptBaseUrl = () => {
+  const scripts = document.getElementsByTagName('script');
+  for (let script of scripts) {
+    if (script.src.includes('dashboard') || script.src.includes('scaffold')) {
+      return script.src.substring(0, script.src.lastIndexOf('/') + 1);
+    }
+  }
+  return './';
+};
+
+
 export class DashboardController implements IDashboardController {
   params;
   data;
@@ -60,7 +71,14 @@ export class DashboardController implements IDashboardController {
     await this.call(false);
   }
 
+
+
+
   async call(update: boolean): Promise<void> {
+
+    console.log("harrrrrrrsssssss")
+
+    const BUNDLE_BASE = getScriptBaseUrl();
     this.htmlContainer.innerHTML = "";
 
     const getLeafNavItems = (items: any[]): any[] => {
@@ -90,7 +108,7 @@ export class DashboardController implements IDashboardController {
 
     // include version in bundle to be loaded !!!!!!
 
-    await import(/*webpackIgnore: true*/ `./${this.params.topic}.bundle.js`);
+    await import(/*webpackIgnore: true*/ `${BUNDLE_BASE}${this.params.topic}.bundle.js`);
     // @ts-ignore
     const ctrlr = new window[this.params.topic](this);
     ctrlr.init(this.params.version);

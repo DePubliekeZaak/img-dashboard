@@ -207,6 +207,7 @@ const config = (env) => {
     },
     output: {
       path: path.resolve(__dirname, "public/"),
+      publicPath: process.env.NODE_ENV === 'production' ? 'https://graphs.publikaan.nl/graphs/' : '/',
       filename: "scripts/[name].bundle.js",
       assetModuleFilename: (pathData) => {
         const filepath = path

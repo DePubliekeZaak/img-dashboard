@@ -111,37 +111,37 @@ const group: IGroupMappingV2[] = [
   {
     slug: "maatwerk_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent"],
+    filters: ["totaalVsRecent","weekVsMonth"],
     graphs: [
       {
         slug: "fs_maatwerk_numbers_2",
-        ctrlr: "NumbersMultiplesV1",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
         multiples: "cumulative",
         parameters: [
           [
-            {
-              label: "beschikte schade",
-              column: "maatwerk_bedrag_beschikt_schade",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt schadebedrag",
-            },
-            {
-              label: "beschikt totaal",
-              column: "maatwerk_bedrag_beschikt_totaal",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt totaalbedrag",
-            },
-            {
-              label: "betaalde schade",
-              column: "maatwerk_bedrag_betaald_schade",
-              colour: "moss",
-              format: "currency",
-              units: "betaald schadebedrag",
-            },
+            // {
+            //   label: "beschikte schade",
+            //   column: "maatwerk_bedrag_beschikt_schade",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt schadebedrag",
+            // },
+            // {
+            //   label: "beschikt totaal",
+            //   column: "maatwerk_bedrag_beschikt_totaal",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt totaalbedrag",
+            // },
+            // {
+            //   label: "betaalde schade",
+            //   column: "maatwerk_bedrag_betaald_schade",
+            //   colour: "moss",
+            //   format: "currency",
+            //   units: "betaald schadebedrag",
+            // },
             {
               label: "betaald totaal",
               column: "maatwerk_bedrag_betaald_totaal",
@@ -167,16 +167,16 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "maatwerk_bedrag_verleend_totaal",
+          key: "maatwerk_bedrag_betaald_totaal",
           cumulative: true,
           periodization: "weekly",
         },
       },
       {
         slug: "maatwerk_bedragen_trend",
-        ctrlr: "BarTrendV1",
+        ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
+        filters: [],
         parameters: [
           [
             {
@@ -203,8 +203,8 @@ const group: IGroupMappingV2[] = [
         ],
         segment: {
           key: "maatwerk_bedrag_betaald_totaal",
-          cumulative: false,
-          periodization: "monthly",
+          cumulative: true,
+          periodization: "weekly",
         },
       },
     ],

@@ -25,7 +25,9 @@ export class DefaultGroupV1 extends GroupControllerV1 {
     return graphWrapper;
   }
 
-  async init() {}
+  async init() {
+    console.log("waaaaaat")
+  }
 
   prepareData(data: ImgData): any {
     const {
@@ -41,16 +43,12 @@ export class DefaultGroupV1 extends GroupControllerV1 {
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
-    console.log(nIndex)
-
     const numbers =
       nIndex !== -1
         ? graphDataWeek[0]
         : this.page.segment.groups[this.config.slug]
           ? cumulative
           : incremental;
-
-    console.log("N",numbers)
 
     let pies: any[] | null = null;
     const pieChartIndex = this.config.graphs.findIndex(
@@ -61,7 +59,6 @@ export class DefaultGroupV1 extends GroupControllerV1 {
     }
 
     const pre_headers = preHeaders(this.config.graphs, this.segment);
-
 
     const { weekTable, monthTable } = tables(
       graphDataWeek,
