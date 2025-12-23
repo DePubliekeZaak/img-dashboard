@@ -41,12 +41,16 @@ export class DefaultGroupV1 extends GroupControllerV1 {
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
+    console.log(nIndex)
+
     const numbers =
       nIndex !== -1
         ? graphDataWeek[0]
         : this.page.segment.groups[this.config.slug]
           ? cumulative
           : incremental;
+
+    console.log("N",numbers)
 
     let pies: any[] | null = null;
     const pieChartIndex = this.config.graphs.findIndex(

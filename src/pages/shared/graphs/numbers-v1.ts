@@ -73,6 +73,7 @@ export class NumbersV1 extends core.GraphControllerV3 {
 
   async init() {
     for (let p of this.parameters[0]) {
+
       this.numbers[p.column] = new elements.HtmlNumberAccented(
         this,
         p,
@@ -98,13 +99,12 @@ export class NumbersV1 extends core.GraphControllerV3 {
 
   async redraw(data: any, range: number[]) {
     for (let p of this.parameters[0]) { 
+      const column = this.page.segment.groups[this.group.slug].cumulative ? p.column.replace("_cumulatief","") + "_cumulatief" : p.column.replace("_cumulatief","")
 
-      const _segment = this.page.segment.groups[this.group.slug];
-
-      // console.log(this.page.segment.groups[this.group.slug])
+    console.log("C", column)
       
       if (p.column == "---") return;
-      const number = data.numbers[_segment.key];
+      const number = data.numbers[column];
       this.numbers[p.column].redraw(number);
     }
   }
