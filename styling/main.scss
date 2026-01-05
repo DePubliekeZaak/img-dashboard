@@ -1,35 +1,35 @@
-@import 'styleguide/reset.scss';
-@import 'styleguide/_normalize.scss';
-@import 'styleguide/fonts.scss';
-@import 'styleguide/breakpoints.scss';
-@import 'styleguide/colours.scss';
-@import 'styleguide/typography.scss';
-@import 'styleguide/labels.scss';
-@import 'styleguide/focus.scss';
-@import 'styleguide/results.scss';
-@import 'styleguide/select.scss';
-@import 'styleguide/table.scss';
-@import 'styleguide/button.scss';
+#dashboard-main {
+//   @import 'styleguide/reset.scss';
+//   @import 'styleguide/_normalize.scss';
+  @import 'styleguide/fonts.scss';
+  @import 'styleguide/breakpoints.scss';
+  @import 'styleguide/colours.scss';
+  @import 'styleguide/typography.scss';
+  @import 'styleguide/labels.scss';
+  @import 'styleguide/focus.scss';
+  @import 'styleguide/results.scss';
+  @import 'styleguide/select.scss';
+  @import 'styleguide/table.scss';
+  @import 'styleguide/button.scss';
 
-@import './img-dashboard.scss';
-@import './img-aside.scss';
-@import './img-popup.scss';
-@import './img-tabs.scss';
+  @import './img-dashboard.scss';
+  @import './img-aside.scss';
+  @import './img-popup.scss';
+  @import './img-tabs.scss';
 
+  @import './eiti-header.scss';
+  @import './img-layouts-width.scss';
+  @import './eiti-grid.scss';
+  @import './img-nav.scss';
+  @import './eiti-graph-nav.scss';
+  @import './eiti-card.scss';
+  @import './eiti-graphs.scss';
 
-@import './eiti-header.scss';
-@import './img-layouts-width.scss';
-@import './eiti-grid.scss';
-@import './img-nav.scss';
-@import './eiti-graph-nav.scss';
-@import './eiti-card.scss';
-@import './eiti-graphs.scss';
-
-
-@import './img-legend.scss';
-@import './img-source-attribution.scss';
-@import './img-timeline.scss';
-@import './img-layout.scss';
-@import './img-definitions.scss';
-@import './img-filters.scss';
-@import './custom.scss';
+  @import './img-legend.scss';
+  @import './img-source-attribution.scss';
+  @import './img-timeline.scss';
+  @import './img-layout.scss';
+  @import './img-definitions.scss';
+  @import './img-filters.scss';
+  @import './custom.scss';
+}

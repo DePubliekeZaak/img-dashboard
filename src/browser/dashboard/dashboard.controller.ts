@@ -76,8 +76,6 @@ export class DashboardController implements IDashboardController {
 
   async call(update: boolean): Promise<void> {
 
-    console.log("harrrrrrrsssssss")
-
     const BUNDLE_BASE = getScriptBaseUrl();
     this.htmlContainer.innerHTML = "";
 

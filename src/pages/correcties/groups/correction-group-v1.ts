@@ -13,6 +13,9 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
   }
 
   html() {
+
+    console.log(1)
+
     const graphWrapper = super.html();
 
     const container = document.createElement("div");

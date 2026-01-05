@@ -240,6 +240,8 @@ export default class PageController implements IPageController {
   }
 
   async prepareMultiples() {
+
+    // dit zorgt voor die wildwas aan files .. is dit wel nodig? 
     const { default: graphs } = await import("../" + this.slug + "/graphs/");
 
     for (const group of this.chartArray) {

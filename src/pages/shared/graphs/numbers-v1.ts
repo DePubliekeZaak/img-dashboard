@@ -100,8 +100,6 @@ export class NumbersV1 extends core.GraphControllerV3 {
   async redraw(data: any, range: number[]) {
     for (let p of this.parameters[0]) { 
       const column = this.page.segment.groups[this.group.slug].cumulative ? p.column.replace("_cumulatief","") + "_cumulatief" : p.column.includes("_percentage") ||  p.column.includes("_peag") ? p.column : p.column.replace("_cumulatief","")
-
-    console.log("C", column)
       
       if (p.column == "---") return;
       const number = data.numbers[column];

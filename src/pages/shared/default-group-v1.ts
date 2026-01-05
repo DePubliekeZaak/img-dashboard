@@ -26,7 +26,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
   }
 
   async init() {
-    console.log("waaaaaat")
+
   }
 
   prepareData(data: ImgData): any {

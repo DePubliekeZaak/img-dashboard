@@ -1,12 +1,13 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV == "prod";
 
 const config = (env) => {
   return {
     entry: {
       scaffold: {
+        filename: "scripts/dashboard-new-bundle.js",
         import: "./src/browser/index.ts",
       },
       actueel: {
@@ -207,7 +208,7 @@ const config = (env) => {
     },
     output: {
       path: path.resolve(__dirname, "public/"),
-      publicPath: process.env.NODE_ENV === 'production' ? 'https://graphs.publikaan.nl/graphs/' : '/',
+      publicPath: env.ENV === 'prod' ? 'https://graphs.publikaan.nl/graphs/' : '/',
       filename: "scripts/[name].bundle.js",
       assetModuleFilename: (pathData) => {
         const filepath = path

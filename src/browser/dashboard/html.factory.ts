@@ -7,7 +7,7 @@ import { Version } from "./types";
 
 export const styleParentElement = (): Element | null => {
   const htmlContainer = document.querySelector(
-    "[img-graph-preset='dashboard']",
+    "[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']"
   );
   htmlContainer.id = "dashboard-main";
 
@@ -33,7 +33,7 @@ export const createSideBar = (container: HTMLElement): HTMLElement => {
   if (container.parentElement != null)
     container.parentElement.insertBefore(
       aside,
-      document.querySelector("[img-graph-preset='dashboard']"),
+      document.querySelector("[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']"),
     );
   return aside;
 };
