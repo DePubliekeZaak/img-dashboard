@@ -56,12 +56,9 @@ export class GroupControllerV1 implements IGroupCtrlr {
       this.page.main.data,
       this.config.endpoints,
       this.groupWrapper,
-      this.page.main.params.language == "nl"
-        ? this.config.header
-        : this.config.header_en,
-      this.page.main.params.language == "nl"
-        ? this.config.description
-        : this.config.description_en,
+      this.config.header,
+      this.config.description,
+      this.config.datum || undefined
     );
 
     this.htmlHeader.draw();

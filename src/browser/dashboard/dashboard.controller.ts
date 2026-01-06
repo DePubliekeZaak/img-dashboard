@@ -120,24 +120,39 @@ export class DashboardController implements IDashboardController {
   }
 
   switchVersion(slug: string): void {
-    const currentParams = new URLSearchParams(window.location.search);
-    currentParams.set("topic", "regelingen");
-    currentParams.set("version", slug);
-    const newurl =
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      window.location.pathname +
-      "?" +
-      currentParams.toString();
 
-    window.history.pushState({ path: newurl }, "", newurl);
+    if (slug = "versie_001") {
 
-    this.data.clear();
-    this.params.renew();
-    // this._reloadHtml();
+          const container = document.querySelector("[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']");
+          container.innerHTML = '';
+          const script = document.createElement('script');
+          script.src = 'https://graphs.publikaan.nl/graphs/scripts/dashboard-bundle.js';
+          document.head.appendChild(script);
 
-    this.call(false);
+          window.dispatchEvent(new Event('graph_ready'));
+
+    } else { 
+
+        const currentParams = new URLSearchParams(window.location.search);
+        currentParams.set("topic", "regelingen");
+        currentParams.set("version", slug);
+        const newurl =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          window.location.pathname +
+          "?" +
+          currentParams.toString();
+
+        window.history.pushState({ path: newurl }, "", newurl);
+
+        this.data.clear();
+        this.params.renew();
+        // this._reloadHtml();
+
+        this.call(false);
+
+    }
   }
 
   _toggleSubMenu(slug: string, isMobile: boolean): void {

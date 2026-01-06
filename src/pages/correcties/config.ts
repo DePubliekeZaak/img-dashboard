@@ -2,31 +2,45 @@ import { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping : IGroupMappingV2[] = [
     {
-        "slug" : "correcties_intro",
+        "slug" : "versies_intro",
         "ctrlr": "IntroGroupV1",
         "filters" : [],
         "graphs": [       ],
         "functionality": [],
-        "endpoints": [],
+        "segment": {
+            "key": "",
+            "cumulative": true,
+            "periodization": "monthly",
+            },
+        "endpoints": ["all_wekelijks", "all_maandelijks"],
         
     },
     {
-        "slug" : "latest",
+        "slug" : "versie_100",
         "ctrlr": "CorrectionGroupV1",
         "filters" : [],
         "graphs": [],
         "functionality": [],
-        "endpoints": [],
+        "segment": {
+            "key": "",
+            "cumulative": true,
+            "periodization": "monthly",
+        },
+        "endpoints": ["all_wekelijks", "all_maandelijks"],
         
     },
     {
-        "slug" : "001",
+        "slug" : "versie_001",
         "ctrlr": "CorrectionGroupV1",
         "filters" : [],
         "graphs": [],
         "functionality": [],
-        "endpoints": [],
-        
+        "segment": {
+            "key": "",
+            "cumulative": true,
+            "periodization": "monthly",
+        },
+        "endpoints": ["all_wekelijks", "all_maandelijks"],  
     }
 ];
 
