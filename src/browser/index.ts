@@ -4,6 +4,7 @@ import * as d3 from 'd3';
 import '../../styling/main.scss'
 import { DashboardController } from "./dashboard/dashboard.controller";
 
+declare const ENV: string;
 
 const init = () => {
 
@@ -20,7 +21,10 @@ const init = () => {
         }
     }
 
-    addStylesheets()
+    if (ENV === 'prod') {
+        console.log('loading production stylesheets')
+        addStylesheets()
+    }
 
 
 }

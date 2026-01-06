@@ -1,9 +1,9 @@
+@import 'styleguide/fonts.scss';
+@import 'styleguide/breakpoints.scss';
+@import 'styleguide/colours.scss';
+
 #dashboard-main {
-//   @import 'styleguide/reset.scss';
-//   @import 'styleguide/_normalize.scss';
-  @import 'styleguide/fonts.scss';
-  @import 'styleguide/breakpoints.scss';
-  @import 'styleguide/colours.scss';
+
   @import 'styleguide/typography.scss';
   @import 'styleguide/labels.scss';
   @import 'styleguide/focus.scss';
@@ -13,14 +13,12 @@
   @import 'styleguide/button.scss';
 
   @import './img-dashboard.scss';
-  @import './img-aside.scss';
   @import './img-popup.scss';
   @import './img-tabs.scss';
 
   @import './eiti-header.scss';
   @import './img-layouts-width.scss';
   @import './eiti-grid.scss';
-  @import './img-nav.scss';
   @import './eiti-graph-nav.scss';
   @import './eiti-card.scss';
   @import './eiti-graphs.scss';
@@ -32,4 +30,28 @@
   @import './img-definitions.scss';
   @import './img-filters.scss';
   @import './custom.scss';
+}
+
+#local_development {
+
+  ul {
+    list-style-type: none;
+  }
+
+  
+  @import 'styleguide/_normalize.scss';
+  @import 'styleguide/breakpoints.scss';
+  @import 'styleguide/colours.scss';
+  @import './img-aside.scss';
+  @import './img-nav.scss';
+
+}
+
+@import './img-aside.scss';
+
+aside.selectors {
+
+
+  @import './img-nav.scss';
+  @import 'styleguide/typography.scss';
 }

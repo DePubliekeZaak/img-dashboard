@@ -1,13 +1,5 @@
-// display: flex;
-// position: absolute;
-// background: white;
-// z-index: 9;
-// min-height: 100vh;
-// width: calc(100vw - 4rem);
-// flex-direction: column;
-// padding: 2rem;
 
-aside {
+aside.selectors {
 
     // display: none;
     // position: fixed;
@@ -26,6 +18,9 @@ aside {
     // padding: 6.5rem 1rem 6rem 1.5rem;
     // background: $lightBlue;
     margin: auto;
+    font-family: 'RO Sans Regular', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
     // margin-top: 1rem;
 
     @media (min-width: $breakpoint-bax) {

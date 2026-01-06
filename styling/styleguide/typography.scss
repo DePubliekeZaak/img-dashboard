@@ -1,5 +1,5 @@
-body, svg g {
-    font-family: RO Sans Regular, Calibri,sans-serif;
+body, *, svg g {
+    font-family: 'RO Sans Regular', sans-serif;
     font-size: 1rem;
     line-height: 1.5;
   }
@@ -7,7 +7,6 @@ body, svg g {
   
   @mixin uppercase() {
   
-    // font-family: Noto Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
     text-transform: uppercase;
     font-weight: 500;
     font-size: .85rem;
@@ -17,7 +16,6 @@ body, svg g {
   
   @mixin uppercase-small() {
   
-    // font-family: Noto Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
     text-transform: uppercase;
     font-weight: 500;
     font-size: .75rem;
@@ -26,12 +24,12 @@ body, svg g {
   }
 
   @mixin bold() {
-    font-family: RO Sans Bold, sans-serif;
+    font-family: 'RO Sans Bold', sans-serif;
     font-weight: normal;
   }
 
   h2 {
-    font-family: RO Sans Bold, sans-serif;
+    font-family: 'RO Sans Bold', sans-serif;
     font-weight: normal;
     color: black;
     font-size: 2.25rem;
@@ -48,7 +46,7 @@ body, svg g {
   
   
   h3 {
-    font-family: RO Sans Bold, sans-serif;
+    font-family: 'RO Sans Bold', sans-serif;
     font-weight: normal;
     color: black;
     font-size: 1.25rem;
@@ -62,7 +60,7 @@ body, svg g {
     }
 
     &.unbold {
-      font-family: RO Sans Regular, Calibri, sans-serif;
+      font-family: 'RO Sans Regular', Calibri, sans-serif;
       font-size: 1rem;
       line-height: 1.5;
       margin-bottom: 1rem;
@@ -71,7 +69,7 @@ body, svg g {
   }
 
   h4 {
-    font-family: RO Sans Bold, sans-serif;
+    font-family: 'RO Sans Bold', sans-serif;
     font-weight: normal;
     color: black;
     font-size: 1.3rem;
@@ -80,7 +78,7 @@ body, svg g {
   }
 
   h5 {
-    font-family: RO Sans Bold, sans-serif;
+    font-family: 'RO Sans Bold', sans-serif;
     font-weight: normal;
     color: black;
     font-size: 1rem;
@@ -104,7 +102,7 @@ body, svg g {
   }
 
   .sector_info h4 {
-    font-family: RO Sans Regular, Calibri,sans-serif;
+    font-family: 'RO Sans Regular',sans-serif;
     font-weight: normal;
     font-size: 1rem;
     line-height: 1.5;
