@@ -110,6 +110,11 @@ export class DashboardController implements IDashboardController {
     // @ts-ignore
     const ctrlr = new window[this.params.topic](this);
     ctrlr.init(this.params.version);
+
+    setTimeout( () => {
+        (document.querySelector("aside.selectors") as HTMLElement).style.opacity = "1"
+    }, 2000)
+
     return;
   }
 
@@ -153,6 +158,8 @@ export class DashboardController implements IDashboardController {
         this.call(false);
 
     }
+
+ 
   }
 
   _toggleSubMenu(slug: string, isMobile: boolean): void {

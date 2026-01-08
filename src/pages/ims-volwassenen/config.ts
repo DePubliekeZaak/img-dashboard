@@ -111,40 +111,41 @@ const group: IGroupMappingV2[] = [
   {
     slug: "ims_volw_bedragen",
     ctrlr: "DefaultGroupV1",
+    filters: ["totaalVsRecent","weekVsMonth"],
     graphs: [
       {
         slug: "fs_ims_volw_numbers_2",
-        ctrlr: "NumbersMultiplesV1",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
         multiples: "cumulative",
         parameters: [
           [
-            {
-              label: "beschikte schade",
-              column: "ims_volw_bedrag_beschikt_schade",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt schadebedrag",
-            },
-            {
-              label: "beschikt totaal",
-              column: "ims_volw_bedrag_beschikt_totaal",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt totaalbedrag",
-            },
-            {
-              label: "betaalde schade",
-              column: "ims_volw_bedrag_betaald_schade",
-              colour: "moss",
-              format: "currency",
-              units: "betaald schadebedrag",
-            },
+            // {
+            //   label: "beschikte schade",
+            //   column: "ims_volw_bedrag_beschikt_schade",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt schadebedrag",
+            // },
+            // {
+            //   label: "beschikt totaal",
+            //   column: "ims_volw_bedrag_beschikt_totaal",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt totaalbedrag",
+            // },
+            // {
+            //   label: "betaalde schade",
+            //   column: "ims_volw_bedrag_betaald_schade",
+            //   colour: "moss",
+            //   format: "currency",
+            //   units: "betaald schadebedrag",
+            // },
             {
               label: "betaald totaal",
               column: "ims_volw_bedrag_betaald_totaal",
-              colour: "orange",
+              colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
             }
@@ -156,7 +157,7 @@ const group: IGroupMappingV2[] = [
             {
               label: "totaal",
               column: "{}_cumulatief",
-              colour: "orange",
+              colour: "blue",
             },
             {
               label: "afgelopen week",
@@ -173,9 +174,9 @@ const group: IGroupMappingV2[] = [
       },
       {
         slug: "ims_volw_bedragen_trend",
-        ctrlr: "BarTrendV1",
+        ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
+        filters: [],
         parameters: [
           [
             {
@@ -203,14 +204,14 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_volw_bedrag_betaald_totaal",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
       key: "ims_volw_bedrag_betaald_totaal",
-      cumulative: false,
-      periodization: "monthly",
+      cumulative: true,
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],

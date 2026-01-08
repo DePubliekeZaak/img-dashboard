@@ -30,6 +30,7 @@ export const createSideBar = (container: HTMLElement): HTMLElement => {
   container.classList.add("has_sidebar");
   let aside = document.createElement("aside");
   aside.classList.add("selectors");
+  aside.style.opacity = "0";
   if (container.parentElement != null)
     container.parentElement.insertBefore(
       aside,

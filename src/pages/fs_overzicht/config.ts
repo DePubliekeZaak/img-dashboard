@@ -172,141 +172,165 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],
   },
-  {
-    slug: "fs_waardering",
-    ctrlr: "KTOGroupV1",
-    graphs: [
-      {
-        slug: "fs_waardering_numbers",
-        ctrlr: "NumbersPlusRespondentsV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Sinds start",
-              column: "fysieke_schade_doorlopend_cijfer",
-              colour: "orange",
-              format: "decimals",
-            },
-          ],
-          [
-            {
-              label: "Totaal respondenten",
-              column: "fysieke_schade_aantal_respondenten_doorlopend",
-              units: "respondenten sinds start",
-              colour: "orange",
-            },
-          ],
-        ],
-      },
-      {
-        slug: "fs_waardering_trend",
-        ctrlr: "BarTrendKTOV1",
-        args: [],
-        filters: [],
-        parameters: [
-          [
-            {
-              label: "Maand cijfer",
-              column: "fysieke_schade_maandcijfer",
-              colour: "orange",
-              format: "decimals",
-            },
-          ],
-          [
-            {
-              label: "Aantal nieuwe respondenten",
-              column: "fysieke_schade_aantal_respondenten",
-              colour: "orange",
-              units: "respondenten",
-            },
-          ],
-        ],
-        modifiers: [],
-      },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["tevredenheid"],
-    segment: {
-      key: "fysieke_schade_maandcijfer",
-      cumulative: false,
-      periodization: "monthly",
-    },
-  },
+  // // {
+  // //   slug: "fs_waardering",
+  // //   ctrlr: "KTOGroupV1",
+  // //   graphs: [
+  // //     {
+  // //       slug: "fs_waardering_numbers",
+  // //       ctrlr: "NumbersPlusRespondentsV1",
+  // //       args: [],
+  // //       parameters: [
+  // //         [
+  // //           {
+  // //             label: "Sinds start",
+  // //             column: "fysieke_schade_doorlopend_cijfer",
+  // //             colour: "orange",
+  // //             format: "decimals",
+  // //           },
+  // //         ],
+  // //         [
+  // //           {
+  // //             label: "Totaal respondenten",
+  // //             column: "fysieke_schade_aantal_respondenten_doorlopend",
+  // //             units: "respondenten sinds start",
+  // //             colour: "orange",
+  // //           },
+  // //         ],
+  // //       ],
+  // //     },
+  // //     {
+  // //       slug: "fs_waardering_trend",
+  // //       ctrlr: "BarTrendKTOV1",
+  // //       args: [],
+  // //       filters: [],
+  // //       parameters: [
+  // //         [
+  // //           {
+  // //             label: "Maand cijfer",
+  // //             column: "fysieke_schade_maandcijfer",
+  // //             colour: "orange",
+  // //             format: "decimals",
+  // //           },
+  // //         ],
+  // //         [
+  // //           {
+  // //             label: "Aantal nieuwe respondenten",
+  // //             column: "fysieke_schade_aantal_respondenten",
+  // //             colour: "orange",
+  // //             units: "respondenten",
+  // //           },
+  // //         ],
+  // //       ],
+  // //       modifiers: [],
+  // //     },
+  // //   ],
+  // //   functionality: ["table", "definitions", "download"],
+  // //   endpoints: ["tevredenheid"],
+  // //   segment: {
+  // //     key: "fysieke_schade_maandcijfer",
+  // //     cumulative: false,
+  // //     periodization: "monthly",
+  // //   },
+  // // },
   {
     slug: "fs_keuzepaden",
     ctrlr: "DefaultGroupV1",
+    filters: [],
     graphs: [
-      {
-        slug: "fs_numbers_afgerond",
-        ctrlr: "NumbersV1",
-        args: [],
-        filters: [],
-        header: "Sinds start IMG/TCMG",
-        // multiples: "cumulative",
-        parameters: [
-          [
-            {
-              label: "Aanvragen",
-              column: "maatwerk_afgerond_cumulatief",
-              colour: "blue",
-              units: "afgerond via maatwerk",
-            },
-            {
-              label: "Voorraad",
-              column: "vv_afgerond_cumulatief",
-              colour: "orange",
-              units: "afgerond via vaste vergoeding",
-            },
-            {
-              label: "",
-              column: "---",
-              colour: "moss",
-              units: "",
-            },
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "maatwerk_afgerond",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
+      // {
+      //   slug: "fs_numbers_afgerond",
+      //   ctrlr: "NumbersV1",
+      //   args: [],
+      //   filters: [],
+      //   header: "Sinds start IMG/TCMG",
+      //   // multiples: "cumulative",
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Aanvragen",
+      //         column: "maatwerk_afgerond_cumulatief",
+      //         colour: "blue",
+      //         units: "afgerond via maatwerk",
+      //       },
+      //       {
+      //         label: "Voorraad",
+      //         column: "vv_afgerond_cumulatief",
+      //         colour: "orange",
+      //         units: "afgerond via vaste vergoeding",
+      //       },
+      //       {
+      //         label: "",
+      //         column: "---",
+      //         colour: "moss",
+      //         units: "",
+      //       },
+      //     ],
+      //     [],
+      //   ],
+      //   modifiers: [],
+      //   segment: {
+      //     key: "maatwerk_afgerond",
+      //     cumulative: true,
+      //     periodization: "weekly",
+      //   },
+      // },
       {
         slug: "fs_peag_afgerond",
-        ctrlr: "NumbersV1",
+        ctrlr: "SegmentsV1",
         args: [],
         filters: [],
         header: "Sinds maatregelen n.a.v. parlementaire enquete",
         parameters: [
           [
             {
-              label: "Maatwerk",
-              column: "fysiek_peag_maatwerk_afgerond_cumulatief",
+              label: "Maatwerk (MW)",
+              column: "fysiek_toegekend_als_maatwerk_cumulatief",
               colour: "blue",
-              units: "afgerond via maatwerk",
+              units: "toegekend als maatwerk",
             },
             {
-              label: "VES",
-              column: "fysiek_peag_vv_afgerond_cumulatief",
+              label: "Vaste Vergoeding (VES)",
+              column: "fysiek_toegekend_als_vaste_vergoeding_cumulatief",
               colour: "orange",
-              units: "afgerond via vaste vergoeding",
+              units: "toegekend als vaste vergoeding",
             },
             {
-              label: "HEA",
-              column: "fysiek_peag_herstel_afgerond_cumulatief",
+              label: "Aanvullende Vaste vergoeding (AVV)",
+              column: "fysiek_toegekend_als_aanvullende_vaste_vergoeding_cumulatief",
+              colour: "yellow",
+              units: "toegekend als aanvullende vaste vergoeding",
+            },
+            {
+              label: "Herstel Eigen Aannemer (HEA)",
+              column: "fysiek_toegekend_als_herstel_eigen_aannemer_cumulatief",
               colour: "moss",
-              units: "afgerond via herstel",
+              units: "toegekend als herstel eigen aannemer",
+            },
+            {
+              label: "Herstel Aannemer Instituut (HAI)",
+              column: "fysiek_toegekend_als_herstel_aannemer_instituut_cumulatief",
+              colour: "purple",
+              units: "toegekend als herstel aannemer instituut",
             },
           ],
           [],
         ],
-        modifiers: [],
+        modifiers: [[
+            {
+              label: "toename",
+              column: "{}",
+              colour: "orange",
+            },
+            {
+              label: "cumulatief",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+          ]],
         segment: {
-          key: "maatwerk_afgerond",
-          cumulative: true,
+          key: "fysiek_toegekend_als_maatwerk",
+          cumulative: false,
           periodization: "weekly",
         },
       },
@@ -318,20 +342,35 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Afgehandeld via maatwerk",
-              column: "maatwerk_afgerond",
+              label: "MW",
+              column: "fysiek_toegekend_als_maatwerk",
               colour: "blue",
+              units: "toegekend als maatwerk",
             },
             {
-              label: "Afgehandeld via vaste vergoeding",
-              column: "vv_afgerond",
+              label: "VES",
+              column: "fysiek_toegekend_als_vaste_vergoeding",
               colour: "orange",
+              units: "toegekend als vaste vergoeding",
             },
-            // {
-            //   label: "Afgehandeld via aanvullende vaste vergoeding",
-            //   column: "avv_afgerond",
-            //   colour: "moss",
-            // },
+            {
+              label: "AVV",
+              column: "fysiek_toegekend_als_aanvullende_vaste_vergoeding",
+              colour: "yellow",
+              units: "toegekend als aanvullende vaste vergoeding",
+            },
+            {
+              label: "HEA",
+              column: "fysiek_toegekend_als_herstel_eigen_aannemer",
+              colour: "moss",
+              units: "toegekend als herstel eigen aannemer",
+            },
+            {
+              label: "HAI",
+              column: "fysiek_toegekend_als_herstel_aannemer_instituut",
+              colour: "purple",
+              units: "toegekend als herstel aannemer instituut",
+            }
           ],
           [],
         ],
@@ -359,7 +398,7 @@ const mapping: IGroupMappingV2[] = [
     ],
     segment: {
       key: "maatwerk_afgehandeld",
-      cumulative: false,
+      cumulative: true,
       periodization: "monthly",
       label: "afgehandelde dossiers ",
     },

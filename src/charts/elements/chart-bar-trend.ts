@@ -72,6 +72,7 @@ export default class ChartBarTrend {
           <div>${value}</div>
       `;
       } else {
+         console.log(d.meta)
         return `
           <div>${d.label}</div>
           <div>maand ${d.meta._month} - ${d.meta._year}</div>

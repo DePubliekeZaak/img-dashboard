@@ -165,7 +165,7 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     await super.redraw(_d);
 
     this.chartBarTrend.redraw(
-      _d   
+      _d, this.segment.periodization
     );
 
     if (window.innerWidth < breakpoints.md) {

@@ -1,5 +1,5 @@
 body, *, svg g {
-    font-family: 'RO Sans Regular', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
     font-size: 1rem;
     line-height: 1.5;
   }
@@ -24,15 +24,15 @@ body, *, svg g {
   }
 
   @mixin bold() {
-    font-family: 'RO Sans Bold', sans-serif;
-    font-weight: normal;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
   }
 
   h2 {
-    font-family: 'RO Sans Bold', sans-serif;
-    font-weight: normal;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
     color: black;
-    font-size: 2.25rem;
+    font-size: 2rem;
     line-height: 1.125;
     // margin-bottom: 1rem;
 
@@ -46,12 +46,12 @@ body, *, svg g {
   
   
   h3 {
-    font-family: 'RO Sans Bold', sans-serif;
-    font-weight: normal;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
     color: black;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     line-height: 1.3;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 
     @media (min-width: $breakpoint-sm) {
 
@@ -60,7 +60,7 @@ body, *, svg g {
     }
 
     &.unbold {
-      font-family: 'RO Sans Regular', Calibri, sans-serif;
+      font-family: 'Noto Sans', Calibri, sans-serif;
       font-size: 1rem;
       line-height: 1.5;
       margin-bottom: 1rem;
@@ -69,8 +69,8 @@ body, *, svg g {
   }
 
   h4 {
-    font-family: 'RO Sans Bold', sans-serif;
-    font-weight: normal;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
     color: black;
     font-size: 1.3rem;
     line-height: 1.5;
@@ -78,8 +78,8 @@ body, *, svg g {
   }
 
   h5 {
-    font-family: 'RO Sans Bold', sans-serif;
-    font-weight: normal;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
     color: black;
     font-size: 1rem;
     line-height: 1.5;
@@ -102,7 +102,7 @@ body, *, svg g {
   }
 
   .sector_info h4 {
-    font-family: 'RO Sans Regular',sans-serif;
+    font-family: 'Noto Sans',sans-serif;
     font-weight: normal;
     font-size: 1rem;
     line-height: 1.5;
@@ -130,6 +130,12 @@ body, *, svg g {
 
   em {
     font-style: italic; 
+  }
+
+  ul {
+
+    margin: 0;
+    padding: 0;
   }
 
   .article_header {

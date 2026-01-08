@@ -134,6 +134,9 @@ export class HtmlNumberTitled {
     } else if (this.parameters[0].format === "percentage") {
       let value = Math.round(data * 10) / 10;
       element.querySelector(".number.accented").innerText = value + "%";
+    } else if (this.parameters[0].format === "percentage") {
+      let value = data.toFixed(1)
+      element.querySelector(".number.accented").innerText = value + "%";
     } else {
       let value = this.ctrlr.config.extra.decimal
         ? Math.round(data * 10) / 10

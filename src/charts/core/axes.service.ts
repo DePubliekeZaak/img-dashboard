@@ -130,7 +130,11 @@ export class AxesService {
         } else if (this.config.format === "currency") {
           this.axis.ticks(4).tickFormat((d) => convertToCurrency(d));
         } else if (this.config.format === "millions") {
-          this.axis.ticks(4).tickFormat((d) => convertToMillions(d));
+          this.axis.ticks(4).tickFormat((d) => {
+            
+            return d > 1000 * 1000 ? convertToMillions(d) : d
+          
+        });
         } else if (this.config.format === "hidden") {
           this.axis.ticks(0);
         } else {
