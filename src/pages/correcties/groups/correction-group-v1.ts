@@ -14,17 +14,15 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
 
   html() {
 
-    console.log(1)
-
     const graphWrapper = super.html();
 
     const container = document.createElement("div");
     container.classList.add("graph-container-12");
 
-    const archiveLink = document.createElement("span");
+    const archiveLink = document.createElement("a");
 
     archiveLink.classList.add("correctie");
-    archiveLink.innerText = "Bekijk archiefversie";
+    archiveLink.innerText = "Bekijk deze versie";
 
     archiveLink.addEventListener("click", () => {
       this.page.main.switchVersion(this.config.slug);

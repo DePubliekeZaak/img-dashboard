@@ -38,6 +38,7 @@ export default class PageController implements IPageController {
     if (groupContent == undefined) return c;
 
     c.header = groupContent.header || "";
+    c.datum = groupContent.datum || undefined;
     c.description = groupContent.description || "";
     c.definitions = groupContent.definitions || [];
     c.timeline = groupContent.timeline || [];

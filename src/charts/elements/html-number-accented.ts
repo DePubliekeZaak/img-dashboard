@@ -83,7 +83,7 @@ export class HtmlNumberAccented {
         data
       );
     } else if (this.parameter.format === "percentage") {
-      let value = Math.round(data * 10) / 10;
+      let value = data.toFixed(1);
       element.querySelector(".number.accented").innerText = value + "%";
     } else if (this.parameter.format === "decimals") {
       let value = Math.round(data * 10) / 10;

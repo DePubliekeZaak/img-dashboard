@@ -111,40 +111,41 @@ const group: IGroupMappingV2[] = [
   {
     slug: "wdl_wonen_bedragen",
     ctrlr: "DefaultGroupV1",
+    filters: ["totaalVsRecent","weekVsMonth"],
     graphs: [
       {
         slug: "fs_wd_wonen_numbers_2",
-        ctrlr: "NumbersMultiplesV1",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
         multiples: "cumulative",
         parameters: [
           [
-            {
-              label: "beschikte schade",
-              column: "wd_wonen_bedrag_beschikt_schade",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt schadebedrag",
-            },
-            {
-              label: "beschikt totaal",
-              column: "wd_wonen_bedrag_beschikt_totaal",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt totaalbedrag",
-            },
-            {
-              label: "betaalde schade",
-              column: "wd_wonen_bedrag_betaald_schade",
-              colour: "moss",
-              format: "currency",
-              units: "betaald schadebedrag",
-            },
+            // {
+            //   label: "beschikte schade",
+            //   column: "wd_wonen_bedrag_beschikt_schade",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt schadebedrag",
+            // },
+            // {
+            //   label: "beschikt totaal",
+            //   column: "wd_wonen_bedrag_beschikt_totaal",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt totaalbedrag",
+            // },
+            // {
+            //   label: "betaalde schade",
+            //   column: "wd_wonen_bedrag_betaald_schade",
+            //   colour: "moss",
+            //   format: "currency",
+            //   units: "betaald schadebedrag",
+            // },
             {
               label: "betaald totaal",
               column: "wd_wonen_bedrag_betaald_totaal",
-              colour: "orange",
+              colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
             }
@@ -173,9 +174,9 @@ const group: IGroupMappingV2[] = [
       },
       {
         slug: "wdl_wonen_bedragen_trend",
-        ctrlr: "BarTrendV1",
+        ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
+        filters: [],
         parameters: [
           [
             {
@@ -209,7 +210,7 @@ const group: IGroupMappingV2[] = [
     ],
     segment: {
       key: "wd_wonen_bedrag_betaald_totaal",
-      cumulative: false,
+      cumulative: true,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],

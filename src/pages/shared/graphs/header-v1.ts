@@ -46,7 +46,7 @@ export class HeaderV1 extends core.GraphControllerV3 {
     async init() {
         
 
-        this.header = new HtmlHeader(this, [], this.graphEl, this.parameters[0][0].label, "");
+        this.header = new HtmlHeader(this, [], this.graphEl, this.parameters[0][0].label, "",undefined);
 
         await this.update(this.group.data, false);
         return;

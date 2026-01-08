@@ -11,6 +11,7 @@ import { NumbersV1 } from "../../shared/graphs/numbers-v1";
 import { NumbersMultiplesTitledV1 } from "../../shared/graphs/numbers-multiples-titled-v1";
 import { BarTrendBedragenV1 } from "../../shared/graphs/bar-trend-bedragen-v1";
 import { BarTrendBedragenV2 } from "../../shared/graphs/bar-trend-bedragen-v2";
+import { SegmentsV1} from "../../shared/graphs/segments-v1"
 
 const graphs = {
   BarTrendStackedMakeup,
@@ -24,7 +25,8 @@ const graphs = {
   NumbersV1,
   NumbersMultiplesTitledV1,
   BarTrendBedragenV1,
-  BarTrendBedragenV2 
+  BarTrendBedragenV2,
+  SegmentsV1
 };
 
 export default graphs;

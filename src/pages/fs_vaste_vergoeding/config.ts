@@ -207,40 +207,41 @@ const mapping: IGroupMappingV2[] = [
   {
     slug: "vv_bedragen",
     ctrlr: "DefaultGroupV1",
+    filters: ["totaalVsRecent","weekVsMonth"],
     graphs: [
       {
         slug: "fs_vv_numbers_2",
-        ctrlr: "NumbersMultiplesV1",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
         multiples: "cumulative",
         parameters: [
           [
-            {
-              label: "beschikte schade",
-              column: "vv_bedrag_beschikt_schade",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt schadebedrag",
-            },
-            {
-              label: "beschikt totaal",
-              column: "vv_bedrag_beschikt_totaal",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt totaalbedrag",
-            },
-            {
-              label: "betaalde schade",
-              column: "vv_bedrag_betaald_schade",
-              colour: "moss",
-              format: "currency",
-              units: "betaald schadebedrag",
-            },
+            // {
+            //   label: "beschikte schade",
+            //   column: "vv_bedrag_beschikt_schade",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt schadebedrag",
+            // },
+            // {
+            //   label: "beschikt totaal",
+            //   column: "vv_bedrag_beschikt_totaal",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt totaalbedrag",
+            // },
+            // {
+            //   label: "betaalde schade",
+            //   column: "vv_bedrag_betaald_schade",
+            //   colour: "moss",
+            //   format: "currency",
+            //   units: "betaald schadebedrag",
+            // },
             {
               label: "betaald totaal",
               column: "vv_bedrag_betaald_totaal",
-              colour: "orange",
+              colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
             }
@@ -269,9 +270,9 @@ const mapping: IGroupMappingV2[] = [
       },
       {
         slug: "vv_bedragen_trend",
-        ctrlr: "BarTrendV1",
+        ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
+        filters: [],
         parameters: [
           [
             {
@@ -299,7 +300,7 @@ const mapping: IGroupMappingV2[] = [
         segment: {
           key: "vv_bedrag_betaald_totaal",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],

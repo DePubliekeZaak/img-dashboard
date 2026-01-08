@@ -38,6 +38,7 @@ export interface IGroupMappingV2 {
   filters?: string[];
   header?: string | null;
   header_en?: string | null;
+  datum?: string | undefined;
   description?: string | null;
   description_en?: string | null;
   definitions?: string[];

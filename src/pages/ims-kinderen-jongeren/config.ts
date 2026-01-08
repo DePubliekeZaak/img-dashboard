@@ -111,40 +111,41 @@ const group: IGroupMappingV2[] = [
   {
     slug: "ims_kj_bedragen",
     ctrlr: "DefaultGroupV1",
+    filters: ["totaalVsRecent","weekVsMonth"],
     graphs: [
       {
         slug: "fs_ims_kj_numbers_2",
-        ctrlr: "NumbersMultiplesV1",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
         multiples: "cumulative",
         parameters: [
           [
-            {
-              label: "beschikte schade",
-              column: "ims_kj_bedrag_beschikt_schade",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt schadebedrag",
-            },
-            {
-              label: "beschikt totaal",
-              column: "ims_kj_bedrag_beschikt_totaal",
-              colour: "blue",
-              format: "currency",
-              units: "beschikt totaalbedrag",
-            },
-            {
-              label: "betaalde schade",
-              column: "ims_kj_bedrag_betaald_schade",
-              colour: "moss",
-              format: "currency",
-              units: "betaald schadebedrag",
-            },
+            // {
+            //   label: "beschikte schade",
+            //   column: "ims_kj_bedrag_beschikt_schade",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt schadebedrag",
+            // },
+            // {
+            //   label: "beschikt totaal",
+            //   column: "ims_kj_bedrag_beschikt_totaal",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt totaalbedrag",
+            // },
+            // {
+            //   label: "betaalde schade",
+            //   column: "ims_kj_bedrag_betaald_schade",
+            //   colour: "moss",
+            //   format: "currency",
+            //   units: "betaald schadebedrag",
+            // },
             {
               label: "betaald totaal",
               column: "ims_kj_bedrag_betaald_totaal",
-              colour: "orange",
+              colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
             }
@@ -166,21 +167,21 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ms_kj_bedrag_betaald_totaal",
+          key: "ims_kj_bedrag_betaald_totaal",
           cumulative: true,
           periodization: "weekly",
         },
       },
       {
         slug: "ims_kj_bedragen_trend",
-        ctrlr: "BarTrendV1",
+        ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
+        filters: [],
         parameters: [
           [
             {
               label: "Totaal betaald bedrag",
-              column: "ms_kj_bedrag_betaald_totaal",
+              column: "ims_kj_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
             },
@@ -201,16 +202,16 @@ const group: IGroupMappingV2[] = [
           ],
         ],
         segment: {
-          key: "ms_kj_bedrag_betaald_totaal",
+          key: "ims_kj_bedrag_betaald_totaal",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
-      key: "ms_kj_bedrag_betaald_totaal",
-      cumulative: false,
-      periodization: "monthly",
+      key: "ims_kj_bedrag_betaald_totaal",
+      cumulative: true,
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],

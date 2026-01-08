@@ -10,6 +10,7 @@ export class HtmlHeader {
     private element,
     private header,
     private description,
+    private datum
   ) {}
 
   async draw() {
@@ -32,6 +33,14 @@ export class HtmlHeader {
       this.headerElement.appendChild(h);
     }
 
+    if (this.datum) {
+      let d = document.createElement("span");
+      d.style.display = "block";
+      d.style.marginTop = "-1rem";
+      d.innerText = this.datum;
+      this.headerElement.appendChild(d);
+    }
+
     if (this.description) {
       let d = document.createElement("div");
       d.style.maxWidth = "640px";
@@ -45,6 +54,8 @@ export class HtmlHeader {
       d.appendChild(p);
       this.headerElement.appendChild(d);
     }
+
+    
 
     this.element.appendChild(this.headerElement);
     return true;
@@ -75,7 +86,7 @@ export class HtmlHeader {
                 return thousands(value) || `{${key}}`
               }
             });
-      }``
+      }
 
       descEl.innerHTML = description;
     }
