@@ -139,24 +139,22 @@ export class HtmlTabs {
 
         // Generate CSV from currently visible table
         const csvData = tableToCSV(this.element);
-        const blob = new Blob([csvData], { type: "text/csv" });
-        const url = URL.createObjectURL(blob);
+        
+        // Create data URL instead of blob URL
+        const dataUrl = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvData);
 
         // Create temporary download link
         const tempLink = document.createElement("a");
-        tempLink.href = url;
-        tempLink.download = "IMG_" + this.mapping.slug + ".csv" || "download";
+        tempLink.href = dataUrl;
+        tempLink.download = "IMG_" + this.mapping.slug + ".csv" || "download.csv";
         tempLink.style.display = "none";
 
         // Trigger download
         document.body.appendChild(tempLink);
         tempLink.click();
         document.body.removeChild(tempLink);
-
-        // Clean up
-        setTimeout(() => {
-          URL.revokeObjectURL(url);
-        }, 150);
+        
+        // No need for URL.revokeObjectURL anymore
       };
 
       a.addEventListener("click", clickHandler, false);
