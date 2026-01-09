@@ -484,12 +484,12 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gemiddeld gerealiseerd aantal dagen",
             },
-            {
-              label: "Verwacht aantal dagen tot besluit",
-              column: "ims_volw_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "verwacht aantal dagen",
-            },
+            // {
+            //   label: "Verwacht aantal dagen tot besluit",
+            //   column: "ims_volw_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   units: "verwacht aantal dagen",
+            // },
           ],
         ],
         segment: {
@@ -587,7 +587,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_volw_oud_voorraad_binnen_termijn",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       //
@@ -595,7 +595,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "ims_volw_oud_voorraad_binnen_termijn",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],

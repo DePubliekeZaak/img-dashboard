@@ -72,7 +72,6 @@ export default class ChartBarTrend {
           <div>${value}</div>
       `;
       } else {
-         console.log(d.meta)
         return `
           <div>${d.label}</div>
           <div>maand ${d.meta._month} - ${d.meta._year}</div>
@@ -81,24 +80,12 @@ export default class ChartBarTrend {
       }
     };
 
-    // const space =
-    // period == 'weekly'
-    // ? 6
-    // : data.length < 10
-    // ? 6
-    // : 1;
-
-
-
-    const space = data.length < 10 ? 6 : 1;
-
     let barWidth = (this.ctrlr.dimensions.coreWidth / (data.length)) - 2;
 
     bars
       .attr("x", (d: TrendBar, i: number) => {
         return self.ctrlr.scales.x.fn(d.date);
       })
-
       .attr("width", barWidth)
       .transition()
       .duration(300)

@@ -1,6 +1,5 @@
-import { isLabeledStatement } from 'typescript';
+
 import { breakpoints, colours } from '../../img-modules/styleguide';
-import { Bar, Bars } from '../../pages/shared/types_graphs';
 import { slugify } from '../../pages/shared/_helpers';
 
 export default class ChartTimeline {
@@ -51,7 +50,7 @@ export default class ChartTimeline {
         groups  
             .append("svg:image")
             .filter( (d) => d.category ==  "beving")
-            .attr("xlink:href", "./styles/icons/beving.svg")
+            .attr("xlink:href", "https://graphs.publikaan.nl/graphs/icons/beving.svg")
             .attr("width", 24)
             .attr("height", 24)
             .attr('x',-10)

@@ -481,14 +481,13 @@ const group: IGroupMappingV2[] = [
               column: "wdl_wd_dlt_gerealiseerd_gemiddeld_dagen",
               colour: "blue",
               units: "gemiddeld gerealiseerd aantal dagen",
-            },
-            
-            {
-              label: "Verwacht aantal dagen tot besluit",
-              column: "wdl_wd_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "verwacht aantal dagen",
-            },
+            }, 
+            // {
+            //   label: "Verwacht aantal dagen tot besluit",
+            //   column: "wdl_wd_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   units: "verwacht aantal dagen",
+            // },
           ],
         ],
         segment: {
@@ -587,7 +586,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wdl_wd_oud_voorraad_binnen_termijn",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       //
@@ -595,7 +594,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wdl_wd_oud_voorraad_binnen_termijn",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
@@ -644,7 +643,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wdl_wd_bz_ingediend",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -680,14 +679,14 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wdl_wd_bz_toegekend_cumulatief",
           cumulative: true,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
       key: "wdl_wd_bz_toegekend_cumulatief",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],

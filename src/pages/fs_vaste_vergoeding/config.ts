@@ -299,14 +299,14 @@ const mapping: IGroupMappingV2[] = [
         ],
         segment: {
           key: "vv_bedrag_betaald_totaal",
-          cumulative: false,
-          periodization: "weekly",
+          cumulative: true,
+          periodization: "monthly",
         },
       },
     ],
     segment: {
       key: "vv_bedrag_betaald_totaal",
-      cumulative: false,
+      cumulative: true,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
@@ -580,12 +580,12 @@ const mapping: IGroupMappingV2[] = [
               colour: "blue",
               units: "gemiddeld gerealiseerd aantal dagen",
             },
-            {
-              label: "Verwacht aantal dagen tot besluit",
-              column: "vv_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "verwacht aantal dagen",
-            },
+            // {
+            //   label: "Verwacht aantal dagen tot besluit",
+            //   column: "vv_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   units: "verwacht aantal dagen",
+            // },
           ],
         ],
         segment: {
@@ -684,7 +684,7 @@ const mapping: IGroupMappingV2[] = [
         segment: {
           key: "vv_oud_voorraad_binnen_termijn",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       //
@@ -692,7 +692,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "vv_oud_voorraad_binnen_termijn",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
