@@ -11,6 +11,7 @@ import { BarTrendKTOV1 } from "../../shared/graphs/bar-trend-kto-v1";
 import { NumbersPlusRespondentsV1 } from "../../shared/graphs/numbers-respondents-v1";
 import { NumbersMultiplesTitledV1 } from "../../shared/graphs/numbers-multiples-titled-v1";
 import { BarTrendBedragenV1 } from "../../shared/graphs/bar-trend-bedragen-v1";
+import { BarTrendDLTV1 } from "../../shared/graphs/bar-trend-dlt-v1";
 
 const graphs = {
   NumbersMultiplesV1,
@@ -19,6 +20,7 @@ const graphs = {
   PieChartSumV1,
   PieChartV1,
   BarTrendV1,
+  BarTrendDLTV1,
   BarTrendStackedMakeup,
   BarTrendStackedMakeupV2,
   SegmentsV1,

@@ -108,7 +108,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
 
   async init() {
     this.config.paddingInner = 0.2;
-    this.config.paddingOuter = 0.2;
+    this.config.paddingOuter = 0;
 
     await super._init();
     if (this.scrollingContainer != null)

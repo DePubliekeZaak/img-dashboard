@@ -701,7 +701,8 @@
         "Garrelsweer",
         "Uithuizermeeden en Uithuizen",
         "Wirdum",
-        "Start vaste vergoeding van 5000 euro"
+        "Start vaste vergoeding van 5000 euro",
+        "Zeerijp"
       ],
       "content": "De vaste vergoeding is een snelle regeling zonder adviesrapport, met wel een verplichte nulmeting. Nieuwe schade melden is alleen mogelijk als een nieuwe aardbeving op het adres meer dan 5 mm/s trillingssnelheid veroorzaakt. Sinds de start van de regeling zijn er {vv_ingediend_cumulatief} aanvragen ontvangen, waarvan er {vv_afgerond_cumulatief} zijn afgerond.",
       "description": "<p dir=\"auto\">De vaste vergoeding is een snelle regeling zonder adviesrapport, met wel een verplichte nulmeting. Nieuwe schade melden is alleen mogelijk als een nieuwe aardbeving op het adres meer dan 5 mm/s trillingssnelheid veroorzaakt. Sinds de start van de regeling zijn er {vv_ingediend_cumulatief} aanvragen ontvangen, waarvan er {vv_afgerond_cumulatief} zijn afgerond.</p>"
@@ -912,9 +913,15 @@
         "maatwerk"
       ],
       "definitions": [],
-      "timeline": [],
-      "content": "Voor de helft van de dossiers nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {maatwerk_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment 406 dagen. (klopt dat?)",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {maatwerk_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment 406 dagen. (klopt dat?)</p>"
+      "timeline": [
+        "Wirdum",
+        "Westerwijtwerd",
+        "Uithuizermeeden en Uithuizen",
+        "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
+        "Zeerijp"
+      ],
+      "content": "Voor de helft van de dossiers nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {maatwerk_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment {maatwerk_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {maatwerk_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment {maatwerk_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "maatwerk_intro",
@@ -1998,7 +2005,7 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-01-07T13:37:56.503Z",
+    "generatedAt": "2026-01-09T13:21:17.441Z",
     "totalGroups": 127,
     "sourceFiles": [
       "versies_intro.group.md",

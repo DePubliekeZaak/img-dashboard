@@ -260,7 +260,7 @@ const group: IGroupMappingV2[] = [
             },
             {
               label: "Betaald bedrag",
-              column: "ims_volw_bedrag_totaal_bedrag_cumulatief",
+              column: "ims_volw_bedrag_betaald_totaal_cumulatief",
               colour: "blue",
               units: "betaald bedrag",
               format: "currency",
@@ -284,7 +284,7 @@ const group: IGroupMappingV2[] = [
         ],
         segment: {
           key: "ims_volw_ingediend_cumulatief",
-          cumulative: false,
+          cumulative: true,
           periodization: "weekly",
         },
       },
@@ -311,7 +311,7 @@ const group: IGroupMappingV2[] = [
             },
             {
               label: "Verleende schade",
-              column: "ims_kj_bedrag_totaal_bedrag_cumulatief",
+              column: "ims_kj_bedrag_betaald_totaal_cumulatief",
               colour: "orange",
               units: "betaald bedrag",
               format: "currency",
@@ -335,7 +335,7 @@ const group: IGroupMappingV2[] = [
         ],
         segment: {
           key: "ims_kj_ingediend_cumulatief",
-          cumulative: false,
+          cumulative: true,
           periodization: "weekly",
         },
       },
@@ -377,24 +377,24 @@ const group: IGroupMappingV2[] = [
               excludeFromTable: true,
             },
           ],
-          [
-            {
-              label: "Volwassenen",
-              column: "ims_volw_bedrag_totaal_bedrag",
-              colour: "blue",
-              units: "betaald bedrag",
-              format: "currency",
-              excludeFromTable: true,
-            },
-            {
-              label: "Kinderen en jongeren",
-              column: "ims_kj_bedrag_totaal_bedrag",
-              colour: "orange",
-              units: "betaald bedrag",
-              format: "currency",
-              excludeFromTable: true,
-            },
-          ],
+          // [
+          //   {
+          //     label: "Volwassenen",
+          //     column: "ims_volw_bedrag_totaal_bedrag",
+          //     colour: "blue",
+          //     units: "betaald bedrag",
+          //     format: "currency",
+          //     excludeFromTable: true,
+          //   },
+          //   {
+          //     label: "Kinderen en jongeren",
+          //     column: "ims_kj_bedrag_totaal_bedrag",
+          //     colour: "orange",
+          //     units: "betaald bedrag",
+          //     format: "currency",
+          //     excludeFromTable: true,
+          //   },
+          // ],
         ],
         modifiers: [
           [
@@ -420,7 +420,7 @@ const group: IGroupMappingV2[] = [
     ],
     segment: {
       key: "ims_volw_afgehandeld",
-      cumulative: false,
+      cumulative: true,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],

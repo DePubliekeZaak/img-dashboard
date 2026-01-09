@@ -588,7 +588,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_nietwonen_oud_voorraad_binnen_termijn",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       //
@@ -596,7 +596,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_nietwonen_oud_voorraad_binnen_termijn",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],

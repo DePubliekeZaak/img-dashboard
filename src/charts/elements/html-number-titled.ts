@@ -137,12 +137,20 @@ export class HtmlNumberTitled {
     } else if (this.parameters[0].format === "percentage") {
       let value = data.toFixed(1)
       element.querySelector(".number.accented").innerText = value + "%";
+    // } else if (this.ctrlr.slug.includes("duur_numbers_v1_mult2")) {
+
+
+
+    //   let value = data;
+    //         console.log("helllooo", value)
+    //   element.querySelector(".number.accented").innerText = value;
+
     } else {
+     
       let value = this.ctrlr.config.extra.decimal
         ? Math.round(data * 10) / 10
         : Math.ceil(data - 0.5);
 
-        console.log(value)
       element.querySelector(".number.accented").innerText =
         value > 999 ? thousands(value) : value;
 

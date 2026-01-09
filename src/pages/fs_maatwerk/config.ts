@@ -145,7 +145,7 @@ const group: IGroupMappingV2[] = [
             {
               label: "betaald totaal",
               column: "maatwerk_bedrag_betaald_totaal",
-              colour: "orange",
+              colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
             }
@@ -210,7 +210,7 @@ const group: IGroupMappingV2[] = [
     ],
     segment: {
       key: "maatwerk_bedrag_betaald_totaal",
-      cumulative: false,
+      cumulative: true,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
@@ -521,6 +521,7 @@ const group: IGroupMappingV2[] = [
               label: "Verwacht",
               column: "maatwerk_dlt_verwacht_rolling8_dagen",
               colour: "moss",
+              format: "roundup",
               units: "aantal dagen",
             }
           ],
@@ -547,12 +548,6 @@ const group: IGroupMappingV2[] = [
               units: "mediaan gerealiseerd aantal dagen",
             },
             {
-              label: "Verwacht aantal dagen tot besluit",
-              column: "maatwerk_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "verwacht aantal dagen",
-            },
-            {
               label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
               column: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
               colour: "blue",
@@ -567,16 +562,75 @@ const group: IGroupMappingV2[] = [
           label: "dagen",
         },
       },
+      {
+        slug: "fs_maatwerk_duur_trend2",
+        ctrlr: "BarTrendDLTV1",
+        header: "Vewrwacht aantal dagen tot besluit",
+        filters: [],
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Verwacht aantal dagen tot besluit",
+              column: "maatwerk_dlt_verwacht_rolling8_dagen",
+              colour: "moss",
+              units: "verwacht aantal dagen",
+            },
+          ],
+        ],
+        segment: {
+          key: "maatwerk_dlt_verwacht_rolling8_dagen",
+          cumulative: false,
+          periodization: "weekly",
+          label: "dagen",
+        },
+      },
     ],
     segment: {
       key: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
       label: "dagen",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
+  // {
+  //   slug: "maatwerk_duur_2",
+  //   ctrlr: "DefaultGroupV1",
+  //   graphs: [
+  //     {
+  //       slug: "fs_maatwerk_duur_trend2",
+  //       ctrlr: "BarTrendV1",
+  //       filters: [],
+  //       args: [],
+  //       parameters: [
+  //         [
+  //           {
+  //             label: "Verwacht aantal dagen tot besluit",
+  //             column: "maatwerk_dlt_verwacht_rolling8_dagen",
+  //             colour: "moss",
+  //             units: "verwacht aantal dagen",
+  //           },
+  //         ],
+  //       ],
+  //       segment: {
+  //         key: "maatwerk_dlt_verwacht_rolling8_dagen",
+  //         cumulative: false,
+  //         periodization: "weekly",
+  //         label: "dagen",
+  //       },
+  //     },
+  //   ],
+  //   segment: {
+  //     key: "maatwerk_dlt_verwacht_rolling8_dagen",
+  //     cumulative: false,
+  //     periodization: "weekly",
+  //     label: "dagen",
+  //   },
+  //   functionality: ["table", "definitions", "download"],
+  //   endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
+  // },
   {
     slug: "maatwerk_voorraad",
     ctrlr: "DefaultGroupV1",
@@ -657,7 +711,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "maatwerk_oud_voorraad_binnen_termijn",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       //
@@ -665,7 +719,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "maatwerk_oud_voorraad_binnen_termijn",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],

@@ -219,6 +219,8 @@ export class GroupControllerV1 implements IGroupCtrlr {
             .sort()
         : [];
 
+     
+
     return {
       tableParams,
       graphParams,

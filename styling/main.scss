@@ -4,6 +4,16 @@
 
 #dashboard-main {
 
+  width: 100%;
+
+  table, thead, tbody, tr, th, td {
+    border: none;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  
+
   @import 'styleguide/typography.scss';
   @import 'styleguide/labels.scss';
   @import 'styleguide/focus.scss';

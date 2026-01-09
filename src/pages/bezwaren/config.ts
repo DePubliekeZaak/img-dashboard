@@ -47,67 +47,31 @@ const bezwaren: IGroupMappingV2[] = [
         ctrlr: "NumbersV1",
         args: [],
         filters: [],
-        header: "Vaste vergoeding",
+        header: "Vaste vergoedingen",
         parameters: [
           [
             {
               label: "ingediend",
-              column: "ves_bezwaren_ingediend_cumulatief",
+              column: "vv_bezwaren_ingediend_cumulatief",
               colour: "blue",
               units: "ingediend",
             },
             {
               label: "percentage",
-              column: "ves_bezwaren_percentage_cumulatief",
+              column: "vv_bezwaren_percentage_cumulatief",
               colour: "lightBlue",
               format: "percentage",
               units: "van aantal besluiten",
             },
             {
               label: "afgerond",
-              column: "ves_bezwaren_afgerond_cumulatief",
+              column: "vv_bezwaren_afgerond_cumulatief",
               colour: "moss",
               units: "afgerond",
             },
             {
               label: "in beh.",
-              column: "ves_bezwaren_voorraad_cumulatief",
-              colour: "orange",
-              units: "in behandeling",
-            },
-          ],
-        ],
-      },
-      {
-        slug: "bezwaren_avv_numbers_v1",
-        ctrlr: "NumbersV1",
-        args: [],
-        filters: [],
-        header: "Aanvullende vaste vergoeding",
-        parameters: [
-          [
-            {
-              label: "ingediend",
-              column: "avv_bezwaren_ingediend_cumulatief",
-              colour: "blue",
-              units: "ingediend",
-            },
-            {
-              label: "percentage",
-              column: "avv_bezwaren_percentage_cumulatief",
-              colour: "lightBlue",
-              format: "percentage",
-              units: "van aantal besluiten",
-            },
-            {
-              label: "afgerond",
-              column: "avv_bezwaren_afgerond_cumulatief",
-              colour: "moss",
-              units: "afgerond",
-            },
-            {
-              label: "in beh.",
-              column: "avv_bezwaren_voorraad_cumulatief",
+              column: "vv_bezwaren_voorraad_cumulatief",
               colour: "orange",
               units: "in behandeling",
             },
@@ -263,7 +227,7 @@ const bezwaren: IGroupMappingV2[] = [
         ctrlr: "NumbersV1",
         args: [],
         filters: [],
-        header: "Waardedaling: NAM compensatie",
+        header: "Waardedaling: NAM tegemoetkoming",
         parameters: [
           [
             {
@@ -299,7 +263,7 @@ const bezwaren: IGroupMappingV2[] = [
     endpoints: ["bezwaren_maandelijks", "bezwaren_wekelijks"],
     segment: {
       key: "mw_bezwaren_ingediend_cumulatief",
-      cumulative: false,
+      cumulative: true,
       periodization: "weekly",
     },
   },
@@ -365,90 +329,40 @@ const bezwaren: IGroupMappingV2[] = [
           [
             {
               label: "Toegekend",
-              column: "ves_bezwaren_toegekend_cumulatief",
+              column: "vv_bezwaren_toegekend_cumulatief",
               colour: "moss",
             },
             {
               label: "Afgewezen",
-              column: "ves_bezwaren_afgewezen_cumulatief",
+              column: "vv_bezwaren_afgewezen_cumulatief",
               colour: "orange",
             },
             {
               label: "Anders afgerond",
-              column: "ves_bezwaren_anders_afgehandeld_cumulatief",
+              column: "vv_bezwaren_anders_afgehandeld_cumulatief",
               colour: "blue",
             },
           ],
           [
             {
               label: "Totaal afgerond",
-              column: "ves_bezwaren_afgerond_cumulatief",
+              column: "vv_bezwaren_afgerond_cumulatief",
               colour: "gray",
             },
           ],
         ],
         segment: {
-          key: "ves_bezwaren_toegekend_cumulatief",
+          key: "vv_bezwaren_toegekend_cumulatief",
           cumulative: true,
           periodization: "monthly",
         },
       },
     ],
-    header: "Vaste vergoeding",
+    header: "Vaste vergoedingen",
     functionality: ["table", "definitions", "download"],
     endpoints: ["bezwaren_maandelijks", "bezwaren_wekelijks"],
     segment: {
-      key: "ves_bezwaren_toegekend_cumulatief",
-      cumulative: false,
-      periodization: "none",
-    },
-  },
-  {
-    slug: "bezwaren_avv_pies",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "bezwaren_avv_taart_toegekend",
-        ctrlr: "PieChartSumV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "avv_bezwaren_toegekend_cumulatief",
-              colour: "moss",
-            },
-            {
-              label: "Afgewezen",
-              column: "avv_bezwaren_afgewezen_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "Anders afgerond",
-              column: "avv_bezwaren_anders_afgehandeld_cumulatief",
-              colour: "blue",
-            },
-          ],
-          [
-            {
-              label: "Totaal afgerond",
-              column: "avv_bezwaren_afgerond_cumulatief",
-              colour: "gray",
-            },
-          ],
-        ],
-        segment: {
-          key: "avv_bezwaren_toegekend_cumulatief",
-          cumulative: true,
-          periodization: "monthly",
-        },
-      },
-    ],
-    header: "Aanvullende vaste vergoeding",
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["bezwaren_maandelijks", "bezwaren_wekelijks"],
-    segment: {
-      key: "avv_bezwaren_toegekend_cumulatief",
+      key: "vv_bezwaren_toegekend_cumulatief",
       cumulative: false,
       periodization: "none",
     },
@@ -694,7 +608,7 @@ const bezwaren: IGroupMappingV2[] = [
         },
       },
     ],
-    header: "Waaerdedaling: NAM compensatie",
+    header: "Waardedaling: NAM tegemoetkoming",
     functionality: ["table", "definitions", "download"],
     endpoints: ["bezwaren_maandelijks", "bezwaren_wekelijks"],
     segment: {

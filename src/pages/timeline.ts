@@ -93,5 +93,12 @@ export const timelineList: Timeline[] =  [
             html: "Verhoging vaste vergoeding naar 10.000 euro",
             description: "",
             category: "regeling"
+        },
+        {
+            date: "2025-11-14",
+            label: "Zeerijp",
+            html: "Zeerijp",
+            description: "",
+            category: "beving"
         }
     ];

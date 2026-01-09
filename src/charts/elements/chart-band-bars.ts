@@ -27,7 +27,7 @@ export class ChartBandBar {
       .attr("class", "barLabel smallest-label")
       .attr("x", 0)
       .attr("dx", "0px")
-      .attr("dy", "-4px")
+      .attr("dy", "-10px")
       .style("text-anchor", "middle");
   }
 

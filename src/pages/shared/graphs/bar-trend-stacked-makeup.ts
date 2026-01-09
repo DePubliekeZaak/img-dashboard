@@ -54,8 +54,8 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     const top = window.innerWidth < breakpoints.sm ? 30 : 0;
     const bottom = 0;
 
-    this._addMargin(top, bottom, 30, 30);
-    this._addPadding(75, 30, 50, 0);
+    this._addMargin(top, bottom, 0, 0);
+    this._addPadding(75, 30, 50, 20);
 
     this._addScale("x", "band", "horizontal-reverse", "date");
     this._addScale("y", "linear", "vertical", "value");
