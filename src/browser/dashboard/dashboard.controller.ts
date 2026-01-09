@@ -4,7 +4,6 @@ import { screenSize } from "./screen.factory";
 import {
   styleParentElement,
   createSideBar,
-  createPopupElement,
   pageHeader,
   createSkipLink,
 } from "./html.factory";
@@ -189,7 +188,7 @@ export class DashboardController implements IDashboardController {
       aside.appendChild(this.nav.create(false));
     }
     setActiveMenuItem(this.params.topic, isMobile);
-    createPopupElement();
+    // createPopupElement();
   }
 
   _screenListener(): void {

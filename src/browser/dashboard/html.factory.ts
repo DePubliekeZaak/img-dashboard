@@ -1,7 +1,6 @@
 import { switchTopic } from "./interaction.factory";
 import { IDashboardController } from "./dashboard.controller";
 import { IGraphMapping } from "../../charts/core/types";
-import members from "./members";
 import { breakpoints } from "../../img-modules/styleguide";
 import { Version } from "./types";
 
@@ -47,15 +46,15 @@ export const createSkipLink = (): HTMLElement => {
   return skipLink;
 };
 
-export const createPopupElement = (): void => {
-  const id = "img-dashboard_popup";
+// export const createPopupElement = (): void => {
+//   const id = "img-dashboard_popup";
 
-  if (!document.getElementById(id)) {
-    let popup = document.createElement("div");
-    popup.id = id;
-    document.getElementsByTagName("body")[0].appendChild(popup);
-  }
-};
+//   if (!document.getElementById(id)) {
+//     let popup = document.createElement("div");
+//     popup.id = id;
+//     document.getElementsByTagName("body")[0].appendChild(popup);
+//   }
+// };
 
 export const pageHeader = (
   ctrlr: IDashboardController,

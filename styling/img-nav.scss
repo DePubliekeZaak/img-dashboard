@@ -131,6 +131,8 @@ ul.dashboard_nav_mobile:not([hidden]) {
     border: transparent;
     position: relative;
     z-index: 99;
+    width: 1.5rem;
+    height: 1.5rem;
 
     span.text {
         position: absolute !important;

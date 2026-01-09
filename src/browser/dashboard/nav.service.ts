@@ -1,5 +1,4 @@
 import { IDashboardController } from "./dashboard.controller";
-import members from "./members";
 
 export const navItems = [
   {

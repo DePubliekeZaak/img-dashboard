@@ -114,8 +114,11 @@ ul#language-selector {
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
-    margin-top: 2.75rem;
-    margin-bottom: 1rem;
+
+    @media (min-width: $breakpoint-sm) {
+        margin-top: 2.75rem;
+        margin-bottom: 1rem;
+    }
 
     // padding: 1rem;
 
