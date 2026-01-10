@@ -7,15 +7,13 @@ import HtmlLegendAsSum from "../html/html-legend-sum";
 import { parseSegment } from "../factories/segment";
 
 export class PieChartSumV1 extends core.GraphControllerV3 {
-  chartAxis;
-
+  
+  chartAxis: any;
   parts = {};
   entity_svgs = {};
   ctrlrs: any = {};
-
-  chartPie;
-
-  legend;
+  chartPie: any;
+  legend: any;
 
   constructor(
     public slug: string,
@@ -104,7 +102,7 @@ export class PieChartSumV1 extends core.GraphControllerV3 {
   async draw(data: DataObject) {
     this.chartPie.draw(
       data.pies[this.index].filter(
-        (d, i) => i != data.pies[this.index].length - 1,
+        (d : any, i: number) => i != data.pies[this.index].length - 1,
       ),
     );
     this.legend.draw(data.pies[this.index]);

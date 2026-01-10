@@ -227,7 +227,7 @@ export class NavService implements INavService {
       // Set initial rotation based on depth - sub-items should point right initially
       const svg = chevron.querySelector("svg");
       if (svg && depth > 0) {
-        svg.style.transform = "rotate(0deg)";
+        // svg.style.transform = "rotate(0deg)";
         svg.style.transition = "transform 0.2s ease";
       }
 
@@ -300,6 +300,7 @@ export class NavService implements INavService {
 
   create(isMobile: boolean) {
     this.el = document.createElement("nav");
+    this.el.classList.add("img_dasboard_nav");
 
     let ul = document.createElement("ul");
     ul.style.flexDirection = "column";

@@ -1,11 +1,12 @@
 import { breakpoints, colours } from "../../img-modules/styleguide";
 import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
+import { IParameterMapping } from "../core/types";
 
 export class HtmlNumberSimple {
   constructor(
-    private ctrlr,
-    private parameter,
-    private element?,
+    private ctrlr: any,
+    private parameter: IParameterMapping,
+    private element?: HTMLElement,
   ) {}
 
   draw() {
@@ -48,7 +49,7 @@ export class HtmlNumberSimple {
     number.style.fontFamily = "Sora,sans-serif";
     number.style.fontWeight = "500";
     number.style.borderBottom =
-      "2px solid " + colours[this.parameter.colour][0];
+      "2px solid " + colours[this.parameter.colour!][0];
 
     div.appendChild(number);
 
@@ -57,7 +58,8 @@ export class HtmlNumberSimple {
       units.classList.add("units");
       units.innerText = this.parameter.units;
       units.style.color = "black";
-      units.style.fontSize = ".825rem";
+      units.style.fontFamily = "Sora,sans-serif";
+      units.style.fontSize = ".875rem";
       units.style.display = "block";
       units.style.marginTop = ".37rem";
       units.style.textAlign =
@@ -69,7 +71,7 @@ export class HtmlNumberSimple {
     element.appendChild(miniContainer);
   }
 
-  redraw(data, extraParameter) {
+  redraw(data: any, extraParameter: string) {
     let element = this.element != undefined ? this.element : this.ctrlr.element;
 
     if (this.parameter.format === "currency") {

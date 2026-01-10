@@ -171,10 +171,10 @@ export class DashboardController implements IDashboardController {
     this.htmlContainer = styleParentElement();
 
     [].slice
-      .call(document.getElementsByTagName("aside"))
+      .call(document.querySelectorAll("aside.selectors"))
       .forEach((a) => a.remove());
     [].slice
-      .call(document.getElementsByTagName("nav"))
+      .call(document.querySelectorAll("nav.img_dasboard_nav"))
       .forEach((a) => a.remove());
 
     let aside = createSideBar(this.htmlContainer);

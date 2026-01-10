@@ -5,8 +5,8 @@ import { IPageController } from "../page.controller";
 import { parseSegment } from "../factories/segment";
 
 export class NumbersV1 extends core.GraphControllerV3 {
-  els = {};
-  numbers = {};
+  els : any = {};
+  numbers: any = {};
 
   constructor(
     public slug: string,
@@ -74,7 +74,7 @@ export class NumbersV1 extends core.GraphControllerV3 {
   async init() {
     for (let p of this.parameters[0]) {
 
-      this.numbers[p.column] = new elements.HtmlNumberAccented(
+      this.numbers[p.column]  = new elements.HtmlNumberAccented(
         this,
         p,
         this.els[p.column],

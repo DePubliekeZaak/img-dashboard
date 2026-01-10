@@ -1,10 +1,11 @@
 import { breakpoints, colours } from "../../img-modules/styleguide";
 import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
+import { IParameterMapping } from "../core/types";
 
 export class HtmlNumberTitled {
   constructor(
-    private ctrlr,
-    private parameters,
+    private ctrlr: any,
+    private parameters: IParameterMapping[],
     private element?: HTMLElement,
   ) {}
 
@@ -68,7 +69,7 @@ export class HtmlNumberTitled {
     number.style.fontWeight = "500";
     // number.style.marginTop = ".375rem";
     number.style.borderBottom =
-      "2px solid " + colours[this.parameters[0].colour][0];
+      "2px solid " + colours[this.parameters[0].colour!][0];
 
     topDiv.appendChild(number);
 
@@ -77,7 +78,8 @@ export class HtmlNumberTitled {
       units.classList.add("units");
       units.innerText = this.parameters[0].units;
       units.style.color = "black";
-      units.style.fontSize = ".825rem";
+      units.style.fontFamily = "Sora,sans-serif";
+      units.style.fontSize = ".875rem";
       units.style.display = "block";
       units.style.marginTop = ".37rem";
       units.style.textAlign =

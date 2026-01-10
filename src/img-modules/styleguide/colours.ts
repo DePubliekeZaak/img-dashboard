@@ -16,7 +16,7 @@ const orange = ['rgba(225,112,0,1)','rgba(246,212,178,1)','rgba(251,234,217,1)',
 const moss = ['rgba(119,124,0,1)','rgba(214,215,178,1)','rgba(235,235,217,1)','rgba(119,124,0,0)'];
 const lightBlue = ['rgba(143,202,231,1)','rgba(221,239,248,1)','rgba(238,247,251,1)','rgba(143,202,231,0)'];
 
-export const colours = {
+export const colours : any = {
 
     darkblue,
     grey,

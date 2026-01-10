@@ -33,7 +33,8 @@ aside.selectors {
         display: block;
         position: relative;
         min-height: 100vh;
-        width: calc(300px - 0rem);
+        width: calc(300px - 2rem);
+        margin-right: 2rem;
         overflow: visible;
         background: transparent;
         padding: 2rem 2rem 2rem 0rem;

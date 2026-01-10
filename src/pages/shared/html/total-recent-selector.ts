@@ -5,8 +5,8 @@ import { IParameterMapping } from "../interfaces";
 export class HtmlTotalvsRecentSelector {
 
     constructor(
-        private ctrlr,
-        private element,
+        private ctrlr: any,
+        private element: HTMLElement,
         private id: string,
     ){
        
@@ -31,19 +31,18 @@ export class HtmlTotalvsRecentSelector {
         dropdown.setAttribute("aria-described-by",this.id + '_label')
 
         let option_1 = document.createElement('option');
-        option_1.label = "Doorlopend"
+        option_1.label = "doorlopend"
         option_1.value = "cumulative";
-        option_1.innerText = "Doorlopend"
+        option_1.innerText = "doorlopend"
        option_1.selected = true 
         dropdown.appendChild(option_1);
 
         let option_2 = document.createElement('option');
-        option_2.label = "Afgelopen periode"
+        option_2.label = "afgelopen periode"
         option_2.value = "recent";
-        option_2.innerText = "Afgelopen periode"
+        option_2.innerText = "afgelopen periode"
         // if (!segment.cumulative) { option_2.selected = true }
         dropdown.appendChild(option_2);
-    
     
         this.element.appendChild(label) 
         this.element.appendChild(dropdown)   // insertBefore(dropdown,headerElement.nextSibling);
