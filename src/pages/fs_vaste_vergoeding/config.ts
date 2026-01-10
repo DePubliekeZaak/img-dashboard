@@ -433,7 +433,12 @@ const mapping: IGroupMappingV2[] = [
         filters: [],
         multiples: "cumulative",
         parameters: [
-          [
+          [ {
+              label: "Afgehandeld",
+              column: "vv_afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+            },
             {
               label: "Besluiten",
               column: "vv_beschikt",
@@ -446,12 +451,7 @@ const mapping: IGroupMappingV2[] = [
               colour: "moss",
               units: "anders afgehandeld",
             },
-            {
-              label: "Afgehandeld",
-              column: "vv_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
-            },
+
             {
               label: "Percentage binnen termijn",
               column: "vv_beschikt_binn_termijn_perc",
