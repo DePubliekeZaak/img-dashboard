@@ -103,7 +103,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "ims_volw_ingediend",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],
@@ -289,7 +289,12 @@ const group: IGroupMappingV2[] = [
         filters: [],
         multiples: "cumulative",
         parameters: [
-          [
+          [ {
+              label: "Afgehandeld",
+              column: "ims_volw_afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+            },
             {
               label: "Besluiten",
               column: "ims_volw_beschikt",
@@ -301,12 +306,6 @@ const group: IGroupMappingV2[] = [
               column: "ims_volw_anders_afgehandeld",
               colour: "moss",
               units: "anders afgehandeld",
-            },
-            {
-              label: "Afgehandeld",
-              column: "ims_volw_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
@@ -342,7 +341,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "ims_volw_beschikt_binn_termijn_perc",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],
@@ -421,7 +420,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "ims_volw_toegekend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
   {
@@ -462,7 +461,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_volw_dlt_verwacht_rolling8_dagen",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -503,7 +502,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "ims_volw_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
       label: "dagen",
     },
     functionality: ["table", "definitions", "download"],
@@ -644,7 +643,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_volw_bz_ingediend",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -680,14 +679,14 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_volw_bz_toegekend_cumulatief",
           cumulative: true,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
       key: "ims_volw_bz_toegekend_cumulatief",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],

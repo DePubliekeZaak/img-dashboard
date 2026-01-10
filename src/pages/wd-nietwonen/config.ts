@@ -211,7 +211,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_nietwonen_bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
@@ -291,6 +291,12 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
+              label: "Afgehandeld",
+              column: "wd_nietwonen_afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+            },
+            {
               label: "Besluiten",
               column: "wd_nietwonen_beschikt",
               colour: "moss",
@@ -301,12 +307,6 @@ const group: IGroupMappingV2[] = [
               column: "wd_nietwonen_anders_afgehandeld",
               colour: "moss",
               units: "anders afgehandeld",
-            },
-            {
-              label: "Afgehandeld",
-              column: "wd_nietwonen_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
@@ -421,7 +421,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_nietwonen_toegekend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
   {
@@ -462,7 +462,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -503,7 +503,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
       label: "dagen",
     },
     functionality: ["table", "definitions", "download"],
@@ -645,7 +645,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_nietwonen_bz_ingediend",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -681,14 +681,14 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_nietwonen_bz_toegekend_cumulatief",
           cumulative: true,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
       key: "wd_nietwonen_bz_toegekend_cumulatief",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],

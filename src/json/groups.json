@@ -1,6 +1,16 @@
 {
   "groups": [
     {
+      "name": "gemeenten_vv",
+      "slug": "gemeenten_vv",
+      "header": "Vaste vergoedingen",
+      "tags": [],
+      "definitions": [],
+      "timeline": [],
+      "content": "De vaste vergoeding werd in november 2021 geïntroduceerd als nieuwe afhandelingsmogelijkheid. De  oorspronkelijke procedure kostte gemiddeld €5.300 per schademelding - vaak meer dan de uiteindelijke vergoeding bij relatief kleine schades. Het bedrag werd in maart 2024 verhoogd van €5.000 naar €10.000 als reactie op de parlementaire enquêtecommissie, om voor meer mensen een oplossing te bieden. \n\nDe vaste vergoeding is een eenmalige, finale vergoeding van maximaal €10.000 (€5.000 voor kleinere gebouwen) voor alle aanwezige fysieke schade, bijkomende kosten en overlast. U kunt hierna geen nieuwe schade melden, behalve na een nieuwe beving met trillingssnelheid van minimaal 5mm/s.",
+      "description": "<p dir=\"auto\">De vaste vergoeding werd in november 2021 geïntroduceerd als nieuwe afhandelingsmogelijkheid. De  oorspronkelijke procedure kostte gemiddeld €5.300 per schademelding - vaak meer dan de uiteindelijke vergoeding bij relatief kleine schades. Het bedrag werd in maart 2024 verhoogd van €5.000 naar €10.000 als reactie op de parlementaire enquêtecommissie, om voor meer mensen een oplossing te bieden. </p>\n<p dir=\"auto\">De vaste vergoeding is een eenmalige, finale vergoeding van maximaal €10.000 (€5.000 voor kleinere gebouwen) voor alle aanwezige fysieke schade, bijkomende kosten en overlast. U kunt hierna geen nieuwe schade melden, behalve na een nieuwe beving met trillingssnelheid van minimaal 5mm/s.</p>"
+    },
+    {
       "name": "versies_intro",
       "slug": "versies_intro",
       "header": [],
@@ -82,12 +92,12 @@
     {
       "name": "wdl_wonen_voorraad",
       "slug": "wdl_wonen_voorraad",
-      "header": "Besluiten",
+      "header": "Voorraad",
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Over {wd_wonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {wd_wonen_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van  {wd_wonen_beslistermijn_dagen} dagen.",
-      "description": "<p dir=\"auto\">Over {wd_wonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {wd_wonen_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van  {wd_wonen_beslistermijn_dagen} dagen.</p>"
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {wd_wonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wd_wonen_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {wd_wonen_beslistermijn_dagen} dagen. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wd_wonen_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {wd_wonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wd_wonen_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {wd_wonen_beslistermijn_dagen} dagen. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wd_wonen_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "wdl_wonen_bedragen",
@@ -99,8 +109,8 @@
       ],
       "definitions": [],
       "timeline": "[]",
-      "content": "In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.</p>"
+      "content": "In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_totaal_cumulatief} euro schadevergoeding uitbetaald.",
+      "description": "<p dir=\"auto\">In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_totaal_cumulatief} euro schadevergoeding uitbetaald.</p>"
     },
     {
       "name": "wdl_wonen_toegekend",
@@ -115,12 +125,12 @@
     {
       "name": "wdl_wonen_duur",
       "slug": "wdl_wonen_duur",
-      "header": "Besluiten",
+      "header": "Duur",
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Voor de helft van de dossiers nemen we binnen {wd_wonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {wd_wonen_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {wd_wonen_dlt_verwacht_rolling8_dagen} dagen.",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {wd_wonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {wd_wonen_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {wd_wonen_dlt_verwacht_rolling8_dagen} dagen.</p>"
+      "content": "Het IMG streeft ernaar om aanvragen voor waardedaling woningen binnen {wd_wonen_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {wd_wonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur is voor nieuwe aanvragen op dit moment  {wd_wonen_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor waardedaling woningen binnen {wd_wonen_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {wd_wonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur is voor nieuwe aanvragen op dit moment  {wd_wonen_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "wdl_wonen_bezwaren",
@@ -165,8 +175,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Over {wdl_wd_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {wdl_wd_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van  {wdl_wd_beslistermijn_dagen} dagen.",
-      "description": "<p dir=\"auto\">Over {wdl_wd_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {wdl_wd_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van  {wdl_wd_beslistermijn_dagen} dagen.</p>"
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {wdl_wd_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wdl_wd_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {wdl_wd_beslistermijn_dagen} dagen. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {wdl_wd_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wdl_wd_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {wdl_wd_beslistermijn_dagen} dagen. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "wdl_wd_duur",
@@ -178,8 +188,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Voor de helft van de dossiers nemen we binnen {wdl_wd_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {wdl_wd_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {wdl_wd_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {wdl_wd_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.</p>"
+      "content": "Het IMG streeft ernaar om aanvragen voor waardedaling binnen {wdl_wd_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {wdl_wd_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur is voor nieuwe aanvragen op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor waardedaling binnen {wdl_wd_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {wdl_wd_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur is voor nieuwe aanvragen op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "wdl_wd_waardering",
@@ -198,8 +208,8 @@
         "Uithuizermeeden en Uithuizen",
         "Wirdum"
       ],
-      "content": "Voor Waardedaling geven aanvragers gemiddeld een {waardedaling_doorlopend_cijfer}. Het cijfer is gebaseerd op  {waardedaling_aantal_respondenten_doorlopend} ingevulde enquêtes.",
-      "description": "<p dir=\"auto\">Voor Waardedaling geven aanvragers gemiddeld een {waardedaling_doorlopend_cijfer}. Het cijfer is gebaseerd op  {waardedaling_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>"
+      "content": "Voor Waardedaling geven aanvragers gemiddeld een {waardedaling_doorlopend_cijfer}. Het cijfer is gebaseerd op  {waardedaling_aantal_respondenten_doorlopend} ingevulde enquêtes.\n\nVoor Waardedaling wonen geven aanvragers gemiddeld een 7,8. Het cijfer is gebaseerd op 14.786 ingevulde enquêtes.",
+      "description": "<p dir=\"auto\">Voor Waardedaling geven aanvragers gemiddeld een {waardedaling_doorlopend_cijfer}. Het cijfer is gebaseerd op  {waardedaling_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>\n<p dir=\"auto\">Voor Waardedaling wonen geven aanvragers gemiddeld een 7,8. Het cijfer is gebaseerd op 14.786 ingevulde enquêtes.</p>"
     },
     {
       "name": "wdl_wd_toegekend",
@@ -213,8 +223,8 @@
         "Toegekend"
       ],
       "timeline": [],
-      "content": "Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
-      "description": "<p dir=\"auto\">Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
     },
     {
       "name": "wdl_wd_intro",
@@ -266,8 +276,8 @@
       ],
       "definitions": [],
       "timeline": "[]",
-      "content": "In totaal is voor Waardedaling {wdl_wd_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is voor Waardedaling {wdl_wd_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.</p>"
+      "content": "In totaal is voor Waardedaling {wdl_wd_bedrag_betaald_totaal_cumulatief} euro schadevergoeding uitbetaald.",
+      "description": "<p dir=\"auto\">In totaal is voor Waardedaling {wdl_wd_bedrag_betaald_totaal_cumulatief} euro schadevergoeding uitbetaald.</p>"
     },
     {
       "name": "wdl_nietwonen_bezwaren",
@@ -292,12 +302,12 @@
     {
       "name": "wdl_nietwonen_voorraad",
       "slug": "wdl_nietwonen_voorraad",
-      "header": "Besluiten",
+      "header": "Voorraad",
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Over {wd_nietwonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {wd_nietwonen_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van  {wd_nietwonen_beslistermijn_dagen} dagen.",
-      "description": "<p dir=\"auto\">Over {wd_nietwonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {wd_nietwonen_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van  {wd_nietwonen_beslistermijn_dagen} dagen.</p>"
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over  {wd_nietwonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wd_nietwonen_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van {wd_nietwonen_beslistermijn_dagen dagen.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over  {wd_nietwonen_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wd_nietwonen_oud_voorraad_binnen_termijn}  aanvragen binnen de norm van {wd_nietwonen_beslistermijn_dagen dagen.</p>"
     },
     {
       "name": "wdl_nietwonen_toegekend",
@@ -306,8 +316,8 @@
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
-      "description": "<p dir=\"auto\">Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
     },
     {
       "name": "wdl_nietwonen_intro",
@@ -359,12 +369,12 @@
     {
       "name": "wdl_nietwonen_duur",
       "slug": "wdl_nietwonen_duur",
-      "header": "Besluiten",
+      "header": "Duur",
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Voor de helft van de dossiers nemen we binnen {wd_nietwonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {wd_nietwonen_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {wd_nietwonen_dlt_verwacht_rolling8_dagen} dagen.",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {wd_nietwonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {wd_nietwonen_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {wd_nietwonen_dlt_verwacht_rolling8_dagen} dagen.</p>"
+      "content": "Het IMG streeft ernaar om aanvragen voor waardedaling niet-woningen binnen {wd_nietwonen_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {wd_nietwonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wd_nietwonen_dlt_verwacht_rolling8_dagen}  dagen.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor waardedaling niet-woningen binnen {wd_nietwonen_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {wd_nietwonen_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wd_nietwonen_dlt_verwacht_rolling8_dagen}  dagen.</p>"
     },
     {
       "name": "wdl_namco_toegekend",
@@ -373,8 +383,8 @@
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
-      "description": "<p dir=\"auto\">Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
     },
     {
       "name": "wdl_namco_duur",
@@ -396,8 +406,8 @@
       ],
       "definitions": [],
       "timeline": "[]",
-      "content": "In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.</p>"
+      "content": "In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitbetaald.",
+      "description": "<p dir=\"auto\">In totaal is voor Waardedaling wonen {wd_wonen_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitbetaald.</p>"
     },
     {
       "name": "wdl_namco_voorraad",
@@ -419,8 +429,8 @@
       ],
       "definitions": [],
       "timeline": "[]",
-      "content": "In totaal is voor Tegemoetkoming NAM {wd_namco_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is voor Tegemoetkoming NAM {wd_namco_bedrag_betaald_bedrag_cumulatief} euro schadevergoeding uitgekeerd.</p>"
+      "content": "In totaal is voor Tegemoetkoming NAM {wd_namco_bedrag_betaald_totaal_cumulatief} euro schadevergoeding uitbetaald.",
+      "description": "<p dir=\"auto\">In totaal is voor Tegemoetkoming NAM {wd_namco_bedrag_betaald_totaal_cumulatief} euro schadevergoeding uitbetaald.</p>"
     },
     {
       "name": "wdl_namco_bezwaren",
@@ -528,8 +538,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Over {vv_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. ... ? ... Daarvan zijn {vv_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {vv_beslistermijn_dagen} dagen.",
-      "description": "<p dir=\"auto\">Over {vv_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. ... ? ... Daarvan zijn {vv_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {vv_beslistermijn_dagen} dagen.</p>"
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {vv_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {vv_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {vv_beslistermijn_dagen} dagen.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {vv_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {vv_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {vv_beslistermijn_dagen} dagen.</p>"
     },
     {
       "name": "vv_toegekend_als",
@@ -596,8 +606,8 @@
         "Westerwijtwerd",
         "Wirdum"
       ],
-      "content": "Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. De beving van Huizinge heeft tot in Noord-Drenthe tot schade geleid. Hoe verder",
-      "description": "<p dir=\"auto\">Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. De beving van Huizinge heeft tot in Noord-Drenthe tot schade geleid. Hoe verder</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien. Het aantal toekenningen wordt uitsplitst in de Vaste vergoeding en Aanvullende vaste vergoeding. In de afwijzingen wordt geen onderscheid gemaakt doordat de aanvraag voor beide keuzes niet in aanmerking kwam. Voor de vaste vergoedingen betekent een afwijzing dat er volgens de voorwaarden geen recht is op een vergoeding.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien. Het aantal toekenningen wordt uitsplitst in de Vaste vergoeding en Aanvullende vaste vergoeding. In de afwijzingen wordt geen onderscheid gemaakt doordat de aanvraag voor beide keuzes niet in aanmerking kwam. Voor de vaste vergoedingen betekent een afwijzing dat er volgens de voorwaarden geen recht is op een vergoeding.</p>"
     },
     {
       "name": "waardering_fs",
@@ -655,8 +665,8 @@
         "Doorlopend"
       ],
       "timeline": [],
-      "content": "Voor Vaste vergoeding geven aanvragers gemiddeld een {ves_doorlopend_cijfer}. Het cijfer is gebaseerd op {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.",
-      "description": "<p dir=\"auto\">Voor Vaste vergoeding geven aanvragers gemiddeld een {ves_doorlopend_cijfer}. Het cijfer is gebaseerd op {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>"
+      "content": "Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.",
+      "description": "<p dir=\"auto\">Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>"
     },
     {
       "name": "vv_bezwaren",
@@ -668,8 +678,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Een aanvrager die het niet eens is met het besluit van het IMG kan in bezwaar gaan. Een hoog bezwaarpercentage kan duiden op onduidelijkheid of veel afwijzingen binnen een regeling. Anders afgerond opvallend hoog bij vaste vergoeding. Waarom?",
-      "description": "<p dir=\"auto\">Een aanvrager die het niet eens is met het besluit van het IMG kan in bezwaar gaan. Een hoog bezwaarpercentage kan duiden op onduidelijkheid of veel afwijzingen binnen een regeling. Anders afgerond opvallend hoog bij vaste vergoeding. Waarom?</p>"
+      "content": "Een aanvrager die het niet eens is met het besluit van het IMG kan in bezwaar gaan. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.",
+      "description": "<p dir=\"auto\">Een aanvrager die het niet eens is met het besluit van het IMG kan in bezwaar gaan. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.</p>"
     },
     {
       "name": "vv_besluiten",
@@ -684,8 +694,8 @@
         "Doorlopend"
       ],
       "timeline": [],
-      "content": "Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Meerdere meldingen op één adres kunnen worden samengevoegd tot één besluit. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.",
-      "description": "<p dir=\"auto\">Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Meerdere meldingen op één adres kunnen worden samengevoegd tot één besluit. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.</p>"
+      "content": "Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.",
+      "description": "<p dir=\"auto\">Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.</p>"
     },
     {
       "name": "vv_intro",
@@ -701,11 +711,10 @@
         "Garrelsweer",
         "Uithuizermeeden en Uithuizen",
         "Wirdum",
-        "Start vaste vergoeding van 5000 euro",
-        "Zeerijp"
+        "Start vaste vergoeding van 5000 euro"
       ],
-      "content": "De vaste vergoeding is een snelle regeling zonder adviesrapport, met wel een verplichte nulmeting. Nieuwe schade melden is alleen mogelijk als een nieuwe aardbeving op het adres meer dan 5 mm/s trillingssnelheid veroorzaakt. Sinds de start van de regeling zijn er {vv_ingediend_cumulatief} aanvragen ontvangen, waarvan er {vv_afgerond_cumulatief} zijn afgerond.",
-      "description": "<p dir=\"auto\">De vaste vergoeding is een snelle regeling zonder adviesrapport, met wel een verplichte nulmeting. Nieuwe schade melden is alleen mogelijk als een nieuwe aardbeving op het adres meer dan 5 mm/s trillingssnelheid veroorzaakt. Sinds de start van de regeling zijn er {vv_ingediend_cumulatief} aanvragen ontvangen, waarvan er {vv_afgerond_cumulatief} zijn afgerond.</p>"
+      "content": "De vaste vergoedingen zijn een snelle manier om fysieke schade af te handelen zonder adviesrapport, met wel een verplichte nulmeting. De Vaste vergoeding is voor eigenaren die nog niet eerder schade hebben gemeld. De Aanvullende vaste vergoeding is voor eigenaren die eerder minder dan € 10.000 (of € 5.000 voor kleine gebouwen) hebben ontvangen. Na een vaste vergoeding kan nieuwe schade alleen via maatwerk worden gemeld als er op het adres een nieuwe aardbeving is geweest met een trillingssnelheid van meer dan 5 mm/s. Sinds de start van de regeling zijn er {vv_ingediend_cumulatief} aanvragen ontvangen, waarvan er {vv_afgerond_cumulatief} zijn afgerond.",
+      "description": "<p dir=\"auto\">De vaste vergoedingen zijn een snelle manier om fysieke schade af te handelen zonder adviesrapport, met wel een verplichte nulmeting. De Vaste vergoeding is voor eigenaren die nog niet eerder schade hebben gemeld. De Aanvullende vaste vergoeding is voor eigenaren die eerder minder dan € 10.000 (of € 5.000 voor kleine gebouwen) hebben ontvangen. Na een vaste vergoeding kan nieuwe schade alleen via maatwerk worden gemeld als er op het adres een nieuwe aardbeving is geweest met een trillingssnelheid van meer dan 5 mm/s. Sinds de start van de regeling zijn er {vv_ingediend_cumulatief} aanvragen ontvangen, waarvan er {vv_afgerond_cumulatief} zijn afgerond.</p>"
     },
     {
       "name": "vv_duur",
@@ -717,8 +726,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Voor de helft van de dossiers nemen we binnen {vv_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {vv_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment {vv_dlt_verwacht_rolling8_dagen} dagen.",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {vv_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {vv_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment {vv_dlt_verwacht_rolling8_dagen} dagen.</p>"
+      "content": "Het IMG streeft ernaar om aanvragen voor de vaste vergoedingen binnen  {vv_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {vv_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor de vaste vergoedingen binnen  {vv_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {vv_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad.</p>"
     },
     {
       "name": "vv_bedragen",
@@ -732,8 +741,8 @@
       "timeline": [
         "Start vaste vergoeding van 5000 euro"
       ],
-      "content": "In totaal is voor de vaste vergoeding {vv_bedrag_verleend_schade_cumulatief}  euro schadevergoeding uitgekeerd. Dit is gelijk aan het verleende bedrag.",
-      "description": "<p dir=\"auto\">In totaal is voor de vaste vergoeding {vv_bedrag_verleend_schade_cumulatief}  euro schadevergoeding uitgekeerd. Dit is gelijk aan het verleende bedrag.</p>"
+      "content": "In totaal is voor de Vaste vergoeding en de Aanvullende vaste vergoeding {vv_bedrag_betaald_totaal_cumulatief}  euro schadevergoeding uitbetaald.",
+      "description": "<p dir=\"auto\">In totaal is voor de Vaste vergoeding en de Aanvullende vaste vergoeding {vv_bedrag_betaald_totaal_cumulatief}  euro schadevergoeding uitbetaald.</p>"
     },
     {
       "name": "regelingen_wd",
@@ -809,8 +818,8 @@
         "Doorlopend"
       ],
       "timeline": [],
-      "content": "Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een storing ontbreken waarderingscijfers in de tweede helft van 2023.",
-      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een storing ontbreken waarderingscijfers in de tweede helft van 2023.</p>"
+      "content": "Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.",
+      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.</p>"
     },
     {
       "name": "maatwerk_voorraad",
@@ -822,8 +831,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Over {maatwerk_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {maatwerk_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {maatwerk_beslistermijn_dagen} dagen. Dossiers die langer lopen zijn vaak complex of afhankelijk van aanvullende informatie.",
-      "description": "<p dir=\"auto\">Over {maatwerk_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {maatwerk_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {maatwerk_beslistermijn_dagen} dagen. Dossiers die langer lopen zijn vaak complex of afhankelijk van aanvullende informatie.</p>"
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Ook is hieronder te zien hoeveel van deze aanvragen binnen en buiten de norm van {maatwerk_beslistermijn_dagen} dagen liggen, waarbij we de aanvragen buiten de norm hebben verdeeld in drie leeftijdsgroepen. Aanvragen die langer lopen zijn vaak complex of wachten op aanvullende informatie.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Ook is hieronder te zien hoeveel van deze aanvragen binnen en buiten de norm van {maatwerk_beslistermijn_dagen} dagen liggen, waarbij we de aanvragen buiten de norm hebben verdeeld in drie leeftijdsgroepen. Aanvragen die langer lopen zijn vaak complex of wachten op aanvullende informatie.</p>"
     },
     {
       "name": "maatwerk_toegekend",
@@ -848,8 +857,8 @@
         "Westerwijtwerd",
         "Wirdum"
       ],
-      "content": "Deze verhouding laat zien hoe aanvragen worden beoordeeld. Binnen het effectgebied van de beving van Huizinge (2012) en rond de gasopslagen Norg en Grijpskerk is de kans op schade groter. Aan de randen van het gebied worden meer aanvragen afgewezen.",
-      "description": "<p dir=\"auto\">Deze verhouding laat zien hoe aanvragen worden beoordeeld. Binnen het effectgebied van de beving van Huizinge (2012) en rond de gasopslagen Norg en Grijpskerk is de kans op schade groter. Aan de randen van het gebied worden meer aanvragen afgewezen.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn.</p>"
     },
     {
       "name": "maatwerk_projecties",
@@ -901,8 +910,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Bij een bezwaar geeft een aanvrager aan dat hij het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op onduidelijkheid of veel afwijzingen binnen een regeling.",
-      "description": "<p dir=\"auto\">Bij een bezwaar geeft een aanvrager aan dat hij het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op onduidelijkheid of veel afwijzingen binnen een regeling.</p>"
+      "content": "Bij een bezwaar geeft een aanvrager aan dat de aanvrager het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.",
+      "description": "<p dir=\"auto\">Bij een bezwaar geeft een aanvrager aan dat de aanvrager het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.</p>"
     },
     {
       "name": "maatwerk_duur",
@@ -917,11 +926,10 @@
         "Wirdum",
         "Westerwijtwerd",
         "Uithuizermeeden en Uithuizen",
-        "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
-        "Zeerijp"
+        "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief"
       ],
-      "content": "Voor de helft van de dossiers nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {maatwerk_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment {maatwerk_dlt_verwacht_rolling8_dagen} dagen.",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {maatwerk_beslistermijn_dagen} dagen. Het gemiddelde ligt hoger omdat een kleine groep dossiers veel langer loopt. De verwachtte duur is voor nieuwe aanvragen op dit moment {maatwerk_dlt_verwacht_rolling8_dagen} dagen.</p>"
+      "content": "Het IMG streeft ernaar om aanvragen voor maatwerk binnen  {maatwerk_beslistermijn_dagen} dagen af te ronden. Voor de helft van de aanvragen nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen}  dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad. Deze is op nu {maatwerk_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor maatwerk binnen  {maatwerk_beslistermijn_dagen} dagen af te ronden. Voor de helft van de aanvragen nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen}  dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad. Deze is op nu {maatwerk_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "maatwerk_intro",
@@ -946,8 +954,8 @@
         "Westerwijtwerd",
         "Wirdum"
       ],
-      "content": "Sinds maart 2018 heeft het IMG  {maatwerk_ingediend_cumulatief} aanvragen voor maatwerk ontvangen. Daarvan zijn  {maatwerk_afgerond_cumulatief} aanvragen afgehandeld.",
-      "description": "<p dir=\"auto\">Sinds maart 2018 heeft het IMG  {maatwerk_ingediend_cumulatief} aanvragen voor maatwerk ontvangen. Daarvan zijn  {maatwerk_afgerond_cumulatief} aanvragen afgehandeld.</p>"
+      "content": "Sinds maart 2018 heeft het IMG 210.373 aanvragen voor Maatwerk met onderzoek ontvangen. Daarvan zijn 192.759 aanvragen afgehandeld. Bij deze regeling onderzoekt een onafhankelijke deskundige wat de oorzaak van de schade is.",
+      "description": "<p dir=\"auto\">Sinds maart 2018 heeft het IMG 210.373 aanvragen voor Maatwerk met onderzoek ontvangen. Daarvan zijn 192.759 aanvragen afgehandeld. Bij deze regeling onderzoekt een onafhankelijke deskundige wat de oorzaak van de schade is.</p>"
     },
     {
       "name": "maatwerk_gem_schadebedrag",
@@ -988,8 +996,8 @@
         "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
         "Start vaste vergoeding van 5000 euro"
       ],
-      "content": "Sinds de start is voor fysieke schade {maatwerk_bedrag_beschikt_schade_cumulatief} euro aan schade voor Maatwerk met onderzoek uitgekeerd. Inclusief bijkomende kosten (zoals?) is  {maatwerk_bedrag_beschikt_totaal_cumulatief} miljard euro verleend. Het totale bedrag dat is uitbetaald is { maatwerk_bedrag_betaald_totaal_cumulatief} euro. Dit is ook het bedrag dat in ons jaarverslag staat.",
-      "description": "<p dir=\"auto\">Sinds de start is voor fysieke schade {maatwerk_bedrag_beschikt_schade_cumulatief} euro aan schade voor Maatwerk met onderzoek uitgekeerd. Inclusief bijkomende kosten (zoals?) is  {maatwerk_bedrag_beschikt_totaal_cumulatief} miljard euro verleend. Het totale bedrag dat is uitbetaald is { maatwerk_bedrag_betaald_totaal_cumulatief} euro. Dit is ook het bedrag dat in ons jaarverslag staat.</p>"
+      "content": "Het totale bedrag dat is uitbetaald is {maatwerk_bedrag_betaald_totaal_cumulatief} euro. Dit bedrag bestaat uit het totaal uit het laatste jaarverslag, aangevuld met de wekelijkse bedragen daarna.",
+      "description": "<p dir=\"auto\">Het totale bedrag dat is uitbetaald is {maatwerk_bedrag_betaald_totaal_cumulatief} euro. Dit bedrag bestaat uit het totaal uit het laatste jaarverslag, aangevuld met de wekelijkse bedragen daarna.</p>"
     },
     {
       "name": "maatwerk_binnen_buiten",
@@ -998,8 +1006,8 @@
       "tags": [],
       "definities": [],
       "timeline": [],
-      "content": "Lorem ipsum",
-      "description": "<p dir=\"auto\">Lorem ipsum</p>"
+      "content": "Onderstaande grafieken laten zien welk deel van de besluiten binnen de streeftermijn van {maatwerk_beslistermijn_dagen} dagen genomen zijn.",
+      "description": "<p dir=\"auto\">Onderstaande grafieken laten zien welk deel van de besluiten binnen de streeftermijn van {maatwerk_beslistermijn_dagen} dagen genomen zijn.</p>"
     },
     {
       "name": "maatwerk_besluiten",
@@ -1011,8 +1019,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Er zijn {maatwerk_afgerond_cumulatief} meldingen afgerond door {maatwerk_beschikt_cumulatief} besluiten te nemen. Meerdere meldingen op één adres kunnen worden samengevoegd tot één besluit. Van alle besluiten wordt {maatwerk_beschikt_binn_termijn_perc_cumulatief}% binnen {maatwerk_beslistermijn_dagen}  dagen genomen.",
-      "description": "<p dir=\"auto\">Er zijn {maatwerk_afgerond_cumulatief} meldingen afgerond door {maatwerk_beschikt_cumulatief} besluiten te nemen. Meerdere meldingen op één adres kunnen worden samengevoegd tot één besluit. Van alle besluiten wordt {maatwerk_beschikt_binn_termijn_perc_cumulatief}% binnen {maatwerk_beslistermijn_dagen}  dagen genomen.</p>"
+      "content": "Er zijn {maatwerk_afgerond_cumulatief} meldingen afgerond door {maatwerk_beschikt_cumulatief} besluiten te nemen. Meerdere meldingen op één adres kunnen worden samengevoegd tot één besluit. Daarnaast worden ook aanvragen ingetrokken voor er tot een besluit gekomen is. Deze meldingen vallen onder ‘anders afgehandeld’ en krijgen geen inhoudelijk besluit. Van alle besluiten wordt {maatwerk_beschikt_binn_termijn_perc_cumulatief}% binnen {maatwerk_beslistermijn_dagen}  dagen genomen.",
+      "description": "<p dir=\"auto\">Er zijn {maatwerk_afgerond_cumulatief} meldingen afgerond door {maatwerk_beschikt_cumulatief} besluiten te nemen. Meerdere meldingen op één adres kunnen worden samengevoegd tot één besluit. Daarnaast worden ook aanvragen ingetrokken voor er tot een besluit gekomen is. Deze meldingen vallen onder ‘anders afgehandeld’ en krijgen geen inhoudelijk besluit. Van alle besluiten wordt {maatwerk_beschikt_binn_termijn_perc_cumulatief}% binnen {maatwerk_beslistermijn_dagen}  dagen genomen.</p>"
     },
     {
       "name": "latest ",
@@ -1034,8 +1042,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Voor de helft van de dossiers nemen we binnen {ims_volw_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {ims_volw_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {ims_volw_dlt_verwacht_rolling8_dagen}  dagen.",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {ims_volw_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van {ims_volw_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment {ims_volw_dlt_verwacht_rolling8_dagen}  dagen.</p>"
+      "content": "Het IMG streeft ernaar om aanvragen voor immateriële schade binnen {ims_volw_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {ims_volw_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {ims_volw_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor immateriële schade binnen {ims_volw_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {ims_volw_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {ims_volw_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "imsc_subregelingen",
@@ -1082,8 +1090,8 @@
       ],
       "definitions": [],
       "timeline": "[]",
-      "content": "In totaal is voor Immateriële schade voor volwassenen {ims_volw_bedrag_betaald_totaal_cumulatief}  euro schadevergoeding toegekend en uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade voor volwassenen {ims_volw_bedrag_betaald_totaal_cumulatief}  euro schadevergoeding toegekend en uitgekeerd.</p>"
+      "content": "In totaal is voor Immateriële schade voor volwassenen {ims_volw_bedrag_betaald_totaal_cumulatief}  euro schadevergoeding uitbetaald",
+      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade voor volwassenen {ims_volw_bedrag_betaald_totaal_cumulatief}  euro schadevergoeding uitbetaald</p>"
     },
     {
       "name": "ims_volw_waardering",
@@ -1117,8 +1125,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Over {ims_volw_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {ims_volw_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_volw_beslistermijn_dagen} dagen.",
-      "description": "<p dir=\"auto\">Over {ims_volw_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn  {ims_volw_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_volw_beslistermijn_dagen} dagen.</p>"
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over  {ims_volw_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {ims_volw_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_volw_beslistermijn_dagen} dagen.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over  {ims_volw_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {ims_volw_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_volw_beslistermijn_dagen} dagen.</p>"
     },
     {
       "name": "ims_volw_besluiten",
@@ -1150,8 +1158,8 @@
         "Toegekend"
       ],
       "timeline": [],
-      "content": "Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
-      "description": "<p dir=\"auto\">Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
     },
     {
       "name": "ims_volw_intro",
@@ -1192,8 +1200,8 @@
         "Doorlopend"
       ],
       "timeline": [],
-      "content": "Voor Immateriële schade geven aanvragers gemiddeld een {ims_totaal_doorlopend}. Het cijfer is gebaseerd op {ims_totaal_doorlopend_n} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.",
-      "description": "<p dir=\"auto\">Voor Immateriële schade geven aanvragers gemiddeld een {ims_totaal_doorlopend}. Het cijfer is gebaseerd op {ims_totaal_doorlopend_n} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.</p>"
+      "content": "Voor Immateriële schade voor volwassenen geven aanvragers gemiddeld een {ims_totaal_doorlopend. Het cijfer is gebaseerd op {ims_totaal_doorlopend_n} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.",
+      "description": "<p dir=\"auto\">Voor Immateriële schade voor volwassenen geven aanvragers gemiddeld een {ims_totaal_doorlopend. Het cijfer is gebaseerd op {ims_totaal_doorlopend_n} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.</p>"
     },
     {
       "name": "ims_volw_bezwaren",
@@ -1238,8 +1246,8 @@
         "Wirdum",
         "Start regeling Immateriële schade"
       ],
-      "content": "De regeling voor Immateriële schade is ruimer geworden na de parlementaire enquête. Daarom zijn besluiten opnieuw beoordeeld en heeft een aantal aanvragers een hogere vergoeding gekregen. In deze tabel staan aanvragen en besluiten van de herbeoordelingen en aanvullingen. En het totaal schadebedrag. Tijdens de herbeoordeling in 2023–2024 kon tijdelijk geen nieuwe aanvraag worden gedaan.",
-      "description": "<p dir=\"auto\">De regeling voor Immateriële schade is ruimer geworden na de parlementaire enquête. Daarom zijn besluiten opnieuw beoordeeld en heeft een aantal aanvragers een hogere vergoeding gekregen. In deze tabel staan aanvragen en besluiten van de herbeoordelingen en aanvullingen. En het totaal schadebedrag. Tijdens de herbeoordeling in 2023–2024 kon tijdelijk geen nieuwe aanvraag worden gedaan.</p>"
+      "content": "De regeling voor Immateriële schade is aangepast na de parlementaire enquête. Daarom zijn besluiten opnieuw beoordeeld en heeft een aantal aanvragers een hogere vergoeding gekregen. In deze tabel staan aanvragen en besluiten van de herbeoordelingen en aanvullingen. En het totaal schadebedrag. Tijdens de herbeoordeling in 2023–2024 kon tijdelijk geen nieuwe aanvraag worden gedaan.",
+      "description": "<p dir=\"auto\">De regeling voor Immateriële schade is aangepast na de parlementaire enquête. Daarom zijn besluiten opnieuw beoordeeld en heeft een aantal aanvragers een hogere vergoeding gekregen. In deze tabel staan aanvragen en besluiten van de herbeoordelingen en aanvullingen. En het totaal schadebedrag. Tijdens de herbeoordeling in 2023–2024 kon tijdelijk geen nieuwe aanvraag worden gedaan.</p>"
     },
     {
       "name": "ims_totaal_bedragen",
@@ -1251,8 +1259,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "In totaal is voor Immateriële schade {ims_totaal_bedrag_betaald_totaal_cumulatief} euro schadevergoeding toegekend en uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade {ims_totaal_bedrag_betaald_totaal_cumulatief} euro schadevergoeding toegekend en uitgekeerd.</p>"
+      "content": "In totaal is voor Immateriële schade  {ims_totaal_bedrag_betaald_totaal_cumulatief} euro schadevergoeding toegekend en uitgekeerd.",
+      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade  {ims_totaal_bedrag_betaald_totaal_cumulatief} euro schadevergoeding toegekend en uitgekeerd.</p>"
     },
     {
       "name": "ims_kj_waardering",
@@ -1281,8 +1289,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Over {ims_kj_voorraad_cumulatief}  aanvragen moeten we nog een besluit nemen. Daarvan zijn {ims_kj_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_kj_beslistermijn_dagen} dagen.",
-      "description": "<p dir=\"auto\">Over {ims_kj_voorraad_cumulatief}  aanvragen moeten we nog een besluit nemen. Daarvan zijn {ims_kj_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_kj_beslistermijn_dagen} dagen.</p>"
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over{ims_kj_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {ims_kj_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_kj_beslistermijn_dagen} dagen.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over{ims_kj_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {ims_kj_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {ims_kj_beslistermijn_dagen} dagen.</p>"
     },
     {
       "name": "ims_totaal_intro",
@@ -1336,8 +1344,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Voor de helft van de dossiers nemen we binnen {ims_kj_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van  {ims_kj_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment  {ims_volw_dlt_verwacht_rolling8_dagen} dagen.",
-      "description": "<p dir=\"auto\">Voor de helft van de dossiers nemen we binnen {ims_kj_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. Dat is ruim binnen de termijn van  {ims_kj_beslistermijn_dagen} dagen. De verwachtte duur is voor nieuwe aanvragen op dit moment  {ims_volw_dlt_verwacht_rolling8_dagen} dagen.</p>"
+      "content": "Het IMG streeft ernaar om aanvragen voor immateriële schade binnen {ims_kj_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {ims_kj_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {ims_volw_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor immateriële schade binnen {ims_kj_beslistermijn_dagen} dagen af te ronden. Voor de helft van de dossiers nemen we binnen {ims_kj_dlt_gerealiseerd_mediaan_dagen} dagen een besluit. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {ims_volw_dlt_verwacht_rolling8_dagen} dagen.</p>"
     },
     {
       "name": "ims_subregelingen",
@@ -1390,8 +1398,8 @@
         "Toegekend"
       ],
       "timeline": [],
-      "content": "Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
-      "description": "<p dir=\"auto\">Deze verhouding laat zien hoe aanvragen welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
     },
     {
       "name": "ims_kj_bedragen",
@@ -1403,8 +1411,8 @@
       ],
       "definitions": [],
       "timeline": "[]",
-      "content": "In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatie} euro schadevergoeding toegekend en uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatie} euro schadevergoeding toegekend en uitgekeerd.</p>"
+      "content": "In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatie} euro schadevergoeding toegekend en uitbetaald.",
+      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatie} euro schadevergoeding toegekend en uitbetaald.</p>"
     },
     {
       "name": "ims_kj_intro",
@@ -1618,16 +1626,6 @@
       "description": "<p dir=\"auto\">Anders dan voor woningen was voor bedrijfspanden en andere zakelijke objecten bij de start van het IMG in 2020 nog geen waardedalingsregeling beschikbaar. In april 2021 werd een Adviescommissie ingesteld om te onderzoeken of waardedaling van bedrijfspanden kon worden vastgesteld en of een modelmatige benadering mogelijk was. Dit ontwikkeltraject zou naar verwachting anderhalf jaar duren. In maart 2023 presenteerde de adviescommissie een rekenmodel waarmee waardedaling van panden zonder woonfunctie berekend kan worden. Vanaf 7 mei 2024 werd de regeling gefaseerd geopend, te beginnen in gemeente Eemsdelta. </p>\n<p dir=\"auto\">De vergoeding kan oplopen tot maximaal 12% van de WOZ-waarde en is afhankelijk van locatie binnen het waardedalingsgebied (zelfde gebied als woningen). Eigenaar moet het object op 16 augustus 2012 in bezit hebben gehad.</p>"
     },
     {
-      "name": "gemeenten_ves",
-      "slug": "gemeenten_ves",
-      "header": "Vaste vergoeding",
-      "tags": [],
-      "definitions": [],
-      "timeline": [],
-      "content": "De vaste vergoeding werd in november 2021 geïntroduceerd als nieuwe afhandelingsmogelijkheid. De  oorspronkelijke procedure kostte gemiddeld €5.300 per schademelding - vaak meer dan de uiteindelijke vergoeding bij relatief kleine schades. Het bedrag werd in maart 2024 verhoogd van €5.000 naar €10.000 als reactie op de parlementaire enquêtecommissie, om voor meer mensen een oplossing te bieden. \n\nDe vaste vergoeding is een eenmalige, finale vergoeding van maximaal €10.000 (€5.000 voor kleinere gebouwen) voor alle aanwezige fysieke schade, bijkomende kosten en overlast. U kunt hierna geen nieuwe schade melden, behalve na een nieuwe beving met trillingssnelheid van minimaal 5mm/s.",
-      "description": "<p dir=\"auto\">De vaste vergoeding werd in november 2021 geïntroduceerd als nieuwe afhandelingsmogelijkheid. De  oorspronkelijke procedure kostte gemiddeld €5.300 per schademelding - vaak meer dan de uiteindelijke vergoeding bij relatief kleine schades. Het bedrag werd in maart 2024 verhoogd van €5.000 naar €10.000 als reactie op de parlementaire enquêtecommissie, om voor meer mensen een oplossing te bieden. </p>\n<p dir=\"auto\">De vaste vergoeding is een eenmalige, finale vergoeding van maximaal €10.000 (€5.000 voor kleinere gebouwen) voor alle aanwezige fysieke schade, bijkomende kosten en overlast. U kunt hierna geen nieuwe schade melden, behalve na een nieuwe beving met trillingssnelheid van minimaal 5mm/s.</p>"
-    },
-    {
       "name": "gemeenten_maatwerk",
       "slug": "gemeenten_maatwerk",
       "header": "Maatwerk",
@@ -1657,8 +1655,8 @@
       ],
       "definitions": [],
       "timeline": [],
-      "content": "Sinds de start is voor fysieke schade {fysiek_bedrag_beschikt_schade_cumulatief} euro aan schade uitgekeerd. Inclusief bijkomende kosten (zoals?) is {fysiek_bedrag_beschikt_totaal_cumulatief} euro verleend. Het totale bedrag dat is overgemaakt is {fysiek_bedrag_betaald_totaal_cumulatief} euro. Dit is ook het bedrag dat in ons jaarverslag staat.",
-      "description": "<p dir=\"auto\">Sinds de start is voor fysieke schade {fysiek_bedrag_beschikt_schade_cumulatief} euro aan schade uitgekeerd. Inclusief bijkomende kosten (zoals?) is {fysiek_bedrag_beschikt_totaal_cumulatief} euro verleend. Het totale bedrag dat is overgemaakt is {fysiek_bedrag_betaald_totaal_cumulatief} euro. Dit is ook het bedrag dat in ons jaarverslag staat.</p>"
+      "content": "Het totale bedrag dat is uitbetaald is {fysiek_bedrag_betaald_totaal_cumulatief} euro. Dit bedrag bestaat uit het totaal uit het laatste jaarverslag, aangevuld met de wekelijkse bedragen daarna.",
+      "description": "<p dir=\"auto\">Het totale bedrag dat is uitbetaald is {fysiek_bedrag_betaald_totaal_cumulatief} euro. Dit bedrag bestaat uit het totaal uit het laatste jaarverslag, aangevuld met de wekelijkse bedragen daarna.</p>"
     },
     {
       "name": "fs_waardering",
@@ -1673,8 +1671,8 @@
         "Doorlopend"
       ],
       "timeline": [],
-      "content": "Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een storing ontbreken waarderingscijfers in de tweede helft van 2023.\n\nIs dit niet alleen 'Maatwerk'  ???",
-      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een storing ontbreken waarderingscijfers in de tweede helft van 2023.</p>\n<p dir=\"auto\">Is dit niet alleen 'Maatwerk'  ???</p>"
+      "content": "Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.",
+      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.</p>"
     },
     {
       "name": "fs_totals",
@@ -1686,12 +1684,11 @@
       "definitions": [
         "Aanvragen",
         "Fysieke schade",
-        "Afgehandeld",
-        "Verleend"
+        "Afgehandeld"
       ],
       "timeline": [],
-      "content": "Dit overzicht laat per week zien hoeveel aanvragen binnenkomen voor schade aan gebouwen, hoeveel aanvragen zijn afgerond en hoeveel schade is vergoed. Het gaat hierbij bijvoorbeeld om scheuren in muren.\n\nAanvragers met fysieke schade kunnen kiezen uit: Herstel met aannemer (eigen aannemer of aannemer via IMG), Maatwerk met onderzoek of een Vaste vergoeding (van 10.000 euro)",
-      "description": "<p dir=\"auto\">Dit overzicht laat per week zien hoeveel aanvragen binnenkomen voor schade aan gebouwen, hoeveel aanvragen zijn afgerond en hoeveel schade is vergoed. Het gaat hierbij bijvoorbeeld om scheuren in muren.</p>\n<p dir=\"auto\">Aanvragers met fysieke schade kunnen kiezen uit: Herstel met aannemer (eigen aannemer of aannemer via IMG), Maatwerk met onderzoek of een Vaste vergoeding (van 10.000 euro)</p>"
+      "content": "Dit overzicht laat zien hoeveel aanvragen binnenkomen voor schade aan gebouwen, hoeveel aanvragen zijn afgerond en hoeveel schade is vergoed. Het gaat hierbij bijvoorbeeld om scheuren in muren. Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen.\n\nAanvragers met fysieke schade kunnen, afhankelijk van hun situatie, kiezen uit: Herstel met aannemer (eigen aannemer of aannemer via IMG), Maatwerk met onderzoek of een Vaste vergoeding (tot 10.000 euro).",
+      "description": "<p dir=\"auto\">Dit overzicht laat zien hoeveel aanvragen binnenkomen voor schade aan gebouwen, hoeveel aanvragen zijn afgerond en hoeveel schade is vergoed. Het gaat hierbij bijvoorbeeld om scheuren in muren. Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen.</p>\n<p dir=\"auto\">Aanvragers met fysieke schade kunnen, afhankelijk van hun situatie, kiezen uit: Herstel met aannemer (eigen aannemer of aannemer via IMG), Maatwerk met onderzoek of een Vaste vergoeding (tot 10.000 euro).</p>"
     },
     {
       "name": "fs_aanvulrondes",
@@ -1712,8 +1709,8 @@
         "Westerwijtwerd",
         "Wirdum"
       ],
-      "content": "De Aanvullende vaste vergoeding is bedoeld om mogelijke ontstane verschillen uit het verleden te compenseren. De optie is er sinds begin 2025.",
-      "description": "<p dir=\"auto\">De Aanvullende vaste vergoeding is bedoeld om mogelijke ontstane verschillen uit het verleden te compenseren. De optie is er sinds begin 2025.</p>"
+      "content": "De Aanvullende vaste vergoeding is bedoeld om mogelijke verschillen uit het verleden te compenseren. De optie is er sinds eind 2024. Hierbij kunnen aanvragers die in het verleden een vergoeding hebben ontvangen, wanneer ze voldoen aan de voorwaarden, een aanvulling krijgen tot 10.000 euro.",
+      "description": "<p dir=\"auto\">De Aanvullende vaste vergoeding is bedoeld om mogelijke verschillen uit het verleden te compenseren. De optie is er sinds eind 2024. Hierbij kunnen aanvragers die in het verleden een vergoeding hebben ontvangen, wanneer ze voldoen aan de voorwaarden, een aanvulling krijgen tot 10.000 euro.</p>"
     },
     {
       "name": "fs_keuzepaden",
@@ -1734,8 +1731,8 @@
         "Westerwijtwerd",
         "Wirdum"
       ],
-      "content": "Er zijn drie mogelijkheden voor inwoners met fysieke schade: Herstel met aannemer, Maatwerk met onderzoek of de Vaste vergoeding. We registreren de keuze op het moment dat het besluit wordt genomen. In de grafiek zie je de verdeling van deze keuzes.",
-      "description": "<p dir=\"auto\">Er zijn drie mogelijkheden voor inwoners met fysieke schade: Herstel met aannemer, Maatwerk met onderzoek of de Vaste vergoeding. We registreren de keuze op het moment dat het besluit wordt genomen. In de grafiek zie je de verdeling van deze keuzes.</p>"
+      "content": "Er zijn meerdere mogelijkheden voor inwoners met fysieke schade afhankelijk van de situatie: Herstel met aannemer, Maatwerk met onderzoek of een Vaste vergoeding. We laten de keuze zien op het moment dat het besluit wordt genomen. In de grafiek zie je de verdeling van de toegekende zaken met deze keuzes. Bij afwijzingen en intrekkingen is het vaak niet mogelijk om de aanvraag aan een categorie toe te wijzen.\n\nDuurzaam herstel is opgenomen binnen Herstel met aannemer IMG of Maatwerk met vergoeding. Dit is afhankelijk van op welke manier de uitvoering tot stand komt.",
+      "description": "<p dir=\"auto\">Er zijn meerdere mogelijkheden voor inwoners met fysieke schade afhankelijk van de situatie: Herstel met aannemer, Maatwerk met onderzoek of een Vaste vergoeding. We laten de keuze zien op het moment dat het besluit wordt genomen. In de grafiek zie je de verdeling van de toegekende zaken met deze keuzes. Bij afwijzingen en intrekkingen is het vaak niet mogelijk om de aanvraag aan een categorie toe te wijzen.</p>\n<p dir=\"auto\">Duurzaam herstel is opgenomen binnen Herstel met aannemer IMG of Maatwerk met vergoeding. Dit is afhankelijk van op welke manier de uitvoering tot stand komt.</p>"
     },
     {
       "name": "fs_herstel_totals",
@@ -1919,8 +1916,8 @@
         "Gegronde AOS-melding"
       ],
       "timeline": "[]",
-      "content": "Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.\n\nSinds 2018 zijn er {aos_meldingen_cumulatief} AOS-meldingen gedaan. In {aos_meldingen_gegrond_cumulatief} gevallen waren er maatregelen nodig.",
-      "description": "<p dir=\"auto\">Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.</p>\n<p dir=\"auto\">Sinds 2018 zijn er {aos_meldingen_cumulatief} AOS-meldingen gedaan. In {aos_meldingen_gegrond_cumulatief} gevallen waren er maatregelen nodig.</p>"
+      "content": "Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.\n\nSinds 2018 zijn er 4522 AOS-meldingen gedaan. In 465 gevallen waren er maatregelen nodig.",
+      "description": "<p dir=\"auto\">Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.</p>\n<p dir=\"auto\">Sinds 2018 zijn er 4522 AOS-meldingen gedaan. In 465 gevallen waren er maatregelen nodig.</p>"
     },
     {
       "name": "aos_trend",
@@ -1939,8 +1936,8 @@
         "Uithuizermeeden en Uithuizen",
         "Wirdum"
       ],
-      "content": "De grafiek toont het verloop van het aantal meldingen door de jaren heen. Na aardbevingen is er vaak een tijdelijke stijging, maar er worden het hele jaar door meldingen gedaan.",
-      "description": "<p dir=\"auto\">De grafiek toont het verloop van het aantal meldingen door de jaren heen. Na aardbevingen is er vaak een tijdelijke stijging, maar er worden het hele jaar door meldingen gedaan.</p>"
+      "content": "De grafiek toont het verloop van het aantal meldingen door de jaren heen. Na een aardbeving is er vaak een tijdelijke stijging. Maar ook los daarvan worden meldingen gedaan.",
+      "description": "<p dir=\"auto\">De grafiek toont het verloop van het aantal meldingen door de jaren heen. Na een aardbeving is er vaak een tijdelijke stijging. Maar ook los daarvan worden meldingen gedaan.</p>"
     },
     {
       "name": "all_waardering",
@@ -1972,8 +1969,8 @@
         "Verleend"
       ],
       "timeline": [],
-      "content": "Sinds de start in 2018 (toen nog TCMG) laat dit dashboard zien hoe de schadeafhandeling ervoor staat. Het toont alle aanvragen voor fysieke schade, immateriële schade en waardedaling. De cijfers worden elke week bijgewerkt.\n\nTot nu toe zijn {all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is {all_bedrag_betaald_totaal_cumulatief} aan vergoedingen toegekend.",
-      "description": "<p dir=\"auto\">Sinds de start in 2018 (toen nog TCMG) laat dit dashboard zien hoe de schadeafhandeling ervoor staat. Het toont alle aanvragen voor fysieke schade, immateriële schade en waardedaling. De cijfers worden elke week bijgewerkt.</p>\n<p dir=\"auto\">Tot nu toe zijn {all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is {all_bedrag_betaald_totaal_cumulatief} aan vergoedingen toegekend.</p>"
+      "content": "Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.\n\nTot nu toe zijn er{all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is er {all_bedrag_betaald_totaal_cumulatief}  miljard aan vergoedingen uitbetaald.",
+      "description": "<p dir=\"auto\">Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.</p>\n<p dir=\"auto\">Tot nu toe zijn er{all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is er {all_bedrag_betaald_totaal_cumulatief}  miljard aan vergoedingen uitbetaald.</p>"
     },
     {
       "name": "all_regelingen_overzicht",
@@ -2000,14 +1997,15 @@
         "Wirdum",
         "Actualisatie van het beoordelingskader"
       ],
-      "content": "Deze grafiek toont per maand het aantal aanvragen, afgehandelde aanvragen en het totaalbedrag. Bij de start in maart 2018 nam het IMG bijna 20.000 meldingen over van het Centrum Veilig Wonen (CVW). Later kwamen de regelingen voor immateriële schade en waardedaling erbij.",
-      "description": "<p dir=\"auto\">Deze grafiek toont per maand het aantal aanvragen, afgehandelde aanvragen en het totaalbedrag. Bij de start in maart 2018 nam het IMG bijna 20.000 meldingen over van het Centrum Veilig Wonen (CVW). Later kwamen de regelingen voor immateriële schade en waardedaling erbij.</p>"
+      "content": "Deze grafiek toont per maand of week het aantal aanvragen, afgehandelde aanvragen en het uitbetaalde bedrag. Bij de start in maart 2018 nam het IMG bijna 13.500 aanvragen over van het Centrum Veilig Wonen (CVW). Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen. Later kwamen de regelingen voor immateriële schade en waardedaling erbij.",
+      "description": "<p dir=\"auto\">Deze grafiek toont per maand of week het aantal aanvragen, afgehandelde aanvragen en het uitbetaalde bedrag. Bij de start in maart 2018 nam het IMG bijna 13.500 aanvragen over van het Centrum Veilig Wonen (CVW). Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen. Later kwamen de regelingen voor immateriële schade en waardedaling erbij.</p>"
     }
   ],
   "metadata": {
-    "generatedAt": "2026-01-09T13:21:17.441Z",
+    "generatedAt": "2026-01-10T15:02:53.149Z",
     "totalGroups": 127,
     "sourceFiles": [
+      "gemeenten_vv.group.md",
       "versies_intro.group.md",
       "versie_100.group.md",
       "versie_001.group.md",
@@ -2110,7 +2108,6 @@
       "gemeenten_ims.group.md",
       "gemeenten_wd.group.md",
       "gemeenten_wnw.group.md",
-      "gemeenten_ves.group.md",
       "gemeenten_maatwerk.group.md",
       "gemeente_totals.group.md",
       "fs_bedragen.group.md",

@@ -103,7 +103,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wdl_wd_ingediend",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
@@ -211,7 +211,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wdl_wd_bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
@@ -289,7 +289,12 @@ const group: IGroupMappingV2[] = [
         filters: [],
         multiples: "cumulative",
         parameters: [
-          [
+          [ {
+              label: "Afgehandeld",
+              column: "wdl_wd_afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+            },
             {
               label: "Besluiten",
               column: "wdl_wd_beschikt",
@@ -301,12 +306,6 @@ const group: IGroupMappingV2[] = [
               column: "wdl_wd_anders_afgehandeld",
               colour: "moss",
               units: "anders afgehandeld",
-            },
-            {
-              label: "Afgehandeld",
-              column: "wdl_wd_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
@@ -342,7 +341,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wdl_wd_beschikt_binn_termijn_perc",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
@@ -421,7 +420,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wdl_wd_toegekend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
   {
@@ -461,7 +460,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wdl_wd_dlt_verwacht_rolling8_dagen",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -501,7 +500,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
       label: "dagen",
     },
     functionality: ["table", "definitions", "download"],

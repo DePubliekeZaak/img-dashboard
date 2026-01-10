@@ -103,7 +103,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "maatwerk_ingediend",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
@@ -211,7 +211,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "maatwerk_bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
@@ -291,6 +291,12 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
+              label: "Afgehandeld",
+              column: "maatwerk_afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+            },
+            {
               label: "Besluiten",
               column: "maatwerk_beschikt",
               colour: "moss",
@@ -301,12 +307,6 @@ const group: IGroupMappingV2[] = [
               column: "maatwerk_anders_afgehandeld",
               colour: "moss",
               units: "anders afgehandeld",
-            },
-            {
-              label: "Afgehandeld",
-              column: "maatwerk_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
@@ -342,7 +342,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "maatwerk_beschikt_binn_termijn_perc",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
@@ -411,7 +411,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "maatwerk_beschikt_binn_termijn_perc",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
@@ -490,7 +490,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "maatwerk_toegekend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
   {
@@ -531,7 +531,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "maatwerk_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -565,7 +565,7 @@ const group: IGroupMappingV2[] = [
       {
         slug: "fs_maatwerk_duur_trend2",
         ctrlr: "BarTrendDLTV1",
-        header: "Vewrwacht aantal dagen tot besluit",
+        header: "Verwacht aantal dagen tot besluit",
         filters: [],
         args: [],
         parameters: [
@@ -768,7 +768,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "maatwerk_bz_ingediend",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -804,14 +804,14 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "maatwerk_bz_toegekend_cumulatief",
           cumulative: true,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
       key: "maatwerk_bz_toegekend_cumulatief",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],

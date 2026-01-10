@@ -103,7 +103,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "vv_ingediend",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
@@ -199,7 +199,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "vv_afgerond_ves",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
@@ -307,7 +307,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "vv_bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
@@ -317,7 +317,7 @@ const mapping: IGroupMappingV2[] = [
     ctrlr: "KTOGroupV1",
     graphs: [
       {
-        slug: "vv_waardering_numbers",
+        slug: "ves_waardering_numbers",
         ctrlr: "NumbersPlusRespondentsV1",
         args: [],
         parameters: [
@@ -340,7 +340,7 @@ const mapping: IGroupMappingV2[] = [
         ],
       },
       {
-        slug: "vv_waardering_trend",
+        slug: "ves_waardering_trend",
         ctrlr: "BarTrendKTOV1",
         args: [],
         filters: [],
@@ -364,6 +364,54 @@ const mapping: IGroupMappingV2[] = [
         ],
         modifiers: [],
       },
+      // {
+      //   slug: "avv_waardering_numbers",
+      //   ctrlr: "NumbersPlusRespondentsV1",
+      //   args: [],
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Sinds start",
+      //         column: "avv_doorlopend_cijfer",
+      //         colour: "orange",
+      //         format: "decimals",
+      //       },
+      //     ],
+      //     [
+      //       {
+      //         label: "Totaal respondenten",
+      //         column: "avv_aantal_respondenten_doorlopend",
+      //         units: "respondenten sinds start",
+      //         colour: "orange",
+      //       },
+      //     ],
+      //   ],
+      // },
+      // {
+      //   slug: "avv_waardering_trend",
+      //   ctrlr: "BarTrendKTOV1",
+      //   args: [],
+      //   filters: [],
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Maand cijfer",
+      //         column: "avv_maandcijfer",
+      //         colour: "orange",
+      //         format: "decimals",
+      //       },
+      //     ],
+      //     [
+      //       {
+      //         label: "Aantal nieuwe respondenten",
+      //         column: "avv_aantal_respondenten",
+      //         colour: "orange",
+      //         units: "respondenten",
+      //       },
+      //     ],
+      //   ],
+      //   modifiers: [],
+      // },
     ],
     functionality: ["table", "definitions", "download"],
     endpoints: ["tevredenheid", "tevredenheid"],
@@ -438,7 +486,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "vv_beschikt_binn_termijn_perc",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
@@ -518,7 +566,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "vv_toegekend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
   {
@@ -558,7 +606,7 @@ const mapping: IGroupMappingV2[] = [
         segment: {
           key: "vv_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -599,7 +647,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "vv_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
       label: "dagen",
     },
     functionality: ["table", "definitions", "download"],
@@ -741,7 +789,7 @@ const mapping: IGroupMappingV2[] = [
         segment: {
           key: "vv_bz_ingediend",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -777,14 +825,14 @@ const mapping: IGroupMappingV2[] = [
         segment: {
           key: "vv_bz_toegekend_cumulatief",
           cumulative: true,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
       key: "vv_bz_toegekend_cumulatief",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],

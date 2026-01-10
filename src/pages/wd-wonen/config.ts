@@ -103,7 +103,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_wonen_ingediend",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
@@ -180,7 +180,7 @@ const group: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Totaal verleende schade",
+              label: "Totaal uitbetaald bedrag",
               column: "wd_wonen_bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
@@ -211,7 +211,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_wonen_bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
@@ -289,7 +289,12 @@ const group: IGroupMappingV2[] = [
         filters: [],
         multiples: "cumulative",
         parameters: [
-          [
+          [ {
+              label: "Afgehandeld",
+              column: "wd_wonen_afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+            },
             {
               label: "Besluiten",
               column: "wd_wonen_beschikt",
@@ -301,12 +306,6 @@ const group: IGroupMappingV2[] = [
               column: "wd_wonen_anders_afgehandeld",
               colour: "moss",
               units: "anders afgehandeld",
-            },
-            {
-              label: "Afgehandeld",
-              column: "wd_wonen_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
@@ -342,7 +341,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_wonen_beschikt_binn_termijn_perc",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
@@ -421,7 +420,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_wonen_toegekend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
   {
@@ -462,7 +461,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_wonen_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -645,7 +644,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_wonen_bz_ingediend",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -681,14 +680,14 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_wonen_bz_toegekend_cumulatief",
           cumulative: true,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
     ],
     segment: {
       key: "wd_wonen_bz_toegekend_cumulatief",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],

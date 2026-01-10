@@ -238,43 +238,6 @@ const mapping: IGroupMappingV2[] = [
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
-      // {
-      //   slug: "fs_numbers_afgerond",
-      //   ctrlr: "NumbersV1",
-      //   args: [],
-      //   filters: [],
-      //   header: "Sinds start IMG/TCMG",
-      //   // multiples: "cumulative",
-      //   parameters: [
-      //     [
-      //       {
-      //         label: "Aanvragen",
-      //         column: "maatwerk_afgerond_cumulatief",
-      //         colour: "blue",
-      //         units: "afgerond via maatwerk",
-      //       },
-      //       {
-      //         label: "Voorraad",
-      //         column: "vv_afgerond_cumulatief",
-      //         colour: "orange",
-      //         units: "afgerond via vaste vergoeding",
-      //       },
-      //       {
-      //         label: "",
-      //         column: "---",
-      //         colour: "moss",
-      //         units: "",
-      //       },
-      //     ],
-      //     [],
-      //   ],
-      //   modifiers: [],
-      //   segment: {
-      //     key: "maatwerk_afgerond",
-      //     cumulative: true,
-      //     periodization: "weekly",
-      //   },
-      // },
       {
         slug: "fs_peag_afgerond",
         ctrlr: "SegmentsV1",
@@ -399,7 +362,7 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "maatwerk_afgehandeld",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
       label: "afgehandelde dossiers ",
     },
     functionality: ["table", "definitions", "download"],

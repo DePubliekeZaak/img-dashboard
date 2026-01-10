@@ -103,7 +103,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_namco_ingediend",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
@@ -172,46 +172,46 @@ const group: IGroupMappingV2[] = [
           periodization: "weekly",
         },
       },
-      {
-        slug: "wd_namco_bedragen_trend",
-        ctrlr: "BarTrendBedragenV1",
-        args: [],
-        filters: [],
-        parameters: [
-          [
-            {
-              label: "Totaal verleende schade",
-              column: "wd_namco_bedrag_betaald_totaal",
-              colour: "blue",
-              format: "currency",
-            },
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "wd_namco_bedrag_betaald_totaal",
-          cumulative: false,
-          periodization: "monthly",
-        },
-      },
+      // {
+      //   slug: "wd_namco_bedragen_trend",
+      //   ctrlr: "BarTrendBedragenV1",
+      //   args: [],
+      //   filters: [],
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Totaal verleende schade",
+      //         column: "wd_namco_bedrag_betaald_totaal",
+      //         colour: "blue",
+      //         format: "currency",
+      //       },
+      //     ],
+      //   ],
+      //   modifiers: [
+      //     [
+      //       {
+      //         label: "toename",
+      //         column: "{}",
+      //         colour: "orange",
+      //       },
+      //       {
+      //         label: "cumulatief",
+      //         column: "{}_cumulatief",
+      //         colour: "orange",
+      //       },
+      //     ],
+      //   ],
+      //   segment: {
+      //     key: "wd_namco_bedrag_betaald_totaal",
+      //     cumulative: false,
+      //     periodization: "monthly",
+      //   },
+      // },
     ],
     segment: {
       key: "wd_namco_bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
@@ -290,6 +290,12 @@ const group: IGroupMappingV2[] = [
         multiples: "cumulative",
         parameters: [
           [
+             {
+              label: "Afgehandeld",
+              column: "wd_namco_afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+            },
             {
               label: "Besluiten",
               column: "wd_namco_beschikt",
@@ -301,12 +307,6 @@ const group: IGroupMappingV2[] = [
               column: "wd_namco_anders_afgehandeld",
               colour: "moss",
               units: "anders afgehandeld",
-            },
-            {
-              label: "Afgehandeld",
-              column: "wd_namco_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
@@ -421,7 +421,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_namco_toegekend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
   // {
@@ -639,7 +639,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "wd_namco_bz_ingediend",
           cumulative: false,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
@@ -682,7 +682,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "wd_namco_bz_toegekend_cumulatief",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],

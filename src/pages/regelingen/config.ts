@@ -66,7 +66,7 @@ const mappings: IGroupMappingV2[] = [
     segment: {
       key: "all_ingediend_cumulatief",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["all_wekelijks", "all_maandelijks"],
@@ -232,7 +232,7 @@ const mappings: IGroupMappingV2[] = [
     segment: {
       key: "wd_ingediend",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
       parameterIndex: 0,
     },
     functionality: ["table", "definitions", "download"],

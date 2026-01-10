@@ -421,7 +421,7 @@ const group: IGroupMappingV2[] = [
     segment: {
       key: "ims_volw_afgehandeld",
       cumulative: true,
-      periodization: "monthly",
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],

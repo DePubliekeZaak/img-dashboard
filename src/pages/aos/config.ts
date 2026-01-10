@@ -40,7 +40,7 @@ const config: IPageMapping = [
     segment: {
       key: "aos_meldingen_cumulatief",
       cumulative: false,
-      periodization: "montly",
+      periodization: "weekly",
     },
   },
   {
@@ -93,7 +93,7 @@ const config: IPageMapping = [
     segment: {
       key: "aos_meldingen",
       cumulative: false,
-      periodization: "monthly",
+      periodization: "weekly",
     },
   },
 ];

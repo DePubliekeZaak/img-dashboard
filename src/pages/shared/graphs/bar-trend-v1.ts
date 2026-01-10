@@ -70,7 +70,7 @@ export class BarTrendV1 extends core.GraphControllerV3 {
     // const filters = (this.filters.length > 0) ? window.innerWidth < breakpoints.sm ? 60 : 100 : 0;
 
     this._addMargin(0, marginForTimeline, 0, 0);
-    this._addPadding(0, paddingForTimeline, 0, 0);
+    this._addPadding(10, paddingForTimeline, 0, 0);
     this._addInnerPadding(0, 0 , paddingForAxis, paddingForAxis);
 
     this._addScale("x", "band", "horizontal-reverse", "label");
