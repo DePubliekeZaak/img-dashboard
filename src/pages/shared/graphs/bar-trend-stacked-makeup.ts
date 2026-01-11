@@ -51,11 +51,13 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   pre() {
-    const top = window.innerWidth < breakpoints.sm ? 30 : 0;
+    const topMargin = window.innerWidth < breakpoints.sm ? 30 : 0;
+    const topPadding = window.innerWidth < breakpoints.sm ? 40 : window.innerWidth < breakpoints.lg ? 0 : 75;
+    const bottomPadding = window.innerWidth < breakpoints.lg ? 20 : 30;
     const bottom = 0;
 
-    this._addMargin(top, bottom, 0, 0);
-    this._addPadding(75, 30, 50, 20);
+    this._addMargin(topMargin, bottom, 0, 0);
+    this._addPadding(topPadding, bottomPadding, 50, 20);
 
     this._addScale("x", "band", "horizontal-reverse", "date");
     this._addScale("y", "linear", "vertical", "value");
@@ -66,7 +68,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   html() {
-    this.config.graphHeight = window.innerWidth < breakpoints.sm ? 420 : 420;
+    this.config.graphHeight = window.innerWidth < breakpoints.lg ? 280 : 420;
 
     if (this.group.element == null) return;
 
@@ -78,14 +80,14 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       this.graphEl.style.marginBottom =
         window.innerWidth < breakpoints.sm ? "0" : "2rem";
       this.graphEl.style.paddingRight = "50px";
-      this.graphEl.style.paddingTop = "40px";
+      this.graphEl.style.paddingTop = window.innerWidth < breakpoints.lg ? "20px" : "40px";
     }
 
     this.scrollingContainer = document.createElement("section");
     this.scrollingContainer.classList.add("graph-container-12");
     this.scrollingContainer.classList.add("graph-view");
     this.scrollingContainer.style.height = "100%";
-    this.scrollingContainer.style.minWidth = "800px";
+    this.scrollingContainer.style.minWidth = window.innerWidth < breakpoints.lg ? "540px" : "800px";
     this.graphEl.appendChild(this.scrollingContainer);
 
     let h = this.group.graphs[this.index].header;

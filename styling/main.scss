@@ -5,6 +5,16 @@
 #dashboard-main {
 
   width: 100%;
+  align-self: center;
+
+  @media(min-width: $breakpoint-sm) {
+    width: calc(100% - 6rem);
+  }
+
+   @media(min-width: $breakpoint-lg) {
+    width: 100%;
+  }
+
 
   table, thead, tbody, tr, th, td {
     border: none;

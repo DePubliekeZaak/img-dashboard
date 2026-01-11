@@ -44,7 +44,7 @@ export class HtmlNumberAccented {
     number.classList.add("number");
     number.classList.add("accented");
     number.style.fontSize =
-      window.innerWidth < breakpoints.sm ? "1.6rem" : "2rem";
+      window.innerWidth < breakpoints.sm ? "2rem" : "2rem";
     number.style.lineHeight = "1.45";
     number.style.color = "black";
     number.style.fontFamily = "Sora,sans-serif";

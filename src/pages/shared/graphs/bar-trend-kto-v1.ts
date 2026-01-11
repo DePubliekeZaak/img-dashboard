@@ -48,10 +48,10 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
   pre() {
     this.config.graphHeight = window.innerWidth < breakpoints.sm ? 320 : 240;
 
-    const top = window.innerWidth < breakpoints.sm ? 30 : 10;
+    const topMargin = window.innerWidth < breakpoints.sm ? 30 : 10;
     const bottom = 0;
 
-    this._addMargin(top, 0, 0, 0);
+    this._addMargin(topMargin, 0, 0, 0);
     this._addPadding(10, 30, 20, 20);
 
     this._addScale("x", "band", "horizontal-reverse", "date");
@@ -69,7 +69,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     if (this.graphEl != null) {
       this.graphEl.style.overflowX = "auto";
       this.graphEl.style.marginBottom =
-        window.innerWidth < breakpoints.sm ? "0" : "2rem";
+        window.innerWidth < breakpoints.lg ? "0" : "2rem";
     }
 
     this.scrollingContainer = document.createElement("section");
@@ -77,7 +77,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     this.scrollingContainer.classList.add("scrolltainer");
     this.scrollingContainer.style.height = "100%";
     this.scrollingContainer.style.minWidth =
-      window.innerWidth < breakpoints.md ? "600px" : "100%";
+      window.innerWidth < breakpoints.md ? "420px" : "100%";
 
     if (this.filters.length > 0) this.graphEl.style.paddingTop = "3rem";
 

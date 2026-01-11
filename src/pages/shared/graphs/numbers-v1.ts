@@ -3,6 +3,7 @@ import { core, elements } from "../../../charts";
 import { GroupObject, IParameterMapping } from "../interfaces";
 import { IPageController } from "../page.controller";
 import { parseSegment } from "../factories/segment";
+import breakpoints from "../../../img-modules/styleguide/breakpoints";
 
 export class NumbersV1 extends core.GraphControllerV3 {
   els : any = {};
@@ -40,8 +41,9 @@ export class NumbersV1 extends core.GraphControllerV3 {
   }
 
   pre() {
-    const bottom = 45;
-    this._addMargin(0, bottom, 0, 0);
+
+    const bottomMargin = window.innerWidth < breakpoints.lg ? 0 : 45;
+    this._addMargin(0, bottomMargin, 0, 0);
   }
 
   html() {
@@ -62,7 +64,7 @@ export class NumbersV1 extends core.GraphControllerV3 {
       const div = document.createElement("div");
       div.innerHTML = h + ":";
       div.style.width = "100%";
-      div.style.margin = "1.5rem 0";
+      div.style.margin = window.innerWidth < breakpoints.sm ? "1.5rem" : window.innerWidth < breakpoints.lg ? "1.5rem 0 .75rem 0" : "1.5rem 0";
       if (Object.values(this.els)[0]) {
         const n = Object.values(this.els)[0] as HTMLElement;
         n.parentNode?.insertBefore(div, n);

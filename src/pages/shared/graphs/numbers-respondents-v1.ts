@@ -40,7 +40,9 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3 {
   }
 
   pre() {
-    this._addMargin(0, 60, 0, 0);
+
+    const marginBottom = window.innerWidth < breakpoints.lg ? 0 : 60;
+    this._addMargin(0, marginBottom, 0, 0);
   }
 
   html() {

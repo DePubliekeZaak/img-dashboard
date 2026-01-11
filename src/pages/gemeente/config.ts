@@ -156,7 +156,7 @@ const group : IGroupMappingV2[] = [
         "filters" : ["gemeente"],
         "graphs": [
             {
-                "slug" : "gemeente_numbers_v1",
+                "slug" : "gemeente_numbers_vv_v1",
                 "ctrlr" : "NumbersMultiplesV1",
                 "args" : [],
                 "filters" : ["totaalVsRecent"],
@@ -209,7 +209,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_trend",
+                "slug" : "gemeente_trend_vv",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
@@ -258,7 +258,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegekend_taart",
+                "slug" : "gemeente_toegekend_taart_vv",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
@@ -305,7 +305,7 @@ const group : IGroupMappingV2[] = [
         "filters" : ["gemeente"],
         "graphs": [
             {
-                "slug" : "gemeente_numbers_v1",
+                "slug" : "gemeente_numbers_v1_ims",
                 "ctrlr" : "NumbersMultiplesV1",
                 "args" : [],
                 "filters" : ["totaalVsRecent"],
@@ -358,7 +358,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_trend",
+                "slug" : "gemeente_trend_ims",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
@@ -407,7 +407,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegekend_taart",
+                "slug" : "gemeente_toegekend_taart_ims",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
@@ -454,7 +454,7 @@ const group : IGroupMappingV2[] = [
         "filters" : ["gemeente"],
         "graphs": [
             {
-                "slug" : "gemeente_numbers_v1",
+                "slug" : "gemeente_numbers_v1_imk",
                 "ctrlr" : "NumbersMultiplesV1",
                 "args" : [],
                 "filters" : ["totaalVsRecent"],
@@ -507,7 +507,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_trend",
+                "slug" : "gemeente_trend_imk",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
@@ -556,7 +556,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegekend_taart",
+                "slug" : "gemeente_toegekend_taart_imk",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
@@ -603,7 +603,7 @@ const group : IGroupMappingV2[] = [
         "filters" : ["gemeente"],
         "graphs": [
             {
-                "slug" : "gemeente_numbers_v1",
+                "slug" : "gemeente_numbers_v1_wd",
                 "ctrlr" : "NumbersMultiplesV1",
                 "args" : [],
                 "filters" : ["totaalVsRecent"],
@@ -656,7 +656,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_trend",
+                "slug" : "gemeente_trend_wd",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
@@ -705,7 +705,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegekend_taart",
+                "slug" : "gemeente_toegekend_taart_wd",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [
@@ -752,7 +752,7 @@ const group : IGroupMappingV2[] = [
         "filters" : ["gemeente"],
         "graphs": [
             {
-                "slug" : "gemeente_numbers_v1",
+                "slug" : "gemeente_numbers_v1_wnw",
                 "ctrlr" : "NumbersMultiplesV1",
                 "args" : [],
                 "filters" : ["totaalVsRecent"],
@@ -805,7 +805,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_trend",
+                "slug" : "gemeente_trend_wnw",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
@@ -854,7 +854,7 @@ const group : IGroupMappingV2[] = [
                 }
             },
             {
-                "slug" : "gemeente_toegekend_taart",
+                "slug" : "gemeente_toegekend_taart_wnw",
                 "ctrlr" : "PieChartSumV1",
                 "args" : [],
                 "parameters": [

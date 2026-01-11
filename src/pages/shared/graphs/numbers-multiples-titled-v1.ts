@@ -48,6 +48,7 @@ export class NumbersMultiplesTitledV1 extends core.GraphControllerV3 {
       top = this.index == 0 ? 15 : 0;
       bottom = 15;
     } else {
+      top = 15;
       bottom = 45;
     }
 

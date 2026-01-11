@@ -50,8 +50,12 @@
 
 .tabpanel {
 
-    padding: 2rem 0;
+   
     scroll-margin-top: 12rem;
     // margin-top: -.5rem;
+
+    @media (min-width: $breakpoint-lg) {
+         padding: 1rem 0 0 0;
+    }
   
 }

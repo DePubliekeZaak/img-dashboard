@@ -21,8 +21,8 @@ export class HtmlHeader {
     this.headerElement.style.position = "relative";
 
     if (!this.element.classList.contains("graph-view")) {
-      this.headerElement.style.paddingBottom = "2rem";
-      this.headerElement.style.paddingTop = "2rem";
+      this.headerElement.style.paddingBottom = "1rem";
+      this.headerElement.style.paddingTop = "1rem";
     }
 
     this.headerElement.style.width = "calc(100% - 0px)";

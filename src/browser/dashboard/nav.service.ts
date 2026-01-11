@@ -236,10 +236,12 @@ export class NavService implements INavService {
       a.onclick = () => {
         if (i.sub.length > 0) {
           this.ctrlr._toggleSubMenu(i.slug, isMobile);
-          // Find the first clickable item in the sub-hierarchy
-          const firstClickable = this.findFirstClickableItem(i.sub);
-          if (firstClickable) {
-            this.ctrlr.switch("topic", firstClickable.slug, isMobile);
+          // Only navigate to first item on desktop, not mobile
+          if (!isMobile) {
+            const firstClickable = this.findFirstClickableItem(i.sub);
+            if (firstClickable) {
+              this.ctrlr.switch("topic", firstClickable.slug, isMobile);
+            }
           }
         }
       };
@@ -299,6 +301,7 @@ export class NavService implements INavService {
   }
 
   create(isMobile: boolean) {
+
     this.el = document.createElement("nav");
     this.el.classList.add("img_dasboard_nav");
 

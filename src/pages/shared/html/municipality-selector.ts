@@ -14,15 +14,13 @@ const munis = [
     "Tynaarlo",
     "Noordenveld",
     "Pekela",
-    "Aa En Hunze",
+    "Aa en Hunze",
     "Westerwolde",
     "Stadskanaal",
     "Noardeast-Fryslan",
     "Ooststellingwerf",
-    "Achtkarspelen",
-    "Midden-Drenthe"
-
-
+    // "Achtkarspelen",
+    // "Midden-Drenthe"
 ];
 
 munis.sort();

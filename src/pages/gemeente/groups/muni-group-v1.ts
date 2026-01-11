@@ -33,9 +33,13 @@ export class MuniGroupV1 extends GroupControllerV1 {
 
     const _data = JSON.parse(JSON.stringify(data));
 
+    console.log(data)
+
     for (const e of this.config.endpoints) {
         _data[e] = _data[e].filter( d => d.gemeente == this.page.segment.gemeente);
     }
+
+    console.log("_d", _data);
 
     const {
       tableParams,

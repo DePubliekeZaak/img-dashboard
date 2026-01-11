@@ -15,7 +15,7 @@ ul.dashboard_nav, ul.dashboard_nav_mobile {
             font-weight: normal;
             padding: .5rem;
             margin-right: 0rem;
-            margin-bottom: .75rem;
+            margin-bottom: .5rem;
             border: none;
             display: flex;
             flex-direction: row;
@@ -77,7 +77,7 @@ ul.dashboard_nav, ul.dashboard_nav_mobile {
         > ul {
 
             margin-left: .75rem;
-           padding-left: .75rem;
+            padding-left: .75rem;
             border-left: 1px solid rgb(230, 230, 230);
             margin-bottom: .75rem;
 
@@ -118,12 +118,12 @@ ul.dashboard_nav_mobile:not([hidden]) {
 
     display: flex;
     position: absolute;
-    background: white;
-    z-index: 9;
+    background: $website_green;
+    z-index: 999;
     min-height: 100vh;
-    width: calc(100vw - 4rem);
+    width: 100vw;
     flex-direction: column;
-    padding: 6rem 2rem 2rem 2rem;
+    padding: 4rem 2rem 2rem 2rem;
     flex-direction: column;
     left: 0;
     top: 0;
@@ -132,16 +132,25 @@ ul.dashboard_nav_mobile:not([hidden]) {
 
 #mobile-menu-item-open, #mobile-menu-item-close {
 
+    position: fixed;
+    left: 0;
+    bottom: .5rem;
+
     background-image: url('../public/img/hamburger.svg');
-    background-size: contain; /* Ensure the icon scales correctly */
+    background-size: 2.4rem; /* Ensure the icon scales correctly */
     background-repeat: no-repeat; /* Prevent the icon from repeating */
     background-position: center; /* Center the icon */
-    background-color: transparent;
+    background-color: $website_green;
     border: transparent;
-    position: relative;
-    z-index: 99;
-    width: 1.5rem;
-    height: 1.5rem;
+    z-index: 999;
+    width: 3.6rem;
+    height: 3.6rem;
+    padding: 4px;
+
+    @media (min-width: $breakpoint-sm) {
+        bottom: calc(50vh - 1.8rem);
+    }
+
 
     span.text {
         position: absolute !important;
