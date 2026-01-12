@@ -38,9 +38,9 @@ export class DataService implements IDataService {
           "/" + apibase.split("/")[1] + "/archives/v" + version.slug + "/api/";
       }
 
-      if (endpoint.includes("tevredenheid")) {
-        apibase = "/open-data/api/";
-      }
+      // if (endpoint.includes("tevredenheid")) {
+      //   apibase = "/open-data/api/";
+      // }
 
       const url = domain + apibase + endpoint;
       // console.log(url);

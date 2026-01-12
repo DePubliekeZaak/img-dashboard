@@ -418,7 +418,7 @@ const mappings: IGroupMappingV2[] = [
         slug: "vergelijk_numbers",
         ctrlr: "NumbersV1",
         args: [],
-        header: "Waardedaling: wonen",
+        header: "Waardedaling: woningen",
         parameters: [
           [
             {
@@ -443,7 +443,7 @@ const mappings: IGroupMappingV2[] = [
             },
             {
               label: "Waardering",
-              column: "wdw_waardering",
+              column: "wd_waardering",
               colour: "purple",
               format: "decimals",
               units: "waardering",
@@ -460,7 +460,7 @@ const mappings: IGroupMappingV2[] = [
         slug: "vergelijk_numbers",
         ctrlr: "NumbersV1",
         args: [],
-        header: "Waardedaling: niet wonen",
+        header: "Waardedaling: niet woningen",
         parameters: [
           [
             {
@@ -485,7 +485,7 @@ const mappings: IGroupMappingV2[] = [
             },
             {
               label: "Waardering",
-              column: "wdnw_waardering",
+              column: "wd_waardering",
               colour: "purple",
               format: "decimals",
               units: "waardering",
