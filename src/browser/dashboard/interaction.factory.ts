@@ -26,7 +26,7 @@ export const switchTopic = (
     popupElement.style.display = "none";
   }
   let graphEls = [].slice.call(
-    document.querySelectorAll(".graph-container, h2, .graph-wrapper"),
+    document.querySelectorAll(".graph-container, h2.img_dashboard, .graph-wrapper"),
   );
   for (let el of graphEls) {
     el.parentNode.removeChild(el);

@@ -84,6 +84,7 @@ export const pageHeader = (
   d.appendChild(document.createElement("span"));
 
   let h2 = document.createElement("h2");
+  h2.classList.add("img_dashboard");
   h2.innerText = topic;
 
   h.appendChild(v);
