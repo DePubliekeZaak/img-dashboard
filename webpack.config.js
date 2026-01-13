@@ -7,7 +7,7 @@ const config = (env) => {
   return {
     entry: {
       scaffold: {
-        filename: "scripts/dashboard-new-bundle.js",
+        filename: "scripts/dashboard-bundle.js",
         import: "./src/browser/index.ts",
       },
       actueel: {

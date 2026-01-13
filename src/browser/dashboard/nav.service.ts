@@ -210,10 +210,11 @@ export class NavService implements INavService {
       if (i.slug == "opendata") {
         a.onclick = () =>
           window.open(
-            window.location.protocol +
-              "//" +
-              window.location.host +
-              "/open-data",
+            "https://img.publikaan.nl/publieke-data/docs/",
+            // window.location.protocol +
+            //   "//" +
+            //   window.location.host +
+            //   "/open-data",
             "_blank",
           );
       } else {
