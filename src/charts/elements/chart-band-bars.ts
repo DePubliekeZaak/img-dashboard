@@ -1,24 +1,24 @@
 import { colours } from "../../img-modules/styleguide";
-import { convertToCurrency } from "../../pages/shared/_helpers";
+import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
 import { Bar, Bars } from "../../pages/shared/types_graphs";
 
 export class ChartBandBar {
-  bars;
-  barsEnter;
+  bars: any;
+  barsEnter: any;
 
-  barLabels;
-  barLabelsEnter;
+  barLabels: any;
+  barLabelsEnter: any;
 
-  constructor(private ctrlr) {}
+  constructor(private ctrlr: any) {}
 
-  draw(data) {
+  draw(data: any) {
     this.bars = this.ctrlr.svg.layers.data
       .selectAll(".bar")
       .data(data)
       .join("rect")
       .attr("class", "bar")
-      .attr("fill", (d) => colours[d.colour][1])
-      .attr("stroke", (d) => colours[d.colour][0]);
+      .attr("fill", (d: any) => colours[d.colour][1])
+      .attr("stroke", (d: any) => colours[d.colour][0]);
 
     this.barLabels = this.ctrlr.svg.layers.data
       .selectAll(".barLabel")
@@ -48,14 +48,14 @@ export class ChartBandBar {
       )
       // .transition()
       // .duration(500)
-      .attr("y", (d) =>
+      .attr("y", (d: any) =>
         this.ctrlr.config.extra.privacySensitive && d.value < 25
           ? self.ctrlr.dimensions.height
           : self.ctrlr.scales.y.fn(d.value),
       )
       .attr(
         "height",
-        (d) =>
+        (d: any) =>
           self.ctrlr.dimensions.svgHeight - self.ctrlr.scales.y.fn(d.value),
       );
 
@@ -64,7 +64,7 @@ export class ChartBandBar {
     });
 
     this.barLabels
-      .text((d) => {
+      .text((d: any) => {
         if (d.format === "currency") {
           return convertToCurrency(d.value);
         } else if (d.format === "percentage") {
@@ -72,10 +72,10 @@ export class ChartBandBar {
         } else {
           return self.ctrlr.config.extra.privacySensitive && d.value < 25
             ? "< 25"
-            : d.value;
+            : thousands(d.value);
         }
       })
-      .attr("transform", (d) => {
+      .attr("transform", (d: any) => {
         if (this.ctrlr.scales.x.config.type === "band") {
           return (
             "translate(" +

@@ -1,6 +1,6 @@
 import { IParameterMapping } from "../../../charts/core/types";
 import { breakpoints, colours } from "../../../img-modules/styleguide";
-import { convertToCurrencyInTable } from "../_helpers";
+import { convertToCurrencyInTable, thousands } from "../_helpers";
 import { PiePart } from "../types_graphs";
 
 export default class HtmlLegendAsSum {
@@ -77,7 +77,7 @@ export default class HtmlLegendAsSum {
         break;
 
       default:
-        vEl.innerText = map.value.toString();
+        vEl.innerText = thousands(map.value).toString();
     }
 
     if (this.withPercentage) {

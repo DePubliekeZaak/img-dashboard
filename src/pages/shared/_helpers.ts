@@ -12,8 +12,8 @@ export const removeDuplicates = (arr: any[]) => {
   });
 };
 
-var trimColumns = function (json, neededColumns) {
-  json.forEach((week, i) => {
+var trimColumns = function (json: any, neededColumns: string[]) {
+  json.forEach((week: any, i: number) => {
     Object.keys(week).forEach((key) => {
       if (neededColumns.indexOf(key) < 0) {
         delete week[key];
@@ -23,11 +23,11 @@ var trimColumns = function (json, neededColumns) {
   return json;
 };
 
-export const trimColumnsAndOrder = (json, neededColumns) => {
+export const trimColumnsAndOrder = (json: any, neededColumns: string[]) => {
   let newArray: any[] = [];
-  let newObject;
+  let newObject: any;
 
-  json.forEach((obj, i) => {
+  json.forEach((obj: any, i: number) => {
     newObject = {};
     neededColumns.forEach((nc) => {
       newObject[nc] = obj[nc];
@@ -39,7 +39,7 @@ export const trimColumnsAndOrder = (json, neededColumns) => {
   return newArray;
 };
 
-var hasValue = function (array, value) {
+var hasValue = function (array: any[], value: string) {
   return array.filter((i) => {
     return i[value] !== null;
   });
@@ -54,7 +54,7 @@ export function thousands(number: any) {
   return number != undefined ? dutchFormatter.format(number) : ``;
 }
 
-export function miljarden(number): string {
+export function miljarden(number: number): string {
   return (number / 1000).toString();
 }
 
@@ -109,8 +109,10 @@ export function convertToMillions(number: number) {
 
   if (number >= 1000 * 1000 * 1000) {
     return "€ " + (number / (1000 * 1000 * 1000)).toFixed(0) + " mrd";
-  } else { 
+  } else if (number >= 1000 * 100) { 
       return "€ " + (number / (1000 * 1000)).toFixed(0) + " mln";
+  } else {
+    return "€ " + thousands(number);
   }
   
 }
@@ -133,7 +135,7 @@ export function sanitizeCurrency(string: string) {
   return number != undefined ? number : s;
 }
 
-export function shortenCurrency(string) {
+export function shortenCurrency(string: string) {
   if (string.length < 7) {
     return string;
   } else if (string.length < 11) {
@@ -143,14 +145,14 @@ export function shortenCurrency(string) {
   }
 }
 
-export function displayDate(date) {
+export function displayDate(date: any) {
   date = new Date(date);
   return (
     date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
   );
 }
 
-export function slugify(str) {
+export function slugify(str: string) {
   str = str.replace(/^\s+|\s+$/g, ""); // trim
   str = str.toLowerCase();
 
@@ -212,7 +214,7 @@ export function getParameter(o: IGraphMapping, i: number) {
   // }
 }
 
-export function getMappingKey(m: IMappingOption, key: string): string {
+export function getMappingKey(m: any, key: any): any {
   return m[key].toString();
 }
 
@@ -245,13 +247,13 @@ export function groupBy<T>(arr: T[], fn: (item: T) => any) {
 
 export const bePositive = (n: number) => (n < 0 ? -n : n);
 
-export const standardDeviation = (arr, usePopulation = false) => {
-  const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+export const standardDeviation = (arr: any, usePopulation = false) => {
+  const mean = arr.reduce((acc: any, val: any) => acc + val, 0) / arr.length;
 
   const stdev = Math.sqrt(
     arr
-      .reduce((acc, val) => acc.concat((val - mean) ** 2), [])
-      .reduce((acc, val) => acc + val, 0) /
+      .reduce((acc: any, val: number) => acc.concat((val - mean) ** 2), [])
+      .reduce((acc: any, val: number) => acc + val, 0) /
       (arr.length - (usePopulation ? 0 : 1)),
   );
 

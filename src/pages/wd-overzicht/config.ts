@@ -23,7 +23,7 @@ const group: IGroupMappingV2[] = [
             {
               label: "Voorraad",
               column: "wdl_wd_voorraad",
-              colour: "blue",
+              colour: "purple",
               units: "voorraad",
             },
             {
@@ -298,19 +298,19 @@ const group: IGroupMappingV2[] = [
             {
               label: "Besluiten",
               column: "wdl_wd_beschikt",
-              colour: "moss",
+              colour: "blue",
               units: "besluiten",
             },
             {
               label: "Anders afgehandeld",
               column: "wdl_wd_anders_afgehandeld",
-              colour: "moss",
+              colour: "orange",
               units: "anders afgehandeld",
             },
             {
               label: "Percentage binnen termijn",
               column: "wdl_wd_beschikt_binn_termijn_perc",
-              colour: "blue",
+              colour: "moss",
               format: "percentage",
               units: "afgehandeld binnen termijn",
             },
@@ -613,25 +613,25 @@ const group: IGroupMappingV2[] = [
             {
               label: "Ingediend",
               column: "wdl_wd_bz_ingediend_cumulatief",
-              colour: "moss",
+              colour: "orange",
               units: "bezwaren",
             },
             {
               label: "In procedure",
               column: "wdl_wd_bz_voorraad_cumulatief",
-              colour: "green",
-              units: "bewzaren",
+              colour: "purple",
+              units: "bezwaren",
             },
             {
               label: "Afgerond",
               column: "wdl_wd_bz_afgerond_cumulatief",
-              colour: "blue",
+              colour: "moss",
               units: "bezwaren",
             },
             {
               label: "Bezwaarpercentage",
               column: "wdl_wd_bz_perc_cumulatief",
-              colour: "orange",
+              colour: "blue",
               format: "percentage",
               units: "t.o.v. aantal besluiten",
             },

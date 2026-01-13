@@ -1,12 +1,13 @@
 import { breakpoints, colours } from "../../img-modules/styleguide";
 import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
+import { IParameterMapping } from "../core/types";
 
 export class HtmlNumberCircleRespondents {
 
     constructor(
-        private ctrlr,
-        private parameter,
-        private element? 
+        private ctrlr: any,
+        private parameter: any,
+        private element? : HTMLElement
     ){}
 
     draw() {
@@ -83,7 +84,7 @@ export class HtmlNumberCircleRespondents {
 
         let element = this.element != undefined ? this.element : this.ctrlr.element;
 
-        element.querySelector('.second_number').innerText = data[extraParameter];
+        element.querySelector('.second_number').innerText = thousands(data[extraParameter]);
 
         let value =  Math.round(data[parameter] * 10) / 10;
         element.querySelector('.number.accented').innerText = value.toFixed(1);

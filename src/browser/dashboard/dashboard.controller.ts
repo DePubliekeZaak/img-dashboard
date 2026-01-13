@@ -130,7 +130,7 @@ export class DashboardController implements IDashboardController {
           const container = document.querySelector("[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']");
           container.innerHTML = '';
           const script = document.createElement('script');
-          script.src = 'https://graphs.publikaan.nl/v0/scripts/dashboard-bundle.js';
+          script.src = 'https://graphs.publikaan.nl/v001/scripts/dashboard-bundle.js';
           document.head.appendChild(script);
 
           window.dispatchEvent(new Event('graph_ready'));

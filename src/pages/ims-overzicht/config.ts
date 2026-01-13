@@ -18,7 +18,7 @@ const group: IGroupMappingV2[] = [
               label: "Aanvragen",
               column: "ims_totaal_ingediend",
               colour: "orange",
-              units: "ingediende aanvragen",
+              units: "aanvragen",
             },
             {
               label: "Voorraad",
@@ -27,7 +27,7 @@ const group: IGroupMappingV2[] = [
               units: "aanvragen in werkvoorraad",
             },
             {
-              label: "Afgerond",
+              label: "Afgehandeld",
               column: "ims_totaal_afgerond",
               colour: "moss",
               units: "afgeronde aanvragen",

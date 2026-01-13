@@ -15,22 +15,22 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Aanvragen",
+              label: "Ingediend",
               column: "fysiek_ingediend",
               colour: "orange",
-              units: "ingediende schademeldingen",
+              units: "ingediend",
             },
             {
               label: "Voorraad",
               column: "fysiek_voorraad",
-              colour: "moss",
-              units: "schademeldingen in werkvoorraad",
+              colour: "purple",
+              units: "voorraad",
             },
             {
-              label: "Afgerond",
+              label: "Afgehandeld",
               column: "fysiek_afgerond",
-              colour: "blue",
-              units: "afgeronde schademeldingen",
+              colour: "moss",
+              units: "afgehandeld",
             },
           ],
           [],
