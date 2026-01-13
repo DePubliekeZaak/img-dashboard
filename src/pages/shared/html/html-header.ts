@@ -36,7 +36,8 @@ export class HtmlHeader {
     if (this.datum) {
       let d = document.createElement("span");
       d.style.display = "block";
-      d.style.marginTop = "-1rem";
+      d.style.marginTop = "-.5rem";
+      d.style.marginBottom = ".75rem";
       d.innerText = this.datum;
       this.headerElement.appendChild(d);
     }

@@ -6,6 +6,7 @@ import { segmentParse } from "../segment";
 import { HtmlMappingGroupSelector } from "./mapping-group-selector";
 import { HtmlMunicipalitySelector } from "./municipality-selector";
 import { HtmlPeriodSelector } from "./period-selector";
+import { HtmlSpecialsSelector } from "./specials-selector";
 
 export class HtmlGroupFilters {
 
@@ -67,6 +68,7 @@ export class HtmlGroupFilters {
                 const li = this.ctrlr.page.main.window.document.createElement('li');
                 
                 let selectEl;
+
 
                 switch (func) {
 
@@ -176,7 +178,39 @@ export class HtmlGroupFilters {
 
                         });
 
-                    break;
+                        break;
+
+                    case 'specials': 
+
+                        // console.log("inside html group filter",this.ctrlr.page.segment)
+
+                        const spSelector = new HtmlSpecialsSelector(this.ctrlr, li, this.ctrlr.slug);
+                        const spSelectEl = spSelector.draw(this.ctrlr.page.segment, 0);
+
+                        spSelectEl.addEventListener("change", () => {
+
+                        // const segment_key = (typeof this.ctrlr.segment === "string") ?  this.ctrlr.segment : this.ctrlr.segment.key;
+
+                            if ( muniSelectEl.value != self.ctrlr.page.segment.gemeente) {
+
+
+                                this.ctrlr.page.segment.specials = muniSelectEl.value
+
+                                // const newSegment = {
+                                //     key: self.ctrlr.segment.key,
+                                //     cumulative: self.ctrlr.segment.cumulative,
+                                //     periodization: self.ctrlr.segment.periodization,
+                                //     gemeente: muniSelectEl.value
+                                // }
+
+                                // console.log(newSegment);
+
+                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), undefined, true);
+                            }
+
+                        });
+
+                        break;
 
                    
                 }

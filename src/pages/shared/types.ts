@@ -43,6 +43,7 @@ export type Segment = {
   periodization: string;
   parameterIndex?: number;
   gemeente?: string;
+  specials?: string;
   label?: string;
   normalized?: boolean;
   yearmonth?: string;

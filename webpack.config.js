@@ -181,6 +181,15 @@ const config = (env) => {
           export: "default",
         },
       },
+      specials: {
+        filename: "scripts/specials.bundle.js",
+        import: "./src/pages/specials/index.ts",
+        library: {
+          name: "specials",
+          type: "window",
+          export: "default",
+        },
+      },
       gemeente: {
         filename: "scripts/gemeente.bundle.js",
         import: "./src/pages/gemeente/index.ts",

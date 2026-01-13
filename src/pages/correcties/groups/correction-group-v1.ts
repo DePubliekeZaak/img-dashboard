@@ -23,6 +23,8 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
 
     archiveLink.classList.add("correctie");
     archiveLink.innerText = "Bekijk deze versie";
+    archiveLink.style.marginBottom = "3rem"
+    archiveLink.style.display = "inline-block"
 
     archiveLink.addEventListener("click", () => {
       this.page.main.switchVersion(this.config.slug);

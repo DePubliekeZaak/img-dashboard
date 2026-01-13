@@ -1,6 +1,26 @@
 {
   "groups": [
     {
+      "name": "specials_intro",
+      "slug": "specials_intro",
+      "header": [],
+      "tags": [],
+      "definitions": [],
+      "timeline": [],
+      "content": "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
+      "description": "<p dir=\"auto\">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>"
+    },
+    {
+      "name": "specials_toegekend",
+      "slug": "specials_toegekend",
+      "header": "Toegekend/afgewezen",
+      "tags": [],
+      "definitions": [],
+      "timeline": [],
+      "content": "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
+      "description": "<p dir=\"auto\">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>"
+    },
+    {
       "name": "bezwaren_imkj",
       "slug": "bezwaren_imkj",
       "header": "Immateriele schade - kinderen en jongeren",
@@ -575,22 +595,6 @@
       "description": "<p dir=\"auto\">De waardering voor de regeling voor fysieke schade volgt grotendeels dezelfde ontwikkeling als de totale waardering. Vanaf december 2021 is een verbetering te zien. Dit valt samen met de invoering van de vaste vergoeding. Voor een deel van de aanvragers sloot deze regeling beter aan bij hun situatie. Hierdoor kwamen er minder negatieve beoordelingen.</p>"
     },
     {
-      "name": "vv_waardering",
-      "slug": "vv_waardering",
-      "header": "Waardering",
-      "tags": [
-        "maatwerk"
-      ],
-      "definitions": [
-        "Respondenten",
-        "Waardering",
-        "Doorlopend"
-      ],
-      "timeline": [],
-      "content": "Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.",
-      "description": "<p dir=\"auto\">Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>"
-    },
-    {
       "name": "waardering_alle_regelingen",
       "slug": "waardering_alle_regelingen",
       "header": [],
@@ -614,6 +618,22 @@
       "description": "<p dir=\"auto\">Het IMG onderzoekt sinds 2019 hoe aanvragers de regelingen ervaren. Na een besluit ontvangen zij per e-mail een uitnodiging om een waarderingscijfer te geven. Dit geldt voor alle aanvragers, ook als een aanvraag (deels) is afgewezen. De waardering wordt gegeven met een cijfer van 1 tot 10.</p>\n<p dir=\"auto\">Het cijfer voor alle regelingen is een gewogen gemiddelde: regelingen met meer besluiten tellen zwaarder mee.</p>"
     },
     {
+      "name": "vv_waardering",
+      "slug": "vv_waardering",
+      "header": "Waardering",
+      "tags": [
+        "maatwerk"
+      ],
+      "definitions": [
+        "Respondenten",
+        "Waardering",
+        "Doorlopend"
+      ],
+      "timeline": [],
+      "content": "Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.",
+      "description": "<p dir=\"auto\">Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>"
+    },
+    {
       "name": "vv_voorraad",
       "slug": "vv_voorraad",
       "header": "Voorraad",
@@ -630,11 +650,11 @@
       "name": "vv_toegekend_als",
       "slug": "vv_toegekend_als",
       "tags": [],
-      "header": "Toegekend als",
+      "header": "Toekenningen",
       "definities": [],
       "timeline": [],
-      "content": "verhaaltje over vaste en aanvullende vergoeding",
-      "description": "<p dir=\"auto\">verhaaltje over vaste en aanvullende vergoeding</p>"
+      "content": "Van het totaal aantal afgehandelde aanvragen voor de vaste vergoeding is aan {vv_toegekend_ves_cumulatief} een Vaste vergoeding toegekend en aan {v_toegekend_avv_cumulatief} een Aanvullende vaste vergoeding. De overige aanvragen zijn afgewezen of op een andere manier afgehandeld.",
+      "description": "<p dir=\"auto\">Van het totaal aantal afgehandelde aanvragen voor de vaste vergoeding is aan {vv_toegekend_ves_cumulatief} een Vaste vergoeding toegekend en aan {v_toegekend_avv_cumulatief} een Aanvullende vaste vergoeding. De overige aanvragen zijn afgewezen of op een andere manier afgehandeld.</p>"
     },
     {
       "name": "vv_toegekend",
@@ -745,8 +765,8 @@
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Sinds 2019 publiceert IMG publieke data over de schadeafhandeling, onder andere via dit dashboard en het wekelijkse bericht op onze website. We streven ernaar om de cijfers op een consistente en eenduidige manier te communiceren, zodat het voor iedereen duidelijk is hoeveel schademeldingen er zijn gedaan, hoeveel daarvan zijn afgehandeld, welk totaalbedrag is uitgekeerd, wat het percentage afwijzingen is, en meer.\n\nNu we deze gegevens al meerdere jaren publiceren, merken we dat het soms nodig is om eerder gecommuniceerde cijfers te corrigeren. Onze inzichten in de optimale ordening van datasets blijven zich ontwikkelen, en wijzigingen in het zaaksysteem kunnen de actuele weergave van historische data beïnvloeden. Elke week publiceren we de cijfers zoals we die op dat moment zien, maar als lerende organisatie willen we ook periodiek terugkijken en correcties aanbrengen om de historische gegevens zo accuraat mogelijk weer te geven.\n\nOp deze pagina vind je de correcties die we hebben doorgevoerd, inclusief uitleg over de redenen voor deze aanpassingen. Daarnaast kun je eerdere gecommuniceerde data bekijken en vergelijken via links naar oudere versies van het dashboard en API eindpunten.",
-      "description": "<p dir=\"auto\">Sinds 2019 publiceert IMG publieke data over de schadeafhandeling, onder andere via dit dashboard en het wekelijkse bericht op onze website. We streven ernaar om de cijfers op een consistente en eenduidige manier te communiceren, zodat het voor iedereen duidelijk is hoeveel schademeldingen er zijn gedaan, hoeveel daarvan zijn afgehandeld, welk totaalbedrag is uitgekeerd, wat het percentage afwijzingen is, en meer.</p>\n<p dir=\"auto\">Nu we deze gegevens al meerdere jaren publiceren, merken we dat het soms nodig is om eerder gecommuniceerde cijfers te corrigeren. Onze inzichten in de optimale ordening van datasets blijven zich ontwikkelen, en wijzigingen in het zaaksysteem kunnen de actuele weergave van historische data beïnvloeden. Elke week publiceren we de cijfers zoals we die op dat moment zien, maar als lerende organisatie willen we ook periodiek terugkijken en correcties aanbrengen om de historische gegevens zo accuraat mogelijk weer te geven.</p>\n<p dir=\"auto\">Op deze pagina vind je de correcties die we hebben doorgevoerd, inclusief uitleg over de redenen voor deze aanpassingen. Daarnaast kun je eerdere gecommuniceerde data bekijken en vergelijken via links naar oudere versies van het dashboard en API eindpunten.</p>"
+      "content": "Sinds 2019 publiceert het IMG cijfers over de schadeafhandeling. Dat doen we onder andere via dit dashboard en in een wekelijks nieuwsbericht op onze website. We willen de cijfers zo duidelijk en consistent mogelijk laten zien. Zo maken we inzichtelijk hoeveel aanvragen zijn gedaan, hoeveel daarvan zijn afgehandeld en hoe de schadeafhandeling verloopt.\n\nDe inzichten in het ordenen van gegevens veranderen en aanpassingen in het zaaksysteem kunnen invloed hebben op hoe oude cijfers worden weergegeven. Omdat we deze cijfers al meerdere jaren publiceren, kan het nodig zijn om eerder gepubliceerde cijfers te corrigeren. Dat hebben we in januari 2026 voor het eerst gedaan.\n\nWe publiceren de cijfers elke week zoals we die op dat moment zien. Daarnaast kijken we als lerende organisatie regelmatig terug. Als blijkt dat eerder gepubliceerde cijfers onvolledig of onjuist waren, passen we deze aan. Dit doen we om de gegevens zo zorgvuldig en transparant mogelijk te houden. Correcties kunnen zowel leiden tot hogere als lagere aantallen.\n\nOp deze pagina staat welke correcties we hebben doorgevoerd. We leggen per correctie uit waarom deze is gemaakt. Ook zijn de eerdere versies van het dashboard en de bijbehorende data te bekijken via links naar oudere versies en API-eindpunten.",
+      "description": "<p dir=\"auto\">Sinds 2019 publiceert het IMG cijfers over de schadeafhandeling. Dat doen we onder andere via dit dashboard en in een wekelijks nieuwsbericht op onze website. We willen de cijfers zo duidelijk en consistent mogelijk laten zien. Zo maken we inzichtelijk hoeveel aanvragen zijn gedaan, hoeveel daarvan zijn afgehandeld en hoe de schadeafhandeling verloopt.</p>\n<p dir=\"auto\">De inzichten in het ordenen van gegevens veranderen en aanpassingen in het zaaksysteem kunnen invloed hebben op hoe oude cijfers worden weergegeven. Omdat we deze cijfers al meerdere jaren publiceren, kan het nodig zijn om eerder gepubliceerde cijfers te corrigeren. Dat hebben we in januari 2026 voor het eerst gedaan.</p>\n<p dir=\"auto\">We publiceren de cijfers elke week zoals we die op dat moment zien. Daarnaast kijken we als lerende organisatie regelmatig terug. Als blijkt dat eerder gepubliceerde cijfers onvolledig of onjuist waren, passen we deze aan. Dit doen we om de gegevens zo zorgvuldig en transparant mogelijk te houden. Correcties kunnen zowel leiden tot hogere als lagere aantallen.</p>\n<p dir=\"auto\">Op deze pagina staat welke correcties we hebben doorgevoerd. We leggen per correctie uit waarom deze is gemaakt. Ook zijn de eerdere versies van het dashboard en de bijbehorende data te bekijken via links naar oudere versies en API-eindpunten.</p>"
     },
     {
       "name": "versie_100",
@@ -756,8 +776,8 @@
       "definitions": [],
       "timeline": [],
       "datum": "13/01/2026 - heden",
-      "content": "Bij de overgang naar het nieuwe dashboard hebben we een aantal aanpassingen gedaan waardoor er verschillen ontstaan met de oude versie. De belangrijkste wijzigingen:\n\n* Fysieke schade: in de nieuwe cijfers worden 11.500 extra schademeldingen meegenomen die eerder niet zichtbaar waren. Dit komt doordat deze meldingen voor de vaste vergoeding vóór de start in 2021 al waren aangemaakt, maar in de oude cijfers niet werden meegeteld. Hierdoor stijgt het aantal ingediende en afgeronde aanvragen voor fysieke schade.\n* Immateriële schade: door een technische fout werden 900 aanvragen niet meegeteld in de oude cijfers. Deze meldingen zijn nu toegevoegd, waardoor het totaal aantal ingediende aanvragen stijgt.\n* Waardedaling woningen: ingetrokken aanvragen (1.500 zaken) werden in de oude cijfers niet meegenomen. Deze worden nu wel meegeteld.\n* Schadebedragen: in plaats van de toegekende schadebedragen voor het eerste besluit (dus zonder eventuele bedragen na een eventueel bezwaar) tonen we nu alle daadwerkelijk betaalde bedragen. Dit sluit beter aan bij de praktijk en zorgt voor een correctere weergave van de financiële afhandeling.",
-      "description": "<p dir=\"auto\">Bij de overgang naar het nieuwe dashboard hebben we een aantal aanpassingen gedaan waardoor er verschillen ontstaan met de oude versie. De belangrijkste wijzigingen:</p>\n<ul>\n<li dir=\"auto\">Fysieke schade: in de nieuwe cijfers worden 11.500 extra schademeldingen meegenomen die eerder niet zichtbaar waren. Dit komt doordat deze meldingen voor de vaste vergoeding vóór de start in 2021 al waren aangemaakt, maar in de oude cijfers niet werden meegeteld. Hierdoor stijgt het aantal ingediende en afgeronde aanvragen voor fysieke schade.</li>\n<li dir=\"auto\">Immateriële schade: door een technische fout werden 900 aanvragen niet meegeteld in de oude cijfers. Deze meldingen zijn nu toegevoegd, waardoor het totaal aantal ingediende aanvragen stijgt.</li>\n<li dir=\"auto\">Waardedaling woningen: ingetrokken aanvragen (1.500 zaken) werden in de oude cijfers niet meegenomen. Deze worden nu wel meegeteld.</li>\n<li dir=\"auto\">Schadebedragen: in plaats van de toegekende schadebedragen voor het eerste besluit (dus zonder eventuele bedragen na een eventueel bezwaar) tonen we nu alle daadwerkelijk betaalde bedragen. Dit sluit beter aan bij de praktijk en zorgt voor een correctere weergave van de financiële afhandeling.</li>\n</ul>"
+      "content": "Bij de overgang naar het nieuwe dashboard hebben we een aantal aanpassingen gedaan waardoor er verschillen ontstaan met de oude versie. De belangrijkste wijzigingen:\n\n* Fysieke schade: in de nieuwe cijfers worden 11.500 extra schademeldingen meegenomen die eerder niet zichtbaar waren. Dit komt doordat deze meldingen voor de vaste vergoeding vóór de start in 2021 al waren aangemaakt, maar in de oude cijfers niet werden meegeteld. Hierdoor stijgt het aantal ingediende en afgeronde aanvragen voor fysieke schade. Daarnaast werden eerder alleen de aanvragen voor maatwerk en de vaste vergoeding opgeteld voor het totaal aantal schademeldingen voor fysieke schade. In de nieuwe cijfers worden ook de ca. 60.000 schademeldingen voor de aanvullende vaste vergoeding meegenomen.\n* Immateriële schade: door een technische fout werden 1.000 aanvragen niet meegeteld in de oude cijfers. Deze meldingen zijn nu toegevoegd, waardoor het totaal aantal ingediende aanvragen stijgt.\n* Waardedaling woningen: ingetrokken aanvragen (1.500 zaken) werden in de oude cijfers niet meegenomen. Deze worden nu wel meegeteld.\n* Schadebedragen: in plaats van de toegekende schadebedragen voor het eerste besluit (dus zonder eventuele bedragen na een eventueel bezwaar) tonen we nu alle daadwerkelijk betaalde bedragen. Dit sluit beter aan bij de praktijk en zorgt voor een correctere weergave van de financiële afhandeling.",
+      "description": "<p dir=\"auto\">Bij de overgang naar het nieuwe dashboard hebben we een aantal aanpassingen gedaan waardoor er verschillen ontstaan met de oude versie. De belangrijkste wijzigingen:</p>\n<ul>\n<li dir=\"auto\">Fysieke schade: in de nieuwe cijfers worden 11.500 extra schademeldingen meegenomen die eerder niet zichtbaar waren. Dit komt doordat deze meldingen voor de vaste vergoeding vóór de start in 2021 al waren aangemaakt, maar in de oude cijfers niet werden meegeteld. Hierdoor stijgt het aantal ingediende en afgeronde aanvragen voor fysieke schade. Daarnaast werden eerder alleen de aanvragen voor maatwerk en de vaste vergoeding opgeteld voor het totaal aantal schademeldingen voor fysieke schade. In de nieuwe cijfers worden ook de ca. 60.000 schademeldingen voor de aanvullende vaste vergoeding meegenomen.</li>\n<li dir=\"auto\">Immateriële schade: door een technische fout werden 1.000 aanvragen niet meegeteld in de oude cijfers. Deze meldingen zijn nu toegevoegd, waardoor het totaal aantal ingediende aanvragen stijgt.</li>\n<li dir=\"auto\">Waardedaling woningen: ingetrokken aanvragen (1.500 zaken) werden in de oude cijfers niet meegenomen. Deze worden nu wel meegeteld.</li>\n<li dir=\"auto\">Schadebedragen: in plaats van de toegekende schadebedragen voor het eerste besluit (dus zonder eventuele bedragen na een eventueel bezwaar) tonen we nu alle daadwerkelijk betaalde bedragen. Dit sluit beter aan bij de praktijk en zorgt voor een correctere weergave van de financiële afhandeling.</li>\n</ul>"
     },
     {
       "name": "versie_001",
@@ -767,39 +787,8 @@
       "definitions": [],
       "timeline": [],
       "datum": "01/05/2019 -  15/12/2025",
-      "content": "Dit is de versie van het dashboard zoals dat tot 15 december 2025 te zien was. Ook de onderliggende data zijn gelijk aan de data zoals we die in die periode hebben gecommuniceerd.",
-      "description": "<p dir=\"auto\">Dit is de versie van het dashboard zoals dat tot 15 december 2025 te zien was. Ook de onderliggende data zijn gelijk aan de data zoals we die in die periode hebben gecommuniceerd.</p>"
-    },
-    {
-      "name": "maatwerk_duur",
-      "slug": "maatwerk_duur",
-      "header": "Duur",
-      "tags": [
-        "fs",
-        "maatwerk"
-      ],
-      "definitions": [],
-      "timeline": [
-        "Wirdum",
-        "Westerwijtwerd",
-        "Uithuizermeeden en Uithuizen",
-        "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief"
-      ],
-      "content": "Het IMG streeft ernaar om aanvragen voor maatwerk binnen  {maatwerk_beslistermijn_dagen} dagen af te ronden. Voor de helft van de aanvragen nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen}  dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad. Deze is op nu {maatwerk_dlt_verwacht_rolling8_dagen} dagen.",
-      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor maatwerk binnen  {maatwerk_beslistermijn_dagen} dagen af te ronden. Voor de helft van de aanvragen nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen}  dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad. Deze is op nu {maatwerk_dlt_verwacht_rolling8_dagen} dagen.</p>"
-    },
-    {
-      "name": "maatwerk_bezwaren",
-      "slug": "maatwerk_bezwaren",
-      "header": "Bezwaren",
-      "tags": [
-        "fs",
-        "maatwerk"
-      ],
-      "definitions": [],
-      "timeline": [],
-      "content": "Bij een bezwaar geeft een aanvrager aan dat de aanvrager het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.",
-      "description": "<p dir=\"auto\">Bij een bezwaar geeft een aanvrager aan dat de aanvrager het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.</p>"
+      "content": "Dit is de versie van het dashboard zoals die tot 15 december 2025 zichtbaar was. De cijfers en onderliggende data komen overeen met wat in die periode is gepubliceerd.",
+      "description": "<p dir=\"auto\">Dit is de versie van het dashboard zoals die tot 15 december 2025 zichtbaar was. De cijfers en onderliggende data komen overeen met wat in die periode is gepubliceerd.</p>"
     },
     {
       "name": "regelingen_wd",
@@ -820,22 +809,6 @@
       ],
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "description": "<p dir=\"auto\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
-    },
-    {
-      "name": "maatwerk_waardering",
-      "slug": "maatwerk_waardering",
-      "header": "Waardering",
-      "tags": [
-        "maatwerk"
-      ],
-      "definitions": [
-        "Respondenten",
-        "Waardering",
-        "Doorlopend"
-      ],
-      "timeline": [],
-      "content": "Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.",
-      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.</p>"
     },
     {
       "name": "regelingen_ims",
@@ -879,6 +852,35 @@
       "description": "<p dir=\"auto\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
     },
     {
+      "name": "maatwerk_waardering",
+      "slug": "maatwerk_waardering",
+      "header": "Waardering",
+      "tags": [
+        "maatwerk"
+      ],
+      "definitions": [
+        "Respondenten",
+        "Waardering",
+        "Doorlopend"
+      ],
+      "timeline": [],
+      "content": "Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.",
+      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.</p>"
+    },
+    {
+      "name": "maatwerk_voorraad",
+      "slug": "maatwerk_voorraad",
+      "header": "Voorraad",
+      "tags": [
+        "fs",
+        "maatwerk"
+      ],
+      "definitions": [],
+      "timeline": [],
+      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Ook is hieronder te zien hoeveel van deze aanvragen binnen en buiten de norm van {maatwerk_beslistermijn_dagen} dagen liggen, waarbij we de aanvragen buiten de norm hebben verdeeld in drie leeftijdsgroepen. Aanvragen die langer lopen zijn vaak complex of wachten op aanvullende informatie.",
+      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Ook is hieronder te zien hoeveel van deze aanvragen binnen en buiten de norm van {maatwerk_beslistermijn_dagen} dagen liggen, waarbij we de aanvragen buiten de norm hebben verdeeld in drie leeftijdsgroepen. Aanvragen die langer lopen zijn vaak complex of wachten op aanvullende informatie.</p>"
+    },
+    {
       "name": "maatwerk_toegekend",
       "slug": "maatwerk_toegekend",
       "header": "Toegekend / afgewezen",
@@ -903,19 +905,6 @@
       ],
       "content": "Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn.",
       "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn.</p>"
-    },
-    {
-      "name": "maatwerk_voorraad",
-      "slug": "maatwerk_voorraad",
-      "header": "Voorraad",
-      "tags": [
-        "fs",
-        "maatwerk"
-      ],
-      "definitions": [],
-      "timeline": [],
-      "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Ook is hieronder te zien hoeveel van deze aanvragen binnen en buiten de norm van {maatwerk_beslistermijn_dagen} dagen liggen, waarbij we de aanvragen buiten de norm hebben verdeeld in drie leeftijdsgroepen. Aanvragen die langer lopen zijn vaak complex of wachten op aanvullende informatie.",
-      "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Ook is hieronder te zien hoeveel van deze aanvragen binnen en buiten de norm van {maatwerk_beslistermijn_dagen} dagen liggen, waarbij we de aanvragen buiten de norm hebben verdeeld in drie leeftijdsgroepen. Aanvragen die langer lopen zijn vaak complex of wachten op aanvullende informatie.</p>"
     },
     {
       "name": "maatwerk_projecties",
@@ -1006,6 +995,24 @@
       "description": "<p dir=\"auto\">Enim nunc faucibus a pellentesque sit amet porttitor eget dolor. Dui sapien eget mi proin sed libero enim sed. Vitae tempus quam pellentesque nec nam aliquam. Gravida neque convallis a cras semper auctor neque. Aliquet bibendum enim facilisis gravida. Lorem ipsum dolor sit amet.</p>"
     },
     {
+      "name": "maatwerk_duur",
+      "slug": "maatwerk_duur",
+      "header": "Duur",
+      "tags": [
+        "fs",
+        "maatwerk"
+      ],
+      "definitions": [],
+      "timeline": [
+        "Wirdum",
+        "Westerwijtwerd",
+        "Uithuizermeeden en Uithuizen",
+        "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief"
+      ],
+      "content": "Het IMG streeft ernaar om aanvragen voor maatwerk binnen  {maatwerk_beslistermijn_dagen} dagen af te ronden. Voor de helft van de aanvragen nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen}  dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad. Deze is op nu {maatwerk_dlt_verwacht_rolling8_dagen} dagen.",
+      "description": "<p dir=\"auto\">Het IMG streeft ernaar om aanvragen voor maatwerk binnen  {maatwerk_beslistermijn_dagen} dagen af te ronden. Voor de helft van de aanvragen nemen we binnen {maatwerk_dlt_gerealiseerd_mediaan_dagen}  dagen een besluit. De gemiddelde duur ligt hoger doordat een kleine groep aanvragen veel langer in behandeling is. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad. Deze is op nu {maatwerk_dlt_verwacht_rolling8_dagen} dagen.</p>"
+    },
+    {
       "name": "maatwerk_binnen_buiten",
       "slug": "maatwerk_binnen_buiten",
       "header": "Binnen termijn afgerond",
@@ -1014,6 +1021,19 @@
       "timeline": [],
       "content": "Onderstaande grafieken laten zien welk deel van de besluiten binnen de streeftermijn van {maatwerk_beslistermijn_dagen} dagen genomen zijn.",
       "description": "<p dir=\"auto\">Onderstaande grafieken laten zien welk deel van de besluiten binnen de streeftermijn van {maatwerk_beslistermijn_dagen} dagen genomen zijn.</p>"
+    },
+    {
+      "name": "maatwerk_bezwaren",
+      "slug": "maatwerk_bezwaren",
+      "header": "Bezwaren",
+      "tags": [
+        "fs",
+        "maatwerk"
+      ],
+      "definitions": [],
+      "timeline": [],
+      "content": "Bij een bezwaar geeft een aanvrager aan dat de aanvrager het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.",
+      "description": "<p dir=\"auto\">Bij een bezwaar geeft een aanvrager aan dat de aanvrager het niet eens is met een besluit van het IMG. Een hoog bezwaarpercentage kan duiden op bijvoorbeeld onduidelijkheid over het proces of besluit.</p>"
     },
     {
       "name": "maatwerk_besluiten",
@@ -1318,48 +1338,6 @@
       "description": "<p dir=\"auto\">Naar aanleiding van de uitkomsten van de parlementaire enquête naar de gaswinning in Groningen is het onze opdracht om de schadeafhandeling milder, menselijker en makkelijker te maken. Daarom is ook de regeling voor immateriële schade aangepast. Zo krijgt iedereen binnen het huishouden hetzelfde bedrag en wordt bij versterking standaard de hoogste vergoeding van €5.000 toegekend. </p>\n<p dir=\"auto\">Deze wijziging geld met terugwerkende kracht. Daarom hebben wij ruim 72.000 dossiers opnieuw beoordeeld en hebben bijna 25.000 aanvragers een (hogere) vergoeding ontvangen. Tijdens deze herbeoordeling was het van 17 juli 2023 tot en met 27 maart 2024 tijdelijk niet mogelijk om een nieuwe aanvraag te doen voor vergoeding voor immateriële schade. Vanaf nu vinden er automatische aanvulrondes plaats voor mensen die al een aanvraag hebben gedaan en bij wie nu sprake is van versterking of het gelijktrekken van vergoedingen. De voortgang hiervan is op deze pagina te vinden.</p>\n<p dir=\"auto\">In het onderstaande overzicht is de voortgang te zien van de dossiers die zijn her beoordeeld en zijn aangevuld. Van links naar rechts is te zien: het aantal zaken die binnen zijn gekomen, het aantal zaken dat is afgehandeld en het verleende bedrag.</p>"
     },
     {
-      "name": "historie_meldingen_geo",
-      "slug": "historie_meldingen_geo",
-      "header": "Spreiding van schademeldingen per gemeente",
-      "tags": [
-        "fs",
-        "maatwerk"
-      ],
-      "definitions": [
-        "Schademelding",
-        "Gemeente"
-      ],
-      "timeline": [],
-      "content": "Deze grafiek toont hoeveel schademeldingen er door de jaren heen per gemeente zijn gedaan. Hoe donkerder van kleur, hoe meer schademeldingen er in die gemeente zijn gedaan. De gemeente Groningen is ieder jaar het donkerst van kleur, wat betekent dat daarvandaan de meeste schademeldingen komen. Dit heeft onder meer te maken met de hoge bevolkingsdichtheid ten opzichte van andere gemeenten.",
-      "description": "<p dir=\"auto\">Deze grafiek toont hoeveel schademeldingen er door de jaren heen per gemeente zijn gedaan. Hoe donkerder van kleur, hoe meer schademeldingen er in die gemeente zijn gedaan. De gemeente Groningen is ieder jaar het donkerst van kleur, wat betekent dat daarvandaan de meeste schademeldingen komen. Dit heeft onder meer te maken met de hoge bevolkingsdichtheid ten opzichte van andere gemeenten.</p>"
-    },
-    {
-      "name": "historie_schadebedrag_ordes",
-      "slug": "historie_schadebedrag_ordes",
-      "header": "Ordegrootte van schadevergoedingen",
-      "tags": [
-        "fs",
-        "maatwerk"
-      ],
-      "definitions": [],
-      "timeline": [],
-      "content": "In de periode waarin er één uniforme regeling was voor fysieke schade, was het belangrijk om transparant te communiceren over de uitgekeerde bedragen. Deze regeling dekte het volledige spectrum van schadeafhandelingen, van kleine tot grote schades.\n\nHoewel we geen gegevens over individuele dossiers delen, konden we destijds wel inzichten bieden op groepsniveau en trends weergeven. Zo verzamelden we data over het aantal dossiers met een uitgekeerd bedrag onder de 1.000 euro, tussen 1.000 en 4.000 euro, tussen 4.000 en 10.000 euro, en boven de 10.000 euro.\n\nDoor de invoering van vaste (minimale) vergoedingen – eerst 5.000 euro en later 10.000 euro – is deze opdeling niet langer relevant. De eerste drie categorieën vallen sindsdien onder de vaste vergoeding, waardoor gedupeerden nu standaard 10.000 euro ontvangen.",
-      "description": "<p dir=\"auto\">In de periode waarin er één uniforme regeling was voor fysieke schade, was het belangrijk om transparant te communiceren over de uitgekeerde bedragen. Deze regeling dekte het volledige spectrum van schadeafhandelingen, van kleine tot grote schades.</p>\n<p dir=\"auto\">Hoewel we geen gegevens over individuele dossiers delen, konden we destijds wel inzichten bieden op groepsniveau en trends weergeven. Zo verzamelden we data over het aantal dossiers met een uitgekeerd bedrag onder de 1.000 euro, tussen 1.000 en 4.000 euro, tussen 4.000 en 10.000 euro, en boven de 10.000 euro.</p>\n<p dir=\"auto\">Door de invoering van vaste (minimale) vergoedingen – eerst 5.000 euro en later 10.000 euro – is deze opdeling niet langer relevant. De eerste drie categorieën vallen sindsdien onder de vaste vergoeding, waardoor gedupeerden nu standaard 10.000 euro ontvangen.</p>"
-    },
-    {
-      "name": "historie_percentage_goedgekeurd_geo",
-      "slug": "historie_percentage_goedgekeurd_geo",
-      "header": "Spreiding van het percentage toegekend besluiten",
-      "tags": [
-        "fs",
-        "maatwerk"
-      ],
-      "definitions": [],
-      "timeline": [],
-      "content": "De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. De beving van Huizinge heeft tot in Noord-Drenthe tot schade geleid. Hoe verder je van Huizinge af woont, hoe kleiner de kans op schade In de randen van het effectgebied (Peize, Haren en omgeving) worden meer schades afgewezen dan bijvoorbeeld in de kern (Loppersum en omgeving).",
-      "description": "<p dir=\"auto\">De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. De beving van Huizinge heeft tot in Noord-Drenthe tot schade geleid. Hoe verder je van Huizinge af woont, hoe kleiner de kans op schade In de randen van het effectgebied (Peize, Haren en omgeving) worden meer schades afgewezen dan bijvoorbeeld in de kern (Loppersum en omgeving).</p>"
-    },
-    {
       "name": "ims_totaal_bedragen",
       "slug": "ims_totaal_bedragen",
       "header": "Bedragen",
@@ -1542,6 +1520,19 @@
       "description": "<p dir=\"auto\">In onderstaande diagram tonen wij de opbouw van het totaal verleende bedrag aan vergoeding voor fysieke schade tot april 2023. In juni 2020 is bijvoorbeeld de stuwmeerregeling gestart. Schademelders die nog geen besluit hadden, konden kiezen voor een vast bedrag van in totaal 5.000 euro. Of ze konden tot 10.000 euro de schade laten herstellen door een aannemer. Hoewel de stuwmeerregeling niet meer van kracht is, wordt door de aannemersvariant nog steeds mondjesmaat bedragen uitgekeerd. Daarnaast bestaat het verleende schadebedrag uit ‘Bijkomende kosten’ voor bijvoorbeeld schoonmaak- of overnachtingskosten en wettelijke rente.</p>"
     },
     {
+      "name": "historie_schadebedrag_ordes",
+      "slug": "historie_schadebedrag_ordes",
+      "header": "Ordegrootte van schadevergoedingen",
+      "tags": [
+        "fs",
+        "maatwerk"
+      ],
+      "definitions": [],
+      "timeline": [],
+      "content": "In de periode waarin er één uniforme regeling was voor fysieke schade, was het belangrijk om transparant te communiceren over de uitgekeerde bedragen. Deze regeling dekte het volledige spectrum van schadeafhandelingen, van kleine tot grote schades.\n\nHoewel we geen gegevens over individuele dossiers delen, konden we destijds wel inzichten bieden op groepsniveau en trends weergeven. Zo verzamelden we data over het aantal dossiers met een uitgekeerd bedrag onder de 1.000 euro, tussen 1.000 en 4.000 euro, tussen 4.000 en 10.000 euro, en boven de 10.000 euro.\n\nDoor de invoering van vaste (minimale) vergoedingen – eerst 5.000 euro en later 10.000 euro – is deze opdeling niet langer relevant. De eerste drie categorieën vallen sindsdien onder de vaste vergoeding, waardoor gedupeerden nu standaard 10.000 euro ontvangen.",
+      "description": "<p dir=\"auto\">In de periode waarin er één uniforme regeling was voor fysieke schade, was het belangrijk om transparant te communiceren over de uitgekeerde bedragen. Deze regeling dekte het volledige spectrum van schadeafhandelingen, van kleine tot grote schades.</p>\n<p dir=\"auto\">Hoewel we geen gegevens over individuele dossiers delen, konden we destijds wel inzichten bieden op groepsniveau en trends weergeven. Zo verzamelden we data over het aantal dossiers met een uitgekeerd bedrag onder de 1.000 euro, tussen 1.000 en 4.000 euro, tussen 4.000 en 10.000 euro, en boven de 10.000 euro.</p>\n<p dir=\"auto\">Door de invoering van vaste (minimale) vergoedingen – eerst 5.000 euro en later 10.000 euro – is deze opdeling niet langer relevant. De eerste drie categorieën vallen sindsdien onder de vaste vergoeding, waardoor gedupeerden nu standaard 10.000 euro ontvangen.</p>"
+    },
+    {
       "name": "historie_schadebedrag_geo",
       "slug": "historie_schadebedrag_geo",
       "header": "Spreiding van het gemiddeld uitgekeerd schadebedrag",
@@ -1553,6 +1544,35 @@
       "timeline": [],
       "content": "*Deze is lastig te duiden. Veel factoren spelen en rol. Gemiddelde schadebedrag hangt bijvoorbeeld niet alleen af van afstand tot beving, ook van type van gebouw.  Er zijn niet verklaarbare  verschillen te zien , maar ook weer niet heel uniform.*\n\n*Draagt niet echt bij aan duidelijkheid verhaal. Weglaten? *",
       "description": "<p dir=\"auto\"><em>Deze is lastig te duiden. Veel factoren spelen en rol. Gemiddelde schadebedrag hangt bijvoorbeeld niet alleen af van afstand tot beving, ook van type van gebouw.  Er zijn niet verklaarbare  verschillen te zien , maar ook weer niet heel uniform.</em></p>\n<p dir=\"auto\"><em>Draagt niet echt bij aan duidelijkheid verhaal. Weglaten? </em></p>"
+    },
+    {
+      "name": "historie_percentage_goedgekeurd_geo",
+      "slug": "historie_percentage_goedgekeurd_geo",
+      "header": "Spreiding van het percentage toegekend besluiten",
+      "tags": [
+        "fs",
+        "maatwerk"
+      ],
+      "definitions": [],
+      "timeline": [],
+      "content": "De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. De beving van Huizinge heeft tot in Noord-Drenthe tot schade geleid. Hoe verder je van Huizinge af woont, hoe kleiner de kans op schade In de randen van het effectgebied (Peize, Haren en omgeving) worden meer schades afgewezen dan bijvoorbeeld in de kern (Loppersum en omgeving).",
+      "description": "<p dir=\"auto\">De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. De beving van Huizinge heeft tot in Noord-Drenthe tot schade geleid. Hoe verder je van Huizinge af woont, hoe kleiner de kans op schade In de randen van het effectgebied (Peize, Haren en omgeving) worden meer schades afgewezen dan bijvoorbeeld in de kern (Loppersum en omgeving).</p>"
+    },
+    {
+      "name": "historie_meldingen_geo",
+      "slug": "historie_meldingen_geo",
+      "header": "Spreiding van schademeldingen per gemeente",
+      "tags": [
+        "fs",
+        "maatwerk"
+      ],
+      "definitions": [
+        "Schademelding",
+        "Gemeente"
+      ],
+      "timeline": [],
+      "content": "Deze grafiek toont hoeveel schademeldingen er door de jaren heen per gemeente zijn gedaan. Hoe donkerder van kleur, hoe meer schademeldingen er in die gemeente zijn gedaan. De gemeente Groningen is ieder jaar het donkerst van kleur, wat betekent dat daarvandaan de meeste schademeldingen komen. Dit heeft onder meer te maken met de hoge bevolkingsdichtheid ten opzichte van andere gemeenten.",
+      "description": "<p dir=\"auto\">Deze grafiek toont hoeveel schademeldingen er door de jaren heen per gemeente zijn gedaan. Hoe donkerder van kleur, hoe meer schademeldingen er in die gemeente zijn gedaan. De gemeente Groningen is ieder jaar het donkerst van kleur, wat betekent dat daarvandaan de meeste schademeldingen komen. Dit heeft onder meer te maken met de hoge bevolkingsdichtheid ten opzichte van andere gemeenten.</p>"
     },
     {
       "name": "historie_meldingen",
@@ -1652,9 +1672,9 @@
       "description": "<p dir=\"auto\">Maatwerk was tot november 2021 de enige afhandelingswijze voor fysieke schade. Sindsdien kwamen de vaste vergoeding en later herstel tot €60.000 als alternatieven bij. Bij maatwerk onderzoekt een deskundige de oorzaak van schade. Schade die niet uitgesloten kan worden als mijnbouwschade wordt vergoed zonder maximumbedrag. U kiest voor herstel via een aannemer of voor een financiële vergoeding.</p>"
     },
     {
-      "name": "gemeenten_imk",
-      "slug": "gemeenten_imk",
-      "header": "Immateriele schade - kinderen en jongeren",
+      "name": "gemeenten_ims",
+      "slug": "gemeenten_ims",
+      "header": "Immateriele schade - volwassenen",
       "tags": [],
       "definitions": [],
       "timeline": [],
@@ -1662,9 +1682,9 @@
       "description": "<p dir=\"auto\">Lorem ipsum</p>"
     },
     {
-      "name": "gemeenten_ims",
-      "slug": "gemeenten_ims",
-      "header": "Immateriele schade - volwassenen",
+      "name": "gemeenten_imk",
+      "slug": "gemeenten_imk",
+      "header": "Immateriele schade - kinderen en jongeren",
       "tags": [],
       "definitions": [],
       "timeline": [],
@@ -1714,18 +1734,6 @@
       "description": "<p dir=\"auto\">Dit overzicht laat zien hoeveel aanvragen binnenkomen voor schade aan gebouwen, hoeveel aanvragen zijn afgerond en hoeveel schade is vergoed. Het gaat hierbij bijvoorbeeld om scheuren in muren. Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen.</p>\n<p dir=\"auto\">Aanvragers met fysieke schade kunnen, afhankelijk van hun situatie, kiezen uit: Herstel met aannemer (eigen aannemer of aannemer via IMG), Maatwerk met onderzoek of een Vaste vergoeding (tot 10.000 euro).</p>"
     },
     {
-      "name": "fs_herstel_totals",
-      "slug": "fs_herstel_totals",
-      "header": [],
-      "tags": [
-        "fs"
-      ],
-      "definitions": [],
-      "timeline": [],
-      "content": "Wanneer de eerste besluiten worden genomen voor deze regeling gaan we de data hier weergeven.",
-      "description": "<p dir=\"auto\">Wanneer de eerste besluiten worden genomen voor deze regeling gaan we de data hier weergeven.</p>"
-    },
-    {
       "name": "fs_keuzepaden",
       "slug": "fs_keuzepaden",
       "header": "Afhandel mogelijkheden",
@@ -1746,6 +1754,18 @@
       ],
       "content": "Er zijn meerdere mogelijkheden voor inwoners met fysieke schade afhankelijk van de situatie: Herstel met aannemer, Maatwerk met onderzoek of een Vaste vergoeding. We laten de keuze zien op het moment dat het besluit wordt genomen. In de grafiek zie je de verdeling van de toegekende zaken met deze keuzes. Bij afwijzingen en intrekkingen is het vaak niet mogelijk om de aanvraag aan een categorie toe te wijzen.\n\nDuurzaam herstel is opgenomen binnen Herstel met aannemer IMG of Maatwerk met vergoeding. Dit is afhankelijk van op welke manier de uitvoering tot stand komt.",
       "description": "<p dir=\"auto\">Er zijn meerdere mogelijkheden voor inwoners met fysieke schade afhankelijk van de situatie: Herstel met aannemer, Maatwerk met onderzoek of een Vaste vergoeding. We laten de keuze zien op het moment dat het besluit wordt genomen. In de grafiek zie je de verdeling van de toegekende zaken met deze keuzes. Bij afwijzingen en intrekkingen is het vaak niet mogelijk om de aanvraag aan een categorie toe te wijzen.</p>\n<p dir=\"auto\">Duurzaam herstel is opgenomen binnen Herstel met aannemer IMG of Maatwerk met vergoeding. Dit is afhankelijk van op welke manier de uitvoering tot stand komt.</p>"
+    },
+    {
+      "name": "fs_herstel_totals",
+      "slug": "fs_herstel_totals",
+      "header": [],
+      "tags": [
+        "fs"
+      ],
+      "definitions": [],
+      "timeline": [],
+      "content": "Wanneer de eerste besluiten worden genomen voor deze regeling gaan we de data hier weergeven.",
+      "description": "<p dir=\"auto\">Wanneer de eerste besluiten worden genomen voor deze regeling gaan we de data hier weergeven.</p>"
     },
     {
       "name": "fs_bedragen",
@@ -1783,36 +1803,6 @@
       "description": "<p dir=\"auto\">De Aanvullende vaste vergoeding is bedoeld om mogelijke verschillen uit het verleden te compenseren. De optie is er sinds eind 2024. Hierbij kunnen aanvragers die in het verleden een vergoeding hebben ontvangen, wanneer ze voldoen aan de voorwaarden, een aanvulling krijgen tot 10.000 euro.</p>"
     },
     {
-      "name": "avv_toegekend",
-      "slug": "avv_toegekend",
-      "header": "Toegekend / afgewezen",
-      "tags": [
-        "fs",
-        "fs_avv"
-      ],
-      "definitions": [],
-      "timeline": [],
-      "content": "De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners die in het verleden minder dan € 10.000 of € 5.000 (bij kleine gebouwen) hebben ontvangen van NAM, CVW, TCMG of IMG, komen in aanmerking voor een aanvullende vergoeding. In het begin van een regeling is het percentage afwijzingen hoger, omdat deze aanvragen sneller worden beoordeeld. In de meeste gevallen wordt een aanvraag voor de aanvullende vergoeding afgewezen omdat aanvragers er niet voor in aanmerking komen. Bijvoorbeeld omdat op hun adres al een hoger bedrag aan schadevergoeding is uitgekeerd.",
-      "description": "<p dir=\"auto\">De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners die in het verleden minder dan € 10.000 of € 5.000 (bij kleine gebouwen) hebben ontvangen van NAM, CVW, TCMG of IMG, komen in aanmerking voor een aanvullende vergoeding. In het begin van een regeling is het percentage afwijzingen hoger, omdat deze aanvragen sneller worden beoordeeld. In de meeste gevallen wordt een aanvraag voor de aanvullende vergoeding afgewezen omdat aanvragers er niet voor in aanmerking komen. Bijvoorbeeld omdat op hun adres al een hoger bedrag aan schadevergoeding is uitgekeerd.</p>"
-    },
-    {
-      "name": "all_vergelijk",
-      "slug": "all_vergelijk",
-      "header": "Vergelijk",
-      "tags": [
-        "fs",
-        "maatwerk"
-      ],
-      "definitions": [
-        "Aanvragen",
-        "Afgehandeld",
-        "Verleend"
-      ],
-      "timeline": [],
-      "content": "Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.\n\nEen aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.",
-      "description": "<p dir=\"auto\">Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.</p>\n<p dir=\"auto\">Een aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.</p>"
-    },
-    {
       "name": "bezwaren_ims_volw",
       "slug": "bezwaren_ims_volw",
       "header": "Immateriele schade - volwassenen",
@@ -1835,21 +1825,6 @@
       "timeline": [],
       "content": "Voor  de regeling Fysieke schade hebben we bijgehouden in welke mate bezwaren  gegrond, deels gegrond of  ongegrond zijn verklaard.",
       "description": "<p dir=\"auto\">Voor  de regeling Fysieke schade hebben we bijgehouden in welke mate bezwaren  gegrond, deels gegrond of  ongegrond zijn verklaard.</p>"
-    },
-    {
-      "name": "avv_bedragen",
-      "slug": "avv_bedragen",
-      "header": "Verleende bedragen",
-      "tags": [
-        "fs",
-        "fs_ves"
-      ],
-      "definitions": [],
-      "timeline": [
-        "Start vaste vergoeding van 5000 euro"
-      ],
-      "content": "In totaal is er {avv_bedrag_verleend_schade_cumulatief}  euro aan aanvullende vaste vergoeding uitgekeerd.",
-      "description": "<p dir=\"auto\">In totaal is er {avv_bedrag_verleend_schade_cumulatief}  euro aan aanvullende vaste vergoeding uitgekeerd.</p>"
     },
     {
       "name": "avv_voorraad",
@@ -1876,6 +1851,19 @@
       "timeline": [],
       "content": "Eigenaren van woningen of gebouwen die schadevergoeding hebben ontvangen van NAM, CVW, TCMG of IMG, kunnen dit bedrag laten aanvullen tot € 5.000 (kleine gebouwen) of € 10.000. Dit geldt zowel als aanvulling op een eerdere vaste vergoeding als op een andere vorm van schadevergoeding voor fysieke schade. De regeling is eind 2024 gestart en wordt gefaseerd opengesteld. Eerst voor voorinschrijvingen en later voor andere aanvragers.\n\nSinds de start van de aanvullende vergoeding hebben wij {aanvullende_vaste_vergoeding_meldingen} aanvragen ontvangen, waarvan er {aanvullende_vaste_vergoeding_afgehandeld} zijn afgerond. In totaal is {aanvullende_vaste_vergoeding_verleend_bedrag} aan schade aanvullende schadevergoeding uitgekeerd.",
       "description": "<p dir=\"auto\">Eigenaren van woningen of gebouwen die schadevergoeding hebben ontvangen van NAM, CVW, TCMG of IMG, kunnen dit bedrag laten aanvullen tot € 5.000 (kleine gebouwen) of € 10.000. Dit geldt zowel als aanvulling op een eerdere vaste vergoeding als op een andere vorm van schadevergoeding voor fysieke schade. De regeling is eind 2024 gestart en wordt gefaseerd opengesteld. Eerst voor voorinschrijvingen en later voor andere aanvragers.</p>\n<p dir=\"auto\">Sinds de start van de aanvullende vergoeding hebben wij {aanvullende_vaste_vergoeding_meldingen} aanvragen ontvangen, waarvan er {aanvullende_vaste_vergoeding_afgehandeld} zijn afgerond. In totaal is {aanvullende_vaste_vergoeding_verleend_bedrag} aan schade aanvullende schadevergoeding uitgekeerd.</p>"
+    },
+    {
+      "name": "avv_toegekend",
+      "slug": "avv_toegekend",
+      "header": "Toegekend / afgewezen",
+      "tags": [
+        "fs",
+        "fs_avv"
+      ],
+      "definitions": [],
+      "timeline": [],
+      "content": "De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners die in het verleden minder dan € 10.000 of € 5.000 (bij kleine gebouwen) hebben ontvangen van NAM, CVW, TCMG of IMG, komen in aanmerking voor een aanvullende vergoeding. In het begin van een regeling is het percentage afwijzingen hoger, omdat deze aanvragen sneller worden beoordeeld. In de meeste gevallen wordt een aanvraag voor de aanvullende vergoeding afgewezen omdat aanvragers er niet voor in aanmerking komen. Bijvoorbeeld omdat op hun adres al een hoger bedrag aan schadevergoeding is uitgekeerd.",
+      "description": "<p dir=\"auto\">De verhouding tussen toegekende en afgewezen aanvragen geeft inzicht in hoe het IMG schades afhandelt. Het IMG vergoedt schades binnen het effectgebied van de beving van Huizinge (2012) en 6 km rondom de gasopslagen van Norg en Grijpskerk. Inwoners die in het verleden minder dan € 10.000 of € 5.000 (bij kleine gebouwen) hebben ontvangen van NAM, CVW, TCMG of IMG, komen in aanmerking voor een aanvullende vergoeding. In het begin van een regeling is het percentage afwijzingen hoger, omdat deze aanvragen sneller worden beoordeeld. In de meeste gevallen wordt een aanvraag voor de aanvullende vergoeding afgewezen omdat aanvragers er niet voor in aanmerking komen. Bijvoorbeeld omdat op hun adres al een hoger bedrag aan schadevergoeding is uitgekeerd.</p>"
     },
     {
       "name": "avv_intro",
@@ -1939,6 +1927,49 @@
       "description": "<p dir=\"auto\">Er zijn {avv_afgerond_cumulatief} meldingen afgerond door {avv_beschikt_cumulatief} besluiten te nemen. Meerdere meldingen op één adres kunnen worden samengevoegd tot één besluit. Van alle besluiten wordt {avv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van  {avv_beslistermijn_dagen} dagen genomen.</p>"
     },
     {
+      "name": "avv_bedragen",
+      "slug": "avv_bedragen",
+      "header": "Verleende bedragen",
+      "tags": [
+        "fs",
+        "fs_ves"
+      ],
+      "definitions": [],
+      "timeline": [
+        "Start vaste vergoeding van 5000 euro"
+      ],
+      "content": "In totaal is er {avv_bedrag_verleend_schade_cumulatief}  euro aan aanvullende vaste vergoeding uitgekeerd.",
+      "description": "<p dir=\"auto\">In totaal is er {avv_bedrag_verleend_schade_cumulatief}  euro aan aanvullende vaste vergoeding uitgekeerd.</p>"
+    },
+    {
+      "name": "all_regelingen_overzicht",
+      "slug": "all_regelingen_overzicht",
+      "header": "Overzicht",
+      "tags": [
+        "alle_regelingen"
+      ],
+      "definitions": [
+        "Aanvragen",
+        "Afgehandeld",
+        "Verleend"
+      ],
+      "timeline": [
+        "Garrelsweer",
+        "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
+        "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe",
+        "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
+        "Start regeling Immateriële schade",
+        "Start vaste vergoeding van 5000 euro",
+        "Start waardedalingsregeling",
+        "Uithuizermeeden en Uithuizen",
+        "Westerwijtwerd",
+        "Wirdum",
+        "Actualisatie van het beoordelingskader"
+      ],
+      "content": "Deze grafiek toont per maand of week het aantal aanvragen, afgehandelde aanvragen en het uitbetaalde bedrag. Bij de start in maart 2018 nam het IMG bijna 13.500 aanvragen over van het Centrum Veilig Wonen (CVW). Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen. Later kwamen de regelingen voor immateriële schade en waardedaling erbij.",
+      "description": "<p dir=\"auto\">Deze grafiek toont per maand of week het aantal aanvragen, afgehandelde aanvragen en het uitbetaalde bedrag. Bij de start in maart 2018 nam het IMG bijna 13.500 aanvragen over van het Centrum Veilig Wonen (CVW). Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen. Later kwamen de regelingen voor immateriële schade en waardedaling erbij.</p>"
+    },
+    {
       "name": "aos_voortgang",
       "slug": "aos_voortgang",
       "header": [],
@@ -1952,8 +1983,8 @@
         "Gegronde AOS-melding"
       ],
       "timeline": "[]",
-      "content": "Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.\n\nSinds 2018 zijn er 4522 AOS-meldingen gedaan. In 465 gevallen waren er maatregelen nodig.",
-      "description": "<p dir=\"auto\">Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.</p>\n<p dir=\"auto\">Sinds 2018 zijn er 4522 AOS-meldingen gedaan. In 465 gevallen waren er maatregelen nodig.</p>"
+      "content": "Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.\n\nSinds 2018 zijn er {aos_meldingen_cumulatief} AOS-meldingen gedaan. In {aos_meldingen_gegrond_cumulatief} gevallen waren er maatregelen nodig.",
+      "description": "<p dir=\"auto\">Als mensen zich zorgen maken over de veiligheid van hun huis of gebouw, kunnen zij een AOS-melding doen. Een bouwkundige komt dan binnen 48 uur langs om de situatie te beoordelen. Als de melding gegrond is, nemen we direct veiligheidsmaatregelen.</p>\n<p dir=\"auto\">Sinds 2018 zijn er {aos_meldingen_cumulatief} AOS-meldingen gedaan. In {aos_meldingen_gegrond_cumulatief} gevallen waren er maatregelen nodig.</p>"
     },
     {
       "name": "aos_trend",
@@ -1992,6 +2023,23 @@
       "description": "<p dir=\"auto\">Aanvragers geven het IMG gemiddeld een {doorlopend_cijfer} voor de afhandeling van hun aanvraag. Dit cijfer is gebaseerd op {aantal_respondenten} ingevulde enquêtes. Het cijfer is een gewogen gemiddelde: regelingen met meer besluiten tellen zwaarder mee.</p>\n<p dir=\"auto\">Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023</p>"
     },
     {
+      "name": "all_vergelijk",
+      "slug": "all_vergelijk",
+      "header": "Vergelijk",
+      "tags": [
+        "fs",
+        "maatwerk"
+      ],
+      "definitions": [
+        "Aanvragen",
+        "Afgehandeld",
+        "Verleend"
+      ],
+      "timeline": [],
+      "content": "Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.\n\nEen aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.",
+      "description": "<p dir=\"auto\">Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.</p>\n<p dir=\"auto\">Een aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.</p>"
+    },
+    {
       "name": "all_totals",
       "slug": "all_totals",
       "header": "Totaalcijfers voor alle regelingen",
@@ -2005,42 +2053,16 @@
         "Verleend"
       ],
       "timeline": [],
-      "content": "Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.\n\nTot nu toe zijn er {all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is er {all_bedrag_betaald_totaal_cumulatief}  miljard aan vergoedingen uitbetaald.",
-      "description": "<p dir=\"auto\">Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.</p>\n<p dir=\"auto\">Tot nu toe zijn er {all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is er {all_bedrag_betaald_totaal_cumulatief}  miljard aan vergoedingen uitbetaald.</p>"
-    },
-    {
-      "name": "all_regelingen_overzicht",
-      "slug": "all_regelingen_overzicht",
-      "header": "Overzicht",
-      "tags": [
-        "alle_regelingen"
-      ],
-      "definitions": [
-        "Aanvragen",
-        "Afgehandeld",
-        "Verleend"
-      ],
-      "timeline": [
-        "Garrelsweer",
-        "Kabinetsmaatregelen Nij begun: op weg naar erkenning, herstel en perspectief",
-        "Kamerbrief over verandering schadeafhandeling aardbevingsgebied Groningen en Noord-Drenthe",
-        "Publicatie rapport Parlementaire enquête aardgaswinning Groningen",
-        "Start regeling Immateriële schade",
-        "Start vaste vergoeding van 5000 euro",
-        "Start waardedalingsregeling",
-        "Uithuizermeeden en Uithuizen",
-        "Westerwijtwerd",
-        "Wirdum",
-        "Actualisatie van het beoordelingskader"
-      ],
-      "content": "Deze grafiek toont per maand of week het aantal aanvragen, afgehandelde aanvragen en het uitbetaalde bedrag. Bij de start in maart 2018 nam het IMG bijna 13.500 aanvragen over van het Centrum Veilig Wonen (CVW). Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen. Later kwamen de regelingen voor immateriële schade en waardedaling erbij.",
-      "description": "<p dir=\"auto\">Deze grafiek toont per maand of week het aantal aanvragen, afgehandelde aanvragen en het uitbetaalde bedrag. Bij de start in maart 2018 nam het IMG bijna 13.500 aanvragen over van het Centrum Veilig Wonen (CVW). Er kunnen meerdere aanvragen worden gedaan op één adres, bijvoorbeeld bij nieuwe schades. De cijfers gaan daarom niet over unieke adressen. Later kwamen de regelingen voor immateriële schade en waardedaling erbij.</p>"
+      "content": "Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.\n\nTot nu toe zijn er {all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is er {all_bedrag_betaald_totaal_cumulatief} euro aan vergoedingen uitbetaald.",
+      "description": "<p dir=\"auto\">Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.</p>\n<p dir=\"auto\">Tot nu toe zijn er {all_ingediend_cumulatief} aanvragen ontvangen. Daarvan zijn {all_afgerond_cumulatief} aanvragen afgehandeld. In totaal is er {all_bedrag_betaald_totaal_cumulatief} euro aan vergoedingen uitbetaald.</p>"
     }
   ],
   "metadata": {
-    "generatedAt": "2026-01-12T19:04:49.406Z",
-    "totalGroups": 130,
+    "generatedAt": "2026-01-13T15:00:14.769Z",
+    "totalGroups": 132,
     "sourceFiles": [
+      "specials_intro.group.md",
+      "specials_toegekend.group.md",
       "bezwaren_imkj.group.md",
       "bezwaren_wd.group.md",
       "bezwaren_intro.group.md",
@@ -2081,8 +2103,8 @@
       "waardering_ims_volw.group.md",
       "waardering_imkj.group.md",
       "waardering_fs.group.md",
-      "vv_waardering.group.md",
       "waardering_alle_regelingen.group.md",
+      "vv_waardering.group.md",
       "vv_voorraad.group.md",
       "vv_toegekend_als.group.md",
       "vv_toegekend.group.md",
@@ -2094,19 +2116,19 @@
       "versies_intro.group.md",
       "versie_100.group.md",
       "versie_001.group.md",
-      "maatwerk_duur.group.md",
-      "maatwerk_bezwaren.group.md",
       "regelingen_wd.group.md",
-      "maatwerk_waardering.group.md",
       "regelingen_ims.group.md",
       "regelingen_fs.group.md",
-      "maatwerk_toegekend.group.md",
+      "maatwerk_waardering.group.md",
       "maatwerk_voorraad.group.md",
+      "maatwerk_toegekend.group.md",
       "maatwerk_projecties.group.md",
       "maatwerk_ontwikkeling.group.md",
       "maatwerk_intro.group.md",
       "maatwerk_gem_schadebedrag.group.md",
+      "maatwerk_duur.group.md",
       "maatwerk_binnen_buiten.group.md",
+      "maatwerk_bezwaren.group.md",
       "maatwerk_besluiten.group.md",
       "maatwerk_bedragen.group.md",
       "latest .group.md",
@@ -2124,9 +2146,6 @@
       "ims_totaal_keuzepaden.group.md",
       "ims_totaal_intro.group.md",
       "ims_totaal_herbeoordeling.group.md",
-      "historie_meldingen_geo.group.md",
-      "historie_schadebedrag_ordes.group.md",
-      "historie_percentage_goedgekeurd_geo.group.md",
       "ims_totaal_bedragen.group.md",
       "ims_subregelingen.group.md",
       "ims_kj_waardering.group.md",
@@ -2138,7 +2157,10 @@
       "ims_kj_besluiten.group.md",
       "ims_kj_bedragen.group.md",
       "historie_vergoedingen.group.md",
+      "historie_schadebedrag_ordes.group.md",
       "historie_schadebedrag_geo.group.md",
+      "historie_percentage_goedgekeurd_geo.group.md",
+      "historie_meldingen_geo.group.md",
       "historie_meldingen.group.md",
       "historie_duur.group.md",
       "historie_doorstroom.group.md",
@@ -2146,31 +2168,31 @@
       "gemeenten_wd.group.md",
       "gemeenten_vv.group.md",
       "gemeenten_maatwerk.group.md",
-      "gemeenten_imk.group.md",
       "gemeenten_ims.group.md",
+      "gemeenten_imk.group.md",
       "gemeente_totals.group.md",
       "fs_waardering.group.md",
       "fs_totals.group.md",
-      "fs_herstel_totals.group.md",
       "fs_keuzepaden.group.md",
+      "fs_herstel_totals.group.md",
       "fs_bedragen.group.md",
       "fs_aanvulrondes.group.md",
-      "avv_toegekend.group.md",
-      "all_vergelijk.group.md",
       "bezwaren_ims_volw.group.md",
       "bezwaren_fs.group.md",
-      "avv_bedragen.group.md",
       "avv_voorraad.group.md",
       "avv_totals.group.md",
+      "avv_toegekend.group.md",
       "avv_intro.group.md",
       "avv_duur.group.md",
       "avv_bezwaren.group.md",
       "avv_besluiten.group.md",
+      "avv_bedragen.group.md",
+      "all_regelingen_overzicht.group.md",
       "aos_voortgang.group.md",
       "aos_trend.group.md",
       "all_waardering.group.md",
-      "all_totals.group.md",
-      "all_regelingen_overzicht.group.md"
+      "all_vergelijk.group.md",
+      "all_totals.group.md"
     ]
   }
 }

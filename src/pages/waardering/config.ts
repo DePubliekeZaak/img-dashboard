@@ -100,14 +100,14 @@ const group : IGroupMappingV2[] = [
                 "modifiers" : [],                 
                 "segment": {
                     "key": "fs_bezwaren_totaal",
-                    "cumulative": false,
+                    "cumulative": true,
                     "periodization": "weekly"
                 },
             },
         ],
         "segment": {
             "key": "fs_bezwaren_totaal",
-            "cumulative": false,
+            "cumulative": true,
             "periodization": "weekly"
         },
         "functionality": ['table', 'definitions','download'],

@@ -24,9 +24,9 @@ export const navItems = [
       },
       {
         slug: "fs_maatwerk",
-        label: "Maatwerk",
+        label: "Maatwerk en herstel",
         label_en: "",
-        title: "Fysieke schade - Maatwerk",
+        title: "Fysieke schade - Maatwerk en herstel",
         title_en: "",
       },
       {
