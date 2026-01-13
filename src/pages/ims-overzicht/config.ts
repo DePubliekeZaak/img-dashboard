@@ -23,13 +23,13 @@ const group: IGroupMappingV2[] = [
             {
               label: "Voorraad",
               column: "ims_totaal_voorraad",
-              colour: "moss",
+              colour: "purple",
               units: "aanvragen in werkvoorraad",
             },
             {
               label: "Afgerond",
               column: "ims_totaal_afgerond",
-              colour: "blue",
+              colour: "moss",
               units: "afgeronde aanvragen",
             },
           ],
