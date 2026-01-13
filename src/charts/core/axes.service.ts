@@ -10,12 +10,12 @@ import { DataPart, Segment } from "../../pages/shared/types";
 import { breakpoints } from "../../img-modules/styleguide";
 import { Bars } from "../../pages/shared/types_graphs";
 export class AxesService {
-  axis;
-  axisGroup;
+  axis: any;
+  axisGroup: any;
 
   constructor(
-    private ctrlr,
-    private config,
+    private ctrlr: any,
+    private config: any,
   ) {
     this.draw();
   }
@@ -75,7 +75,7 @@ export class AxesService {
     switch (this.ctrlr.scales[this.config.scale].config.type) {
       case "band":
         if (this.config.format == "quarters") {
-          let year;
+          let year: string;
 
           this.axis.tickFormat((d, i) => {
             let v = "";
@@ -91,7 +91,7 @@ export class AxesService {
             return v;
           });
         } else if (this.config.format == "month") {
-          this.axis.tickFormat((d, i) => {
+          this.axis.tickFormat((d: any, i: number) => {
         
             if (segment.periodization == 'weekly') {
 
@@ -116,7 +116,7 @@ export class AxesService {
             
           });
         } else {
-          this.axis.tickFormat((d, i) => {
+          this.axis.tickFormat((d: any, i: number) => {
             return d;
           });
         }
@@ -126,24 +126,24 @@ export class AxesService {
         if (this.config.format === "percentage" || segment.normalized) {
           this.axis
             .ticks(5)
-            .tickFormat((d) => (segment.normalized ? 100 * d + "%" : d + "%"));
+            .tickFormat((d: any) => (segment.normalized ? 100 * d + "%" : d + "%"));
         } else if (this.config.format === "currency") {
-          this.axis.ticks(4).tickFormat((d) => convertToCurrency(d));
+          this.axis.ticks(4).tickFormat((d: number) => convertToCurrency(d));
         } else if (this.config.format === "millions") {
-          this.axis.ticks(4).tickFormat((d) => {
+          this.axis.ticks(4).tickFormat((d: number) => {
             
-            return d > 1000 * 1000 ? convertToMillions(d) : d
+            return d > 1000  ? convertToMillions(d) : thousands(d)
           
         });
         } else if (this.config.format === "hidden") {
           this.axis.ticks(0);
         } else {
           if (format === "currency") {
-            this.axis.ticks(4).tickFormat((d) => {
+            this.axis.ticks(4).tickFormat((d: any) => {
               return convertToCurrencyInMillions(d.toString());
             });
           } else {
-            this.axis.ticks(4).tickFormat((d) => {
+            this.axis.ticks(4).tickFormat((d: any) => {
               return thousands(d.toString());
             });
           }
@@ -172,7 +172,7 @@ export class AxesService {
 
         this.axis
           .ticks(window.d3[tickOrder].every(tickSpread))
-          .tickFormat((date) =>
+          .tickFormat((date: any) =>
             window.d3.timeYear(date) < date
               ? localTime.format("%b")(date)
               : localTime.format("%Y")(date),
@@ -183,7 +183,7 @@ export class AxesService {
       case "bandTime":
         this.axis
           .ticks(window.d3[this.ctrlr.config.extra.xScaleTicks].every(1))
-          .tickFormat((date) => localTime.format("%d %b")(new Date(date)));
+          .tickFormat((date: any) => localTime.format("%d %b")(new Date(date)));
         break;
 
       case "stacked":

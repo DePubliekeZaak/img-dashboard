@@ -106,14 +106,14 @@ export const navItems = [
       },
       {
         slug: "wd-wonen",
-        label: "Wonen",
+        label: "Woningen",
         label_en: "",
         title: "Waardedalingsregeling - Woningen",
         title_en: "",
       },
       {
         slug: "wd-nietwonen",
-        label: "Niet wonen",
+        label: "Niet woningen",
         label_en: "",
         title: "Waardedalingsregeling - Niet woningen",
         title_en: "",
