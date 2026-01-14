@@ -1678,8 +1678,8 @@
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Lorem ipsum",
-      "description": "<p dir=\"auto\">Lorem ipsum</p>"
+      "content": "Mensen die door de gaswinning persoonlijk leed en verdriet hebben ervaren, kunnen een vergoeding voor immateriële schade aanvragen.",
+      "description": "<p dir=\"auto\">Mensen die door de gaswinning persoonlijk leed en verdriet hebben ervaren, kunnen een vergoeding voor immateriële schade aanvragen.</p>"
     },
     {
       "name": "gemeenten_imk",
@@ -1688,8 +1688,8 @@
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "content": "Lorem ipsum",
-      "description": "<p dir=\"auto\">Lorem ipsum</p>"
+      "content": "Kinderen en jongeren tot en met 17 jaar in het aardbevingsgebied kunnen een vergoeding krijgen voor immateriële schade. De aanvraag wordt gedaan door de wettelijk vertegenwoordiger en is gekoppeld aan de aanvraag van de ouder(s).",
+      "description": "<p dir=\"auto\">Kinderen en jongeren tot en met 17 jaar in het aardbevingsgebied kunnen een vergoeding krijgen voor immateriële schade. De aanvraag wordt gedaan door de wettelijk vertegenwoordiger en is gekoppeld aan de aanvraag van de ouder(s).</p>"
     },
     {
       "name": "gemeente_totals",
@@ -1736,7 +1736,7 @@
     {
       "name": "fs_keuzepaden",
       "slug": "fs_keuzepaden",
-      "header": "Afhandel mogelijkheden",
+      "header": "Afhandelmogelijkheden",
       "tags": [
         "fs"
       ],
@@ -2058,7 +2058,7 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-01-13T15:00:14.769Z",
+    "generatedAt": "2026-01-14T09:47:13.104Z",
     "totalGroups": 132,
     "sourceFiles": [
       "specials_intro.group.md",

@@ -16,7 +16,7 @@ export const styleParentElement = (): Element | null => {
       parentEl.classList.add("container");
       parentEl.style.display = "flex";
       parentEl.style.flexDirection =
-        window.innerWidth < breakpoints.lg ? "column" : "row";
+        window.innerWidth < breakpoints.bax ? "column" : "row";
       parentEl.style.justifyContent = "flex-start";
       parentEl.style.alignItems = "flex-start";
     }

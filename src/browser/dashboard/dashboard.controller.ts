@@ -166,7 +166,10 @@ export class DashboardController implements IDashboardController {
   }
 
   _reloadHtml(): void {
-    const isMobile = window.innerWidth < breakpoints.lg ? true : false;
+
+    console.log(window.innerWidth)
+
+    const isMobile = window.innerWidth < breakpoints.bax ? true : false;
 
     this.htmlContainer = styleParentElement();
 

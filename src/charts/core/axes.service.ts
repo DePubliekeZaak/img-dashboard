@@ -132,7 +132,7 @@ export class AxesService {
         } else if (this.config.format === "millions") {
           this.axis.ticks(4).tickFormat((d: number) => {
             
-            return d > 1000  ? convertToMillions(d) : thousands(d)
+            return d > 100 * 999  ? convertToMillions(d) : thousands(d)
           
         });
         } else if (this.config.format === "hidden") {

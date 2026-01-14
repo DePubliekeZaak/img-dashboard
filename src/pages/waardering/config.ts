@@ -386,7 +386,7 @@ const group : IGroupMappingV2[] = [
                 
             ],
             "segment": {
-                    "key":"fysieke_schade_doorlopend_cijfer",  
+                    "key":"all",  
                     "cumulative": true,
                     "periodization": "monthly"
                 }
@@ -426,7 +426,7 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-                    "key":"fysieke_schade_maandcijfer",  
+                    "key":"all",  
                     "cumulative": true,
                     "periodization": "monthly"
                 },
@@ -582,7 +582,7 @@ const group : IGroupMappingV2[] = [
                 ],
             ],
             "segment": {
-                    "key":"ves_maand_rapportcijfer_1",  
+                    "key":"all",  
                     "cumulative": true,
                     "periodization": "monthly"
                 }
@@ -622,7 +622,7 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key":"ves_maandcijfer",  
+            "key":"all",  
             "cumulative": true,
             "periodization": "monthly"
         },
@@ -779,7 +779,7 @@ const group : IGroupMappingV2[] = [
                 ]
             ],
             "segment": {
-                    "key":"waardedaling_maand_rapportcijfer_10",  
+                    "key":"all",  
                     "cumulative": true,
                     "periodization": "monthly"
                 }
@@ -819,7 +819,7 @@ const group : IGroupMappingV2[] = [
             }
         ],
          "segment": {
-            "key":"waardedaling_maandcijfer",  
+            "key":"all",  
             "cumulative": true,
             "periodization": "monthly"
         },
@@ -975,7 +975,7 @@ const group : IGroupMappingV2[] = [
                 ]
             ],
             "segment": {
-                    "key":"ims_maand_rapportcijfer_10",  
+                    "key":"all",  
                     "cumulative": true,
                     "periodization": "monthly"
                 }
@@ -1015,7 +1015,7 @@ const group : IGroupMappingV2[] = [
             }
         ],
          "segment": {
-            "key":"imkj_maandcijfer",  
+            "key":"all",  
             "cumulative": true,
             "periodization": "monthly"
         },
@@ -1171,7 +1171,7 @@ const group : IGroupMappingV2[] = [
                 ]
             ],
             "segment": {
-                    "key":"imkj_maand_rapportcijfer_10",  
+                    "key":"all",  
                     "cumulative": true,
                     "periodization": "monthly"
                 }
@@ -1211,7 +1211,7 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key":"imkj_maandcijfer",  
+            "key":"all",  
             "cumulative": true,
             "periodization": "monthly"
         },

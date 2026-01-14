@@ -85,7 +85,7 @@ export class HtmlNumberSimple {
         ? Math.round(data * 10) / 10
         : Math.round(data);
       element.querySelector(".number.accented").innerText =
-        value > 9999 ? thousands(value) : value;
+        value > 999 ? thousands(value) : value;
     }
   }
 }

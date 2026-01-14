@@ -113,11 +113,10 @@ export class KTORatingsV1 extends core.GraphControllerV3  {
 
     async redraw(data: any, range: number[] | undefined) {
 
-
         // @ts-ignore
-        let parameter = (this.segment.key === 'all') ? this.parameters[0][0].column : this.parameters[0][1].column;
+        let parameter = (this.segment.key.startsWith('all')) ? this.parameters[0][0].column : this.parameters[0][1].column;
         // @ts-ignore
-        let extraParameter = (this.segment.key === 'all') ? this.parameters[0][2].column : this.parameters[0][3].column;
+        let extraParameter = (this.segment.key.startsWith('all')) ? this.parameters[0][2].column : this.parameters[0][3].column;
         this.htmlCircle.redraw(data.selectedMonth, parameter, extraParameter);
 
         super.redraw(data);

@@ -109,8 +109,10 @@ export function convertToMillions(number: number) {
 
   if (number >= 1000 * 1000 * 1000) {
     return "€ " + (number / (1000 * 1000 * 1000)).toFixed(0) + " mrd";
-  } else if (number >= 1000 * 100) { 
+  } else if (number >= 1000 * 1000) { 
       return "€ " + (number / (1000 * 1000)).toFixed(0) + " mln";
+  } else if (number >= 99 * 1000) { 
+      return "€ " + (number / (1000 * 1000)).toFixed(1) + " mln";
   } else {
     return "€ " + thousands(number);
   }
