@@ -13,17 +13,18 @@ export const relyOnCompleted = (
   for (let period of JSON.parse(JSON.stringify(filteredData))) {
     const row: string[] = [];
     row.push(period._year);
-    const start = new Date(period._einddatum); //
+    const start = new Date(period._einddatum);
     const startDate = new Date(
       start.getTime() + 24 * 60 * 60 * 1000,
-    ).toLocaleDateString("nl-NL", { dateStyle: "short" });
+    ).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit" });
 
     if (i > 0) {
       row.push(
         startDate +
           " t/m " +
           new Date(filteredData[i - 1]._einddatum).toLocaleDateString("nl-NL", {
-            dateStyle: "short",
+            day: "2-digit",
+            month: "2-digit",
           }),
       );
     } else {
@@ -37,7 +38,12 @@ export const relyOnCompleted = (
         row.push((0.1 * Math.round(period[p.column] * 10)).toString() + "%");
       } else if (p.format == "decimals") {
         if (period[p.column] != null) {
-          row.push(period[p.column].toFixed(1));
+          
+          row.push(period[p.column].toLocaleString('nl-NL', {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1
+          }));
+
         } else {
           row.push("0");
         }
@@ -57,11 +63,17 @@ export const relyOnCompleted = (
 
     period["_startdatum"] = new Date(
       start.getTime() + 24 * 60 * 60 * 1000,
-    ).toLocaleDateString("nl-NL", { dateStyle: "short" });
+    ).toLocaleDateString("nl-NL", { 
+            day: "2-digit",
+            month: "2-digit",
+          });
     if (i > 0) {
       period["_einddatum"] = new Date(
         filteredData[i - 1]._einddatum,
-      ).toLocaleDateString("nl-NL", { dateStyle: "short" });
+      ).toLocaleDateString("nl-NL", {
+            day: "2-digit",
+            month: "2-digit",
+          });
     }
 
     alteredData.push(period);
@@ -103,13 +115,9 @@ export const fillEmptyMonths = (
         row.push(m._year);
         row.push(m._month);
         row.push(
-          new Date(m._startdatum).toLocaleDateString("nl-NL", {
-            dateStyle: "short",
-          }) +
+          new Date(m._startdatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}) +
             " t/m " +
-            new Date(m._einddatum).toLocaleDateString("nl-NL", {
-              dateStyle: "short",
-            }),
+            new Date(m._einddatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}),
         );
 
         for (let p of tableParams) {

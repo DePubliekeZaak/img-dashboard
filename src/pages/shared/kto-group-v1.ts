@@ -37,7 +37,6 @@ export class KTOGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
-    graphDataMonth = graphDataMonth.filter((p) => p.complete);
 
     let { rows, _data } = relyOnCompleted(
       graphDataMonth,

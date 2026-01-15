@@ -23,6 +23,20 @@ var trimColumns = function (json: any, neededColumns: string[]) {
   return json;
 };
 
+export const defaultColumns = [
+  "_yearmonth",
+  "_yearweek",
+  "_month",
+  "_week",
+  "_year",
+  "_startdatum",
+  "_einddatum",
+  "gemeente",
+  "periodization",
+  "complete"
+];
+
+
 export const trimColumnsAndOrder = (json: any, neededColumns: string[]) => {
   let newArray: any[] = [];
   let newObject: any;
@@ -30,7 +44,18 @@ export const trimColumnsAndOrder = (json: any, neededColumns: string[]) => {
   json.forEach((obj: any, i: number) => {
     newObject = {};
     neededColumns.forEach((nc) => {
-      newObject[nc] = obj[nc];
+      const value = obj[nc];
+      
+      // Keep as string if in defaultColumns
+      if (defaultColumns.includes(nc)) {
+
+        newObject[nc] = (typeof value === 'boolean') ? newObject[nc] = value : newObject[nc] = value ? value.toString() : ""
+
+      } else {
+        // Convert to number if possible, otherwise keep as-is
+        const numValue = Number(value);
+        newObject[nc] = !isNaN(numValue) && value !== '' && value !== null ? numValue : value;
+      }
     });
 
     newArray.push(newObject);
@@ -53,6 +78,16 @@ export function thousands(number: any) {
 
   return number != undefined ? dutchFormatter.format(number) : ``;
 }
+
+export function removeFormatting(number: any) {
+
+  const dutchFormatter = new Intl.NumberFormat("nl-NL", {
+    useGrouping: true
+  });
+
+  return number != undefined ? dutchFormatter.format(number) : ``;
+}
+
 
 export function miljarden(number: number): string {
   return (number / 1000).toString();
@@ -119,23 +154,47 @@ export function convertToMillions(number: number) {
   
 }
 
-export function sanitizeCurrency(string: string) {
-  let s = string.replace("€&nbsp;", "").split(".").join("");
-  let number;
+// export function sanitizeCurrency(string: string) {
+//   let s = string.replace("€&nbsp;", "");
 
-  if (s[0] == "(") {
-    s = s.replace("(", "").replace(")", "");
-    number = -parseFloat(s);
-  } else if (s[0] == "-") {
-    number = 0;
-  } else if (s.includes("t/m")) {
-    number = string;
-  } else if (!isNaN(parseFloat(s))) {
-    number = parseFloat(s);
-  }
+//   console.log(s);
+  
+//   // Only remove dots if it's thousands formatting (multiple dots OR value > 999)
+//   const dotCount = (s.match(/\./g) || []).length;
+//   if (dotCount > 1) {
+//     // Multiple dots = thousands separator, remove them
+//     s = s.replace(/\./g, "");
+//   } else if (dotCount === 1 && !s.includes(",")) {
+//     // Single dot, no comma - could be decimal, leave it
+//     // Do nothing
+//   } else {
+//     // Has comma (Dutch format), remove any dots (thousands)
+//     s = s.replace(/\./g, "");
+//   }
+  
+//   let number;
 
-  return number != undefined ? number : s;
-}
+//   if (s[0] == "(") {
+//     s = s.replace("(", "").replace(")", "");
+//     number = -parseFloat(s);
+//   } else if (s[0] == "-") {
+//     number = 0;
+//   } else if (s.includes("t/m")) {
+//     number = string;
+//   } else {
+//     // Replace comma with dot for parseFloat
+//     console.log(2,s)
+//     const normalized = s.replace(",", ".");
+//     if (!isNaN(parseFloat(normalized))) {
+//       number = parseFloat(normalized);
+//     }
+//   }
+//   console.log("n", number)
+
+
+
+//   return number != undefined ? number : s;
+// }
 
 export function shortenCurrency(string: string) {
   if (string.length < 7) {

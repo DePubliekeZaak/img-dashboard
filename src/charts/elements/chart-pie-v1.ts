@@ -1,5 +1,5 @@
 import { colours } from "../../img-modules/styleguide";
-import { convertToCurrency } from "../../pages/shared/_helpers";
+import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
 import { PiePart } from "../../pages/shared/types_graphs";
 
 export class ChartPieV1 {
@@ -47,7 +47,7 @@ export class ChartPieV1 {
 
                             let value = (self.ctrlr.group.graphs[self.ctrlr.index].parameters === 'currency') ? convertToCurrency(d['value']) : d['value'];
                             if (o == undefined) return '';
-                            return '<b>' + o['label'] + '</b><br/>' + value;
+                            return '<b>' + o['label'] + '</b><br/>' + thousands(value);
                         })
                         .style("left", (event.pageX) + "px")
                         .style("top", (event.pageY) + "px")

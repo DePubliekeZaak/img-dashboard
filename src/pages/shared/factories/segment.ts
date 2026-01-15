@@ -46,6 +46,10 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
         if (typeof graph.label === 'string' && graph.label.length > 0) segment.label = graph.label;
 
         if (typeof graph.normalized === 'boolean') segment.normalized = graph.normalized;
+
+        if(graph.key.includes("voorraad")) {
+            segment.cumulative = true
+        }
     }
 
     const strippedKey = segment.key.replace("_cumulatief","");

@@ -108,9 +108,6 @@ export class BarTrendDLTV1 extends core.GraphControllerV3 {
     this.scrollingContainer.classList.add("scrolltainer");
     if (this.filters.length > 0) this.graphEl.classList.add("has-filters");
     this.graphEl.appendChild(this.scrollingContainer);
-
-    console.log(this.group.graphs[this.index])
-
     const div = document.createElement("div");
     div.innerHTML = "Verwacht aantal dagen tot besluit:";
     div.style.width = "100%";

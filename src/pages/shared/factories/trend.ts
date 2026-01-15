@@ -10,18 +10,15 @@ export const trimStart = (_data: any, parameters: any, offset: number = 0) => {
     }
       
     function trimToStart(array: any[], key: string) {
-
         const indexes = findAllIndexes(array, item => item[key] === null);
 
-        let i = 0;
-        while (true) {
-            i++;
-
-            // Check for the condition
-            if (array[i + 1][key] != null) {
-                return i
+        for (let i = 0; i < array.length - 1; i++) {
+            if (array[i + 1] && array[i + 1][key] != null) {
+                return i;
             }
         }
+        
+        return array.length - 1;  // Return last index if nothing found
     }
 
     const indexes: number[] = [];

@@ -73,7 +73,7 @@ const group: IGroupMappingV2[] = [
               colour: "moss",
             },
             {
-              label: "Vooraad",
+              label: "Voorraad",
               column: "wd_wonen_voorraad",
               colour: "moss",
             },

@@ -1,25 +1,37 @@
-import { sanitizeCurrency } from "./_helpers";
+
 
 export const tableToCSV = (element: HTMLElement) => {
-  // Variable to store the final csv data
-  var csv_data: string[] = [];
+  const csv_data: string[] = [];
 
-  // Get each row data
-  var rows = element.querySelectorAll("table:not(.hidden) tr");
-  for (var i = 0; i < rows.length; i++) {
-    // Get each column data
+  const rows = element.querySelectorAll("table:not(.hidden) tr");
+  for (let i = 0; i < rows.length; i++) {
     const cols = rows[i].querySelectorAll("td,th");
-
-    // Stores each csv row data
     const csvrow: string[] = [];
-    for (var j = 0; j < cols.length; j++) {
-      // Get the text data of each cell of
-      // a row and push it to csvrow
-      const v: string = sanitizeCurrency(cols[j].innerHTML);
+    
+    for (let j = 0; j < cols.length; j++) {
+      let v = cols[j].textContent?.trim() || "";
+      
+      // Remove currency symbols and non-breaking spaces
+      v = v.replace(/€|&nbsp;/g, "").trim();
+      
+      // Skip if it's a date range or text
+      if (v.includes("t/m") || v.includes("-") && v.length > 10) {
+        csvrow.push(v);
+        continue;
+      }
+      
+      // Handle Dutch number formatting
+      if (v.includes(",")) {
+        // Has comma (decimal): remove dots (thousands), replace comma with dot
+        v = v.replace(/\./g, "").replace(",", ".");
+      } else if (v.includes(".")) {
+        // Has only dots (thousands separator): remove them
+        v = v.replace(/\./g, "");
+      }
+      
       csvrow.push(v);
     }
 
-    // Combine each column value with comma
     csv_data.push(csvrow.join(";"));
   }
 

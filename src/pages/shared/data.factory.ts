@@ -27,13 +27,9 @@ export const tables = (
     row.push(period._year);
     row.push(period._week);
     row.push(
-      new Date(period._startdatum).toLocaleDateString("nl-NL", {
-        dateStyle: "short",
-      }) +
+      new Date(period._startdatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}) +
         " t/m " +
-        new Date(period._einddatum).toLocaleDateString("nl-NL", {
-          dateStyle: "short",
-        }),
+        new Date(period._einddatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}),
     );
 
     for (let p of tableParams) {
@@ -73,13 +69,9 @@ export const tables = (
       row.push(period._year);
       row.push(period._month);
       row.push(
-        new Date(period._startdatum).toLocaleDateString("nl-NL", {
-          dateStyle: "short",
-        }) +
+        new Date(period._startdatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}) +
           " t/m " +
-          new Date(period._einddatum).toLocaleDateString("nl-NL", {
-            dateStyle: "short",
-          }),
+          new Date(period._einddatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}),
       );
 
 

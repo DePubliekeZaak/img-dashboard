@@ -1,3 +1,4 @@
+import { thousands } from "../_helpers";
 import { TableData } from "../types";
 
 export class HTMLTables {
@@ -149,27 +150,21 @@ export class HTMLTables {
     this.toggler.style.display = "none";
     this.scrolltainer.appendChild(this.toggler);
 
-    this.monthTable =
-      this.ctrlr.page.main.window.document.createElement("table");
+    this.monthTable = this.ctrlr.page.main.window.document.createElement("table");
     this.monthTable.setAttribute("id", "month-table");
 
-    this.monthThead =
-      this.ctrlr.page.main.window.document.createElement("thead");
-    this.monthTbody =
-      this.ctrlr.page.main.window.document.createElement("tbody");
+    this.monthThead = this.ctrlr.page.main.window.document.createElement("thead");
+    this.monthTbody = this.ctrlr.page.main.window.document.createElement("tbody");
 
     this.monthTable.appendChild(this.monthThead);
     this.monthTable.appendChild(this.monthTbody);
     this.scrolltainer.appendChild(this.monthTable);
 
-    this.weekTable =
-      this.ctrlr.page.main.window.document.createElement("table");
+    this.weekTable = this.ctrlr.page.main.window.document.createElement("table");
     this.weekTable.setAttribute("id", "week-table");
     this.weekTable.classList.add("hidden");
-    this.weekThead =
-      this.ctrlr.page.main.window.document.createElement("thead");
-    this.weekTbody =
-      this.ctrlr.page.main.window.document.createElement("tbody");
+    this.weekThead = this.ctrlr.page.main.window.document.createElement("thead");
+    this.weekTbody = this.ctrlr.page.main.window.document.createElement("tbody");
 
     this.weekTable.appendChild(this.weekThead);
     this.weekTable.appendChild(this.weekTbody);
@@ -226,14 +221,14 @@ export class HTMLTables {
       }
       this.monthThead.appendChild(trm);
 
+    
       if (data.monthTable.rows && Array.isArray(data.monthTable.rows)) {
         for (const row of data.monthTable.rows) {
           const tr = this.ctrlr.page.main.window.document.createElement("tr");
           if (Array.isArray(row)) {
             for (const value of row) {
-              const td =
-                this.ctrlr.page.main.window.document.createElement("td");
-              td.innerHTML = value;
+              const td = this.ctrlr.page.main.window.document.createElement("td");
+              td.innerHTML = typeof value === 'number' ? thousands(value) : value;
               tr.appendChild(td);
             }
           }

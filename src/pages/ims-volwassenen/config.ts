@@ -73,7 +73,7 @@ const group: IGroupMappingV2[] = [
               colour: "moss",
             },
             {
-              label: "Vooraad",
+              label: "Voorraad",
               column: "ims_volw_voorraad",
               colour: "moss",
             },
@@ -209,7 +209,7 @@ const group: IGroupMappingV2[] = [
       },
     ],
     segment: {
-      key: "ims_volw_bedrag_betaald_totaal",
+      key: "ims_volw_bedrsafieraag_betaald_totaal",
       cumulative: true,
       periodization: "weekly",
     },

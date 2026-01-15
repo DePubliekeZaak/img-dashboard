@@ -165,8 +165,11 @@ export class HtmlFilters {
 
           selectEl.addEventListener("change", () => {
             if (selectEl != null) {
+               console.log("0");
               if (localSegment.cumulative != selectEl.value) {
+                console.log("1");
                 if (localSegment.key.includes("voorraad")) {
+                  console.log("hi")
                   localSegment.cumulative = true;
                   localSegment.key = strip(localSegment.key) + "_cumulatief";
                 } else {

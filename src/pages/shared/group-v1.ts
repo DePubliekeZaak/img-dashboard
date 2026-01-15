@@ -5,7 +5,7 @@ import { HTMLDefinitions } from "./html/html-definitions";
 import { IGroupCtrlr, IGroupMappingV2, IParameterMapping } from "./interfaces";
 import { DataObject, ImgData, Segment, TableData, Timeline } from "./types";
 import { Definitions } from "./types_graphs";
-import { removeDuplicates, trimColumnsAndOrder } from "./_helpers";
+import { defaultColumns, removeDuplicates, trimColumnsAndOrder } from "./_helpers";
 import { HtmlGroupFilters } from "./html/html-group-filters";
 // import { definitionList } from "../definitions";
 import definitionList from "../../json/definitions.json" assert { type: "json" };
@@ -119,18 +119,6 @@ export class GroupControllerV1 implements IGroupCtrlr {
       (e) => e.includes("maandelijks") || e.includes("tevredenheid"),
     );
 
-    const defaultColumns = [
-      "_yearmonth",
-      "_yearweek",
-      "_month",
-      "_week",
-      "_year",
-      "_startdatum",
-      "_einddatum",
-      "gemeente",
-      "complete",
-      "periodization",
-    ];
 
     let tableParams = [] as IParameterMapping[];
     let graphParams = [] as IParameterMapping[];
@@ -158,8 +146,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
                 let n: IParameterMapping = Object.assign({}, m);
                 n.column = n.column.replace("{}", p.column);
                 n.label = p.label;
-                if (p.format != "" || p.format != undefined)
-                  n.format = p.format;
+                if (p.format != "" || p.format != undefined) n.format = p.format;
                 graphParams.push(n);
                 let columnNames = tableParams.map((p) => p.column);
                 if (!columnNames.includes(n.column)) {
