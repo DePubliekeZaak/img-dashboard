@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "ims_kj_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,10 +109,11 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
   },
+  // bedragen
   {
     slug: "ims_kj_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_ims_kj_numbers_2",
@@ -176,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "ims_kj_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -204,7 +206,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_kj_bedrag_betaald_totaal",
           cumulative: false,
-          periodization: "weekly",
+          periodization: "monthly",
         },
       },
     ],
@@ -216,6 +218,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
   },
+  // waardering
   {
     slug: "ims_kj_waardering",
     ctrlr: "KTOGroupV1",
@@ -277,6 +280,7 @@ const group: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
+  // besluiten
   {
     slug: "ims_kj_besluiten",
     ctrlr: "DefaultGroupV1",
@@ -346,6 +350,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
   },
+  // toegekend
   {
     slug: "ims_kj_toegekend",
     ctrlr: "DefaultGroupV1",
@@ -423,6 +428,7 @@ const group: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
+  // duur
   {
     slug: "ims_kj_duur",
     ctrlr: "DefaultGroupV1",
@@ -508,6 +514,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
   },
+  // voorraad
   {
     slug: "ims_kj_voorraad",
     ctrlr: "DefaultGroupV1",
@@ -600,6 +607,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
   },
+  // bezwaren
   {
     slug: "ims_kj_bezwaren",
     ctrlr: "DefaultGroupV1",

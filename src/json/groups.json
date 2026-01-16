@@ -1,6 +1,18 @@
 {
   "groups": [
     {
+      "name": "wd_totaal_varianten",
+      "slug": "wd_totaal_varianten",
+      "header": "Varianten",
+      "tags": [
+        "wd"
+      ],
+      "definitions": [],
+      "timeline": [],
+      "content": "",
+      "description": ""
+    },
+    {
       "name": "specials_intro",
       "slug": "specials_intro",
       "header": [],
@@ -198,21 +210,6 @@
       "timeline": [],
       "content": "De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {wdl_wd_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wdl_wd_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {wdl_wd_beslistermijn_dagen} dagen. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.",
       "description": "<p dir=\"auto\">De voorraad laat zien hoeveel aanvragen nu nog in behandeling zijn bij het IMG en nog een besluit moeten krijgen. Over {wdl_wd_voorraad_cumulatief} aanvragen moeten we nog een besluit nemen. Daarvan zijn {wdl_wd_oud_voorraad_binnen_termijn} aanvragen binnen de norm van {wdl_wd_beslistermijn_dagen} dagen. De verwachte duur voor nieuwe aanvragen wordt berekend op het gemiddeld aantal besluiten van de afgelopen acht weken ten opzichte van de voorraad en is op dit moment {wdl_wd_dlt_verwacht_rolling8_dagen} dagen.</p>"
-    },
-    {
-      "name": "wdl_wd_toegekend",
-      "slug": "wdl_wd_toegekend",
-      "header": "Toegekend/afgewezen",
-      "tags": [
-        "wd"
-      ],
-      "definitions": [
-        "Afgewezen",
-        "Toegekend"
-      ],
-      "timeline": [],
-      "content": "Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.",
-      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien en welk deel van de aanvragen wordt toegekend en welk deel wordt afgewezen.</p>"
     },
     {
       "name": "wdl_wd_intro",
@@ -740,8 +737,8 @@
         "Doorlopend"
       ],
       "timeline": [],
-      "content": "Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.",
-      "description": "<p dir=\"auto\">Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.</p>"
+      "content": "Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.\n\nVan het totaal aantal afgehandelde aanvragen voor de vaste vergoeding is aan {vv_toegekend_ves_cumulatief} een Vaste vergoeding (VES) toegekend en aan {v_toegekend_avv_cumulatief} een Aanvullende vaste vergoeding (AVV). De overige aanvragen zijn afgewezen of op een andere manier afgehandeld.",
+      "description": "<p dir=\"auto\">Er zijn {vv_afgerond_cumulatief} meldingen afgerond door {vv_beschikt_cumulatief} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {vv_beschikt_binn_termijn_perc_cumulatief}% binnen de norm van {vv_beslistermijn_dagen} dagen genomen.</p>\n<p dir=\"auto\">Van het totaal aantal afgehandelde aanvragen voor de vaste vergoeding is aan {vv_toegekend_ves_cumulatief} een Vaste vergoeding (VES) toegekend en aan {v_toegekend_avv_cumulatief} een Aanvullende vaste vergoeding (AVV). De overige aanvragen zijn afgewezen of op een andere manier afgehandeld.</p>"
     },
     {
       "name": "vv_bedragen",
@@ -2058,9 +2055,10 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-01-14T09:47:13.104Z",
+    "generatedAt": "2026-01-16T11:32:14.759Z",
     "totalGroups": 132,
     "sourceFiles": [
+      "wd_totaal_varianten.group.md",
       "specials_intro.group.md",
       "specials_toegekend.group.md",
       "bezwaren_imkj.group.md",
@@ -2076,7 +2074,6 @@
       "wdl_wonen_bedragen.group.md",
       "wdl_wd_waardering.group.md",
       "wdl_wd_voorraad.group.md",
-      "wdl_wd_toegekend.group.md",
       "wdl_wd_intro.group.md",
       "wdl_wd_duur.group.md",
       "wdl_wd_bezwaren.group.md",

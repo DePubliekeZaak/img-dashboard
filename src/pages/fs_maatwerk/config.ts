@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "maatwerk_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,10 +109,11 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
+  // bedragen
   {
     slug: "maatwerk_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_maatwerk_numbers_2",
@@ -176,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "maatwerk_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -203,8 +205,8 @@ const group: IGroupMappingV2[] = [
         ],
         segment: {
           key: "maatwerk_bedrag_betaald_totaal",
-          cumulative: true,
-          periodization: "weekly",
+          cumulative: false,
+          periodization: "monthly",
         },
       },
     ],
@@ -216,6 +218,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
+  // waardering
   {
     slug: "maatwerk_waardering",
     ctrlr: "KTOGroupV1",
@@ -277,6 +280,7 @@ const group: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
+  // besluiten
   {
     slug: "maatwerk_besluiten",
     ctrlr: "DefaultGroupV1",
@@ -347,6 +351,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
+  // termijn
   {
     slug: "maatwerk_binnen_buiten",
     ctrlr: "DefaultGroupV1",
@@ -416,6 +421,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
+  // toegekend/afgewezen
   {
     slug: "maatwerk_toegekend",
     ctrlr: "DefaultGroupV1",
@@ -493,6 +499,7 @@ const group: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
+  // duur
   {
     slug: "maatwerk_duur",
     ctrlr: "DefaultGroupV1",
@@ -595,42 +602,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
-  // {
-  //   slug: "maatwerk_duur_2",
-  //   ctrlr: "DefaultGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "fs_maatwerk_duur_trend2",
-  //       ctrlr: "BarTrendV1",
-  //       filters: [],
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Verwacht aantal dagen tot besluit",
-  //             column: "maatwerk_dlt_verwacht_rolling8_dagen",
-  //             colour: "moss",
-  //             units: "verwacht aantal dagen",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "maatwerk_dlt_verwacht_rolling8_dagen",
-  //         cumulative: false,
-  //         periodization: "weekly",
-  //         label: "dagen",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "maatwerk_dlt_verwacht_rolling8_dagen",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //     label: "dagen",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
-  // },
+  // voorrraad
   {
     slug: "maatwerk_voorraad",
     ctrlr: "DefaultGroupV1",
@@ -724,6 +696,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
   },
+  // bezwaren
   {
     slug: "maatwerk_bezwaren",
     ctrlr: "DefaultGroupV1",

@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "ims_totaal_intro",
     ctrlr: "DefaultGroupV1",
@@ -64,10 +65,11 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
   },
+  // bedragen
   {
     slug: "ims_totaal_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "ims_totaal_numbers_2",
@@ -132,7 +134,7 @@ const group: IGroupMappingV2[] = [
         slug: "ims_totaal_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -160,7 +162,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_totaal_bedrag_betaald_totaal",
           cumulative: false,
-          periodization: "weekly",
+          periodization: "monthly",
         },
       }
     ],
@@ -172,6 +174,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
   },
+  // waardering
   {
     slug: "ims_totaal_waardering",
     ctrlr: "KTOGroupV1",
@@ -233,6 +236,7 @@ const group: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
+  // keuzes
   {
     slug: "ims_totaal_keuzepaden",
     ctrlr: "DefaultGroupV1",
@@ -354,7 +358,7 @@ const group: IGroupMappingV2[] = [
               excludeFromTable: true,
             },
             {
-              label: "Kinderen en joingeren",
+              label: "Kinderen en jongeren",
               column: "ims_kj_ingediend",
               colour: "orange",
               units: "aanvragen",
@@ -425,70 +429,7 @@ const group: IGroupMappingV2[] = [
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
-  },
-  // {
-  //   slug: "ims_totaal_herbeoordeling",
-  //   ctrlr: "DefaultGroupV1",
-  //   filters: [],
-  //   graphs: [
-  //     {
-  //       slug: "ims_numbers_v1",
-  //       ctrlr: "NumbersMultiplesV1",
-  //       args: [],
-  //       filters: ["totaalVsRecent"],
-  //       multiples: "cumulative",
-  //       parameters: [
-  //         [
-  //           // {
-  //           //   label: "Aanvragen",
-  //           //   column: "ims_totaal_ingediend",
-  //           //   colour: "orange",
-  //           //   units: "ingediende aanvragen",
-  //           // },
-  //           // {
-  //           //   label: "Voorraad",
-  //           //   column: "ims_totaal_voorraad",
-  //           //   colour: "moss",
-  //           //   units: "aanvragen in werkvoorraad",
-  //           // },
-  //           // {
-  //           //   label: "Afgerond",
-  //           //   column: "ims_totaal_afgerond",
-  //           //   colour: "blue",
-  //           //   units: "afgeronde aanvragen",
-  //           // },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "totaal",
-  //             column: "{}_cumulatief",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "afgelopen week",
-  //             column: "{}",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "ims_totaal_ingediend",
-  //         cumulative: true,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "ims_totaal_ingediend",
-  //     cumulative: true,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
-  // },
+  }
 ];
 
 export default group;

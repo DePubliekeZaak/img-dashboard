@@ -16,8 +16,6 @@ export default class ChartBarTrend {
   draw(data: TrendBar[]) {
     let self = this;
 
-    console.log(data)
-
     this.slug =
       this.ctrlr.filters && this.ctrlr.filters.length > 0
         ? this.ctrlr.slug

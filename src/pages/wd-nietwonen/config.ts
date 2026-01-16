@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "wdl_nietwonen_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,10 +109,11 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
+  // bedragen
   {
     slug: "wdl_nietwonen_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_wd_nietwonen_numbers_2",
@@ -176,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "wd_nietwonen_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -216,67 +218,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
-  // {
-  //   slug: "wdl_nietwonen_waardering",
-  //   ctrlr: "KTOGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "wd_nietwonen_waardering_numbers",
-  //       ctrlr: "NumbersPlusRespondentsV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Sinds start",
-  //             column: "ims_doorlopend_cijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Totaal respondenten",
-  //             column: "ims_aantal_respondenten_doorlopend",
-  //             units: "respondenten sinds start",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //     },
-  //     {
-  //       slug: "wd_nietwonen_waardering_trend",
-  //       ctrlr: "BarTrendKTOV1",
-  //       args: [],
-  //       filters: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Maand cijfer",
-  //             column: "ims_maandcijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Aantal nieuwe respondenten",
-  //             column: "ims_aantal_respondenten",
-  //             colour: "orange",
-  //             units: "respondenten",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //     },
-  //   ],
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["tevredenheid", "tevredenheid"],
-  //   segment: {
-  //     key: "ims_maandcijfer",
-  //     cumulative: false,
-  //     periodization: "monthly",
-  //   },
-  // },
+  // besluiten
   {
     slug: "wdl_nietwonen_besluiten",
     ctrlr: "DefaultGroupV1",
@@ -347,6 +289,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
+  // toegekend
   {
     slug: "wdl_nietwonen_toegekend",
     ctrlr: "DefaultGroupV1",
@@ -424,6 +367,7 @@ const group: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
+  // duur
   {
     slug: "wdl_nietwonen_duur",
     ctrlr: "DefaultGroupV1",
@@ -509,6 +453,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
+  // voorraad
   {
     slug: "wdl_nietwonen_voorraad",
     ctrlr: "DefaultGroupV1",
@@ -601,6 +546,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_nietwonen_wekelijks", "wd_nietwonen_maandelijks"],
   },
+  // bezwaren
   {
     slug: "wdl_nietwonen_bezwaren",
     ctrlr: "DefaultGroupV1",

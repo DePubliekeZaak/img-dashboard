@@ -47,13 +47,13 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
   }
 
   pre() {
-    this.config.graphHeight = window.innerWidth < breakpoints.sm ? 320 : 240;
+    this.config.graphHeight = window.innerWidth < breakpoints.sm ? 320 : 260;
 
     const top = window.innerWidth < breakpoints.sm ? 30 : 10;
     const bottom = 0;
 
     this._addMargin(top, 0, 0, 0);
-    this._addPadding(10, 30, 60, 60);
+    this._addPadding(30, 30, 60, 60);
 
     this._addScale("x", "band", "horizontal-reverse", "date");
     this._addScale("y", "linear", "vertical", "value");

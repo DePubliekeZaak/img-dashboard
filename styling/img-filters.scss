@@ -45,6 +45,11 @@
     }
 }
 
+.filter_list ul li select {
+    background: white;
+    border-color: 1px solid rgb(230, 230, 230);
+}
+
 .filter_list_group, .filter_list_group:first-child {
 
     position: relative;

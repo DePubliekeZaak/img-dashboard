@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "wdl_wd_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,10 +109,11 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
   },
+  // bedragen
   {
     slug: "wdl_wd_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_wdl_wd_numbers_2",
@@ -176,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "wdl_wd_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -216,6 +218,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
   },
+  // waardering
   {
     slug: "wdl_wd_waardering",
     ctrlr: "KTOGroupV1",
@@ -277,419 +280,266 @@ const group: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
-  {
-    slug: "wdl_wd_besluiten",
+  // varianten
+    {
+    slug: "wd_totaal_varianten",
     ctrlr: "DefaultGroupV1",
-    filters: [],
     graphs: [
       {
-        slug: "wdl_wd_numbers_besluiten_v1",
-        ctrlr: "NumbersMultiplesV1",
+        slug: "wd_numbers_woningen",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
-        multiples: "cumulative",
+        header: "Woningen",
+        // multiples: "cumulative",
         parameters: [
-          [ {
+          [
+            {
+              label: "Ingediend",
+              column: "wdl_wo_ingediend_cumulatief",
+              colour: "blue",
+              units: "aanvragen",
+            },
+            {
               label: "Afgehandeld",
-              column: "wdl_wd_afgerond",
-              colour: "moss",
+              column: "wdl_wo_afgerond_cumulatief",
+              colour: "blue",
               units: "afgehandeld",
             },
             {
-              label: "Besluiten",
-              column: "wdl_wd_beschikt",
+              label: "Betaald bedrag",
+              column: "wdl_wo_bedrag_betaald_totaal_cumulatief",
               colour: "blue",
-              units: "besluiten",
-            },
-            {
-              label: "Anders afgehandeld",
-              column: "wdl_wd_anders_afgehandeld",
-              colour: "orange",
-              units: "anders afgehandeld",
-            },
-            {
-              label: "Percentage binnen termijn",
-              column: "wdl_wd_beschikt_binn_termijn_perc",
-              colour: "moss",
-              format: "percentage",
-              units: "afgehandeld binnen termijn",
+              units: "betaald bedrag",
+              format: "currency",
             },
           ],
           [],
         ],
         modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
+          // [
+          //   {
+          //     label: "totaal",
+          //     column: "{}_cumulatief",
+          //     colour: "orange",
+          //   },
+          //   {
+          //     label: "afgelopen week",
+          //     column: "{}",
+          //     colour: "orange",
+          //   },
+          // ],
         ],
         segment: {
-          key: "wdl_wd_beschikt",
+          key: "wdl_wo_ingediend_cumulatief",
           cumulative: true,
           periodization: "weekly",
         },
       },
-    ],
-    segment: {
-      key: "wdl_wd_beschikt_binn_termijn_perc",
-      cumulative: false,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
-  },
-  {
-    slug: "wdl_wd_toegekend",
-    ctrlr: "DefaultGroupV1",
-    filters: [],
-    graphs: [
       {
-        slug: "wdl_wd_toegekend_taart",
-        ctrlr: "PieChartSumV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "wdl_wd_toegekend_cumulatief",
-              colour: "moss",
-              scale: "null",
-              format: "",
-            },
-            {
-              label: "Afgewezen",
-              column: "wdl_wd_afgewezen_cumulatief",
-              colour: "orange",
-              scale: "null",
-              format: "",
-            },
-          ],
-          [
-            {
-              label: "Besluiten",
-              column: "wdl_wd_beschikt_cumulatief",
-              colour: "gray",
-              scale: "null",
-              format: "",
-            },
-          ],
-        ],
-      },
-      {
-        slug: "wdl_wd_toegekend_trend",
-        ctrlr: "BarTrendStackedMakeup",
-        filters: ["absoluteVsNormalized", "weekVsMonth"],
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "wdl_wd_toegekend",
-              colour: "moss",
-              scale: "null",
-              format: "",
-            },
-            {
-              label: "Afgewezen",
-              column: "wdl_wd_afgewezen",
-              colour: "orange",
-              scale: "null",
-              format: "",
-            },
-          ],
-        ],
-        segment: {
-          key: "wdl_wd_toegekend",
-          cumulative: false,
-          periodization: "monthly",
-          label: "besluiten",
-          normalized: false,
-        },
-      },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
-    segment: {
-      key: "wdl_wd_toegekend_cumulatief",
-      cumulative: true,
-      periodization: "weekly",
-    },
-  },
-  {
-    slug: "wdl_wd_duur",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "wdl_wd_duur_numbers_v1",
-        ctrlr: "NumbersMultiplesTitledV1",
+        slug: "wd_numbers_niet_woningen",
+        ctrlr: "NumbersV1",
         args: [],
         filters: [],
-        multiples: "incremental",
-        parameters: [
-          [
-            {
-              label: "Mediaan",
-              column: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
-              colour: "orange",
-              units: "gerealiseerd aantal dagen",
-            },
-            {
-              label: "Gemiddelde",
-              column: "wdl_wd_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gerealiseerd aantal dagen",
-            },
-            {
-              label: "Verwacht",
-              column: "wdl_wd_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            }
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "wdl_wd_dlt_verwacht_rolling8_dagen",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "wdl_wd_duur_trend",
-        ctrlr: "BarTrendV1",
-        filters: ["parameterSelect"],
-        args: [],
-        parameters: [
-          [ {
-              label: "Gerealiseerde mediaan aantal dagen tot besluit",
-              column: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
-              colour: "orange",
-              units: "mediaan gerealiseerd aantal dagen",
-            },
-            {
-              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-              column: "wdl_wd_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            }, 
-            // {
-            //   label: "Verwacht aantal dagen tot besluit",
-            //   column: "wdl_wd_dlt_verwacht_rolling8_dagen",
-            //   colour: "moss",
-            //   units: "verwacht aantal dagen",
-            // },
-          ],
-        ],
-        segment: {
-          key: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
-          cumulative: false,
-          periodization: "monthly",
-          label: "dagen",
-        },
-      },
-    ],
-    segment: {
-      key: "wdl_wd_dlt_gerealiseerd_mediaan_dagen",
-      cumulative: false,
-      periodization: "weekly",
-      label: "dagen",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
-  },
-  {
-    slug: "wdl_wd_voorraad",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "wdl_wd_voorrraad_getallen",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "incremental",
-        parameters: [
-          [
-            {
-              label: "Voorraad",
-              column: "wdl_wd_voorraad_cumulatief",
-              colour: "blue",
-              units: "voorraad",
-            },
-            {
-              label: "Beslistermijn",
-              column: "wdl_wd_beslistermijn_dagen",
-              colour: "moss",
-              units: "dagen",
-            },
-            // {
-            //   label: "Mediaan",
-            //   column: "wdl_wd_oud_voorraad_mediaan_dagen",
-            //   colour: "orange",
-            //   units: "dagen in voorraad",
-            // },
-            // {
-            //   label: "Gemiddelde",
-            //   column: "wdl_wd_oud_voorraad_gemiddeld_dagen",
-            //   colour: "blue",
-            //   units: "dagen in voorraad",
-            // },
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "wdl_wd_oud_voorraad_gemiddeld_dagen",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "wdl_wd_voorraad_groepen",
-        ctrlr: "SegmentsV1",
-        args: [],
-        filters: [],
-        parameters: [
-          [
-            {
-              label: "< 56 dagen",
-              column: "wdl_wd_oud_voorraad_binnen_termijn",
-              colour: "orange",
-            },
-            {
-              label: "56 - 112 dagen",
-              column: "wdl_wd_oud_voorraad_1_2_termijn",
-              colour: "moss",
-            },
-            {
-              label: "112 - 224 dagen",
-              column: "wdl_wd_oud_voorraad_2_4_termijn",
-              colour: "blue",
-            },
-            {
-              label: "> 224 dagen",
-              column: "wdl_wd_oud_voorraad_buiten_4_termijn",
-              colour: "purple",
-            },
-          ],
-        ],
-        modifiers: [],
-        segment: {
-          key: "wdl_wd_oud_voorraad_binnen_termijn",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      //
-    ],
-    segment: {
-      key: "wdl_wd_oud_voorraad_binnen_termijn",
-      cumulative: false,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
-  },
-  {
-    slug: "wdl_wd_bezwaren",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "fs_wdl_wd_bezwaren_numbers_v1",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "incremental",
+        header: "Niet woningen",
         parameters: [
           [
             {
               label: "Ingediend",
-              column: "wdl_wd_bz_ingediend_cumulatief",
+              column: "wdl_nwo_ingediend_cumulatief",
               colour: "orange",
-              units: "bezwaren",
+              units: "aanvragen",
             },
             {
-              label: "In procedure",
-              column: "wdl_wd_bz_voorraad_cumulatief",
-              colour: "purple",
-              units: "bezwaren",
+              label: "Afgehandeld",
+              column: "wdl_nwo_afgerond_cumulatief",
+              colour: "orange",
+              units: "afgehandeld",
             },
             {
-              label: "Afgerond",
-              column: "wdl_wd_bz_afgerond_cumulatief",
-              colour: "moss",
-              units: "bezwaren",
-            },
-            {
-              label: "Bezwaarpercentage",
-              column: "wdl_wd_bz_perc_cumulatief",
-              colour: "blue",
-              format: "percentage",
-              units: "t.o.v. aantal besluiten",
+              label: "Verleende schade",
+              column: "wdl_nwo_bedrag_betaald_totaal_cumulatief",
+              colour: "orange",
+              units: "betaald bedrag",
+              format: "currency",
             },
           ],
           [],
         ],
-        modifiers: [],
-        segment: {
-          key: "wdl_wd_bz_ingediend",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "bezwaren_taart_toegekend",
-        ctrlr: "PieChartSumV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "wdl_wd_bz_toegekend_cumulatief",
-              colour: "moss",
-            },
-            {
-              label: "Afgewezen",
-              column: "wdl_wd_bz_afgewezen_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "Anders afgerond",
-              column: "wdl_wd_bz_anders_afgehandeld_cumulatief",
-              colour: "blue",
-            },
-          ],
-          [
-            {
-              label: "Totaal afgerond",
-              column: "wdl_wd_bz_afgerond_cumulatief",
-              colour: "gray",
-            },
-          ],
+        modifiers: [
+          // [
+          //   {
+          //     label: "totaal",
+          //     column: "{}_cumulatief",
+          //     colour: "orange",
+          //   },
+          //   {
+          //     label: "afgelopen week",
+          //     column: "{}",
+          //     colour: "orange",
+          //   },
+          // ],
         ],
         segment: {
-          key: "wdl_wd_bz_toegekend_cumulatief",
+          key: "wdl_nwo_ingediend_cumulatief",
           cumulative: true,
           periodization: "weekly",
         },
       },
+      {
+        slug: "wd_numbers_namteg",
+        ctrlr: "NumbersV1",
+        args: [],
+        filters: [],
+        header: "NAM tegemoetkoming",
+        parameters: [
+          [
+            {
+              label: "Ingediend",
+              column: "wdl_nam_ingediend_cumulatief",
+              colour: "moss",
+              units: "aanvragen",
+            },
+            {
+              label: "Afgehandeld",
+              column: "wdl_nam_afgerond_cumulatief",
+              colour: "moss",
+              units: "afgehandeld",
+            },
+            {
+              label: "Verleende schade",
+              column: "wdl_nam_bedrag_betaald_totaal_cumulatief",
+              colour: "moss",
+              units: "betaald bedrag",
+              format: "currency",
+            },
+          ],
+          [],
+        ],
+        modifiers: [
+          // [
+          //   {
+          //     label: "totaal",
+          //     column: "{}_cumulatief",
+          //     colour: "orange",
+          //   },
+          //   {
+          //     label: "afgelopen week",
+          //     column: "{}",
+          //     colour: "orange",
+          //   },
+          // ],
+        ],
+        segment: {
+          key: "wdl_nam_ingediend_cumulatief",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "wdl_totaal_makeup_trend",
+        ctrlr: "BarTrendStackedMakeup",
+        args: [],
+        filters: ["mappingGroupSelect", "cumulativeVsDelta", "weekVsMonth"],
+        parameters: [
+          [
+            {
+              label: "Woningen",
+              column: "wdl_wo_ingediend",
+              colour: "blue",
+              units: "aanvragen",
+              excludeFromTable: true,
+            },
+            {
+              label: "Niet woningen",
+              column: "wdl_nwo_ingediend",
+              colour: "orange",
+              units: "aanvragen",
+              excludeFromTable: true,
+            },
+            {
+              label: "NAM tegemoetkoming",
+              column: "wdl_nam_ingediend",
+              colour: "moss",
+              units: "aanvragen",
+              excludeFromTable: true,
+            },
+          ],
+          [
+            {
+              label: "Woningen",
+              column: "wdl_wo_afgerond",
+              colour: "blue",
+              units: "afgehandeld",
+              excludeFromTable: true,
+            },
+            {
+              label: "Niet woningen",
+              column: "wdl_nwo_afgerond",
+              colour: "orange",
+              units: "afgehandeld",
+              excludeFromTable: true,
+            },
+            {
+              label: "NAM tegemoetkoming",
+              column: "wdl_nam_afgerond",
+              colour: "moss",
+              units: "afgehendeld",
+              excludeFromTable: true,
+            },
+          ],
+          // [
+          //   {
+          //     label: "Volwassenen",
+          //     column: "ims_volw_bedrag_totaal_bedrag",
+          //     colour: "blue",
+          //     units: "betaald bedrag",
+          //     format: "currency",
+          //     excludeFromTable: true,
+          //   },
+          //   {
+          //     label: "Kinderen en jongeren",
+          //     column: "ims_kj_bedrag_totaal_bedrag",
+          //     colour: "orange",
+          //     units: "betaald bedrag",
+          //     format: "currency",
+          //     excludeFromTable: true,
+          //   },
+          // ],
+        ],
+        modifiers: [
+          [
+            {
+              label: "toename",
+              column: "{}",
+              colour: "orange",
+            },
+            {
+              label: "cumulatief",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "wdl_nwo_afgehandeld",
+          cumulative: false,
+          periodization: "monthly",
+          parameterIndex: 0,
+        },
+      },
     ],
     segment: {
-      key: "wdl_wd_bz_toegekend_cumulatief",
-      cumulative: false,
+      key: "wdl_nwo_afgehandeld",
+      cumulative: true,
       periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["wdl_wd_wekelijks", "wdl_wd_maandelijks"],
-  },
+  }
+  
+
+
 ];
 
 export default group;

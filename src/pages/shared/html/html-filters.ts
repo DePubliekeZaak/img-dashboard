@@ -36,7 +36,20 @@ export class HtmlFilters {
 
     const prevElement = element.querySelector(".filter_list");
 
-    if (this.master) {
+    if (this.id.includes("bedragen") && this.id.includes("trend")) {
+
+      console.log(this.id)
+      this.listElement = this.ctrlr.page.main.window.document.createElement("div");
+      this.listElement.classList.add("filter_list");
+
+      const ul = this.ctrlr.page.main.window.document.createElement("ul");
+
+      this.listElement.appendChild(ul);
+      console.log(this.element)
+      this.element.prepend(this.listElement);
+    }
+
+    else if (this.master) {
       const container =
         this.ctrlr.page.main.window.document.createElement("section");
       container.classList.add(
@@ -165,11 +178,8 @@ export class HtmlFilters {
 
           selectEl.addEventListener("change", () => {
             if (selectEl != null) {
-               console.log("0");
               if (localSegment.cumulative != selectEl.value) {
-                console.log("1");
                 if (localSegment.key.includes("voorraad")) {
-                  console.log("hi")
                   localSegment.cumulative = true;
                   localSegment.key = strip(localSegment.key) + "_cumulatief";
                 } else {
@@ -230,6 +240,7 @@ export class HtmlFilters {
             selector = new HtmlPeriodSelector(
               li,
               this.ctrlr.group.slug,
+              true
             );
             let periodization = localSegment
               ? localSegment.periodization

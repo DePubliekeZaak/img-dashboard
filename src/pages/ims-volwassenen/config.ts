@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "ims_volw_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,10 +109,11 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],
   },
+  // bedragen
   {
     slug: "ims_volw_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_ims_volw_numbers_2",
@@ -176,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "ims_volw_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -204,7 +206,7 @@ const group: IGroupMappingV2[] = [
         segment: {
           key: "ims_volw_bedrag_betaald_totaal",
           cumulative: false,
-          periodization: "weekly",
+          periodization: "monthly",
         },
       },
     ],
@@ -216,6 +218,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],
   },
+  // waardering
   {
     slug: "ims_volw_waardering",
     ctrlr: "KTOGroupV1",
@@ -277,6 +280,7 @@ const group: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
+  // besluiten
   {
     slug: "ims_volw_besluiten",
     ctrlr: "DefaultGroupV1",
@@ -346,6 +350,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],
   },
+  // toegekend/afgewezen
   {
     slug: "ims_volw_toegekend",
     ctrlr: "DefaultGroupV1",
@@ -423,6 +428,7 @@ const group: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
+  // duur
   {
     slug: "ims_volw_duur",
     ctrlr: "DefaultGroupV1",
@@ -508,6 +514,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],
   },
+  // voorraad
   {
     slug: "ims_volw_voorraad",
     ctrlr: "DefaultGroupV1",
@@ -599,6 +606,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_volw_wekelijks", "ims_volw_maandelijks"],
   },
+  // bezwaren
   {
     slug: "ims_volw_bezwaren",
     ctrlr: "DefaultGroupV1",

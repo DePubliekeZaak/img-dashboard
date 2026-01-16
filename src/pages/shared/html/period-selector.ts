@@ -5,11 +5,14 @@ import { toDutchMonths } from "../_helpers";
 
 export class HtmlPeriodSelector {
 
+    graph: boolean
+
     constructor(
         private element,
         private id: string,
+        graph : boolean = false
     ){
-       
+       this.graph = graph
     }
 
     draw(segment, index = 0) {
@@ -25,6 +28,7 @@ export class HtmlPeriodSelector {
         label.setAttribute("for", this.id + "_el" + index);
 
         let dropdown = document.createElement('select');
+        if (this.graph) dropdown.classList.add("graph_filter")
         dropdown.id = this.id + '_period_' + index;
         dropdown.style.alignSelf = 'flex-start';
         dropdown.style.maxWidth = '90vw';

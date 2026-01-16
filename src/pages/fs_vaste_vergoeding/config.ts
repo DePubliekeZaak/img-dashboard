@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping: IGroupMappingV2[] = [
+  // intro
   {
     slug: "vv_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,112 +109,32 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
-  {
-    slug: "vv_toegekend_als",
-    ctrlr: "DefaultGroupV1",
-    filters: [],
-    graphs: [
-      {
-        slug: "vv_numbers_v1",
-        ctrlr: "NumbersMultiplesV1",
-        args: [],
-        filters: [],
-        multiples: "cumulative",
-        parameters: [
-          [
-            {
-              label: "Vaste vergoeding",
-              column: "vv_toegekend_ves",
-              colour: "moss",
-              units: "vaste vergoeding",
-            },
-            {
-              label: "Aanvullende vaste vergoeding",
-              column: "vv_toegekend_avv",
-              colour: "blue",
-              units: "aanvullende vaste vergoeding",
-            }
-          ],
-          [],
-        ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "vv_afgerond_ves",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "vv_trend_toegekend_als",
-        ctrlr: "BarTrendStackedMakeup",
-        args: [],
-        filters: ["cumulativeVsDelta", "weekVsMonth"],
-        parameters: [
-          [
-            {
-              label: "Vaste vergoeding",
-              column: "vv_toegekend_ves",
-              colour: "moss",
-            },
-            {
-              label: "Aanvullende vaste vergoeding",
-              column: "vv_toegekend_avv",
-              colour: "blue",
-            }
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "vv_ingediend",
-          cumulative: false,
-          periodization: "monthly",
-        },
-      },
-    ],
-    segment: {
-      key: "vv_afgerond_ves",
-      cumulative: true,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
-  },
+  // toegekend als
+  // {
+  //   slug: "vv_toegekend_als",
+  //   ctrlr: "DefaultGroupV1",
+  //   filters: [],
+    
+  //   ],
+  //   segment: {
+  //     key: "vv_afgerond_ves",
+  //     cumulative: true,
+  //     periodization: "weekly",
+  //   },
+  //   functionality: ["table", "definitions", "download"],
+  //   endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
+  // },
+  // bedragen
   {
     slug: "vv_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_vv_numbers_2",
         ctrlr: "NumbersV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         multiples: "cumulative",
         parameters: [
           [
@@ -312,6 +233,7 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
+  // waardering
   {
     slug: "vv_waardering",
     ctrlr: "KTOGroupV1",
@@ -421,6 +343,7 @@ const mapping: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
+  // besluiten
   {
     slug: "vv_besluiten",
     ctrlr: "DefaultGroupV1",
@@ -459,6 +382,18 @@ const mapping: IGroupMappingV2[] = [
               format: "percentage",
               units: "afgehandeld binnen termijn",
             },
+                {
+              label: "Vaste vergoeding",
+              column: "vv_toegekend_ves",
+              colour: "moss",
+              units: "toegekend als VES",
+            },
+            {
+              label: "Aanvullende vaste vergoeding",
+              column: "vv_toegekend_avv",
+              colour: "blue",
+              units: "toegekend als AVV",
+            }
           ],
           [],
         ],
@@ -482,6 +417,88 @@ const mapping: IGroupMappingV2[] = [
           periodization: "weekly",
         },
       },
+      // {
+      //   slug: "vv_numbers_v1",
+      //   ctrlr: "NumbersMultiplesV1",
+      //   args: [],
+      //   filters: [],
+      //   multiples: "cumulative",
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Vaste vergoeding",
+      //         column: "vv_toegekend_ves",
+      //         colour: "moss",
+      //         units: "vaste vergoeding",
+      //       },
+      //       {
+      //         label: "Aanvullende vaste vergoeding",
+      //         column: "vv_toegekend_avv",
+      //         colour: "blue",
+      //         units: "aanvullende vaste vergoeding",
+      //       }
+      //     ],
+      //     [],
+      //   ],
+      //   modifiers: [
+      //     [
+      //       {
+      //         label: "totaal",
+      //         column: "{}_cumulatief",
+      //         colour: "orange",
+      //       },
+      //       {
+      //         label: "afgelopen week",
+      //         column: "{}",
+      //         colour: "orange",
+      //       },
+      //     ],
+      //   ],
+      //   segment: {
+      //     key: "vv_afgerond_ves",
+      //     cumulative: true,
+      //     periodization: "weekly",
+      //   },
+      // },
+      {
+        slug: "vv_trend_toegekend_als",
+        ctrlr: "BarTrendStackedMakeup",
+        args: [],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
+        parameters: [
+          [
+            {
+              label: "Vaste vergoeding (VES)",
+              column: "vv_toegekend_ves",
+              colour: "moss",
+            },
+            {
+              label: "Aanvullende vaste vergoeding (AVV)",
+              column: "vv_toegekend_avv",
+              colour: "blue",
+            }
+          ],
+        ],
+        modifiers: [
+          [
+            {
+              label: "toename",
+              column: "{}",
+              colour: "orange",
+            },
+            {
+              label: "cumulatief",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "vv_ingediend",
+          cumulative: false,
+          periodization: "monthly",
+        },
+      },
     ],
     segment: {
       key: "vv_beschikt_binn_termijn_perc",
@@ -491,6 +508,7 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
+  // toegekend/afgewezen
   {
     slug: "vv_toegekend",
     ctrlr: "DefaultGroupV1",
@@ -569,6 +587,7 @@ const mapping: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
+  // duur
   {
     slug: "vv_duur",
     ctrlr: "DefaultGroupV1",
@@ -653,6 +672,7 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
+  // voorraad
   {
     slug: "vv_voorraad",
     ctrlr: "DefaultGroupV1",
@@ -745,6 +765,7 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
   },
+  // bezwaren
   {
     slug: "vv_bezwaren",
     ctrlr: "DefaultGroupV1",

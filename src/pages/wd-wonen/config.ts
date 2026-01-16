@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "wdl_wonen_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,10 +109,11 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
   },
+  // bedragen
   {
     slug: "wdl_wonen_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_wd_wonen_numbers_2",
@@ -176,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "wdl_wonen_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -216,67 +218,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
   },
-  // {
-  //   slug: "wdl_wonen_waardering",
-  //   ctrlr: "KTOGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "wd_wonen_waardering_numbers",
-  //       ctrlr: "NumbersPlusRespondentsV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Sinds start",
-  //             column: "ims_doorlopend_cijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Totaal respondenten",
-  //             column: "ims_aantal_respondenten_doorlopend",
-  //             units: "respondenten sinds start",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //     },
-  //     {
-  //       slug: "wd_wonen_waardering_trend",
-  //       ctrlr: "BarTrendKTOV1",
-  //       args: [],
-  //       filters: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Maand cijfer",
-  //             column: "ims_maandcijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Aantal nieuwe respondenten",
-  //             column: "ims_aantal_respondenten",
-  //             colour: "orange",
-  //             units: "respondenten",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //     },
-  //   ],
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["tevredenheid", "tevredenheid"],
-  //   segment: {
-  //     key: "ims_maandcijfer",
-  //     cumulative: false,
-  //     periodization: "monthly",
-  //   },
-  // },
+  // besluiten
   {
     slug: "wdl_wonen_besluiten",
     ctrlr: "DefaultGroupV1",
@@ -346,6 +288,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
   },
+  // toegekend
   {
     slug: "wdl_wonen_toegekend",
     ctrlr: "DefaultGroupV1",
@@ -423,6 +366,7 @@ const group: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
+  // duur
   {
     slug: "wdl_wonen_duur",
     ctrlr: "DefaultGroupV1",
@@ -508,6 +452,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
   },
+  // voorraad
   {
     slug: "wdl_wonen_voorraad",
     ctrlr: "DefaultGroupV1",
@@ -600,6 +545,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_wonen_wekelijks", "wd_wonen_maandelijks"],
   },
+  // bezwaren
   {
     slug: "wdl_wonen_bezwaren",
     ctrlr: "DefaultGroupV1",

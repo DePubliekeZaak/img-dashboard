@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping: IGroupMappingV2[] = [
+  //intro
   {
     slug: "fs_totals",
     ctrlr: "DefaultGroupV1",
@@ -64,16 +65,16 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],
   },
+  // bedragen
   {
     slug: "fs_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: [],
     graphs: [
       {
         slug: "fs_totaal_numbers_2",
         ctrlr: "NumbersV1",
         args: [],
-        filters: [],
         multiples: "cumulative",
         parameters: [
           [
@@ -129,10 +130,10 @@ const mapping: IGroupMappingV2[] = [
         },
       },
       {
-        slug: "fs_bedrag_trend",
+        slug: "fs_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -159,8 +160,8 @@ const mapping: IGroupMappingV2[] = [
         ],
         segment: {
           key: "fysiek_bedrag_betaald_totaal",
-          cumulative: true,
-          periodization: "weekly",
+          cumulative: false,
+          periodization: "monthly",
         },
       },
     ],
@@ -172,67 +173,7 @@ const mapping: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],
   },
-  // // {
-  // //   slug: "fs_waardering",
-  // //   ctrlr: "KTOGroupV1",
-  // //   graphs: [
-  // //     {
-  // //       slug: "fs_waardering_numbers",
-  // //       ctrlr: "NumbersPlusRespondentsV1",
-  // //       args: [],
-  // //       parameters: [
-  // //         [
-  // //           {
-  // //             label: "Sinds start",
-  // //             column: "fysieke_schade_doorlopend_cijfer",
-  // //             colour: "orange",
-  // //             format: "decimals",
-  // //           },
-  // //         ],
-  // //         [
-  // //           {
-  // //             label: "Totaal respondenten",
-  // //             column: "fysieke_schade_aantal_respondenten_doorlopend",
-  // //             units: "respondenten sinds start",
-  // //             colour: "orange",
-  // //           },
-  // //         ],
-  // //       ],
-  // //     },
-  // //     {
-  // //       slug: "fs_waardering_trend",
-  // //       ctrlr: "BarTrendKTOV1",
-  // //       args: [],
-  // //       filters: [],
-  // //       parameters: [
-  // //         [
-  // //           {
-  // //             label: "Maand cijfer",
-  // //             column: "fysieke_schade_maandcijfer",
-  // //             colour: "orange",
-  // //             format: "decimals",
-  // //           },
-  // //         ],
-  // //         [
-  // //           {
-  // //             label: "Aantal nieuwe respondenten",
-  // //             column: "fysieke_schade_aantal_respondenten",
-  // //             colour: "orange",
-  // //             units: "respondenten",
-  // //           },
-  // //         ],
-  // //       ],
-  // //       modifiers: [],
-  // //     },
-  // //   ],
-  // //   functionality: ["table", "definitions", "download"],
-  // //   endpoints: ["tevredenheid"],
-  // //   segment: {
-  // //     key: "fysieke_schade_maandcijfer",
-  // //     cumulative: false,
-  // //     periodization: "monthly",
-  // //   },
-  // // },
+  // keuzes
   {
     slug: "fs_keuzepaden",
     ctrlr: "DefaultGroupV1",

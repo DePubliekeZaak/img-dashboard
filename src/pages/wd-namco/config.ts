@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
+  // intro
   {
     slug: "wdl_namco_intro",
     ctrlr: "DefaultGroupV1",
@@ -108,6 +109,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
   },
+  // bedragen
   {
     slug: "wdl_namco_bedragen",
     ctrlr: "DefaultGroupV1",
@@ -216,67 +218,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
   },
-  // {
-  //   slug: "wd_namco_waardering",
-  //   ctrlr: "KTOGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "wd_namco_waardering_numbers",
-  //       ctrlr: "NumbersPlusRespondentsV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Sinds start",
-  //             column: "ims_doorlopend_cijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Totaal respondenten",
-  //             column: "ims_aantal_respondenten_doorlopend",
-  //             units: "respondenten sinds start",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //     },
-  //     {
-  //       slug: "wd_namco_waardering_trend",
-  //       ctrlr: "BarTrendKTOV1",
-  //       args: [],
-  //       filters: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Maand cijfer",
-  //             column: "ims_maandcijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Aantal nieuwe respondenten",
-  //             column: "ims_aantal_respondenten",
-  //             colour: "orange",
-  //             units: "respondenten",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //     },
-  //   ],
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["tevredenheid", "tevredenheid"],
-  //   segment: {
-  //     key: "ims_maandcijfer",
-  //     cumulative: false,
-  //     periodization: "monthly",
-  //   },
-  // },
+  // besluiten
   {
     slug: "wdl_namco_besluiten",
     ctrlr: "DefaultGroupV1",
@@ -347,6 +289,7 @@ const group: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
   },
+  // toegekend
   {
     slug: "wdl_namco_toegekend",
     ctrlr: "DefaultGroupV1",
@@ -424,177 +367,7 @@ const group: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
-  // {
-  //   slug: "wdl_namco_duur",
-  //   ctrlr: "DefaultGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "wd_namco_duur_numbers_v1",
-  //       ctrlr: "NumbersMultiplesTitledV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "incremental",
-  //       parameters: [
-  //         [
-            
-  //           {
-  //             label: "Mediaan",
-  //             column: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
-  //             colour: "orange",
-  //             units: "gerealiseerd aantal dagen",
-  //           },
-  //           {
-  //             label: "Gemiddelde",
-  //             column: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
-  //             colour: "blue",
-  //             units: "gerealiseerd aantal dagen",
-  //           },
-  //           {
-  //             label: "Verwacht",
-  //             column: "wd_namco_dlt_verwacht_rolling8_dagen",
-  //             colour: "moss",
-  //             units: "aantal dagen",
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //     {
-  //       slug: "wd_namco_duur_trend",
-  //       ctrlr: "BarTrendV1",
-  //       filters: ["parameterSelect"],
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-  //             column: "wd_namco_dlt_gerealiseerd_gemiddeld_dagen",
-  //             colour: "blue",
-  //             units: "gemiddeld gerealiseerd aantal dagen",
-  //           },
-  //           {
-  //             label: "Verwacht aantal dagen tot besluit",
-  //             column: "wd_namco_dlt_verwacht_rolling8_dagen",
-  //             colour: "moss",
-  //             units: "verwacht aantal dagen",
-  //           },
-  //           {
-  //             label: "Gerealiseerde mediaan aantal dagen tot besluit",
-  //             column: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
-  //             colour: "orange",
-  //             units: "mediaan gerealiseerd aantal dagen",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //         label: "dagen",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "wd_namco_dlt_gerealiseerd_mediaan_dagen",
-  //     cumulative: false,
-  //     periodization: "monthly",
-  //     label: "dagen",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
-  // },
-  // {
-  //   slug: "wd_namco_voorraad",
-  //   ctrlr: "DefaultGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "wd_namco_voorrraad_getallen",
-  //       ctrlr: "NumbersMultiplesTitledV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "incremental",
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Beslistermijn",
-  //             column: "wd_namco_beslistermijn_dagen",
-  //             colour: "moss",
-  //             units: "dagen",
-  //           },
-  //           {
-  //             label: "Mediaan",
-  //             column: "wd_namco_oud_voorraad_mediaan_dagen",
-  //             colour: "orange",
-  //             units: "dagen in voorraad",
-  //           },
-  //           {
-  //             label: "Gemiddelde",
-  //             column: "wd_namco_oud_voorraad_gemiddeld_dagen",
-  //             colour: "blue",
-  //             units: "dagen in voorraad",
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "wd_namco_oud_voorraad_gemiddeld_dagen",
-  //         cumulative: false,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //     {
-  //       slug: "wd_namco_voorraad_groepen",
-  //       ctrlr: "SegmentsV1",
-  //       args: [],
-  //       filters: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "< 182 dagen",
-  //             column: "wd_namco_oud_voorraad_binnen_termijn",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "182 - 364 dagen",
-  //             column: "wd_namco_oud_voorraad_1_2_termijn",
-  //             colour: "moss",
-  //           },
-  //           {
-  //             label: "364 - 728 dagen",
-  //             column: "wd_namco_oud_voorraad_2_4_termijn",
-  //             colour: "blue",
-  //           },
-  //           {
-  //             label: "> 728 dagen",
-  //             column: "wd_namco_oud_voorraad_buiten_4_termijn",
-  //             colour: "purple",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "wd_namco_oud_voorraad_binnen_termijn",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //     //
-  //   ],
-  //   segment: {
-  //     key: "wd_namco_oud_voorraad_binnen_termijn",
-  //     cumulative: false,
-  //     periodization: "monthly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["wd_namco_wekelijks", "wd_namco_maandelijks"],
-  // },
+  // bezwaren
   {
     slug: "wdl_namco_bezwaren",
     ctrlr: "DefaultGroupV1",

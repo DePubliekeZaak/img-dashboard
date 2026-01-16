@@ -1,6 +1,7 @@
 import { IGroupMappingV2 } from "../shared/interfaces";
 
 const mappings: IGroupMappingV2[] = [
+  // intro
   {
     slug: "all_totals",
     ctrlr: "DefaultGroupV1",
@@ -71,6 +72,7 @@ const mappings: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["all_wekelijks", "all_maandelijks"],
   },
+  // waardering
   {
     slug: "all_waardering",
     ctrlr: "KTOGroupV1",
@@ -142,6 +144,7 @@ const mappings: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["tevredenheid"],
   },
+  // overzicht
   {
     slug: "all_regelingen_overzicht",
     ctrlr: "DefaultGroupV1",
@@ -238,6 +241,7 @@ const mappings: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["all_wekelijks", "all_maandelijks"],
   },
+  // vergelijk
   {
     slug: "all_vergelijk",
     ctrlr: "DefaultGroupV1",
