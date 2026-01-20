@@ -47,6 +47,7 @@ export type Segment = {
   label?: string;
   normalized?: boolean;
   yearmonth?: string;
+  // weekOnly?: boolean;
 };
 
 export type Timeline = {

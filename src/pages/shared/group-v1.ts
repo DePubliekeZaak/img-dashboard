@@ -162,6 +162,8 @@ export class GroupControllerV1 implements IGroupCtrlr {
     tableParams = removeDuplicates(tableParams);
     graphParams = removeDuplicates(graphParams);
 
+    console.log(tableParams)
+
     // tableParams = tableParams.filter ( p => !p.column.includes("_cumulatief"))
 
     let graphDataWeek: any[] = [];

@@ -460,45 +460,45 @@ const mapping: IGroupMappingV2[] = [
       //     periodization: "weekly",
       //   },
       // },
-      {
-        slug: "vv_trend_toegekend_als",
-        ctrlr: "BarTrendStackedMakeup",
-        args: [],
-        filters: ["cumulativeVsDelta", "weekVsMonth"],
-        parameters: [
-          [
-            {
-              label: "Vaste vergoeding (VES)",
-              column: "vv_toegekend_ves",
-              colour: "moss",
-            },
-            {
-              label: "Aanvullende vaste vergoeding (AVV)",
-              column: "vv_toegekend_avv",
-              colour: "blue",
-            }
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "vv_ingediend",
-          cumulative: false,
-          periodization: "monthly",
-        },
-      },
+      // {
+      //   slug: "vv_trend_toegekend_als",
+      //   ctrlr: "BarTrendStackedMakeup",
+      //   args: [],
+      //   filters: ["cumulativeVsDelta", "weekVsMonth"],
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Vaste vergoeding (VES)",
+      //         column: "vv_toegekend_ves",
+      //         colour: "moss",
+      //       },
+      //       {
+      //         label: "Aanvullende vaste vergoeding (AVV)",
+      //         column: "vv_toegekend_avv",
+      //         colour: "blue",
+      //       }
+      //     ],
+      //   ],
+      //   modifiers: [
+      //     [
+      //       {
+      //         label: "toename",
+      //         column: "{}",
+      //         colour: "orange",
+      //       },
+      //       {
+      //         label: "cumulatief",
+      //         column: "{}_cumulatief",
+      //         colour: "orange",
+      //       },
+      //     ],
+      //   ],
+      //   segment: {
+      //     key: "vv_ingediend",
+      //     cumulative: false,
+      //     periodization: "monthly",
+      //   },
+      // },
     ],
     segment: {
       key: "vv_beschikt_binn_termijn_perc",
@@ -521,11 +521,14 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Toegekend",
-              column: "vv_toegekend_cumulatief",
+              label: "Toegekend als VES",
+              column: "vv_toegekend_ves_cumulatief",
               colour: "moss",
-              scale: "null",
-              format: "",
+            },
+            {
+              label: "Toegekend als AVV",
+              column: "vv_toegekend_avv_cumulatief",
+              colour: "blue",
             },
             {
               label: "Afgewezen",
@@ -554,11 +557,14 @@ const mapping: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Toegekend",
-              column: "vv_toegekend",
+              label: "Vaste vergoeding (VES)",
+              column: "vv_toegekend_ves",
               colour: "moss",
-              scale: "null",
-              format: "",
+            },
+            {
+              label: "Aanvullende vaste vergoeding (AVV)",
+              column: "vv_toegekend_avv",
+              colour: "blue",
             },
             {
               label: "Afgewezen",

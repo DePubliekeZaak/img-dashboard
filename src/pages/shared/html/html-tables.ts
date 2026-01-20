@@ -47,6 +47,7 @@ export class HTMLTables {
     this.toggler.setAttribute("role", "group");
     this.toggler.setAttribute("aria-label", "Tabel periode selectie");
     this.monthly = this.segment.periodization == "monthly" ? true : false;
+    console.log("M",this.monthly)
     this.toggler.setAttribute("data-active", this.monthly ? "month" : "week");
 
     // Create slider element (decorative, hidden from screen readers)
@@ -61,7 +62,7 @@ export class HTMLTables {
     monthOption.classList.add("toggler-option");
     monthOption.textContent = "Maand";
     monthOption.setAttribute("type", "button");
-    monthOption.setAttribute("aria-pressed", this.monthly ? "true" : "false");
+    monthOption.setAttribute("aria-pressed", !this.monthly ? "true" : "false");
     monthOption.setAttribute("aria-label", "Toon maandelijkse data");
     monthOption.setAttribute("tabindex", "0");
     if (this.monthly) monthOption.classList.add("active");
@@ -72,7 +73,7 @@ export class HTMLTables {
     weekOption.classList.add("toggler-option");
     weekOption.textContent = "Week";
     weekOption.setAttribute("type", "button");
-    weekOption.setAttribute("aria-pressed", !this.monthly ? "true" : "false");
+    weekOption.setAttribute("aria-pressed", this.monthly ? "true" : "false");
     weekOption.setAttribute("aria-label", "Toon wekelijkse data");
     weekOption.setAttribute("tabindex", "0");
     if (!this.monthly) weekOption.classList.add("active");
@@ -158,11 +159,12 @@ export class HTMLTables {
 
     this.monthTable.appendChild(this.monthThead);
     this.monthTable.appendChild(this.monthTbody);
+    if (!this.monthly) { this.monthTable.classList.add("hidden"); }
     this.scrolltainer.appendChild(this.monthTable);
 
     this.weekTable = this.ctrlr.page.main.window.document.createElement("table");
     this.weekTable.setAttribute("id", "week-table");
-    this.weekTable.classList.add("hidden");
+    if (this.monthly) { this.weekTable.classList.add("hidden"); }
     this.weekThead = this.ctrlr.page.main.window.document.createElement("thead");
     this.weekTbody = this.ctrlr.page.main.window.document.createElement("tbody");
 
@@ -182,11 +184,14 @@ export class HTMLTables {
     this.weekThead.innerHTML = "";
     this.weekTbody.innerHTML = "";
 
+    console.log(data)
+
     // Check if month table has data
     const hasMonthData =
+    !this.segment.weekOnly && (
       data.monthTable &&
       data.monthTable.rows &&
-      data.monthTable.rows.length > 0;
+      data.monthTable.rows.length > 0);
 
     // Show/hide toggler based on whether both tables have data
     if (hasMonthData) {

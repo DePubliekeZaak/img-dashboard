@@ -68,6 +68,23 @@ export class HtmlHeader {
     const hasPattern = /{(\w+)}/.test(this.description);
     const descEl = this.headerElement.querySelector("div");
     let description = "";
+    
+    // Helper function to format euro amounts
+    const formatEuro = (value: number): string => {
+      if (value >= 1_000_000_000) {
+        return `${(value / 1_000_000_000).toFixed(2).replace('.', ',')} miljard`;
+      } else if (value >= 1_000_000) {
+        return `${(value / 1_000_000).toFixed(1).replace('.', ',')} miljoen`;
+      } else {
+        return `€${thousands(value)}`;
+      }
+    };
+    
+    // Helper function to check if a key represents a euro amount
+    const isEuroAmount = (key: string): boolean => {
+      return key.toLowerCase().includes('bedrag') || key.toLowerCase().includes('euro');
+    };
+    
     if (hasPattern && currentData) {
       if (currentData._yearweek != undefined) {
         description = this.description
@@ -78,13 +95,14 @@ export class HtmlHeader {
           .replace(
             /{\s*(\w+)\s*}/g,
             (_, key) => {
-
               const value = currentData[key];
 
               if (value === null || value === undefined) {
-                return "-"; // or "N/A" or whatever you prefer
-              } else{
-                return thousands(value) || `{${key}}`
+                return "-";
+              } else if (isEuroAmount(key) && typeof value === 'number') {
+                return formatEuro(value);
+              } else {
+                return thousands(value) || `{${key}}`;
               }
             });
       }

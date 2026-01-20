@@ -468,7 +468,7 @@ const mappings: IGroupMappingV2[] = [
         parameters: [
           [
             {
-              label: "Duur",
+              label: "Mediaan",
               column: "wdnw_mediaan_dagen",
               colour: "orange",
               units: "mediaan dagen tot besluit",
@@ -507,7 +507,7 @@ const mappings: IGroupMappingV2[] = [
     segment: {
       key: "wdnw_mediaan_dagen",
       cumulative: false,
-      periodization: "weekly",
+      periodization: "weekly"
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["all_wekelijks", "all_maandelijks", "tevredenheid"], // beter apart eindpunt maken 
