@@ -840,10 +840,7 @@
         "maatwerk"
       ],
       "definitions": [
-        "Aanvragen",
-        "Fysieke schade",
-        "Afgehandeld",
-        "Verleend"
+        "Fysieke schade"
       ],
       "timeline": [
         "Garrelsweer",
@@ -854,8 +851,8 @@
         "Westerwijtwerd",
         "Wirdum"
       ],
-      "content": "Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn.",
-      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn. In die gevallen wordt de aanvraag afgewezen. \n\nHet aantal toekenningen wordt uitsplitst in Maatwerk, Herstel met eigen aannemer en Herstel met aannemer IMG. In de afwijzingen wordt dit onderscheid niet gemaakt omdat de aanvraag voor beide keuzes niet in aanmerking kwam",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien. Voor Maatwerk met onderzoek kan het zijn dat er niet aan de voorwaarden is voldaan of dat er geen schades zijn gevonden die door de gaswinning veroorzaakt zijn. In die gevallen wordt de aanvraag afgewezen.&nbsp;</p>\n<p dir=\"auto\">Het aantal toekenningen wordt uitsplitst in Maatwerk, Herstel met eigen aannemer en Herstel met aannemer IMG. In de afwijzingen wordt dit onderscheid niet gemaakt omdat de aanvraag voor beide keuzes niet in aanmerking kwam</p>"
     },
     {
       "name": "maatwerk_ontwikkeling",
@@ -1971,8 +1968,8 @@
         "Verleend"
       ],
       "timeline": [],
-      "content": "Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.  De mediaan is het aantal dagen waarbinnen de helft van de aanvragen is afgehandeld.\n\nEen aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.",
-      "description": "<p dir=\"auto\">Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.  De mediaan is het aantal dagen waarbinnen de helft van de aanvragen is afgehandeld.</p>\n<p dir=\"auto\">Een aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.</p>"
+      "content": "Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.  De mediaan is het aantal dagen waarbinnen de helft van de aanvragen is afgehandeld.\n\nEen aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.7",
+      "description": "<p dir=\"auto\">Tussen de regelingen zitten verschillen. Bijvoorbeeld in hoe snel een besluit wordt genomen, hoeveel aanvragen worden toegekend, hoeveel mensen bezwaar maken en hoe aanvragers het IMG waarderen.  De mediaan is het aantal dagen waarbinnen de helft van de aanvragen is afgehandeld.</p>\n<p dir=\"auto\">Een aanvraag voor Maatwerk met onderzoek duurt bijvoorbeeld langer dan voor de vaste vergoeding. Dat komt doordat er meer onderzoek nodig is voordat we een besluit kunnen nemen. Ook valt op dat de waardering voor immateriële schade lager is. Dit hangt samen met het hoge aantal afwijzingen binnen deze regeling.7</p>"
     },
     {
       "name": "all_totals",
@@ -1993,7 +1990,7 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-01-20T11:10:20.048Z",
+    "generatedAt": "2026-01-21T11:21:53.737Z",
     "totalGroups": 127,
     "sourceFiles": [
       "wdl_wonen_intro.group.md",

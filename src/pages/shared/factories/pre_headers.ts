@@ -155,24 +155,22 @@ export const preHeaders = (graphs: any[], segment: any) => {
       [
         { label: "", length: 3 },
         {
-          label: "Cumulatief",
-          length: graphs[0].parameters[0].concat(graphs[0].parameters[1])
-            .length,
+          label: "Per week",
+          length: 3,
         },
         {
-          label: "Per week",
+          label: "Cumulatief",
           length: graphs[0].parameters[0].length,
         },
       ],
       [
         { label: "", length: 3 },
         {
-          label: "Cumulatief",
-          length: graphs[0].parameters[0].concat(graphs[0].parameters[1])
-            .length,
+          label: "Per week",
+          length: 3,
         },
         {
-          label: "Per maand",
+          label: "Cumulatief",
           length: graphs[0].parameters[0].length,
         },
       ],

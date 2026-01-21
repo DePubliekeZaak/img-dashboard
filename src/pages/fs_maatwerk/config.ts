@@ -319,6 +319,24 @@ const group: IGroupMappingV2[] = [
               format: "percentage",
               units: "afgehandeld binnen termijn",
             },
+            // {
+            //   label: "Toegekend als maatwerk",
+            //   column: "toegekend_als_maatwerk",
+            //   colour: "purple",
+            //   units: "toegekend als maatwerk"
+            // },
+            // {
+            //   label: "Toegekend als maatwerk",
+            //   column: "toegekend_als_herstel_aannemer_instituut",
+            //   colour: "yellow",
+            //   units: "herstel aannemer instituut"
+            // },
+            // {
+            //   label: "Toegekend als maatwerk",
+            //   column: "toegekend_als_herstel_eigen_aannemer",
+            //   colour: "green",
+            //   units: "herstel eigen aannemer"
+            // }
           ],
           [],
         ],
@@ -350,6 +368,190 @@ const group: IGroupMappingV2[] = [
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
+  },
+  // toegekend/afgewezen
+  {
+    slug: "maatwerk_toegekend",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
+      {
+        slug: "fs_maatwerk_numbers_toekenningen_v1",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: [],
+        multiples: "cumulative",
+        parameters: [
+          [
+            // {
+            //   label: "Afgehandeld",
+            //   column: "maatwerk_afgerond",
+            //   colour: "moss",
+            //   units: "afgehandeld",
+            // },
+            // {
+            //   label: "Besluiten",
+            //   column: "maatwerk_beschikt",
+            //   colour: "blue",
+            //   units: "besluiten",
+            // },
+            // {
+            //   label: "Anders afgehandeld",
+            //   column: "maatwerk_anders_afgehandeld",
+            //   colour: "orange",
+            //   units: "anders afgehandeld",
+            // },
+            // {
+            //   label: "Percentage binnen termijn",
+            //   column: "maatwerk_beschikt_binn_termijn_perc",
+            //   colour: "moss",
+            //   format: "percentage",
+            //   units: "afgehandeld binnen termijn",
+            // },
+            {
+              label: "Toegekend als maatwerk",
+              column: "toegekend_als_maatwerk",
+              colour: "moss",
+              units: "toegekend als maatwerk"
+            },
+            {
+              label: "Toegekend als HEA",
+              column: "toegekend_als_herstel_eigen_aannemer",
+              colour: "purple",
+              units: "toegekend als HEA"
+            },
+            {
+              label: "Toegekend als HAI",
+              column: "toegekend_als_herstel_aannemer_instituut",
+              colour: "blue",
+              units: "toegekend als HAI"
+            },
+            {
+              label: "Afgewezen",
+              column: "maatwerk_afgewezen",
+              colour: "orange",
+              units: "afgewezen",
+              excludeFromTable: true
+
+            },
+          ],
+          [],
+        ],
+        modifiers: [
+          [
+            {
+              label: "totaal",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+            {
+              label: "afgelopen week",
+              column: "{}",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "maatwerk_beschikt",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "fs_maatwerk_toegekend_taart",
+        ctrlr: "PieChartSumV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Toegekend als MW",
+              column: "toegekend_als_maatwerk_cumulatief",
+              colour: "moss",
+              units: "toegekend als MW"
+            },
+            {
+              label: "Toegekend als HEA",
+              column: "toegekend_als_herstel_eigen_aannemer_cumulatief",
+              colour: "purple",
+              units: "toegekend als HEA"
+            },
+            {
+              label: "Toegekend als HAI",
+              column: "toegekend_als_herstel_aannemer_instituut_cumulatief",
+              colour: "blue",
+              units: "toegekend als HAI"
+            },
+            {
+              label: "Afgewezen",
+              column: "maatwerk_afgewezen_cumulatief",
+              colour: "orange",
+              scale: "null",
+              format: "",
+            },
+          ],
+          [
+            {
+              label: "Besluiten",
+              column: "maatwerk_beschikt_cumulatief",
+              colour: "gray",
+              scale: "null",
+              format: "",
+              excludeFromTable: true
+            },
+          ],
+        ],
+      },
+      {
+        slug: "fs_maatwerk_toegekend_trend",
+        ctrlr: "BarTrendStackedMakeup",
+        filters: ["absoluteVsNormalized", "weekVsMonth"],
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Toegekend als MW",
+              column: "toegekend_als_maatwerk",
+              colour: "moss",
+              units: "toegekend als MW"
+            },
+            {
+              label: "Toegekend als HAI",
+              column: "toegekend_als_herstel_aannemer_instituut",
+              colour: "blue",
+              units: "toegekend als HAI"
+            },
+            {
+              label: "Toegekend als HEA",
+              column: "toegekend_als_herstel_eigen_aannemer",
+              colour: "purple",
+              units: "toegekend als HEA"
+            },
+            {
+              label: "Afgewezen",
+              column: "maatwerk_afgewezen",
+              colour: "orange",
+              scale: "null",
+              format: "",
+              excludeFromTable: true
+            },
+          ],
+        ],
+        segment: {
+          key: "maatwerk_toegekend",
+          cumulative: false,
+          periodization: "monthly",
+          label: "besluiten",
+          normalized: false,
+        },
+      },
+    ],
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
+    segment: {
+      key: "maatwerk_toegekend_cumulatief",
+      cumulative: true,
+      periodization: "weekly",
+    },
   },
   // termijn
   {
@@ -420,84 +622,6 @@ const group: IGroupMappingV2[] = [
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
-  },
-  // toegekend/afgewezen
-  {
-    slug: "maatwerk_toegekend",
-    ctrlr: "DefaultGroupV1",
-    filters: [],
-    graphs: [
-      {
-        slug: "fs_maatwerk_toegekend_taart",
-        ctrlr: "PieChartSumV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "maatwerk_toegekend_cumulatief",
-              colour: "moss",
-              scale: "null",
-              format: "",
-            },
-            {
-              label: "Afgewezen",
-              column: "maatwerk_afgewezen_cumulatief",
-              colour: "orange",
-              scale: "null",
-              format: "",
-            },
-          ],
-          [
-            {
-              label: "Besluiten",
-              column: "maatwerk_beschikt_cumulatief",
-              colour: "gray",
-              scale: "null",
-              format: "",
-            },
-          ],
-        ],
-      },
-      {
-        slug: "fs_maatwerk_toegekend_trend",
-        ctrlr: "BarTrendStackedMakeup",
-        filters: ["absoluteVsNormalized", "weekVsMonth"],
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "maatwerk_toegekend",
-              colour: "moss",
-              scale: "null",
-              format: "",
-            },
-            {
-              label: "Afgewezen",
-              column: "maatwerk_afgewezen",
-              colour: "orange",
-              scale: "null",
-              format: "",
-            },
-          ],
-        ],
-        segment: {
-          key: "maatwerk_toegekend",
-          cumulative: false,
-          periodization: "monthly",
-          label: "besluiten",
-          normalized: false,
-        },
-      },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
-    segment: {
-      key: "maatwerk_toegekend_cumulatief",
-      cumulative: true,
-      periodization: "weekly",
-    },
   },
   // duur
   {
@@ -645,7 +769,7 @@ const group: IGroupMappingV2[] = [
         ],
         modifiers: [],
         segment: {
-          key: "maatwerk_oud_voorraad_gemiddeld_dagen",
+          key: "maatwerk_beslistermijn_dagen",
           cumulative: false,
           periodization: "weekly",
         },

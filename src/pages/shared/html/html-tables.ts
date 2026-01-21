@@ -184,8 +184,6 @@ export class HTMLTables {
     this.weekThead.innerHTML = "";
     this.weekTbody.innerHTML = "";
 
-    console.log(data)
-
     // Check if month table has data
     const hasMonthData =
     !this.segment.weekOnly && (
