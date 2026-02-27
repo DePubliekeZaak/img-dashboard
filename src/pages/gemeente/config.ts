@@ -16,96 +16,78 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "afgehandeld"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ],
-                    [
-                    ]
+                    []
                 ],
                 "modifiers" : [
                     [
                         {
                             "label": "maatwerk",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         }, 
                         {
                             "label": "afgelopen week",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
-                          
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": true,
                     "periodization": "latest",
-                    // "gemeente": "Groningen"
                 }
             },
             {
                 "slug" : "gemeente_trend",
-                "ctrlr" : "BarTrendV1",
+                "ctrlr" : "BarTrendV1R",
                 "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "filters": ["parameterSelect","cumulativeVsDelta"],
                 "parameters": [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "afgehandeld"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ]
                 ],
                 "modifiers" : [
                     [
                         {
                             "label": "toename",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
                         {
                             "label": "cumulatief",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         },   
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": false,
                     "periodization": "monthly",
-                    // "gemeente": "Groningen"
                 }
             },
             {
@@ -116,14 +98,14 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Toegekend",
-                            "column": "toekenningen_cumulatief",
+                            "column": "toegekend_cumul",
                             "colour": "moss",  
                             "scale" : "null",
                             "format": ""
                         },
                         {
                             "label": "Afgewezen",
-                            "column": "afwijzingen_cumulatief",
+                            "column": "afgewezen_cumul",
                             "colour": "orange",
                             "scale" : "null",
                             "format": ""
@@ -132,7 +114,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Afgehandeld",
-                            "column": "afgehandeld_cumulatief",
+                            "column": "afgerond_cumul",
                             "colour": "gray",
                             "scale" : "null",
                             "format": ""
@@ -142,13 +124,13 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key": "maatwerk_meldingen",
+            "key": "ingediend",
             "cumulative": true,
             "periodization": "monthly",
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gem_maandelijks?domein_code=eq.MW","gem_wekelijks?domein_code=eq.MW"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW","gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc"],
     },
     {
         "slug" : "gemeenten_vv",
@@ -165,96 +147,78 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "zaken"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ],
-                    [
-                    ]
+                    []
                 ],
                 "modifiers" : [
                     [
                         {
-                            "label": "maatwerk",
-                            "column": "{}_cumulatief",
+                            "label": "vaste vergoeding",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         }, 
                         {
                             "label": "afgelopen week",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
-                          
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": true,
                     "periodization": "latest",
-                    // "gemeente": "Groningen"
                 }
             },
             {
                 "slug" : "gemeente_trend_vv",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "filters": ["parameterSelect","cumulativeVsDelta"],
                 "parameters": [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ]
                 ],
                 "modifiers" : [
                     [
                         {
                             "label": "toename",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
                         {
                             "label": "cumulatief",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         },   
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": false,
                     "periodization": "monthly",
-                    // "gemeente": "Groningen"
                 }
             },
             {
@@ -265,14 +229,14 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Toegekend",
-                            "column": "toekenningen_cumulatief",
+                            "column": "toegekend_cumul",
                             "colour": "moss",  
                             "scale" : "null",
                             "format": ""
                         },
                         {
                             "label": "Afgewezen",
-                            "column": "afwijzingen_cumulatief",
+                            "column": "afgewezen_cumul",
                             "colour": "orange",
                             "scale" : "null",
                             "format": ""
@@ -281,7 +245,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Afgehandeld",
-                            "column": "afgehandeld_cumulatief",
+                            "column": "afgerond_cumul",
                             "colour": "gray",
                             "scale" : "null",
                             "format": ""
@@ -291,13 +255,13 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key": "maatwerk_meldingen",
+            "key": "ingediend",
             "cumulative": true,
             "periodization": "monthly",
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gem_maandelijks?domein_code=eq.VV","gem_wekelijks?domein_code=eq.VV"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.VV","gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.VV&order=periode.desc"],
     },
     {
         "slug" : "gemeenten_ims",
@@ -314,96 +278,78 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "zaken"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ],
-                    [
-                    ]
+                    []
                 ],
                 "modifiers" : [
                     [
                         {
-                            "label": "maatwerk",
-                            "column": "{}_cumulatief",
+                            "label": "immaterieel",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         }, 
                         {
                             "label": "afgelopen week",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
-                          
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": true,
                     "periodization": "latest",
-                    // "gemeente": "Groningen"
                 }
             },
             {
                 "slug" : "gemeente_trend_ims",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "filters": ["parameterSelect","cumulativeVsDelta"],
                 "parameters": [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ]
                 ],
                 "modifiers" : [
                     [
                         {
                             "label": "toename",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
                         {
                             "label": "cumulatief",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         },   
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": false,
                     "periodization": "monthly",
-                    // "gemeente": "Groningen"
                 }
             },
             {
@@ -414,14 +360,14 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Toegekend",
-                            "column": "toekenningen_cumulatief",
+                            "column": "toegekend_cumul",
                             "colour": "moss",  
                             "scale" : "null",
                             "format": ""
                         },
                         {
                             "label": "Afgewezen",
-                            "column": "afwijzingen_cumulatief",
+                            "column": "afgewezen_cumul",
                             "colour": "orange",
                             "scale" : "null",
                             "format": ""
@@ -430,7 +376,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Afgehandeld",
-                            "column": "afgehandeld_cumulatief",
+                            "column": "afgerond_cumul",
                             "colour": "gray",
                             "scale" : "null",
                             "format": ""
@@ -440,13 +386,13 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key": "meldingen",
+            "key": "ingediend",
             "cumulative": true,
             "periodization": "monthly",
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gem_maandelijks?domein_code=eq.IMS","gem_wekelijks?domein_code=eq.IMS"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMS","gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMS&order=periode.desc"],
     },
     {
         "slug" : "gemeenten_imk",
@@ -463,96 +409,78 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "zaken"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ],
-                    [
-                    ]
+                    []
                 ],
                 "modifiers" : [
                     [
                         {
-                            "label": "maatwerk",
-                            "column": "{}_cumulatief",
+                            "label": "kindregeling",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         }, 
                         {
                             "label": "afgelopen week",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
-                          
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": true,
                     "periodization": "latest",
-                    // "gemeente": "Groningen"
                 }
             },
             {
                 "slug" : "gemeente_trend_imk",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "filters": ["parameterSelect","cumulativeVsDelta"],
                 "parameters": [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ]
                 ],
                 "modifiers" : [
                     [
                         {
                             "label": "toename",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
                         {
                             "label": "cumulatief",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         },   
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": false,
                     "periodization": "monthly",
-                    // "gemeente": "Groningen"
                 }
             },
             {
@@ -563,14 +491,14 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Toegekend",
-                            "column": "toekenningen_cumulatief",
+                            "column": "toegekend_cumul",
                             "colour": "moss",  
                             "scale" : "null",
                             "format": ""
                         },
                         {
                             "label": "Afgewezen",
-                            "column": "afwijzingen_cumulatief",
+                            "column": "afgewezen_cumul",
                             "colour": "orange",
                             "scale" : "null",
                             "format": ""
@@ -579,7 +507,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Afgehandeld",
-                            "column": "afgehandeld_cumulatief",
+                            "column": "afgerond_cumul",
                             "colour": "gray",
                             "scale" : "null",
                             "format": ""
@@ -589,13 +517,13 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key": "meldingen",
+            "key": "ingediend",
             "cumulative": true,
             "periodization": "monthly",
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gem_maandelijks?domein_code=eq.IMK","gem_wekelijks?domein_code=eq.IMK"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMK","gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMK&order=periode.desc"],
     },
     {
         "slug" : "gemeenten_wd",
@@ -612,96 +540,78 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "zaken"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ],
-                    [
-                    ]
+                    []
                 ],
                 "modifiers" : [
                     [
                         {
-                            "label": "maatwerk",
-                            "column": "{}_cumulatief",
+                            "label": "waardedaling",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         }, 
                         {
                             "label": "afgelopen week",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
-                          
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": true,
                     "periodization": "latest",
-                    // "gemeente": "Groningen"
                 }
             },
             {
                 "slug" : "gemeente_trend_wd",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "filters": ["parameterSelect","cumulativeVsDelta"],
                 "parameters": [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ]
                 ],
                 "modifiers" : [
                     [
                         {
                             "label": "toename",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
                         {
                             "label": "cumulatief",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         },   
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": false,
                     "periodization": "monthly",
-                    // "gemeente": "Groningen"
                 }
             },
             {
@@ -712,14 +622,14 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Toegekend",
-                            "column": "toekenningen_cumulatief",
+                            "column": "toegekend_cumul",
                             "colour": "moss",  
                             "scale" : "null",
                             "format": ""
                         },
                         {
                             "label": "Afgewezen",
-                            "column": "afwijzingen_cumulatief",
+                            "column": "afgewezen_cumul",
                             "colour": "orange",
                             "scale" : "null",
                             "format": ""
@@ -728,7 +638,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Afgehandeld",
-                            "column": "afgehandeld_cumulatief",
+                            "column": "afgerond_cumul",
                             "colour": "gray",
                             "scale" : "null",
                             "format": ""
@@ -738,13 +648,13 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key": "meldingen",
+            "key": "ingediend",
             "cumulative": true,
             "periodization": "monthly",
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gem_maandelijks?domein_code=eq.WD","gem_wekelijks?domein_code=eq.WD"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WD","gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WD&order=periode.desc"],
     },
     {
         "slug" : "gemeenten_wnw",
@@ -761,96 +671,78 @@ const group : IGroupMappingV2[] = [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "zaken"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ],
-                    [
-                    ]
+                    []
                 ],
                 "modifiers" : [
                     [
                         {
-                            "label": "maatwerk",
-                            "column": "{}_cumulatief",
+                            "label": "niet-woningen",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         }, 
                         {
                             "label": "afgelopen week",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
-                          
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": true,
                     "periodization": "latest",
-                    // "gemeente": "Groningen"
                 }
             },
             {
                 "slug" : "gemeente_trend_wnw",
                 "ctrlr" : "BarTrendV1",
                 "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"], // ,"weekVsMonth"
+                "filters": ["parameterSelect","cumulativeVsDelta"],
                 "parameters": [
                     [
                         { 
                             "label" : "Meldingen",
-                            "column" : "meldingen",
+                            "column" : "ingediend",
                             "colour" : "orange",
                             "units" : "meldingen"
                         },
                         { 
                             "label" : "Afgehandeld",
-                            "column" : "afgehandeld",
+                            "column" : "afgerond",
                             "colour" : "moss",
                             "units": "besluiten"
                         },
-                        // { 
-                        //     "label" : "Verleend",
-                        //     "column" : "verleend_bedrag",
-                        //     "colour" : "blue",
-                        //     "format" : "currency",
-                        //     "units" : "verleend"
-                        // }
                     ]
                 ],
                 "modifiers" : [
                     [
                         {
                             "label": "toename",
-                            "column": "{}",
+                            "column": "{}_aantal",
                             "colour": "orange"
                         },
                         {
                             "label": "cumulatief",
-                            "column": "{}_cumulatief",
+                            "column": "{}_cumul",
                             "colour": "orange"
                         },   
                     ]
                 ],
                 "segment": {
-                    "key": "meldingen",
+                    "key": "ingediend",
                     "cumulative": false,
                     "periodization": "monthly",
-                    // "gemeente": "Groningen"
                 }
             },
             {
@@ -861,14 +753,14 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Toegekend",
-                            "column": "toekenningen_cumulatief",
+                            "column": "toegekend_cumul",
                             "colour": "moss",  
                             "scale" : "null",
                             "format": ""
                         },
                         {
                             "label": "Afgewezen",
-                            "column": "afwijzingen_cumulatief",
+                            "column": "afgewezen_cumul",
                             "colour": "orange",
                             "scale" : "null",
                             "format": ""
@@ -877,7 +769,7 @@ const group : IGroupMappingV2[] = [
                     [
                         {
                             "label": "Afgehandeld",
-                            "column": "afgehandeld_cumulatief",
+                            "column": "afgerond_cumul",
                             "colour": "gray",
                             "scale" : "null",
                             "format": ""
@@ -887,13 +779,13 @@ const group : IGroupMappingV2[] = [
             }
         ],
         "segment": {
-            "key": "meldingen",
+            "key": "ingediend",
             "cumulative": true,
             "periodization": "monthly",
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gem_maandelijks?domein_code=eq.WNW","gem_wekelijks?domein_code=eq.WNW"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WNW","gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WNW&order=periode.desc"],
     }
 ]
 

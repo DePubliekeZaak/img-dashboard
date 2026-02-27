@@ -13,6 +13,18 @@ export const incVsCum = (data: any[], config: any) => {
   return { incremental, cumulative };
 };
 
+export const incVsCum2 = (data: any[], config: any) => {
+  const incremental: string[] = [];
+  const cumulative: string[] = [];
+
+  for (let p of config.graphs[0].parameters[0]) {
+    incremental.push(data[0][p.column + "_aantal"]);
+    cumulative.push(data[0][p.column + "_cumul"]);
+  }
+
+  return { incremental, cumulative };
+};
+
 export const tables = (
   graphDataWeek: any[],
   graphDataMonth: any[],

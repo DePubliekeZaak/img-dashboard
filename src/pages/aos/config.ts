@@ -48,59 +48,59 @@ const config: IPageMapping = [
       periodization: "weekly",
     },
   },
-  // {
-  //   slug: "aos_trend",
-  //   ctrlr: "DefaultGroupV1",
+  {
+    slug: "aos_trend",
+    ctrlr: "DefaultGroupV1",
     
-  //   graphs: [
-  //     {
-  //       slug: "aos_trend_1",
-  //       ctrlr: "BarTrendV1",
-  //       filters: ["cumulativeVsDelta", "weekVsMonth"],
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "meldingen",
-  //             column: "aos_meldingen",
-  //             colour: "blue",
-  //           },
-  //           {
-  //             label: "Acuut Onveilige Situatie",
-  //             column: "aos_meldingen_gegrond",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "toename",
-  //             column: "{}",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "cumulatief",
-  //             column: "{}_cumulatief",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "aos_meldingen",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //   ],
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["aos_maandelijks", "aos_wekelijks"],
-  //   segment: {
-  //     key: "aos_meldingen",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //   },
-  // },
+    graphs: [
+      {
+        slug: "aos_trend_1",
+        ctrlr: "BarTrendAOSV1",
+        filters: ["cumulativeVsDelta"], //  "weekVsMonth"
+        args: [],
+        parameters: [
+          [
+            {
+              label: "meldingen",
+              column: "aos_meldingen",
+              colour: "blue",
+            },
+            {
+              label: "Acuut Onveilige Situatie",
+              column: "aos_meldingen_gegrond",
+              colour: "orange",
+            },
+          ],
+        ],
+        modifiers: [
+          [
+            {
+              label: "toename",
+              column: "{}",
+              colour: "orange",
+            },
+            {
+              label: "cumulatief",
+              column: "{}_cumulatief",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "aos_meldingen",
+          cumulative: false,
+          periodization: "weekly",
+        },
+      },
+    ],
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["aos_wekelijks"],
+    segment: {
+      key: "aos_meldingen",
+      cumulative: false,
+      periodization: "weekly",
+    },
+  },
 ];
 
 export default config;

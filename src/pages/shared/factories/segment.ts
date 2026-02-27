@@ -52,9 +52,18 @@ export const parseSegment = (page: any, groupSlug: string, graphSlug: string) =>
         }
     }
 
-    const strippedKey = segment.key.replace("_cumulatief","");
+    if (segment.gemeente != 'all') {
 
-    segment.key = (segment.cumulative) ? strippedKey + "_cumulatief" : strippedKey;
+        const strippedKey = segment.key.replace("_cumul","").replace("_aantal","");
+        segment.key = (segment.cumulative) ? strippedKey + "_cumul" : strippedKey + "_aantal";
+
+    } else {
+
+        const strippedKey = segment.key.replace("_cumulatief","");
+
+        segment.key = (segment.cumulative) ? strippedKey + "_cumulatief" : strippedKey;
+
+    }
 
     return segment;
 

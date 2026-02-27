@@ -47,7 +47,6 @@ export class HTMLTables {
     this.toggler.setAttribute("role", "group");
     this.toggler.setAttribute("aria-label", "Tabel periode selectie");
     this.monthly = this.segment.periodization == "monthly" ? true : false;
-    console.log("M",this.monthly)
     this.toggler.setAttribute("data-active", this.monthly ? "month" : "week");
 
     // Create slider element (decorative, hidden from screen readers)

@@ -50,7 +50,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: graphs[0].parameters.length,
         },
         {
-          label: "Verleend bedrag",
+          label: "Uitbetaald bedrag",
           length: graphs[0].parameters.length,
         },
         {
@@ -62,7 +62,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: graphs[0].parameters.length,
         },
         {
-          label: "Verleend bedrag cumulatief",
+          label: "Uitbetaald bedrag cumulatief",
           length: graphs[0].parameters.length,
         },
       ],
@@ -77,7 +77,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: graphs[0].parameters.length,
         },
         {
-          label: "Verleend bedrag",
+          label: "Uitbetaald bedrag",
           length: graphs[0].parameters.length,
         },
         {
@@ -89,7 +89,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: graphs[0].parameters.length,
         },
         {
-          label: "Verleend bedrag cumulatief",
+          label: "Uitbetaald bedrag cumulatief",
           length: graphs[0].parameters.length,
         },
       ],
@@ -222,11 +222,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: 4,
         },
         {
-          label: "VES",
-          length: 4,
-        },
-        {
-          label: "AVV",
+          label: "Vaste vergoeding",
           length: 4,
         },
         {
@@ -257,11 +253,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: 4,
         },
         {
-          label: "VES",
-          length: 4,
-        },
-        {
-          label: "AVV",
+          label: "Vaste vergoeding",
           length: 4,
         },
         {

@@ -35,8 +35,10 @@ export class GroupControllerV1 implements IGroupCtrlr {
     this.slug = config.slug;
     this.element = page.main.htmlContainer;
     if (config.segment) this.segment = segmentParse(config.segment);
-
-    this.segment.key = this.segment.cumulative ? this.segment.key.replace("_cumulatief","") + "_cumulatief" : this.segment.key.replace("_cumulatief","")
+    
+    if (this.segment.gemeente == 'all') {
+      this.segment.key = this.segment.cumulative ? this.segment.key.replace("_cumulatief","") + "_cumulatief" : this.segment.key.replace("_cumulatief","")
+    }
   }
 
   html(groupEl?: HTMLElement) {
@@ -113,10 +115,10 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
   prepareData(data: any): any {
     const weekGroup = this.config.endpoints.find(
-      (e) => e.includes("wekelijks") || e.includes("tevredenheid"),
+      (e) => e.includes("wekelijks") || e.includes("tevredenheid") || e.includes("eq.week"),
     );
     const monthGroup = this.config.endpoints.find(
-      (e) => e.includes("maandelijks") || e.includes("tevredenheid"),
+      (e) => e.includes("maandelijks") || e.includes("tevredenheid") || e.includes("eq.maand"),
     );
 
 
@@ -124,6 +126,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
     let graphParams = [] as IParameterMapping[];
 
     for (const graph of this.config.graphs) {
+      
       for (const pg of graph.parameters) {
         for (const p of pg) {
           let columnNames = tableParams.map((p) => p.column);
@@ -137,32 +140,41 @@ export class GroupControllerV1 implements IGroupCtrlr {
           }
         }
       }
+
       if (graph.modifiers != undefined) {
         for (const mg of graph.modifiers) {
-          for (const m of mg) {
-            if (m.column != "{}") {
-              for (const p of JSON.parse(JSON.stringify(graphParams))) {
-                if (p.column.includes("_cumulatief")) continue;
-                let n: IParameterMapping = Object.assign({}, m);
-                n.column = n.column.replace("{}", p.column);
-                n.label = p.label;
-                if (p.format != "" || p.format != undefined) n.format = p.format;
-                graphParams.push(n);
-                let columnNames = tableParams.map((p) => p.column);
-                if (!columnNames.includes(n.column)) {
-                  tableParams.push(n);
+            for (const m of mg) {
+                // Skip de basis {} modifier
+                if (m.column == "{}") continue;
+                
+                for (const p of JSON.parse(JSON.stringify(graphParams))) {
+                    // Skip als parameter al een suffix heeft
+                    if (p.column.includes("_cumul") || p.column.includes("_cumulatief") || p.column.includes("_aantal")) continue;
+                    
+                    let n: IParameterMapping = Object.assign({}, m);
+                    n.column = m.column.replace("{}", p.column);
+                    n.label = p.label;
+                    if (p.format != "" || p.format != undefined) n.format = p.format;
+                    
+                    graphParams.push(n);
+                    
+                    let columnNames = tableParams.map((p) => p.column);
+                    if (!columnNames.includes(n.column)) {
+                        tableParams.push(n);
+                    }
                 }
-              }
             }
-          }
         }
       }
+
+
+
     }
 
     tableParams = removeDuplicates(tableParams);
     graphParams = removeDuplicates(graphParams);
 
-    console.log(tableParams)
+    // console.log(tableParams)
 
     // tableParams = tableParams.filter ( p => !p.column.includes("_cumulatief"))
 

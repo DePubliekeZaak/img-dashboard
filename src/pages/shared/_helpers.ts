@@ -24,6 +24,7 @@ var trimColumns = function (json: any, neededColumns: string[]) {
 };
 
 export const defaultColumns = [
+  "_isNewApi",
   "_yearmonth",
   "_yearweek",
   "_month",

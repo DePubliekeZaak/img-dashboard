@@ -3,7 +3,7 @@ import { IGroupMappingV2 } from "../../shared/interfaces";
 import { ImgData } from "../../shared/types";
 import { TableData } from "../../shared/types_graphs";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import { incVsCum, tables, pieParts } from "../../shared/data.factory";
+import { incVsCum, tables, pieParts, incVsCum2 } from "../../shared/data.factory";
 import { preHeaders } from "../../shared/factories/pre_headers";
 
 export class MuniGroupV1 extends GroupControllerV1 {
@@ -28,18 +28,35 @@ export class MuniGroupV1 extends GroupControllerV1 {
   async init() {}
 
 
+  mapRow = (row: any) => {
+    const isNewApi = row.aggregatie !== undefined;
+    
+    if (!isNewApi) return { ...row, _isNewApi: false };
+    
+    return {
+          ...row,
+          _isNewApi: true,
+          _startdatum: row.periode_vanaf,
+          _einddatum: row.periode_totenmet,
+          _year: parseInt(row.periode?.split('_')[0]),
+          _month: parseInt(row.periode?.split('_')[1]),
+          _week: parseInt(row.periode?.split('_')[1]),
+          _yearmonth: row.periode,
+          _yearweek: row.periode,
+      };
+  };
 
   prepareData(data: ImgData): any {
 
     const _data = JSON.parse(JSON.stringify(data));
 
-    console.log(data)
-
     for (const e of this.config.endpoints) {
-        _data[e] = _data[e].filter( d => d.gemeente == this.page.segment.gemeente);
+        _data[e] = _data[e]
+            .filter(d => d.gemeente == this.page.segment.gemeente)
+            .map(r => this.mapRow(r));  // map retourneert nieuwe array
     }
 
-    console.log("_d", _data);
+
 
     const {
       tableParams,
@@ -50,7 +67,10 @@ export class MuniGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(_data);
 
-    const { incremental, cumulative } = incVsCum(graphDataWeek, this.config);
+
+    const { incremental, cumulative } = incVsCum2(graphDataWeek, this.config);
+
+
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
