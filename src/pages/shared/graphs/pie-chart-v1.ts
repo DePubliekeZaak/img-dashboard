@@ -1,10 +1,14 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { DataObject, Segment } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IGraphMappingV2, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
-import HtmlLegend from "../html/html-legend";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { parseSegment } from "../factories/segment";
+import HtmlLegend from "../html/html-legend";
+import {
+  type GroupObject,
+  IGraphMappingV2,
+  type IParameterMapping,
+} from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
 
 export class PieChartV1 extends core.GraphControllerV3 {
   chartAxis;
@@ -57,10 +61,10 @@ export class PieChartV1 extends core.GraphControllerV3 {
       this.config.graphHeight = 320;
     }
 
-    if (this.group.element == null) return;
+    if (this.group.element === null) return;
 
     this.graphEl = super._html();
-    if (this.graphEl == null) return;
+    if (this.graphEl === null) return;
     this.graphEl.style.flexDirection =
       window.innerWidth < breakpoints.sm ? "column" : "row";
     this.graphEl.style.justifyContent =
@@ -71,7 +75,7 @@ export class PieChartV1 extends core.GraphControllerV3 {
 
   async init() {
     await super._init();
-    if (this.graphEl != null) await super._svg(this.graphEl);
+    if (this.graphEl !== null) await super._svg(this.graphEl);
 
     this.config.extra.innerRadius = 50;
     this.config.extra.maxRadius = 0.5 * (this.config.graphHeight || 0);

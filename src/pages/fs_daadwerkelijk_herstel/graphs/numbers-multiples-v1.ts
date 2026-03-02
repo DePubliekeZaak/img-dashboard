@@ -1,8 +1,8 @@
-import { DataObject, Segment } from "../../shared/types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../../shared/interfaces";
-import { IPageController } from "../../shared/page.controller";
 import { parseSegment } from "../../shared/factories/segment";
+import type { GroupObject, IParameterMapping } from "../../shared/interfaces";
+import type { IPageController } from "../../shared/page.controller";
+import type { DataObject, Segment } from "../../shared/types";
 
 export class NumbersMultiplesV1 extends core.GraphControllerV3 {
   el;

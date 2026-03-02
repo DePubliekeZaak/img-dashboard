@@ -1,16 +1,14 @@
-import { Version } from "./types";
+import type { Version } from "./types";
 
 export interface IDataService {
   clear: () => void;
-  collection: () => { [key: string]: any };
-  gather: (endpoint: string, version: Version) => void;
-  fetch: (endpoint: string, version: Version) => Promise<any>;
+  collection: () => Record<string, any[]>;
+  gather: (endpoint: string, version: Version, params?: Record<string, string>) => Promise<void>;
+  fetch: (endpoint: string, version: Version, params?: Record<string, string>) => Promise<any[]>;
 }
 
 export class DataService implements IDataService {
-  _collection = {};
-
-  constructor() {}
+  _collection: Record<string, any[]> = {};
 
   collection() {
     return this._collection;
@@ -20,36 +18,57 @@ export class DataService implements IDataService {
     this._collection = {};
   }
 
-  async gather(endpoint: string, version: Version) {
-    if (this._collection[endpoint] == undefined) {
-      this._collection[endpoint] = await this.fetch(endpoint, version);
+  async gather(endpoint: string, version: Version, params?: Record<string, string>) {
+    const key = this.buildKey(endpoint, params);
+    if (this._collection[key] === undefined) {
+      this._collection[key] = await this.fetch(endpoint, version, params);
     }
   }
 
-  async fetch(endpoint: string, version: Version): Promise<any> {
-    return new Promise(async (resolve, reject) => {
-      // @ts-ignore
-      let apibase = APIBASE;
-      // @ts-ignore
-      let domain = DOMAIN;
+  async fetch(endpoint: string, version: Version, params?: Record<string, string>): Promise<any[]> {
+    const url = this.buildUrl(endpoint, version, params);
+    const response = await fetch(url);
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(`Fetch failed: ${url}`);
+  }
 
-      if (version.tag != "latest") {
-        apibase =
-          "/" + apibase.split("/")[1] + "/archives/v" + version.slug + "/api/";
-      }
+  private buildKey(endpoint: string, params?: Record<string, string>): string {
+    if (!params || Object.keys(params).length === 0) {
+      return endpoint;
+    }
+    const paramString = Object.entries(params)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}=${v}`)
+      .join("&");
+    return `${endpoint}&${paramString}`;
+  }
 
-      // if (endpoint.includes("tevredenheid")) {
-      //   apibase = "/open-data/api/";
-      // }
+  private buildUrl(endpoint: string, version: Version, params?: Record<string, string>): string {
+    // @ts-expect-error
+    let apibase = APIBASE;
+    // @ts-expect-error
+    const domain = DOMAIN;
 
-      const url = domain + apibase + endpoint;
-      // console.log(url);
-      const response = await fetch(url);
-      if (response.ok) {
-        resolve(response.json());
-      } else {
-        reject();
-      }
-    });
+    if (version.tag !== "latest") {
+      apibase = `/${apibase.split("/")[1]}/archives/v${version.slug}/api/`;
+    }
+
+    let url = domain + apibase + endpoint;
+
+    if (params && Object.keys(params).length > 0) {
+      const separator = endpoint.includes("?") ? "&" : "?";
+      const queryString = Object.entries(params)
+        .map(([k, v]) => {
+          // Check of waarde al een operator heeft (eq., gte., in., etc.)
+          const hasOperator = /^(eq|neq|gt|gte|lt|lte|in|is)\./i.test(v);
+          return hasOperator ? `${k}=${encodeURIComponent(v)}` : `${k}=eq.${encodeURIComponent(v)}`;
+        })
+        .join("&");
+      url += separator + queryString;
+    }
+
+    return url;
   }
 }

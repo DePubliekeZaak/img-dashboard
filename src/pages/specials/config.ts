@@ -1,20 +1,20 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const mappings: IGroupMappingV2[] = [
   {
     slug: "specials_intro",
     ctrlr: "DefaultGroupV1",
-    filters: ["specials","totaalVsRecent"],
+    filters: ["specials", "totaalVsRecent"],
     graphs: [
       {
         slug: "all_total_numbers",
         ctrlr: "NumbersV1",
 
-    // sp_toegekend_aantal AS specials_all_toegekend,
-    // sp_toegekend_cumul AS specials_all_toegekend_cumulatief,
-    // sp_afgewezen_aantal AS specials_all_afgewezen,
-    // sp_afgewezen_cumul AS specials_all_afgewezen_cumulatief,
-        
+        // sp_toegekend_aantal AS specials_all_toegekend,
+        // sp_toegekend_cumul AS specials_all_toegekend_cumulatief,
+        // sp_afgewezen_aantal AS specials_all_afgewezen,
+        // sp_afgewezen_cumul AS specials_all_afgewezen_cumulatief,
+
         args: [],
         parameters: [
           [
@@ -28,13 +28,13 @@ const mappings: IGroupMappingV2[] = [
               label: "Besluiten",
               column: "specials_all_beschikt",
               colour: "blue",
-              units: "besluiten"
+              units: "besluiten",
             },
             {
               label: "Anders afgehandeld",
               column: "specials_all_anders_afgehandeld",
               colour: "yellow",
-              units: "anders afgehandeld"
+              units: "anders afgehandeld",
             },
             {
               label: "Afgehandeld",
@@ -42,7 +42,6 @@ const mappings: IGroupMappingV2[] = [
               colour: "moss",
               units: "afgehandeld",
             },
-     
           ],
           [],
         ],
@@ -66,7 +65,7 @@ const mappings: IGroupMappingV2[] = [
           periodization: "weekly",
         },
       },
-        {
+      {
         slug: "specials_all_trend",
         ctrlr: "BarTrendV1",
         args: [],
@@ -82,7 +81,7 @@ const mappings: IGroupMappingV2[] = [
               label: "Afgehandeld",
               column: "specials_all_afgerond",
               colour: "moss",
-            }
+            },
           ],
         ],
         modifiers: [
@@ -114,7 +113,7 @@ const mappings: IGroupMappingV2[] = [
     functionality: ["table", "definitions", "download"],
     endpoints: ["specials_wekelijks", "specials_maandelijks"],
   },
-    {
+  {
     slug: "specials_toegekend",
     ctrlr: "DefaultGroupV1",
     filters: [],
@@ -191,7 +190,6 @@ const mappings: IGroupMappingV2[] = [
       periodization: "weekly",
     },
   },
- 
 ];
 
 export default mappings;

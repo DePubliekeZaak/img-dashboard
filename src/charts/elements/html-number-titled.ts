@@ -1,6 +1,6 @@
 import { breakpoints, colours } from "../../img-modules/styleguide";
 import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
-import { IParameterMapping } from "../core/types";
+import type { IParameterMapping } from "../core/types";
 
 export class HtmlNumberTitled {
   constructor(
@@ -10,11 +10,12 @@ export class HtmlNumberTitled {
   ) {}
 
   draw() {
-    let element = this.element != undefined ? this.element : this.ctrlr.element;
+    const element =
+      this.element !== undefined ? this.element : this.ctrlr.element;
 
     element.innerHTML = "";
 
-    let marginTop = "0.75rem";
+    const marginTop = "0.75rem";
 
     // if (window.innerWidth < breakpoints.sm) {
     //   marginTop = "1.5rem";
@@ -27,7 +28,7 @@ export class HtmlNumberTitled {
     element.style.alignItems = "center";
     element.style.justifyContent = "center";
 
-    let header = document.createElement("h3");
+    const header = document.createElement("h3");
     header.classList.add("unbold");
     header.innerText = this.parameters[0].label;
     header.style.textAlign = "center";
@@ -35,7 +36,7 @@ export class HtmlNumberTitled {
     // header.style.textAlign =  window.innerWidth < breakpoints.lg ? 'center' : 'left';
     element.appendChild(header);
 
-    let miniContainer = document.createElement("div");
+    const miniContainer = document.createElement("div");
     miniContainer.style.display = "flex";
     miniContainer.style.flexDirection = "column";
     miniContainer.style.alignItems = "center";
@@ -47,7 +48,7 @@ export class HtmlNumberTitled {
     // miniContainer.style.margin =  '0 1.5rem';
     // miniContainer.style.borderRadius = '50%';
 
-    let topDiv = document.createElement("div");
+    const topDiv = document.createElement("div");
     topDiv.classList.add("number_accented");
     topDiv.style.display = "flex";
     topDiv.style.position = "relative";
@@ -59,7 +60,7 @@ export class HtmlNumberTitled {
     topDiv.style.marginBottom = marginTop;
     topDiv.style.marginTop = marginTop;
 
-    let number = document.createElement("span");
+    const number = document.createElement("span");
     number.classList.add("number");
     number.classList.add("accented");
     number.style.fontSize = window.innerWidth < breakpoints.sm ? "2em" : "2rem";
@@ -74,7 +75,7 @@ export class HtmlNumberTitled {
     topDiv.appendChild(number);
 
     if (this.parameters[0].units) {
-      let units = document.createElement("span");
+      const units = document.createElement("span");
       units.classList.add("units");
       units.innerText = this.parameters[0].units;
       units.style.color = "black";
@@ -128,28 +129,25 @@ export class HtmlNumberTitled {
   }
 
   redraw(data: any, extraParameter: string) {
-    let element = this.element != undefined ? this.element : this.ctrlr.element;
+    const element =
+      this.element !== undefined ? this.element : this.ctrlr.element;
 
     if (this.parameters[0].format === "currency") {
       element.querySelector(".number.accented").innerText =
         convertToCurrency(data);
     } else if (this.parameters[0].format === "percentage") {
-      let value = Math.round(data * 10) / 10;
+      const value = Math.round(data * 10) / 10;
       element.querySelector(".number.accented").innerText = value + "%";
     } else if (this.parameters[0].format === "percentage") {
-      let value = data.toFixed(1)
+      const value = data.toFixed(1);
       element.querySelector(".number.accented").innerText = value + "%";
-    // } else if (this.ctrlr.slug.includes("duur_numbers_v1_mult2")) {
+      // } else if (this.ctrlr.slug.includes("duur_numbers_v1_mult2")) {
 
-
-
-    //   let value = data;
-    //         console.log("helllooo", value)
-    //   element.querySelector(".number.accented").innerText = value;
-
+      //   let value = data;
+      //         console.log("helllooo", value)
+      //   element.querySelector(".number.accented").innerText = value;
     } else {
-     
-      let value = this.ctrlr.config.extra.decimal
+      const value = this.ctrlr.config.extra.decimal
         ? Math.round(data * 10) / 10
         : Math.ceil(data - 0.5);
 

@@ -33,28 +33,26 @@ export default class ChartStackedBars {
   }
 
   redraw(data: any) {
-    let self = this;
-
-    const width = self.ctrlr.dimensions.svgWidth / data.stacked[0].length - 1;
+    const width = this.ctrlr.dimensions.svgWidth / data.stacked[0].length - 1;
 
     this.bars
       .attr("x", (d: any, i: number) =>
-        self.ctrlr.scales.x.scale(d.data["date"]),
+        this.ctrlr.scales.x.scale(d.data["date"]),
       )
-      .attr("y", self.ctrlr.dimensions.graphHeight)
+      .attr("y", this.ctrlr.dimensions.graphHeight)
       .attr("height", 0)
       .attr("width", width)
       .transition()
       .duration(300)
-      .attr("y", (d) => self.ctrlr.scales.y.scale(d[1]))
+      .attr("y", (d) => this.ctrlr.scales.y.scale(d[1]))
       .attr("height", (d, i) => {
-        let h =
-          self.ctrlr.scales.y.scale(d[0]) - self.ctrlr.scales.y.scale(d[1]);
+        const h =
+          this.ctrlr.scales.y.scale(d[0]) - this.ctrlr.scales.y.scale(d[1]);
         return h > 0 ? h : 0;
       });
 
     this.bars
-      .on("mouseover", function (event: any, d: any) {
+      .on("mouseover", (event: any, d: any) => {
         const t = window.d3
           .select(".tooltip")
           .html(() => {
@@ -62,16 +60,16 @@ export default class ChartStackedBars {
             html +=
               "<div>" + toDutchMonths(parseFloat(d.data.month)) + "</div>";
 
-            for (let map of self.ctrlr.parameters[0]) {
+            for (const map of this.ctrlr.parameters[0]) {
               html +=
                 "<div>" + map.label + " : " + d.data[map.column] + "</div>";
             }
 
-            // if (data.line != undefined) {
+            // if (data.line !== undefined) {
 
-            //     let period = data.line.find( dd => dd.time == d.data.date);
+            //     let period = data.line.find( dd => dd.time === d.data.date);
 
-            //     if(period != undefined) {
+            //     if(period !== undefined) {
 
             //         for (let map of self.ctrlr.parameters[1]) {
 
@@ -103,7 +101,7 @@ export default class ChartStackedBars {
 
         t.transition().duration(250).style("opacity", 1);
       })
-      .on("mouseout", function (event: any, d: any, i: number) {
+      .on("mouseout", (event: any, d: any, i: number) => {
         window.d3.select(event.target).attr("fill", "inherit");
 
         window.d3

@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping: IGroupMappingV2[] = [
   {
@@ -437,7 +437,7 @@ const mapping: IGroupMappingV2[] = [
               column: "avv_dlt_verwacht_rolling8_dagen",
               colour: "moss",
               units: "aantal dagen",
-            }
+            },
           ],
           [],
         ],
@@ -455,7 +455,6 @@ const mapping: IGroupMappingV2[] = [
         args: [],
         parameters: [
           [
-            
             {
               label: "Gerealiseerde mediaan aantal dagen tot besluit",
               column: "avv_dlt_gerealiseerd_mediaan_dagen",
@@ -473,7 +472,7 @@ const mapping: IGroupMappingV2[] = [
               column: "avv_dlt_gerealiseerd_gemiddeld_dagen",
               colour: "blue",
               units: "gemiddeld gerealiseerd aantal dagen",
-            }
+            },
           ],
         ],
         segment: {

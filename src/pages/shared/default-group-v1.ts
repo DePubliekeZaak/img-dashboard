@@ -1,10 +1,10 @@
-import { GroupControllerV1 } from "./group-v1";
-import { IGroupMappingV2 } from "./interfaces";
-import { ImgData } from "./types";
-import { TableData } from "./types_graphs";
-import { HTMLSourceV2 } from "./html/html-source-v2";
-import { incVsCum, tables, pieParts } from "./data.factory";
+import { incVsCum, pieParts, tables } from "./data.factory";
 import { preHeaders } from "./factories/pre_headers";
+import { GroupControllerV1 } from "./group-v1";
+import { HTMLSourceV2 } from "./html/html-source-v2";
+import type { IGroupMappingV2 } from "./interfaces";
+import type { ImgData } from "./types";
+import type { TableData } from "./types_graphs";
 
 export class DefaultGroupV1 extends GroupControllerV1 {
   constructor(
@@ -17,7 +17,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
 
   html() {
     const graphWrapper = super.html();
-    let source = HTMLSourceV2(
+    const source = HTMLSourceV2(
       graphWrapper?.parentElement as HTMLElement,
       this.page.main.params.language,
       "IMG",
@@ -25,9 +25,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
     return graphWrapper;
   }
 
-  async init() {
-
-  }
+  async init() {}
 
   prepareData(data: ImgData): any {
     const {

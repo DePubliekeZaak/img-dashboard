@@ -1,74 +1,78 @@
-import { DataObject, Segment } from '../types';
-import { core, elements } from '../../../charts';
-import { GroupObject, IParameterMapping } from '../interfaces';
-import { IPageController } from '../page.controller';
-import { parseSegment } from '../factories/segment';
-import { HtmlHeader } from '../html/html-header';
+import { core, elements } from "../../../charts";
+import { parseSegment } from "../factories/segment";
+import { HtmlHeader } from "../html/html-header";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
 
 export class HeaderV1 extends core.GraphControllerV3 {
+  header;
 
-    header;
-  
+  constructor(
+    public slug: string,
+    public page: IPageController,
+    public group: GroupObject,
+    public data: DataObject,
+    public parameters: IParameterMapping[][],
+    public modifiers: IParameterMapping[][],
+    public filters: string[],
+    public segment: Segment,
+    public index: number,
+    public pageSegment: any,
+  ) {
+    super(
+      slug,
+      page,
+      group,
+      data,
+      parameters,
+      modifiers,
+      filters,
+      segment,
+      index,
+    );
 
-    constructor(
-        public slug: string,
-        public page: IPageController,
-        public group: GroupObject,
-        public data: DataObject,
-        public parameters: IParameterMapping[][],
-        public modifiers: IParameterMapping[][],
-        public filters: string[],
-        public segment: Segment,
-        public index: number,
-        public pageSegment: any
-    ) {
-        super(slug, page, group, data, parameters, modifiers, filters, segment, index);
-
-        if (this.page.segment) {
-            this.segment = parseSegment(this.page, this.group.slug, this.slug);
-        }
-
-        this.pre();
+    if (this.page.segment) {
+      this.segment = parseSegment(this.page, this.group.slug, this.slug);
     }
 
-    pre() {
-        const bottom = 15;
-        this._addMargin(0, bottom, 0, 0);
-    }
+    this.pre();
+  }
 
-    html() {
+  pre() {
+    const bottom = 15;
+    this._addMargin(0, bottom, 0, 0);
+  }
 
-        this.graphEl = super._html(['graph-container-12']);
-        
+  html() {
+    this.graphEl = super._html(["graph-container-12"]);
+  }
 
-    }
+  async init() {
+    this.header = new HtmlHeader(
+      this,
+      [],
+      this.graphEl,
+      this.parameters[0][0].label,
+      "",
+      undefined,
+    );
 
-    async init() {
-        
+    await this.update(this.group.data, false);
+    return;
+  }
 
-        this.header = new HtmlHeader(this, [], this.graphEl, this.parameters[0][0].label, "",undefined);
+  prepareData(data: DataObject): DataObject {
+    return data;
+  }
 
-        await this.update(this.group.data, false);
-        return;
-    }
+  async draw(data: DataObject) {
+    this.header.draw(data);
+  }
 
-    prepareData(data: DataObject): DataObject {
-      
-        return data;
-    }
+  async redraw(data: any, range: number[]) {}
 
-    async draw(data: DataObject) {
-
-        this.header.draw(data);
-       
-    }
-
-    async redraw(data: any, range: number[]) {
-      
-    }
-
-    async update(data: DataObject, update: boolean, range?: number[]) {
-
-        await super._update(data, update, range);
-    }
+  async update(data: DataObject, update: boolean, range?: number[]) {
+    await super._update(data, update, range);
+  }
 }

@@ -1,13 +1,11 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { Segment } from "../types";
-
-import { DataObject } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
 import { AxisArrow } from "../../../charts/elements/axis-arrow";
-import { HtmlLegendRowWithLines } from "../html/html-legend-row-with-lines";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { parseSegment } from "../factories/segment";
+import { HtmlLegendRowWithLines } from "../html/html-legend-row-with-lines";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
 
 interface StackDataItem {
   category: string;
@@ -52,7 +50,12 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
 
   pre() {
     const topMargin = window.innerWidth < breakpoints.sm ? 30 : 0;
-    const topPadding = window.innerWidth < breakpoints.sm ? 40 : window.innerWidth < breakpoints.lg ? 0 : 75;
+    const topPadding =
+      window.innerWidth < breakpoints.sm
+        ? 40
+        : window.innerWidth < breakpoints.lg
+          ? 0
+          : 75;
     const bottomPadding = window.innerWidth < breakpoints.lg ? 20 : 30;
     const bottom = 0;
 
@@ -70,28 +73,30 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   html() {
     this.config.graphHeight = window.innerWidth < breakpoints.lg ? 280 : 420;
 
-    if (this.group.element == null) return;
+    if (this.group.element === null) return;
 
     this.graphEl = super._html();
 
-    if (this.graphEl != null) {
+    if (this.graphEl !== null) {
       //   this.graphEl.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight.toString() + "px" : graphHeight.toString() + "px";
       this.graphEl.style.overflowX = "auto";
       this.graphEl.style.marginBottom =
         window.innerWidth < breakpoints.sm ? "0" : "2rem";
       this.graphEl.style.paddingRight = "50px";
-      this.graphEl.style.paddingTop = window.innerWidth < breakpoints.lg ? "20px" : "40px";
+      this.graphEl.style.paddingTop =
+        window.innerWidth < breakpoints.lg ? "20px" : "40px";
     }
 
     this.scrollingContainer = document.createElement("section");
     this.scrollingContainer.classList.add("graph-container-12");
     this.scrollingContainer.classList.add("graph-view");
     this.scrollingContainer.style.height = "100%";
-    this.scrollingContainer.style.minWidth = window.innerWidth < breakpoints.lg ? "540px" : "800px";
+    this.scrollingContainer.style.minWidth =
+      window.innerWidth < breakpoints.lg ? "540px" : "800px";
     this.graphEl.appendChild(this.scrollingContainer);
 
-    let h = this.group.graphs[this.index].header;
-    if (h != undefined) {
+    const h = this.group.graphs[this.index].header;
+    if (h !== undefined) {
       const div = document.createElement("div");
       div.innerHTML = h + ":";
       div.style.width = "100%";
@@ -107,11 +112,11 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     this.config.paddingOuter = 0;
 
     await super._init();
-    if (this.graphEl != null) await super._svg(this.scrollingContainer);
+    if (this.graphEl !== null) await super._svg(this.scrollingContainer);
 
     this.chartBars = new elements.ChartStackedBarsV2(this);
 
-    if (this.segment.label != undefined && this.segment.label != "") {
+    if (this.segment.label !== undefined && this.segment.label !== "") {
       this.arrowY = new AxisArrow(this, "y2", this.segment.label);
     }
 
@@ -121,26 +126,24 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
-
-    let _data =
-      data.graphDataMonth != undefined &&
-      this.group.config.endpoints.length == 2
-        ? this.group.config.endpoints[1] != undefined &&
-          this.segment.periodization == "monthly"
+    const _data =
+      data.graphDataMonth !== undefined &&
+      this.group.config.endpoints!.length === 2
+        ? this.group.config.endpoints![1] !== undefined &&
+          this.segment.periodization === "monthly"
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
 
-    let _period =
-      this.segment.periodization == "weekly" ? "_yearweek" : "_yearmonth";
+    const _period =
+      this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
-
-    for (let m of _data) {
+    for (const m of _data) {
       m.date = m[_period];
     }
 
     const index =
-      this.segment.parameterIndex != null ? this.segment.parameterIndex : 0;
+      this.segment.parameterIndex !== null ? this.segment.parameterIndex : 0;
 
     const ps = this.parameters[index];
 
@@ -157,15 +160,15 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     } else {
       const normalized_data: any[] = [];
 
-      for (let d of _data) {
+      for (const d of _data) {
         const newItem = { ...d };
 
         let total = 0;
-        for (let p of Object.values(ps)) {
+        for (const p of Object.values(ps)) {
           total = total + d[p.column];
         }
 
-        for (let p of Object.values(ps)) {
+        for (const p of Object.values(ps)) {
           newItem[p.column] = d[p.column] / total;
         }
         normalized_data.push(newItem);
@@ -183,7 +186,6 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   async redraw(data: any, range: number[]) {
-
     this.scales.x.set(data.stacked[0].map((d) => d.data.date));
     this.scales.y.set(
       data.stacked[data.stacked.length - 1]
@@ -197,9 +199,9 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     );
     await super.redraw(data.stacked);
 
-     if (this.segment.periodization == "weekly") {
+    if (this.segment.periodization === "weekly") {
       const w = data.graphDataWeek.length * 8;
-      this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ???? 
+      this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ????
       this.dimensions.svgWidth = w + 100;
       this.dimensions.coreWidth = w;
 
@@ -209,12 +211,12 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     }
 
     this.chartBars.redraw(data, this.segment);
-    if (this.arrowY != undefined) {
+    if (this.arrowY !== undefined) {
       await this.arrowY.redraw();
     }
 
     if (window.innerWidth < breakpoints.md) {
-      if (this.graphEl != null) {
+      if (this.graphEl !== null) {
         this.graphEl.scrollLeft +=
           this.graphEl.scrollWidth - this.graphEl.clientWidth;
       }

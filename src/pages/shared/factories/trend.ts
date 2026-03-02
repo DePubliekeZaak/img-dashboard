@@ -1,45 +1,46 @@
 export const trimStart = (_data: any, parameters: any, offset: number = 0) => {
+  let data = JSON.parse(JSON.stringify(_data)).reverse();
 
-    let data = JSON.parse(JSON.stringify(_data)).reverse();
+  function findAllIndexes<T>(
+    array: T[],
+    predicate: (value: T, index: number, arr: T[]) => boolean,
+  ): number[] {
+    return array.reduce((acc, value, index) => {
+      if (predicate(value, index, array)) acc.push(index);
+      return acc;
+    }, [] as number[]);
+  }
 
-    function findAllIndexes<T>(array: T[], predicate: (value: T, index: number, arr: T[]) => boolean): number[] {
-        return array.reduce((acc, value, index) => {
-          if (predicate(value, index, array)) acc.push(index);
-          return acc;
-        }, [] as number[]);
-    }
-      
-    function trimToStart(array: any[], key: string) {
-        const indexes = findAllIndexes(array, item => item[key] === null);
+  function trimToStart(array: any[], key: string) {
+    const indexes = findAllIndexes(array, (item) => item[key] === null);
 
-        for (let i = 0; i < array.length - 1; i++) {
-            if (array[i + 1] && array[i + 1][key] != null) {
-                return i;
-            }
-        }
-        
-        return array.length - 1;  // Return last index if nothing found
-    }
-
-    const indexes: number[] = [];
-
-    for (const pg of parameters) {
-        if (Array.isArray(pg)) {
-            for (const p of pg) {
-                const index = trimToStart(data, p.column);
-                indexes.push(index);
-            }
-        } else {
-
-            const index = trimToStart(data, pg.column);
-            indexes.push(index);
-        }
+    for (let i = 0; i < array.length - 1; i++) {
+      if (array[i + 1] && array[i + 1][key] !== null) {
+        return i;
+      }
     }
 
-    const minIndex = Math.min(...indexes);
-    if (minIndex > 0) {
-       data = data.slice(minIndex, data.length)
+    return array.length - 1; // Return last index if nothing found
+  }
+
+  const indexes: number[] = [];
+
+  for (const pg of parameters) {
+    if (Array.isArray(pg)) {
+      for (const p of pg) {
+        const index = trimToStart(data, p.column);
+        indexes.push(index);
+      }
+    } else {
+      const index = trimToStart(data, pg.column);
+      indexes.push(index);
     }
-    
-    return JSON.parse(JSON.stringify(data)).reverse()
-}
+  }
+
+  const minIndex = Math.min(...indexes);
+  if (minIndex > 0) {
+    data = data.slice(minIndex, data.length);
+  }
+
+  return JSON.parse(JSON.stringify(data)).reverse();
+};

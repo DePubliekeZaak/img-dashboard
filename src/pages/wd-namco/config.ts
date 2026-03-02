@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
   // intro
@@ -113,7 +113,7 @@ const group: IGroupMappingV2[] = [
   {
     slug: "wdl_namco_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent","weekVsMonth"],
+    filters: ["totaalVsRecent", "weekVsMonth"],
     graphs: [
       {
         slug: "fs_wd_namco_numbers_2",
@@ -150,7 +150,7 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
-            }
+            },
           ],
           [],
         ],
@@ -232,7 +232,7 @@ const group: IGroupMappingV2[] = [
         multiples: "cumulative",
         parameters: [
           [
-             {
+            {
               label: "Afgehandeld",
               column: "wd_namco_afgerond",
               colour: "moss",

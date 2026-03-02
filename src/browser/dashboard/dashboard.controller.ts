@@ -1,23 +1,23 @@
 import { breakpoints } from "../../img-modules/styleguide";
-import { IParamService, ParamService } from "./param.service";
-import { screenSize } from "./screen.factory";
+import { versions } from "../../pages/versions";
+import { DataService, type IDataService } from "./data.service";
 import {
-  styleParentElement,
   createSideBar,
-  pageHeader,
   createSkipLink,
+  pageHeader,
+  styleParentElement,
 } from "./html.factory";
-import { DataService, IDataService } from "./data.service";
 import {
+  closeMenu,
+  openMenu,
+  setActiveMenuItem,
   switchTopic,
   toggleSubMenu,
-  openMenu,
-  closeMenu,
-  setActiveMenuItem,
 } from "./interaction.factory";
-import { INavService, NavService, navItems } from "./nav.service";
+import { type INavService, NavService, navItems } from "./nav.service";
+import { type IParamService, ParamService } from "./param.service";
+import { screenSize } from "./screen.factory";
 import { Version } from "./types";
-import { versions } from "../../pages/versions";
 
 export interface IDashboardController {
   window: Window;
@@ -36,15 +36,14 @@ export interface IDashboardController {
 }
 
 const getScriptBaseUrl = () => {
-  const scripts = document.getElementsByTagName('script');
-  for (let script of scripts) {
-    if (script.src.includes('dashboard') || script.src.includes('scaffold')) {
-      return script.src.substring(0, script.src.lastIndexOf('/') + 1);
+  const scripts = document.getElementsByTagName("script");
+  for (const script of scripts) {
+    if (script.src.includes("dashboard") || script.src.includes("scaffold")) {
+      return script.src.substring(0, script.src.lastIndexOf("/") + 1);
     }
   }
-  return './';
+  return "./";
 };
-
 
 export class DashboardController implements IDashboardController {
   params;
@@ -70,17 +69,13 @@ export class DashboardController implements IDashboardController {
     await this.call(false);
   }
 
-
-
-
   async call(update: boolean): Promise<void> {
-
     const BUNDLE_BASE = getScriptBaseUrl();
     this.htmlContainer.innerHTML = "";
 
     const getLeafNavItems = (items: any[]): any[] => {
       let leafItems = [];
-      for (let item of items) {
+      for (const item of items) {
         if (!item.sub || item.sub.length === 0) {
           // This is a leaf item (no sub-items)
           leafItems.push(item);
@@ -95,24 +90,27 @@ export class DashboardController implements IDashboardController {
     // Get flat array of all leaf nav items
     const navItemsArray = getLeafNavItems(navItems);
 
-    let navItem = navItemsArray.find((i) => i.slug == this.params.topic);
-    navItem = navItem == undefined ? navItems[0] : navItem;
+    let navItem = navItemsArray.find((i) => i.slug === this.params.topic);
+    navItem = navItem === undefined ? navItems[0] : navItem;
 
     const pageTitle =
-      this.params.language == "en" ? navItem.title_en : navItem.title;
+      this.params.language === "en" ? navItem.title_en : navItem.title;
 
     pageHeader(this, pageTitle, this.htmlContainer, this.params.version);
 
     // include version in bundle to be loaded !!!!!!
 
-    await import(/*webpackIgnore: true*/ `${BUNDLE_BASE}${this.params.topic}.bundle.js`);
-    // @ts-ignore
+    await import(
+      /*webpackIgnore: true*/ `${BUNDLE_BASE}${this.params.topic}.bundle.js`
+    );
+    // @ts-expect-error
     const ctrlr = new window[this.params.topic](this);
     ctrlr.init(this.params.version);
 
-    setTimeout( () => {
-        (document.querySelector("aside.selectors") as HTMLElement).style.opacity = "1"
-    }, 2000)
+    setTimeout(() => {
+      (document.querySelector("aside.selectors") as HTMLElement).style.opacity =
+        "1";
+    }, 2000);
 
     return;
   }
@@ -124,41 +122,37 @@ export class DashboardController implements IDashboardController {
   }
 
   switchVersion(slug: string): void {
+    if (slug === "versie_001") {
+      const container = document.querySelector(
+        "[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']",
+      );
+      container.innerHTML = "";
+      const script = document.createElement("script");
+      script.src =
+        "https://graphs.publikaan.nl/v001/scripts/dashboard-bundle.js";
+      document.head.appendChild(script);
 
-    if (slug = "versie_001") {
+      window.dispatchEvent(new Event("graph_ready"));
+    } else {
+      const currentParams = new URLSearchParams(window.location.search);
+      currentParams.set("topic", "regelingen");
+      currentParams.set("version", slug);
+      const newurl =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        window.location.pathname +
+        "?" +
+        currentParams.toString();
 
-          const container = document.querySelector("[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']");
-          container.innerHTML = '';
-          const script = document.createElement('script');
-          script.src = 'https://graphs.publikaan.nl/v001/scripts/dashboard-bundle.js';
-          document.head.appendChild(script);
+      window.history.pushState({ path: newurl }, "", newurl);
 
-          window.dispatchEvent(new Event('graph_ready'));
+      this.data.clear();
+      this.params.renew();
+      // this._reloadHtml();
 
-    } else { 
-
-        const currentParams = new URLSearchParams(window.location.search);
-        currentParams.set("topic", "regelingen");
-        currentParams.set("version", slug);
-        const newurl =
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          window.location.pathname +
-          "?" +
-          currentParams.toString();
-
-        window.history.pushState({ path: newurl }, "", newurl);
-
-        this.data.clear();
-        this.params.renew();
-        // this._reloadHtml();
-
-        this.call(false);
-
+      this.call(false);
     }
-
- 
   }
 
   _toggleSubMenu(slug: string, isMobile: boolean): void {
@@ -166,10 +160,9 @@ export class DashboardController implements IDashboardController {
   }
 
   _reloadHtml(): void {
+    console.log(window.innerWidth);
 
-    console.log(window.innerWidth)
-
-    const isMobile = window.innerWidth < breakpoints.bax ? true : false;
+    const isMobile = window.innerWidth < breakpoints.bax;
 
     this.htmlContainer = styleParentElement();
 
@@ -180,7 +173,7 @@ export class DashboardController implements IDashboardController {
       .call(document.querySelectorAll("nav.img_dasboard_nav"))
       .forEach((a) => a.remove());
 
-    let aside = createSideBar(this.htmlContainer);
+    const aside = createSideBar(this.htmlContainer);
     aside.appendChild(createSkipLink());
     if (isMobile) {
       aside.appendChild(this.nav.openButton());
@@ -195,17 +188,16 @@ export class DashboardController implements IDashboardController {
   }
 
   _screenListener(): void {
-    const self = this;
     const screen = screenSize(window.innerWidth);
 
     window.addEventListener(
       "resize",
       () => {
-        let newScreen = screenSize(window.innerWidth);
+        const newScreen = screenSize(window.innerWidth);
 
-        if (screen != newScreen) {
+        if (screen !== newScreen) {
           setTimeout(() => {
-            self._reloadHtml();
+            this._reloadHtml();
           }, 100);
         }
       },

@@ -1,20 +1,23 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { DataPart, ImgData, Segment } from "../../shared/types";
-
-import { DataObject } from "../../shared/types";
 import { core, elements } from "../../../charts";
-import {
-  GroupObject,
-  IGraphMappingV2,
-  IParameterMapping,
-} from "../../shared/interfaces";
-import { IPageController } from "../../shared/page.controller";
-import { HtmlLegendCustom } from "../../shared/html/html-legend-custom";
-import { HtmlRadio } from "../../shared/html/html-radio";
-import { TrendBar } from "../../shared/types_graphs";
 import { KeyValue } from "../../../charts/core/types";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { createBars } from "../../shared/data.format.factory";
 import { parseSegment } from "../../shared/factories/segment";
+import { HtmlLegendCustom } from "../../shared/html/html-legend-custom";
+import { HtmlRadio } from "../../shared/html/html-radio";
+import {
+  type GroupObject,
+  IGraphMappingV2,
+  type IParameterMapping,
+} from "../../shared/interfaces";
+import type { IPageController } from "../../shared/page.controller";
+import {
+  type DataObject,
+  DataPart,
+  ImgData,
+  type Segment,
+} from "../../shared/types";
+import { TrendBar } from "../../shared/types_graphs";
 
 export class BarTrendV1 extends core.GraphControllerV3 {
   chartAxis;
@@ -83,7 +86,7 @@ export class BarTrendV1 extends core.GraphControllerV3 {
   html() {
     const graphHeight = this.index < 1 ? 420 : 210;
 
-    if (this.group.element == null) return;
+    if (this.group.element === null) return;
 
     this.graphEl = super._html();
 
@@ -97,7 +100,7 @@ export class BarTrendV1 extends core.GraphControllerV3 {
     this.config.paddingOuter = 0.2;
 
     await super._init();
-    if (this.graphEl != null) await super._svg(this.graphEl);
+    if (this.graphEl !== null) await super._svg(this.graphEl);
 
     if (window.innerWidth > breakpoints.sm) {
       this.timeline_1 = new elements.ChartTimeline(this);
@@ -110,16 +113,16 @@ export class BarTrendV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
-    //   let _data = (this.segment.periodization == "weekly") ? data.graphData : data.graphData_alt
+    //   let _data = (this.segment.periodization === "weekly") ? data.graphData : data.graphData_alt
 
     for (const pg of this.parameters) {
       for (const p of pg) {
         data[p.column] = createBars(p.column, p, data.graphData, this.segment);
 
-        if (this.modifiers != undefined) {
+        if (this.modifiers !== undefined) {
           for (const mg of this.modifiers) {
             for (const m of mg) {
-              if (m.column != "{}") {
+              if (m.column !== "{}") {
                 const prop = m.column.replace("{}", p.column);
                 data[prop] = createBars(prop, p, data.graphData, this.segment);
               }
@@ -142,7 +145,7 @@ export class BarTrendV1 extends core.GraphControllerV3 {
     this.scales.x1.set(
       data[this.segment.key]
         .map((d) => d.meta._startdatum)
-        .filter((d) => d != null),
+        .filter((d) => d !== null),
     );
     this.scales.y.set(data[this.segment.key].map((d) => d.value).concat([0]));
 

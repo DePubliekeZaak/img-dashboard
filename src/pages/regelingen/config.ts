@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const mappings: IGroupMappingV2[] = [
   // intro
@@ -10,7 +10,7 @@ const mappings: IGroupMappingV2[] = [
       {
         slug: "all_total_numbers",
         ctrlr: "NumbersV1",
-        
+
         args: [],
         parameters: [
           [
@@ -460,7 +460,8 @@ const mappings: IGroupMappingV2[] = [
           cumulative: false,
           periodization: "weekly",
         },
-      },{
+      },
+      {
         slug: "vergelijk_numbers",
         ctrlr: "NumbersV1",
         args: [],
@@ -507,10 +508,10 @@ const mappings: IGroupMappingV2[] = [
     segment: {
       key: "wdnw_mediaan_dagen",
       cumulative: false,
-      periodization: "weekly"
+      periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["all_wekelijks", "all_maandelijks", "tevredenheid"], // beter apart eindpunt maken 
+    endpoints: ["all_wekelijks", "all_maandelijks", "tevredenheid"], // beter apart eindpunt maken
   },
 ];
 

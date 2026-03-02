@@ -7,14 +7,13 @@ const xl = 1700;
 const xxl = 2000;
 
 const breakpoints = {
-
-    xsm,
-    sm,
-    md,
-    bax,
-    lg,
-    xl,
-    xxl
+  xsm,
+  sm,
+  md,
+  bax,
+  lg,
+  xl,
+  xxl,
 };
 
 export default breakpoints;

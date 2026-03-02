@@ -1,14 +1,12 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { Segment } from "../types";
-
-import { DataObject } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
-import { TrendBar } from "../types_graphs";
-import { KeyValue } from "../../../charts/core/types";
-import { trimStart } from "../factories/trend";
+import type { KeyValue } from "../../../charts/core/types";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { parseSegment } from "../factories/segment";
+import { trimStart } from "../factories/trend";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import { type DataObject, Segment } from "../types";
+import type { TrendBar } from "../types_graphs";
 
 export class BarTrendAOSV1 extends core.GraphControllerV3 {
   scrollingContainer;
@@ -71,7 +69,7 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
 
     this._addMargin(0, marginForTimeline, 0, 0);
     this._addPadding(10, paddingForTimeline, 0, 0);
-    this._addInnerPadding(0, 0 , paddingForAxis, paddingForAxis);
+    this._addInnerPadding(0, 0, paddingForAxis, paddingForAxis);
 
     this._addScale("x", "band", "horizontal-reverse", "label");
     this._addScale("x1", "time", "horizontal", "date");
@@ -80,18 +78,18 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
     this._addAxis("y", "y", "left");
 
     const yFormat =
-      this.parameters[0][0].format != undefined
+      this.parameters[0][0].format !== undefined
         ? this.parameters[0][0].format
         : "linear";
     this._addAxis("y2", "y", "right", yFormat);
   }
 
   html() {
-    if (this.group.element == null) return;
+    if (this.group.element === null) return;
 
     this.graphEl = super._html();
 
-    if (this.graphEl != null) {
+    if (this.graphEl !== null) {
       this.graphEl.style.height =
         window.innerWidth < breakpoints.sm
           ? this.config.graphHeight?.toString() + "px"
@@ -109,8 +107,8 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
     if (this.filters.length > 0) this.graphEl.classList.add("has-filters");
     this.graphEl.appendChild(this.scrollingContainer);
 
-    let h = this.group.graphs[this.index].header;
-    if (h != undefined) {
+    const h = this.group.graphs[this.index].header;
+    if (h !== undefined) {
       const div = document.createElement("div");
       div.innerHTML = h + ":";
       div.style.width = "100%";
@@ -124,7 +122,7 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
     this.config.paddingOuter = 0;
 
     await super._init();
-    if (this.scrollingContainer != null)
+    if (this.scrollingContainer !== null)
       await super._svg(this.scrollingContainer);
 
     // if (window.innerWidth > breakpoints.sm) {
@@ -138,22 +136,23 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
-
     let _data =
-      data.graphDataMonth != undefined &&
-      this.group.config.endpoints.length == 2
-        ? this.group.config.endpoints[1] != undefined &&
-          this.segment.periodization == "monthly"
+      data.graphDataMonth !== undefined &&
+      this.group.config.endpoints!.length === 2
+        ? this.group.config.endpoints![1] !== undefined &&
+          this.segment.periodization === "monthly"
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
 
-    let _period =
-      this.segment.periodization == "weekly" ? "_yearweek" : "_yearmonth";
+    const _period =
+      this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
-      // console.log(_data);
+    // console.log(_data);
 
-      _data = _data.filter( (p) => new Date(p._einddatum) > new Date('2021-12-31'));
+    _data = _data.filter(
+      (p) => new Date(p._einddatum) > new Date("2021-12-31"),
+    );
 
     const createBars = (
       prop: string,
@@ -163,14 +162,15 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
       const bs: TrendBar[] = [];
       ``;
 
-      for (let period of data) {
+      for (const period of data) {
         bs.push({
           label: param?.label || "",
           name: "main",
           date: period[_period].toString(),
-          colour: param != undefined ? param.colour : "orange",
+          colour: param !== undefined ? param.colour : "orange",
           meta: period,
-          value: period[prop] == null ? 0 : parseFloat(period[prop].toString()),
+          value:
+            period[prop] === null ? 0 : parseFloat(period[prop].toString()),
           format: param?.format || undefined,
         });
       }
@@ -184,10 +184,10 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
     for (const pg of this.parameters) {
       for (const p of pg) {
         data[p.column] = createBars(p.column, p, _data);
-        if (this.modifiers != undefined) {
+        if (this.modifiers !== undefined) {
           for (const mg of this.modifiers) {
             for (const m of mg) {
-              if (m.column != "{}") {
+              if (m.column !== "{}") {
                 const prop = m.column.replace("{}", p.column);
                 data[prop] = createBars(prop, p, _data);
               }
@@ -210,7 +210,7 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
     this.scales.x1.set(
       data[this.segment.key]
         .map((d) => d.meta._startdatum)
-        .filter((d) => d != null),
+        .filter((d) => d !== null),
     );
     this.scales.y.set(
       data[this.segment.key]
@@ -218,31 +218,28 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
         .concat([0]),
     );
 
-
-    // if (this.segment.periodization == "weekly") {
+    // if (this.segment.periodization === "weekly") {
     //   const w = data.graphDataWeek.length * 8;
-    //   this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ???? 
+    //   this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ????
     //   this.dimensions.svgWidth = w + 100;
     //   this.dimensions.coreWidth = w;
 
     //   await super.redraw(data[this.segment.key], [], this.dimensions);
     // } else {
-      await super.redraw(data[this.segment.key], []);
+    await super.redraw(data[this.segment.key], []);
     // }
 
-    
-
     this.chartBar.redraw(data[this.segment.key], this.segment.periodization);
-    let timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);
+    const timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);
 
     if (window.innerWidth < breakpoints.md) {
-      if (this.graphEl != null) {
+      if (this.graphEl !== null) {
         this.graphEl.scrollLeft +=
           this.graphEl.scrollWidth - this.graphEl.clientWidth;
       }
     }
 
-    if (this.graphEl != null) {
+    if (this.graphEl !== null) {
       this.graphEl.style.paddingBottom =
         (30 + timeLineHeight).toString() + "px";
     }

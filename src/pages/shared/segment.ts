@@ -1,23 +1,20 @@
-import { Segment } from "./types";
+import type { Segment } from "./types";
 
-export const segmentParse = (s: Segment | string): Segment =>  {
-
-    if (typeof s === 'string') {
-
-        return {
-            key : s,
-            cumulative : false,
-            periodization : 'weekly'
-        }
-
-    } else {
-        return s
-    }
-}
+export const segmentParse = (s: Segment | string): Segment => {
+  if (typeof s === "string") {
+    return {
+      key: s,
+      cumulative: false,
+      periodization: "weekly",
+    };
+  } else {
+    return s;
+  }
+};
 
 // export const setMonthToSegment = (segment: Segment, yearmonth: string) => {
 
-//     if (yearmonth == 'all') {
+//     if (yearmonth === 'all') {
 
 //         console.log('yes');
 

@@ -8,9 +8,9 @@ export const relyOnCompleted = (
 ) => {
   const rows: string[][] = [];
   let i = 0;
-  let alteredData: any[] = [];
+  const alteredData: any[] = [];
 
-  for (let period of JSON.parse(JSON.stringify(filteredData))) {
+  for (const period of JSON.parse(JSON.stringify(filteredData))) {
     const row: string[] = [];
     row.push(period._year);
     const start = new Date(period._einddatum);
@@ -31,24 +31,24 @@ export const relyOnCompleted = (
       row.push(startDate + " t/m ...");
     }
 
-    for (let p of tableParams) {
-      if (p.format == "currency") {
+    for (const p of tableParams) {
+      if (p.format === "currency") {
         row.push(convertToCurrencyInTable(period[p.column]));
-      } else if (p.format == "percentage") {
+      } else if (p.format === "percentage") {
         row.push((0.1 * Math.round(period[p.column] * 10)).toString() + "%");
-      } else if (p.format == "decimals") {
-        if (period[p.column] != null) {
-          
-          row.push(period[p.column].toLocaleString('nl-NL', {
-            minimumFractionDigits: 1,
-            maximumFractionDigits: 1
-          }));
-
+      } else if (p.format === "decimals") {
+        if (period[p.column] !== null) {
+          row.push(
+            period[p.column].toLocaleString("nl-NL", {
+              minimumFractionDigits: 1,
+              maximumFractionDigits: 1,
+            }),
+          );
         } else {
           row.push("0");
         }
       } else {
-        if (period[p.column] != null) {
+        if (period[p.column] !== null) {
           row.push(period[p.column].toFixed(0));
         } else {
           row.push("0");
@@ -63,17 +63,17 @@ export const relyOnCompleted = (
 
     period["_startdatum"] = new Date(
       start.getTime() + 24 * 60 * 60 * 1000,
-    ).toLocaleDateString("nl-NL", { 
-            day: "2-digit",
-            month: "2-digit",
-          });
+    ).toLocaleDateString("nl-NL", {
+      day: "2-digit",
+      month: "2-digit",
+    });
     if (i > 0) {
       period["_einddatum"] = new Date(
         filteredData[i - 1]._einddatum,
       ).toLocaleDateString("nl-NL", {
-            day: "2-digit",
-            month: "2-digit",
-          });
+        day: "2-digit",
+        month: "2-digit",
+      });
     }
 
     alteredData.push(period);
@@ -95,7 +95,7 @@ export const fillEmptyMonths = (
   const start = parseInt(filteredData[filteredData.length - 1]._yearmonth);
   const rows: string[][] = [];
 
-  for (let year of years) {
+  for (const year of years) {
     for (let i = 1; i <= 12; i++) {
       const month = i < 10 ? "0" + i.toString() : i.toString();
       const yearmonth = parseInt(year.toString() + month);
@@ -104,35 +104,41 @@ export const fillEmptyMonths = (
         continue;
       }
 
-      let m = filteredData.find(
-        (p) => p._year == year && p._month == i.toString(),
+      const m = filteredData.find(
+        (p) => p._year === year && p._month === i.toString(),
       );
       const row: string[] = [];
 
-      if (m != undefined) {
+      if (m !== undefined) {
         dataByMonth.push(m);
 
         row.push(m._year);
         row.push(m._month);
         row.push(
-          new Date(m._startdatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}) +
+          new Date(m._startdatum).toLocaleDateString("nl-NL", {
+            day: "2-digit",
+            month: "2-digit",
+          }) +
             " t/m " +
-            new Date(m._einddatum).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit"}),
+            new Date(m._einddatum).toLocaleDateString("nl-NL", {
+              day: "2-digit",
+              month: "2-digit",
+            }),
         );
 
-        for (let p of tableParams) {
-          if (p.format == "currency") {
+        for (const p of tableParams) {
+          if (p.format === "currency") {
             row.push(convertToCurrencyInTable(m[p.column]));
-          } else if (p.format == "percentage") {
+          } else if (p.format === "percentage") {
             row.push((0.1 * Math.round(m[p.column] * 10)).toString() + "%");
-          } else if (p.format == "decimals") {
-            if (m[p.column] != null) {
+          } else if (p.format === "decimals") {
+            if (m[p.column] !== null) {
               row.push(m[p.column].toFixed(1));
             } else {
               row.push("0");
             }
           } else {
-            if (m[p.column] != null) {
+            if (m[p.column] !== null) {
               row.push(m[p.column].toFixed(0));
             } else {
               row.push("0");
@@ -144,7 +150,7 @@ export const fillEmptyMonths = (
         const month = i < 10 ? "0" + i.toString() : i.toString();
         o._yearmonth = yearmonth;
 
-        for (let p of graphParams) {
+        for (const p of graphParams) {
           o[p.column] = 0;
         }
 

@@ -1,6 +1,6 @@
-import { breakpoints, colours } from "../../../img-modules/styleguide";
 import { drop } from "lodash";
-import { IParameterMapping } from "../interfaces";
+import { breakpoints, colours } from "../../../img-modules/styleguide";
+import type { IParameterMapping } from "../interfaces";
 
 export class HtmlMappingGroupSelector {
   constructor(
@@ -11,19 +11,19 @@ export class HtmlMappingGroupSelector {
   ) {}
 
   draw(index = 0) {
-    let selectEl = document.getElementById(this.id + "_mapping_" + index);
+    const selectEl = document.getElementById(this.id + "_mapping_" + index);
 
-    if (selectEl && selectEl.parentNode != null) {
+    if (selectEl && selectEl.parentNode !== null) {
       selectEl.parentNode.removeChild(selectEl);
     }
 
-    let label = document.createElement("label");
+    const label = document.createElement("label");
     label.id = this.id + "_label";
     label.innerText = "Kies voor een datapunt";
     label.classList.add("hidden-label");
     label.setAttribute("for", this.id + "_el" + index);
 
-    let dropdown = document.createElement("select");
+    const dropdown = document.createElement("select");
     dropdown.id = this.id + "_mapping_" + index;
     dropdown.style.alignSelf = "flex-start";
     dropdown.style.maxWidth = "90vw";
@@ -36,7 +36,7 @@ export class HtmlMappingGroupSelector {
 
       const arr = group[0].column.split("_");
 
-      console.log(arr[arr.length - 1])
+      console.log(arr[arr.length - 1]);
 
       switch (arr[arr.length - 1]) {
         case "ingediend":
@@ -62,7 +62,7 @@ export class HtmlMappingGroupSelector {
           break;
       }
 
-      let option = document.createElement("option");
+      const option = document.createElement("option");
       option.label = label;
       option.value = i.toString();
       option.innerText = label;

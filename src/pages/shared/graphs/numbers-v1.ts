@@ -1,12 +1,12 @@
-import { DataObject, Segment } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
-import { parseSegment } from "../factories/segment";
 import breakpoints from "../../../img-modules/styleguide/breakpoints";
+import { parseSegment } from "../factories/segment";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
 
 export class NumbersV1 extends core.GraphControllerV3 {
-  els : any = {};
+  els: any = {};
   numbers: any = {};
 
   constructor(
@@ -41,30 +41,34 @@ export class NumbersV1 extends core.GraphControllerV3 {
   }
 
   pre() {
-
     const bottomMargin = window.innerWidth < breakpoints.lg ? 0 : 45;
     this._addMargin(0, bottomMargin, 0, 0);
   }
 
   html() {
     const className =
-      this.parameters[0].length == 3
+      this.parameters[0].length === 3
         ? "graph-container-4"
         : "graph-container-3";
 
-    for (let p of this.parameters[0]) {
+    for (const p of this.parameters[0]) {
       this.els[p.column] = super._html([className]);
     }
 
     const els: HTMLElement[] = Object.values(this.els);
     els[els.length - 1].style.marginBottom = "0";
 
-    let h = this.group.graphs[this.index].header;
-    if (h != undefined) {
+    const h = this.group.graphs[this.index].header;
+    if (h !== undefined) {
       const div = document.createElement("div");
       div.innerHTML = h + ":";
       div.style.width = "100%";
-      div.style.margin = window.innerWidth < breakpoints.sm ? "1.5rem" : window.innerWidth < breakpoints.lg ? "1.5rem 0 .75rem 0" : "1.5rem 0";
+      div.style.margin =
+        window.innerWidth < breakpoints.sm
+          ? "1.5rem"
+          : window.innerWidth < breakpoints.lg
+            ? "1.5rem 0 .75rem 0"
+            : "1.5rem 0";
       if (Object.values(this.els)[0]) {
         const n = Object.values(this.els)[0] as HTMLElement;
         n.parentNode?.insertBefore(div, n);
@@ -74,9 +78,8 @@ export class NumbersV1 extends core.GraphControllerV3 {
   }
 
   async init() {
-    for (let p of this.parameters[0]) {
-
-      this.numbers[p.column]  = new elements.HtmlNumberAccented(
+    for (const p of this.parameters[0]) {
+      this.numbers[p.column] = new elements.HtmlNumberAccented(
         this,
         p,
         this.els[p.column],
@@ -92,18 +95,21 @@ export class NumbersV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-    for (let p of this.parameters[0]) {
-
-      if (p.column == "---") return;
+    for (const p of this.parameters[0]) {
+      if (p.column === "---") return;
       this.numbers[p.column].draw();
     }
   }
 
   async redraw(data: any, range: number[]) {
-    for (let p of this.parameters[0]) { 
-      const column = this.page.segment.groups[this.group.slug].cumulative ? p.column.replace("_cumulatief","") + "_cumulatief" : p.column.includes("_percentage") ||  p.column.includes("_peag") ? p.column : p.column.replace("_cumulatief","")
-      
-      if (p.column == "---") return;
+    for (const p of this.parameters[0]) {
+      const column = this.page.segment.groups[this.group.slug].cumulative
+        ? p.column.replace("_cumulatief", "") + "_cumulatief"
+        : p.column.includes("_percentage") || p.column.includes("_peag")
+          ? p.column
+          : p.column.replace("_cumulatief", "");
+
+      if (p.column === "---") return;
       const number = data.numbers[column];
       this.numbers[p.column].redraw(number);
     }

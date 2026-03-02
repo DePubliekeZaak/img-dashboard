@@ -1,13 +1,12 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { DataObject, Segment } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
-import HtmlLegendAsSum from "../html/html-legend-sum";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { parseSegment } from "../factories/segment";
+import HtmlLegendAsSum from "../html/html-legend-sum";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
 
 export class PieChartSumV1 extends core.GraphControllerV3 {
-  
   chartAxis: any;
   parts = {};
   entity_svgs = {};
@@ -61,10 +60,10 @@ export class PieChartSumV1 extends core.GraphControllerV3 {
       this.config.graphHeight = 320;
     }
 
-    if (this.group.element == null) return;
+    if (this.group.element === null) return;
 
     this.graphEl = super._html();
-    if (this.graphEl == null) return;
+    if (this.graphEl === null) return;
     this.graphEl.style.flexDirection =
       window.innerWidth < breakpoints.sm ? "column" : "row";
     this.graphEl.style.justifyContent =
@@ -84,7 +83,7 @@ export class PieChartSumV1 extends core.GraphControllerV3 {
 
   async init() {
     await super._init();
-    if (this.graphEl != null) await super._svg(this.graphEl);
+    if (this.graphEl !== null) await super._svg(this.graphEl);
 
     this.config.extra.innerRadius = 30;
     this.config.extra.maxRadius = 0.5 * (this.config.graphHeight || 0);
@@ -102,7 +101,7 @@ export class PieChartSumV1 extends core.GraphControllerV3 {
   async draw(data: DataObject) {
     this.chartPie.draw(
       data.pies[this.index].filter(
-        (d : any, i: number) => i != data.pies[this.index].length - 1,
+        (d: any, i: number) => i !== data.pies[this.index].length - 1,
       ),
     );
     this.legend.draw(data.pies[this.index]);

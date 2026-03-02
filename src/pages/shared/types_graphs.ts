@@ -1,130 +1,124 @@
-
 export type LinePoint = {
-    time: string|number|Date,
-    value: number,
-    label: string,
-    colour?: string
-}
+  time: string | number | Date;
+  value: number;
+  label: string;
+  colour?: string;
+};
 
-export type Line = LinePoint[]
+export type Line = LinePoint[];
 
-export type Lines = Line[]
+export type Lines = Line[];
 
 export type Bar = {
-    label : string,
-    value : number,
-    colour: string,
-    format?: string,
-    name?: string,
-    meta?: any,
-    value2?: number,
-    year?: number,
-    
-}
+  label: string;
+  value: number;
+  colour: string;
+  format?: string;
+  name?: string;
+  meta?: any;
+  value2?: number;
+  year?: number;
+};
 
 export interface TrendBar extends Bar {
-    date: string
-}  
+  date: string;
+}
 
 export interface StackedBar extends Bar {
-    y?: number,
-    dy?: number
-}  
-
+  y?: number;
+  dy?: number;
+}
 
 export type Bars = Bar[];
 
 export type GroupedBars = {
-    label: string,
-    group: Bars
-}
+  label: string;
+  group: Bars;
+};
 
 export type Circle = {
-    label : string,
-    value : number,
-    colour: string,
-    meta?: any
-}
+  label: string;
+  value: number;
+  colour: string;
+  meta?: any;
+};
 
 export type Circles = Circle[];
 
 export type Feature = any;
 
-export type GraphData = (Lines|Bars|Feature[][])
+export type GraphData = Lines | Bars | Feature[][];
 
 export type Sankey = {
-
-    nodes: SankeyNode[],
-    links: SankeyLink[]
-}
+  nodes: SankeyNode[];
+  links: SankeyLink[];
+};
 
 export type SankeyNode = {
-    node: number,
-    name: string,
-    label?: string,
-    type?: string
-}
+  node: number;
+  name: string;
+  label?: string;
+  type?: string;
+};
 
 export type SankeyLink = {
-    source: number,
-    target: number,
-    value: number,
-    label?: string,
-    amount?: number,
-    type?: string,
-    meta?: any
-}
+  source: number;
+  target: number;
+  value: number;
+  label?: string;
+  amount?: number;
+  type?: string;
+  meta?: any;
+};
 
 export type PlotItem = {
-    label: string,
-    time: string,
-    value: string,
-    radius: string,
-    meta?: any
-}
+  label: string;
+  time: string;
+  value: string;
+  radius: string;
+  meta?: any;
+};
 
 export type TableData = {
-
-    headers: string[],
-    rows: string[][]
-}
+  headers: string[];
+  rows: string[][];
+};
 
 export type Definition = {
-    name: string,
-    description: string
-}
+  name: string;
+  description: string;
+};
 
-export type Definitions = Definition[]; 
+export type Definitions = Definition[];
 
-
-export type IntData  = {
-    graph: (Circle|Bar)[]|Sankey,
-    graph_2?: (Circle|Bar)[]|Sankey,
-    table: TableData
-}
+export type IntData = {
+  graph: (Circle | Bar)[] | Sankey;
+  graph_2?: (Circle | Bar)[] | Sankey;
+  table: TableData;
+};
 
 export type GeoJsonGeometry = {
-    type: string,
-    coordinates: number[]
-}
+  type: string;
+  coordinates: number[];
+};
 
 export type GeoJsonFeature = {
-    type: string | number,
-    properties: { [key: string] : string|number }
-    geometry: GeoJsonGeometry
-}   
+  type: string | number;
+  properties: { [key: string]: string | number };
+  geometry: GeoJsonGeometry;
+};
 
 export type GeoJsonCollection = {
-    name: string,
-    type: string | number,
-    features: GeoJsonFeature[]
-}
+  name: string;
+  type: string | number;
+  features: GeoJsonFeature[];
+};
 
 export type PiePart = {
-    label: string,
-    value: number,
-    colour: string,
-    accented: boolean,
-    format?: string,
-    include?: boolean
-}
+  label: string;
+  value: number;
+  colour: string;
+  accented: boolean;
+  format?: string;
+  include?: boolean;
+};

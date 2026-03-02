@@ -1,12 +1,12 @@
 import { breakpoints, colours } from "../../img-modules/styleguide";
 import {
-  convertToCurrencyInMillions,
   convertToCurrency,
+  convertToCurrencyInMillions,
   slugify,
   thousands,
 } from "../../pages/shared/_helpers";
-import { TrendBar } from "../../pages/shared/types_graphs";
-import { IGraphControllerV3 } from "../core/graph-v3";
+import type { TrendBar } from "../../pages/shared/types_graphs";
+import type { IGraphControllerV3 } from "../core/graph-v3";
 
 export default class ChartBarTrend {
   slug;
@@ -14,14 +14,13 @@ export default class ChartBarTrend {
   constructor(private ctrlr: IGraphControllerV3) {}
 
   draw(data: TrendBar[]) {
-    let self = this;
-
     this.slug =
       this.ctrlr.filters && this.ctrlr.filters.length > 0
         ? this.ctrlr.slug
         : slugify(data[0].label);
 
-    let groupSlug = data[0].name != undefined ? data[0].name : this.ctrlr.slug;
+    const groupSlug =
+      data[0].name !== undefined ? data[0].name : this.ctrlr.slug;
 
     const group = this.ctrlr.svg.layers.data
       .selectAll("g." + groupSlug)
@@ -35,20 +34,21 @@ export default class ChartBarTrend {
       .data(data, (d) => d.date)
       .join("rect")
       .attr("class", (d) => "bar " + this.slug)
-      .attr("y", self.ctrlr.dimensions.svgHeight)
+      .attr("y", this.ctrlr.dimensions.svgHeight)
       .attr("height", 0);
   }
 
   redraw(data: TrendBar[], period?: string) {
-    let self = this;
+    const self = this;
     // can be called multiple times for extra trends
-    let groupSlug = data[0].name != undefined ? data[0].name : this.ctrlr.slug;
+    const groupSlug =
+      data[0].name !== undefined ? data[0].name : this.ctrlr.slug;
 
     const group = this.ctrlr.svg.layers.data.selectAll("g." + groupSlug);
 
     const bars = group.selectAll(".bar." + this.slug);
 
-    let tooltip = function popup(d) {
+    const tooltip = function popup(d) {
       let value = "0";
 
       switch (d.format) {
@@ -58,14 +58,15 @@ export default class ChartBarTrend {
         case "percentage":
           value = d.value + "%";
           break;
-        case "currency":self.ctrlr.config.innerPadding.right
+        case "currency":
+          self.ctrlr.config.innerPadding.right;
           value = convertToCurrency(d.value);
           break;
         default:
           value = thousands(d.value);
       }
 
-      if (period == "weekly") {
+      if (period === "weekly") {
         return `
           <div>${d.label}</div>
           <div>week ${d.meta._week} - ${d.meta._year}</div>
@@ -80,7 +81,9 @@ export default class ChartBarTrend {
       }
     };
 
-    let barWidth = data[0].meta._isNewApi ? (this.ctrlr.dimensions.graphWidth / (data.length))  +1 : (this.ctrlr.dimensions.coreWidth / (data.length)) - 2;
+    const barWidth = data[0].meta._isNewApi
+      ? this.ctrlr.dimensions.graphWidth / data.length + 1
+      : this.ctrlr.dimensions.coreWidth / data.length - 2;
 
     bars
       .attr("x", (d: TrendBar, i: number) => {
@@ -117,8 +120,8 @@ export default class ChartBarTrend {
           t.style("left", event.pageX - 0 + "px").style("right", "auto");
         } else {
           let w =
-            this.ctrlr.element == null ||
-            this.ctrlr.element.parentElement == null
+            this.ctrlr.element === null ||
+            this.ctrlr.element.parentElement === null
               ? window.innerWidth
               : this.ctrlr.element.parentElement.getBoundingClientRect().width;
           if (window.innerWidth > breakpoints.md) w = window.innerWidth;

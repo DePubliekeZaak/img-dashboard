@@ -1,4 +1,4 @@
-import { IGraphMapping, IMappingOption } from "../../charts/core/types";
+import { type IGraphMapping, IMappingOption } from "../../charts/core/types";
 
 export const removeDuplicates = (arr: any[]) => {
   const seen = new Set<string>();
@@ -12,7 +12,7 @@ export const removeDuplicates = (arr: any[]) => {
   });
 };
 
-var trimColumns = function (json: any, neededColumns: string[]) {
+var trimColumns = (json: any, neededColumns: string[]) => {
   json.forEach((week: any, i: number) => {
     Object.keys(week).forEach((key) => {
       if (neededColumns.indexOf(key) < 0) {
@@ -34,28 +34,29 @@ export const defaultColumns = [
   "_einddatum",
   "gemeente",
   "periodization",
-  "complete"
+  "complete",
 ];
 
-
 export const trimColumnsAndOrder = (json: any, neededColumns: string[]) => {
-  let newArray: any[] = [];
+  const newArray: any[] = [];
   let newObject: any;
 
   json.forEach((obj: any, i: number) => {
     newObject = {};
     neededColumns.forEach((nc) => {
       const value = obj[nc];
-      
+
       // Keep as string if in defaultColumns
       if (defaultColumns.includes(nc)) {
-
-        newObject[nc] = (typeof value === 'boolean') ? newObject[nc] = value : newObject[nc] = value ? value.toString() : ""
-
+        newObject[nc] =
+          typeof value === "boolean"
+            ? (newObject[nc] = value)
+            : (newObject[nc] = value ? value.toString() : "");
       } else {
         // Convert to number if possible, otherwise keep as-is
         const numValue = Number(value);
-        newObject[nc] = !isNaN(numValue) && value !== '' && value !== null ? numValue : value;
+        newObject[nc] =
+          !isNaN(numValue) && value !== "" && value !== null ? numValue : value;
       }
     });
 
@@ -65,30 +66,26 @@ export const trimColumnsAndOrder = (json: any, neededColumns: string[]) => {
   return newArray;
 };
 
-var hasValue = function (array: any[], value: string) {
-  return array.filter((i) => {
+var hasValue = (array: any[], value: string) =>
+  array.filter((i) => {
     return i[value] !== null;
   });
-};
 
 export function thousands(number: any) {
-
   const dutchFormatter = new Intl.NumberFormat("nl-NL", {
-    useGrouping: true
+    useGrouping: true,
   });
 
-  return number != undefined ? dutchFormatter.format(number) : ``;
+  return number !== undefined ? dutchFormatter.format(number) : ``;
 }
 
 export function removeFormatting(number: any) {
-
   const dutchFormatter = new Intl.NumberFormat("nl-NL", {
-    useGrouping: true
+    useGrouping: true,
   });
 
-  return number != undefined ? dutchFormatter.format(number) : ``;
+  return number !== undefined ? dutchFormatter.format(number) : ``;
 }
-
 
 export function miljarden(number: number): string {
   return (number / 1000).toString();
@@ -142,24 +139,22 @@ export function convertToCurrencyInTable(number: number) {
 }
 
 export function convertToMillions(number: number) {
-
   if (number >= 1000 * 1000 * 1000) {
     return "€ " + (number / (1000 * 1000 * 1000)).toFixed(0) + " mrd";
-  } else if (number >= 1000 * 1000) { 
-      return "€ " + (number / (1000 * 1000)).toFixed(0) + " mln";
-  } else if (number >= 99 * 1000) { 
-      return "€ " + (number / (1000 * 1000)).toFixed(1) + " mln";
+  } else if (number >= 1000 * 1000) {
+    return "€ " + (number / (1000 * 1000)).toFixed(0) + " mln";
+  } else if (number >= 99 * 1000) {
+    return "€ " + (number / (1000 * 1000)).toFixed(1) + " mln";
   } else {
     return "€ " + thousands(number);
   }
-  
 }
 
 // export function sanitizeCurrency(string: string) {
 //   let s = string.replace("€&nbsp;", "");
 
 //   console.log(s);
-  
+
 //   // Only remove dots if it's thousands formatting (multiple dots OR value > 999)
 //   const dotCount = (s.match(/\./g) || []).length;
 //   if (dotCount > 1) {
@@ -172,13 +167,13 @@ export function convertToMillions(number: number) {
 //     // Has comma (Dutch format), remove any dots (thousands)
 //     s = s.replace(/\./g, "");
 //   }
-  
+
 //   let number;
 
-//   if (s[0] == "(") {
+//   if (s[0] === "(") {
 //     s = s.replace("(", "").replace(")", "");
 //     number = -parseFloat(s);
-//   } else if (s[0] == "-") {
+//   } else if (s[0] === "-") {
 //     number = 0;
 //   } else if (s.includes("t/m")) {
 //     number = string;
@@ -192,9 +187,7 @@ export function convertToMillions(number: number) {
 //   }
 //   console.log("n", number)
 
-
-
-//   return number != undefined ? number : s;
+//   return number !== undefined ? number : s;
 // }
 
 export function shortenCurrency(string: string) {
@@ -256,7 +249,7 @@ export function slugify(str: string) {
 // }
 
 export function getParameter(o: IGraphMapping, i: number) {
-  // if(o && o != true) {
+  // if(o && o !== true) {
 
   let m: any = o.parameters[i];
 
@@ -286,7 +279,7 @@ export function flattenColumn(column: string | string[]): string {
 
 export function flattenArray(array: any[]) {
   var result: any[] = [];
-  array.forEach(function (a) {
+  array.forEach((a) => {
     if (Array.isArray(a)) {
       a.forEach((aa, i) => {
         result.push(aa);
@@ -345,5 +338,5 @@ export const toDutchMonths = (number: number) => {
 };
 
 export const accounting = (v: number): string => {
-  return v != null ? (v >= 0 ? v.toString() : "(" + -v.toString() + ")") : "0";
+  return v !== null ? (v >= 0 ? v.toString() : "(" + -v.toString() + ")") : "0";
 };

@@ -1,18 +1,21 @@
+import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
-import { DataObject, ImgData } from "../../shared/types";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import {
+  type IGroupMappingV2,
+  IParameterMapping,
+} from "../../shared/interfaces";
+import { DataObject, type ImgData } from "../../shared/types";
 import {
   Bar,
   Bars,
-  Line,
-  TrendBar,
-  PiePart,
-  TableData,
   Definitions,
+  Line,
+  PiePart,
+  type TableData,
+  TrendBar,
 } from "../../shared/types_graphs";
-import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
 
 export class MakeupGroupTrendV1 extends GroupControllerV1 {
   constructor(
@@ -25,7 +28,7 @@ export class MakeupGroupTrendV1 extends GroupControllerV1 {
 
   html() {
     const graphWrapper = super.html();
-    let source = HTMLSourceV2(
+    const source = HTMLSourceV2(
       graphWrapper?.parentElement as HTMLElement,
       this.page.main.params.language,
       "IMG",
@@ -36,10 +39,10 @@ export class MakeupGroupTrendV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
-    const dataGroup = this.config.endpoints[0];
+    const dataGroup = this.config.endpoints![0];
     const rows: string[][] = [];
 
-    let { tableParams, graphData, definitions, graphData_alt, timeline } =
+    const { tableParams, graphData, definitions, graphData_alt, timeline } =
       super.prepareData(data);
 
     // console.log("gd",graphData);
@@ -47,16 +50,16 @@ export class MakeupGroupTrendV1 extends GroupControllerV1 {
 
     //    tableParams = tableParams.filter( p =>  p.column.includes("_cumulatief"));
 
-    for (let period of data[dataGroup]) {
+    for (const period of data[dataGroup]) {
       const row: string[] = [];
       row.push(period._year);
       row.push(period._month);
       // row.push(new Date(period._startdatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}) + ' t/m ' + new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}));
 
-      for (let p of tableParams) {
-        if (p.format == "currency") {
+      for (const p of tableParams) {
+        if (p.format === "currency") {
           row.push(convertToCurrencyInTable(period[p.column]));
-        } else if (p.format == "percentage") {
+        } else if (p.format === "percentage") {
           row.push((0.1 * Math.round(period[p.column] * 10)).toString() + "%");
         } else {
           row.push(period[p.column]);

@@ -1,6 +1,6 @@
-import { IPageMapping } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
-const config: IPageMapping = [
+const config: IGroupMappingV2[] = [
   {
     slug: "aos_voortgang",
     ctrlr: "DefaultGroupV1",
@@ -41,7 +41,7 @@ const config: IPageMapping = [
       },
     ],
     functionality: ["table", "definitions", "download"],
-    endpoints: ["aos_wekelijks","aos_maandelijks"],
+    endpoints: ["aos_wekelijks", "aos_maandelijks"],
     segment: {
       key: "aos_meldingen_cumulatief",
       cumulative: true,
@@ -51,7 +51,7 @@ const config: IPageMapping = [
   {
     slug: "aos_trend",
     ctrlr: "DefaultGroupV1",
-    
+
     graphs: [
       {
         slug: "aos_trend_1",

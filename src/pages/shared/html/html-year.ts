@@ -1,43 +1,38 @@
 export class HTMLYear {
+  container: HTMLDivElement;
 
-    container: HTMLDivElement;
+  constructor(
+    private ctrlr,
+    private wrapper,
+    private orientation?: string,
+  ) {}
 
-    constructor(
-        private ctrlr,
-        private wrapper,
-        private orientation?:  string
-    ){
-       
-    }
+  draw(data) {
+    this.container = document.createElement("div");
+    this.container.classList.add("year_info");
 
-    draw(data) {
+    this.container.style.alignItems =
+      this.orientation === "center" ? "center" : "flex-start";
 
-        this.container = document.createElement('div');
-        this.container.classList.add('year_info');
+    const d = document.createElement("div");
 
+    const h = document.createElement("h3");
+    h.innerText = data;
+    d.appendChild(h);
 
-        this.container.style.alignItems = this.orientation  == 'center' ? 'center' : 'flex-start';
-     
-        let d = document.createElement('div');
+    this.container.appendChild(d);
+    this.wrapper.insertBefore(this.container, this.wrapper.childNodes[0]);
 
-        let h = document.createElement('h3');
-        h.innerText = data;
-        d.appendChild(h);
+    return true;
+  }
 
-        this.container.appendChild(d);
-        this.wrapper.insertBefore(this.container,this.wrapper.childNodes[0]);
-        
-        return true;
-    }
+  redraw() {}
 
-    redraw() {
-    }
+  hide() {
+    this.container.style.opacity = "0";
+  }
 
-    hide() {
-        this.container.style.opacity = '0';
-    }
-
-    show() {
-        this.container.style.opacity = '1';
-    }
+  show() {
+    this.container.style.opacity = "1";
+  }
 }

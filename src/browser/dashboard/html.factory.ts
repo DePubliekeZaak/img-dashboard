@@ -1,18 +1,17 @@
-import { switchTopic } from "./interaction.factory";
-import { IDashboardController } from "./dashboard.controller";
-import { IGraphMapping } from "../../charts/core/types";
+import type { IGraphMapping } from "../../charts/core/types";
 import { breakpoints } from "../../img-modules/styleguide";
-import { Version } from "./types";
+import type { IDashboardController } from "./dashboard.controller";
+import type { Version } from "./types";
 
 export const styleParentElement = (): Element | null => {
   const htmlContainer = document.querySelector(
-    "[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']"
+    "[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']",
   );
   htmlContainer.id = "dashboard-main";
 
-  if (htmlContainer != undefined) {
+  if (htmlContainer !== undefined) {
     const parentEl = htmlContainer.parentElement;
-    if (parentEl != undefined) {
+    if (parentEl !== undefined) {
       parentEl.classList.add("container");
       parentEl.style.display = "flex";
       parentEl.style.flexDirection =
@@ -27,19 +26,21 @@ export const styleParentElement = (): Element | null => {
 
 export const createSideBar = (container: HTMLElement): HTMLElement => {
   container.classList.add("has_sidebar");
-  let aside = document.createElement("aside");
+  const aside = document.createElement("aside");
   aside.classList.add("selectors");
   aside.style.opacity = "0";
-  if (container.parentElement != null)
+  if (container.parentElement !== null)
     container.parentElement.insertBefore(
       aside,
-      document.querySelector("[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']"),
+      document.querySelector(
+        "[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']",
+      ),
     );
   return aside;
 };
 
 export const createSkipLink = (): HTMLElement => {
-  let skipLink = document.createElement("a");
+  const skipLink = document.createElement("a");
   skipLink.classList.add("skip");
   skipLink.setAttribute("href", "#dashboard-main");
   skipLink.innerText = "Direct naar hoofdinhoud";
@@ -62,15 +63,15 @@ export const pageHeader = (
   container: HTMLElement,
   version: Version,
 ): void => {
-  let prevBC = document.querySelector("div.page_header");
+  const prevBC = document.querySelector("div.page_header");
   if (prevBC) {
     prevBC.remove();
   }
 
-  let h = document.createElement("div");
+  const h = document.createElement("div");
   h.classList.add("page_header");
 
-  let v = document.createElement("div");
+  const v = document.createElement("div");
   v.classList.add("versie");
   v.innerText = version.name;
   v.addEventListener("click", () => {
@@ -78,12 +79,12 @@ export const pageHeader = (
     ctrlr.switch("topic", "correcties", false);
   });
 
-  let d = document.createElement("div");
+  const d = document.createElement("div");
   d.classList.add("datum");
   d.innerText = "Laatst bijgewerkt op: ";
   d.appendChild(document.createElement("span"));
 
-  let h2 = document.createElement("h2");
+  const h2 = document.createElement("h2");
   h2.classList.add("img_dashboard");
   h2.innerText = topic;
 
@@ -98,10 +99,10 @@ export const createGraphGroupElement = (
   graphObject: IGraphMapping,
   htmlContainer: HTMLElement,
 ) => {
-  let element = document.createElement("article");
+  const element = document.createElement("article");
 
   if (graphObject.elementClasslist) {
-    for (let className of graphObject.elementClasslist) {
+    for (const className of graphObject.elementClasslist) {
       element.classList.add(className);
     }
   }

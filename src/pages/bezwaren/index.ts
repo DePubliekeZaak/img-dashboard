@@ -1,2 +1,2 @@
-import CompanyController  from './controller'
+import CompanyController from "./controller";
 export default CompanyController;

@@ -1,12 +1,12 @@
-import { HtmlMappingSelector } from "./mapping-selector";
+import type { IGraphControllerV3 } from "../../../charts/core/graph-v3";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { IGraphControllerV3 } from "../../../charts/core/graph-v3";
-import { HtmlMonthSelector } from "./month-selector";
-import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
-import { HtmlPeriodSelector } from "./period-selector";
 import { HtmlCumulativevsDeltaSelector } from "./cumulative-delta-selector";
-import { HtmlMappingGroupSelector } from "./mapping-group-selector";
 import { HtmlNormalizedSelector } from "./html-normalized-selector";
+import { HtmlMappingGroupSelector } from "./mapping-group-selector";
+import { HtmlMappingSelector } from "./mapping-selector";
+import { HtmlMonthSelector } from "./month-selector";
+import { HtmlPeriodSelector } from "./period-selector";
+import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
 
 // import { EitiEntity } from "../types";
 
@@ -32,24 +32,22 @@ export class HtmlFilters {
   }
 
   init(el: HTMLElement | undefined) {
-    const element = el != undefined ? el : this.element; 
+    const element = el !== undefined ? el : this.element;
 
     const prevElement = element.querySelector(".filter_list");
 
     if (this.id.includes("bedragen") && this.id.includes("trend")) {
-
-      console.log(this.id)
-      this.listElement = this.ctrlr.page.main.window.document.createElement("div");
+      console.log(this.id);
+      this.listElement =
+        this.ctrlr.page.main.window.document.createElement("div");
       this.listElement.classList.add("filter_list");
 
       const ul = this.ctrlr.page.main.window.document.createElement("ul");
 
       this.listElement.appendChild(ul);
-      console.log(this.element)
+      console.log(this.element);
       this.element.prepend(this.listElement);
-    }
-
-    else if (this.master) {
+    } else if (this.master) {
       const container =
         this.ctrlr.page.main.window.document.createElement("section");
       container.classList.add(
@@ -58,7 +56,8 @@ export class HtmlFilters {
         "filter-wrapper",
       );
 
-      this.listElement = this.ctrlr.page.main.window.document.createElement("div");
+      this.listElement =
+        this.ctrlr.page.main.window.document.createElement("div");
       this.listElement.classList.add("filter_list");
 
       const ul = this.ctrlr.page.main.window.document.createElement("ul");
@@ -76,8 +75,6 @@ export class HtmlFilters {
   }
 
   draw() {
-    const self = this;
-
     // Ensure segment structure exists
     if (!this.ctrlr.page.segment.groups[this.ctrlr.group.slug]) {
       this.ctrlr.page.segment.groups[this.ctrlr.group.slug] = { graphs: {} };
@@ -99,7 +96,7 @@ export class HtmlFilters {
 
       switch (func) {
         case "modifier":
-          if (this.modifiers != undefined) {
+          if (this.modifiers !== undefined) {
             if (this.master) {
               selector = new HtmlMappingSelector(
                 this.ctrlr,
@@ -114,21 +111,22 @@ export class HtmlFilters {
               this.id + "_1",
             );
 
-            if (selectEl == null) break;
+            if (selectEl === null) break;
 
             selectEl.addEventListener("change", () => {
-              // @ts-ignore
+              // @ts-expect-error
               const newValue = selectEl.value.replace("{}", this.segment.key);
 
-              if (newValue != self.ctrlr.segment.key) {
-                self.ctrlr.update(self.ctrlr.group.data, true);
+              if (newValue !== this.ctrlr.segment.key) {
+                this.ctrlr.update(this.ctrlr.group.data, true);
               }
             });
           }
 
           break;
 
-        case "totaalVsRecent": // fixed
+        case "totaalVsRecent": {
+          // fixed
           if (this.master) {
             selector = new HtmlTotalvsRecentSelector(this.ctrlr, li, this.id);
             selectEl = selector.draw(1);
@@ -138,27 +136,28 @@ export class HtmlFilters {
             ) as HTMLSelectElement;
           }
 
-          if (selectEl == null) break;
+          if (selectEl === null) break;
 
           function strip(s: string) {
             return s.replace(/_cumulatief$/, "");
           }
 
           selectEl.addEventListener("change", () => {
-            if (selectEl != null) {
-              if (localSegment.cumulative != selectEl.value) {
+            if (selectEl !== null) {
+              if (localSegment.cumulative !== selectEl.value) {
                 localSegment.cumulative =
-                  selectEl.value == "cumulative" ? true : false;
+                  selectEl.value === "cumulative" ? true : false;
                 localSegment.key =
-                  selectEl.value == "cumulative"
+                  selectEl.value === "cumulative"
                     ? strip(localSegment.key) + "_cumulatief"
                     : strip(localSegment.key);
-                self.ctrlr.update(self.ctrlr.group.data, true);
+                this.ctrlr.update(this.ctrlr.group.data, true);
               }
             }
           });
 
           break;
+        }
 
         case "cumulativeVsDelta": // fixed
           if (this.master) {
@@ -174,23 +173,25 @@ export class HtmlFilters {
             ) as HTMLSelectElement;
           }
 
-          if (selectEl == null) break;
+          if (selectEl === null) break;
 
           selectEl.addEventListener("change", () => {
-            if (selectEl != null) {
-              if (localSegment.cumulative != selectEl.value) {
+            if (selectEl !== null) {
+              if (localSegment.cumulative !== selectEl.value) {
                 if (localSegment.key.includes("voorraad")) {
                   localSegment.cumulative = true;
-                  localSegment.key = strip(localSegment.key) + "_cumulatief";
+                  localSegment.key =
+                    localSegment.key.replace("_cumulatief", "") + "_cumulatief";
                 } else {
                   localSegment.cumulative =
-                    selectEl.value == "cumulative" ? true : false;
+                    selectEl.value === "cumulative" ? true : false;
                   localSegment.key =
-                    selectEl.value == "cumulative"
-                      ? strip(localSegment.key) + "_cumulatief"
-                      : strip(localSegment.key);
+                    selectEl.value === "cumulative"
+                      ? localSegment.key.replace("_cumulatief", "") +
+                        "_cumulatief"
+                      : localSegment.key.replace("_cumulatief", "");
 
-                  self.ctrlr.update(self.ctrlr.group.data, true);
+                  this.ctrlr.update(this.ctrlr.group.data, true);
                 }
               }
             }
@@ -214,21 +215,19 @@ export class HtmlFilters {
             );
           }
 
-          if (selectEl == null) break;
+          if (selectEl === null) break;
 
           selectEl.addEventListener("change", () => {
-            if (selectEl != null) {
-              // @ts-ignore
-              if (selectEl.value != self.ctrlr.segment.key) {
-                // @ts-ignore
-                if (selectEl.value == "all") {
+            if (selectEl !== null) {
+              if (selectEl.value !== this.ctrlr.segment.key) {
+                if (selectEl.value === "all") {
                   localSegment.cumulative = true;
                   localSegment.key = "all";
                 } else {
                   localSegment.cumulative = false;
                   localSegment.key = selectEl.value;
                 }
-                self.ctrlr.update(self.ctrlr.group.data, true);
+                this.ctrlr.update(this.ctrlr.group.data, true);
               }
             }
           });
@@ -237,12 +236,8 @@ export class HtmlFilters {
 
         case "weekVsMonth": // fixed
           if (this.master) {
-            selector = new HtmlPeriodSelector(
-              li,
-              this.ctrlr.group.slug,
-              true
-            );
-            let periodization = localSegment
+            selector = new HtmlPeriodSelector(li, this.ctrlr.group.slug, true);
+            const periodization = localSegment
               ? localSegment.periodization
               : "monthly";
             selectEl = selector.draw(periodization);
@@ -252,13 +247,13 @@ export class HtmlFilters {
             );
           }
 
-          if (selectEl == null) break;
+          if (selectEl === null) break;
 
           selectEl.addEventListener("change", () => {
-            if (selectEl != null) {
-              if (selectEl.value != localSegment.periodization) {
+            if (selectEl !== null) {
+              if (selectEl.value !== localSegment.periodization) {
                 localSegment.periodization = selectEl.value;
-                self.ctrlr.update(self.ctrlr.group.data, true);
+                this.ctrlr.update(this.ctrlr.group.data, true);
               }
             }
           });
@@ -280,11 +275,11 @@ export class HtmlFilters {
             ) as HTMLSelectElement;
           }
 
-          if (selectEl == null) break;
+          if (selectEl === null) break;
 
           selectEl.addEventListener("change", () => {
-            if (selectEl != null) {
-              if (selectEl.value != localSegment.key) {
+            if (selectEl !== null) {
+              if (selectEl.value !== localSegment.key) {
                 if (
                   localSegment.cumulative ||
                   selectEl.value.includes("voorraad")
@@ -294,14 +289,15 @@ export class HtmlFilters {
                   localSegment.key = selectEl.value.replace("_cumulatief", "");
                 }
 
-                self.ctrlr.update(self.ctrlr.group.data, true);
+                this.ctrlr.update(this.ctrlr.group.data, true);
               }
             }
           });
 
           break;
 
-        case "mappingGroupSelect": // fixed
+        case "mappingGroupSelect": {
+          // fixed
           const __selector = new HtmlMappingGroupSelector(
             this.ctrlr,
             li,
@@ -311,15 +307,17 @@ export class HtmlFilters {
           const __selectEl = __selector.draw(1);
 
           __selectEl.addEventListener("change", () => {
-            if (localSegment.parameterIndex != parseInt(__selectEl.value)) {
+            if (localSegment.parameterIndex !== parseInt(__selectEl.value)) {
               localSegment.parameterIndex = parseInt(__selectEl.value);
-              self.ctrlr.update(self.ctrlr.group.data, true);
+              this.ctrlr.update(this.ctrlr.group.data, true);
             }
           });
 
           break;
+        }
 
-        case "absoluteVsNormalized": // fixed
+        case "absoluteVsNormalized": {
+          // fixed
           const ___selector = new HtmlNormalizedSelector(
             this.ctrlr,
             li,
@@ -329,15 +327,16 @@ export class HtmlFilters {
           const ___selectEl = ___selector.draw(1);
 
           ___selectEl.addEventListener("change", () => {
-            let b = ___selectEl.value == "normalized" ? true : false;
+            const b = ___selectEl.value === "normalized" ? true : false;
 
-            if (localSegment.normalized != b) {
+            if (localSegment.normalized !== b) {
               localSegment.normalized = b;
-              self.ctrlr.update(self.ctrlr.group.data, true);
+              this.ctrlr.update(this.ctrlr.group.data, true);
             }
           });
 
           break;
+        }
       }
 
       if (this.master) {
@@ -348,28 +347,19 @@ export class HtmlFilters {
 
   // post data retrieval
   redraw(func: string) {
-    let self = this;
-
     // switch (func) {
-
     //     case 'companySelect' :
-
     //     const collection = self.ctrlr.page.main.data.collection();
-
     //     const companies = collection.entities
-    //     .filter( (e) => e.type === 'company' && e.slug != 'ebn')
+    //     .filter( (e) => e.type === 'company' && e.slug !== 'ebn')
     //     .sort( (a: EitiEntity, b: EitiEntity) =>  a.name.localeCompare(b.name));
-
     //     const el = this.companySelector.redraw(this.segment, companies);
-
     //     el.addEventListener("change", () => {
-
-    //         if( el.value != self.ctrlr.segment) {
+    //         if( el.value !== self.ctrlr.segment) {
     //             self.companySelector.redraw(el.value, companies);
     //             self.ctrlr.update({}, el.value, true);
     //         }
     //     });
-
     //     break;
     // }
   }

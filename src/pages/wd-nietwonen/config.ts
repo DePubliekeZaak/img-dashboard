@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
   // intro
@@ -150,7 +150,7 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
-            }
+            },
           ],
           [],
         ],
@@ -178,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "wd_nietwonen_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["cumulativeVsDelta","weekVsMonth"],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
         parameters: [
           [
             {
@@ -380,7 +380,6 @@ const group: IGroupMappingV2[] = [
         multiples: "incremental",
         parameters: [
           [
-            
             {
               label: "Mediaan",
               column: "wd_nietwonen_dlt_gerealiseerd_mediaan_dagen",

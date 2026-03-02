@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping: IGroupMappingV2[] = [
   // intro
@@ -114,7 +114,7 @@ const mapping: IGroupMappingV2[] = [
   //   slug: "vv_toegekend_als",
   //   ctrlr: "DefaultGroupV1",
   //   filters: [],
-    
+
   //   ],
   //   segment: {
   //     key: "vv_afgerond_ves",
@@ -134,7 +134,7 @@ const mapping: IGroupMappingV2[] = [
         slug: "fs_vv_numbers_2",
         ctrlr: "NumbersV1",
         args: [],
-        filters: ["cumulativeVsDelta","weekVsMonth"],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
         multiples: "cumulative",
         parameters: [
           [
@@ -165,7 +165,7 @@ const mapping: IGroupMappingV2[] = [
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
-            }
+            },
           ],
           [],
         ],
@@ -356,7 +356,8 @@ const mapping: IGroupMappingV2[] = [
         filters: [],
         multiples: "cumulative",
         parameters: [
-          [ {
+          [
+            {
               label: "Afgehandeld",
               column: "vv_afgerond",
               colour: "moss",
@@ -382,7 +383,7 @@ const mapping: IGroupMappingV2[] = [
               format: "percentage",
               units: "afgehandeld binnen termijn",
             },
-                {
+            {
               label: "Vaste vergoeding",
               column: "vv_toegekend_ves",
               colour: "moss",
@@ -393,7 +394,7 @@ const mapping: IGroupMappingV2[] = [
               column: "vv_toegekend_avv",
               colour: "blue",
               units: "toegekend als AVV",
-            }
+            },
           ],
           [],
         ],
@@ -583,7 +584,6 @@ const mapping: IGroupMappingV2[] = [
           normalized: false,
         },
       },
-
     ],
     functionality: ["table", "definitions", "download"],
     endpoints: ["fysiek_vv_wekelijks", "fysiek_vv_maandelijks"],
@@ -641,7 +641,7 @@ const mapping: IGroupMappingV2[] = [
         args: [],
         parameters: [
           [
-                 {
+            {
               label: "Gerealiseerde mediaan aantal dagen tot besluit",
               column: "vv_dlt_gerealiseerd_mediaan_dagen",
               colour: "orange",

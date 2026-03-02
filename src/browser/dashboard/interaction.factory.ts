@@ -1,4 +1,4 @@
-import { IDashboardController } from "./dashboard.controller";
+import type { IDashboardController } from "./dashboard.controller";
 
 export const switchTopic = (
   ctrlr: IDashboardController,
@@ -21,14 +21,16 @@ export const switchTopic = (
 
   window.history.pushState({ path: newurl }, "", newurl);
 
-  let popupElement = document.getElementById("eiti-dashboard_popup");
-  if (popupElement != null) {
+  const popupElement = document.getElementById("eiti-dashboard_popup");
+  if (popupElement !== null) {
     popupElement.style.display = "none";
   }
-  let graphEls = [].slice.call(
-    document.querySelectorAll(".graph-container, h2.img_dashboard, .graph-wrapper"),
+  const graphEls = [].slice.call(
+    document.querySelectorAll(
+      ".graph-container, h2.img_dashboard, .graph-wrapper",
+    ),
   );
-  for (let el of graphEls) {
+  for (const el of graphEls) {
     el.parentNode.removeChild(el);
   }
 
@@ -37,12 +39,12 @@ export const switchTopic = (
 
   setActiveMenuItem(paramValue, isMobile);
 
-  let mobileNav = document.querySelector(".mobile_nav_v2");
+  const mobileNav = document.querySelector(".mobile_nav_v2");
   if (mobileNav) {
     mobileNav.classList.remove("is-open");
   }
 
-  let mobileNavButton = document.querySelector(
+  const mobileNavButton = document.querySelector(
     ".img_dashboard_mobile_nav_button",
   );
   if (mobileNavButton) {
@@ -162,12 +164,12 @@ export const openSubMenu = (slug: string, isMobile: boolean): void => {
 };
 
 export const setActiveMenuItem = (slug: string, isMobile: boolean): void => {
-  let className = isMobile ? "dashboard_nav_mobile" : "dashboard_nav";
-  let lis = [].slice.call(
+  const className = isMobile ? "dashboard_nav_mobile" : "dashboard_nav";
+  const lis = [].slice.call(
     document.querySelectorAll("ul." + className + " li a"),
   );
 
-  for (let l of lis) {
+  for (const l of lis) {
     l.classList.remove("active");
   }
 
@@ -186,7 +188,7 @@ export const setActiveMenuItem = (slug: string, isMobile: boolean): void => {
         currentElement.parentElement.id &&
         currentElement.parentElement.id.includes("submenu")
       ) {
-        let parentLi = currentElement.parentElement.parentElement;
+        const parentLi = currentElement.parentElement.parentElement;
         if (parentLi && parentLi.getAttribute("aria-controls")) {
           parentLi.setAttribute("aria-expanded", "true");
           const submenu = document.getElementById(

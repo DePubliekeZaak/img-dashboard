@@ -1,7 +1,7 @@
 import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2 } from "../../shared/interfaces";
-import { ImgData } from "../../shared/types";
-import { TableData } from "../../shared/types_graphs";
+import type { IGroupMappingV2 } from "../../shared/interfaces";
+import type { ImgData } from "../../shared/types";
+import type { TableData } from "../../shared/types_graphs";
 
 export class CorrectionGroupV1 extends GroupControllerV1 {
   constructor(
@@ -13,7 +13,6 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
   }
 
   html() {
-
     const graphWrapper = super.html();
 
     const container = document.createElement("div");
@@ -23,8 +22,8 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
 
     archiveLink.classList.add("correctie");
     archiveLink.innerText = "Bekijk deze versie";
-    archiveLink.style.marginBottom = "3rem"
-    archiveLink.style.display = "inline-block"
+    archiveLink.style.marginBottom = "3rem";
+    archiveLink.style.display = "inline-block";
 
     archiveLink.addEventListener("click", () => {
       this.page.main.switchVersion(this.config.slug);
@@ -47,7 +46,7 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
-    let { tableParams, graphData, definitions, graphData_alt, timeline } =
+    const { tableParams, graphData, definitions, graphData_alt, timeline } =
       super.prepareData(data);
 
     return {

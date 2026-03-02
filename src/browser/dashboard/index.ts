@@ -1,1 +1,4 @@
-export { DashboardController, IDashboardController } from './dashboard.controller'
+export {
+  DashboardController,
+  IDashboardController,
+} from "./dashboard.controller";

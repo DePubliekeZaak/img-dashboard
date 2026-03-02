@@ -1,7 +1,13 @@
-import { IGraphControllerV3 } from "../../charts/core/graph-v3";
-import { IPageController } from "./page.controller";
-import { DataObject, TableData, ImgData, Segment, Timeline } from "./types";
-import { Definitions } from "./types_graphs";
+import type { IGraphControllerV3 } from "../../charts/core/graph-v3";
+import type { IPageController } from "./page.controller";
+import {
+  type DataObject,
+  ImgData,
+  type Segment,
+  TableData,
+  Timeline,
+} from "./types";
+import type { Definitions } from "./types_graphs";
 
 export interface IParameterMapping {
   label: string;
@@ -43,7 +49,7 @@ export interface IGroupMappingV2 {
   description_en?: string | null;
   definitions?: string[];
   timeline?: string[];
-  endpoints: string[];
+  endpoints?: string[];
   segment?: string | Segment;
   publishDate?: string;
   functionality?: string[];
@@ -51,7 +57,12 @@ export interface IGroupMappingV2 {
   splice?: boolean;
 }
 
-export type IPageMapping = IGroupMappingV2[];
+export interface IPageConfig {
+  slug: string;
+  segment: Segment;
+  endpoints: string[]; // default voor alle groups
+  groups: IGroupMappingV2[];
+}
 
 export interface GroupObject {
   slug: string;

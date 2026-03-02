@@ -9,7 +9,8 @@ export class HtmlNumberCircle {
   ) {}
 
   draw() {
-    let element = this.element != undefined ? this.element : this.ctrlr.element;
+    const element =
+      this.element !== undefined ? this.element : this.ctrlr.element;
 
     let marginTop = "0";
 
@@ -19,12 +20,12 @@ export class HtmlNumberCircle {
       marginTop = ".5rem";
     }
 
-    let miniContainer = document.createElement("div");
+    const miniContainer = document.createElement("div");
     miniContainer.style.display = "flex";
     miniContainer.style.flexDirection = "column";
     miniContainer.style.alignItems = "center";
 
-    let div = document.createElement("div");
+    const div = document.createElement("div");
     div.classList.add("number_accented");
     div.style.display = "flex";
     div.style.position = "relative";
@@ -40,7 +41,7 @@ export class HtmlNumberCircle {
     div.style.marginBottom = marginTop;
     div.style.marginTop = marginTop;
 
-    let number = document.createElement("span");
+    const number = document.createElement("span");
     number.classList.add("number");
     number.classList.add("accented");
     number.style.fontSize =
@@ -55,7 +56,7 @@ export class HtmlNumberCircle {
     div.appendChild(number);
 
     if (this.parameter.units) {
-      let units = document.createElement("span");
+      const units = document.createElement("span");
       units.classList.add("units");
       units.innerText = this.parameter.units;
       units.style.color = "black";
@@ -74,20 +75,21 @@ export class HtmlNumberCircle {
   }
 
   redraw(data, extraParameter) {
-    let element = this.element != undefined ? this.element : this.ctrlr.element;
+    const element =
+      this.element !== undefined ? this.element : this.ctrlr.element;
 
     if (this.parameter.format === "decimals") {
-      let value = Math.round(data[this.parameter["column"]] * 100) / 100;
+      const value = Math.round(data[this.parameter["column"]] * 100) / 100;
       element.querySelector(".number.accented").innerText = value.toFixed(2);
     } else if (this.parameter.format === "currency") {
       element.querySelector(".number.accented").innerText = convertToCurrency(
         data[this.parameter["column"]],
       );
     } else if (this.parameter.format === "percentage") {
-      let value = Math.round(data[this.parameter["column"]] * 10) / 10;
+      const value = Math.round(data[this.parameter["column"]] * 10) / 10;
       element.querySelector(".number.accented").innerText = value + "%";
     } else {
-      let value = this.ctrlr.config.extra.decimal
+      const value = this.ctrlr.config.extra.decimal
         ? Math.round(data[this.parameter["column"]] * 10) / 10
         : Math.round(data[this.parameter["column"]]);
       element.querySelector(".number.accented").innerText =

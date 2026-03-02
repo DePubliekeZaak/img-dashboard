@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
   // intro
@@ -106,7 +106,7 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
-            }
+            },
           ],
           [],
         ],
@@ -134,7 +134,7 @@ const group: IGroupMappingV2[] = [
         slug: "ims_totaal_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["cumulativeVsDelta","weekVsMonth"],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
         parameters: [
           [
             {
@@ -164,7 +164,7 @@ const group: IGroupMappingV2[] = [
           cumulative: false,
           periodization: "monthly",
         },
-      }
+      },
     ],
     segment: {
       key: "ims_totaal_bedrag_betaald_totaal",
@@ -429,7 +429,7 @@ const group: IGroupMappingV2[] = [
     },
     functionality: ["table", "definitions", "download"],
     endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
-  }
+  },
 ];
 
 export default group;

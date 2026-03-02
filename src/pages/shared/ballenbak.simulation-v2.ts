@@ -1,69 +1,55 @@
-import { SimulationNodeDatum } from "d3";
+import type { SimulationNodeDatum } from "d3";
 
 const forceStrength = 0.125;
 
 export class BallenbakSimulationV2 {
+  s: any;
 
-    s: any;
+  constructor(private ctrlr: any) {
+    this.init();
+  }
 
-    constructor(private ctrlr: any) {
+  init() {
+    this.s = window.d3.forceSimulation();
 
-        this.init()
-    }
+    this.s
+      .force("charge", window.d3.forceManyBody().strength(forceStrength))
+      .force("center", window.d3.forceCenter())
+      .force("collide", window.d3.forceCollide().strength(forceStrength));
+  }
 
-    init() {
+  supply(data: any, groupCount?: number) {
+    this.s.nodes(data as SimulationNodeDatum[]);
 
-        this.s = window.d3.forceSimulation();
-        
-        this.s
-            .force('charge', window.d3.forceManyBody().strength(forceStrength))
-            .force("center", window.d3.forceCenter())
-            .force("collide", window.d3.forceCollide().strength(forceStrength))
-    }
+    this.s
+      .force("collide")
+      .strength(forceStrength)
+      .radius((d: any) => {
+        return this.ctrlr.scales.r.fn(d.value);
+      });
 
-    supply(data: any, groupCount?: number) {
+    this.s.on("tick", (d: any) => {
+      this.ctrlr.circleGroups.forceDirect();
+    });
+  }
 
+  restart() {
+    this.s.alphaTarget(0.3).restart;
+  }
 
-        let self = this;
-                    
-        this.s   
-            .nodes(data as SimulationNodeDatum[]);
+  redraw() {
+    const groupWidth = this.ctrlr.dimensions.width;
+    const center = {
+      x: groupWidth / 2,
+      y: this.ctrlr.dimensions.height / 2 - 50,
+    };
 
-        this.s    
-            .force("collide")
-                .strength(forceStrength)
-                .radius((d : any) => {
-                    return self.ctrlr.scales.r.fn(d.value)
-                });
+    this.s.force("center").x(center.x).y(center.y);
 
-        this.s 
-            .on("tick", (d: any) => {
-                self.ctrlr.circleGroups.forceDirect()
-            }); 
+    this.s
+      .force("collide")
+      .radius((d: any) => this.ctrlr.scales.r.fn(d.value) + 2);
 
-            
-        
-    }
-
-    restart() {
-    
-        this.s.alphaTarget(.3).restart;
-    }
-
-    redraw() {
-
-        let groupWidth = this.ctrlr.dimensions.width;
-        let center = {x: (groupWidth / 2) , y: ((this.ctrlr.dimensions.height / 2) - 50) };
-
-        this.s 
-            .force("center")
-                .x(center.x)
-                .y(center.y);
-            
-        this.s    
-            .force("collide")
-                .radius((d : any) => this.ctrlr.scales.r.fn(d.value) + 2);
-
-        this.s.alphaTarget(.3).restart;
-    }
+    this.s.alphaTarget(0.3).restart;
+  }
 }

@@ -1,97 +1,88 @@
-import {  KeyValue } from "../../charts/core/types";
-import { Version } from "./types";
+import type { KeyValue } from "../../charts/core/types";
 import { versions } from "../../pages/versions";
+import type { Version } from "./types";
 
 export interface IParamService {
-
-    renew() : void,
-    topic : string,
-    language: string
+  renew(): void;
+  topic: string;
+  language: string;
+  version: Version;
 }
 
 export class ParamService implements IParamService {
+  _params: KeyValue;
+  _topic: string;
+  _language: string = "nl";
+  _segment: string;
+  _version: Version;
 
-    _params: KeyValue
-    _topic: string;
-    _language: string = 'nl'
-    _segment:  string
-    _version: Version
+  renew() {
+    this._params = this._getParams();
 
-    constructor() {}
+    const primKey = Object.keys(this._params)[0];
+    const primValue = Object.values(this._params)[0];
 
-    renew() {
-
-        this._params = this._getParams();
-
-        const primKey = Object.keys(this._params)[0];
-        let primValue = Object.values(this._params)[0];
-
-        if (primValue === 'undefined' || 'language') {
-            this._topic = 'regelingen'
-            this._segment = '2022'
-        }
-
-        if (primKey === 'topic') {
-            this._topic = primValue.toString();
-            this._segment = '2022'
-        }
-
-        if(this._params.version == undefined || this._params.version == 'latest') {
-
-            this._version = {
-                slug: "v1",
-                tag: "latest",
-                name: "Actuele versie"
-            }
-
-        } else {
-
-            this._version = versions.find(v => v.slug == this._params.version)
-        }
-
-
-        if(Object.keys(this._params).indexOf('language') > -1) {
-            this._language = Object.values(this._params)[Object.keys(this._params).indexOf('language')].toString();
-        }
+    if (primValue === "undefined" || "language") {
+      this._topic = "regelingen";
+      this._segment = "2022";
     }
 
-    get topic() {
-        return this._topic;
+    if (primKey === "topic") {
+      this._topic = primValue.toString();
+      this._segment = "2022";
     }
 
-
-    get language() {
-        return this._language;
+    if (
+      this._params.version === undefined ||
+      this._params.version === "latest"
+    ) {
+      this._version = {
+        slug: "v1",
+        tag: "latest",
+        name: "Actuele versie",
+      };
+    } else {
+      this._version = versions.find((v) => v.slug === this._params.version);
     }
 
-    set language(lan: string) {
-        this._language = lan;
+    if (Object.keys(this._params).indexOf("language") > -1) {
+      this._language = Object.values(this._params)[
+        Object.keys(this._params).indexOf("language")
+      ].toString();
+    }
+  }
+
+  get topic() {
+    return this._topic;
+  }
+
+  get language() {
+    return this._language;
+  }
+
+  set language(lan: string) {
+    this._language = lan;
+  }
+
+  get segment() {
+    return this._segment;
+  }
+
+  get version() {
+    return this._version;
+  }
+
+  _getParams(): KeyValue {
+    const params = {};
+    const parser = document.createElement("a");
+    parser.href = window.location.href;
+    const query = parser.search.substring(1);
+    const vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+      const pair = vars[i].split("=");
+      params[pair[0]] = decodeURIComponent(pair[1]);
     }
 
-    get segment() {
-        return this._segment;
-    }
-
-    get version() {
-        return this._version;
-    }
-
-    _getParams() : KeyValue {
-
-        let params = {};
-        const parser = document.createElement('a');
-        parser.href = window.location.href;
-        const query = parser.search.substring(1);
-        const vars = query.split('&');
-        for (let i = 0; i < vars.length; i++) {
-            const pair = vars[i].split('=');
-            params[pair[0]] = decodeURIComponent(pair[1]);
-        }
-    
-        return params;
-    }
-
-
-
-
+    return params;
+  }
 }

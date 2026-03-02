@@ -1,3 +1,3 @@
-const groups = {}
+const groups = {};
 
 export default groups;

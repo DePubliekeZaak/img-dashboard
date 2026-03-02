@@ -1,6 +1,6 @@
 import { breakpoints, colours } from "../../img-modules/styleguide";
 import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
-import { IParameterMapping } from "../core/types";
+import type { IParameterMapping } from "../core/types";
 
 export class HtmlNumberAccented {
   constructor(
@@ -10,10 +10,11 @@ export class HtmlNumberAccented {
   ) {}
 
   draw() {
-    let element = this.element != undefined ? this.element : this.ctrlr.element;
+    const element =
+      this.element !== undefined ? this.element : this.ctrlr.element;
 
     element.innerHTML = "";
-  
+
     let marginTop = "0";
 
     if (window.innerWidth < breakpoints.sm) {
@@ -22,12 +23,12 @@ export class HtmlNumberAccented {
       marginTop = ".5rem";
     }
 
-    let miniContainer = document.createElement("div");
+    const miniContainer = document.createElement("div");
     miniContainer.style.display = "flex";
     miniContainer.style.flexDirection = "column";
     miniContainer.style.alignItems = "center";
 
-    let div = document.createElement("div");
+    const div = document.createElement("div");
     div.classList.add("number_accented");
     div.style.display = "flex";
     div.style.position = "relative";
@@ -40,7 +41,7 @@ export class HtmlNumberAccented {
     div.style.marginBottom = marginTop;
     div.style.marginTop = marginTop;
 
-    let number = document.createElement("span");
+    const number = document.createElement("span");
     number.classList.add("number");
     number.classList.add("accented");
     number.style.fontSize =
@@ -55,7 +56,7 @@ export class HtmlNumberAccented {
     div.appendChild(number);
 
     if (this.parameter.units) {
-      let units = document.createElement("span");
+      const units = document.createElement("span");
       units.classList.add("units");
       units.innerText = this.parameter.units;
       units.style.color = "black";
@@ -73,22 +74,21 @@ export class HtmlNumberAccented {
     element.appendChild(miniContainer);
   }
 
-  redraw(data: any, extraParameter? : string) {
-
-    let element = this.element != undefined ? this.element : this.ctrlr.element;
+  redraw(data: any, extraParameter?: string) {
+    const element =
+      this.element !== undefined ? this.element : this.ctrlr.element;
 
     if (this.parameter.format === "currency") {
-      element.querySelector(".number.accented").innerText = convertToCurrency(
-        data
-      );
+      element.querySelector(".number.accented").innerText =
+        convertToCurrency(data);
     } else if (this.parameter.format === "percentage") {
-      let value = data.toFixed(1);
+      const value = data.toFixed(1);
       element.querySelector(".number.accented").innerText = value + "%";
     } else if (this.parameter.format === "decimals") {
-      let value = Math.round(data * 10) / 10;
+      const value = Math.round(data * 10) / 10;
       element.querySelector(".number.accented").innerText = value.toFixed(1);
     } else {
-      let value =
+      const value =
         this.ctrlr.config.extra && this.ctrlr.config.extra.decimal
           ? Math.round(data * 10) / 10
           : Math.round(data);

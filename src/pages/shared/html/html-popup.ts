@@ -1,4 +1,4 @@
-import { DataPart } from "../types";
+import type { DataPart } from "../types";
 
 export class HtmlPopup {
   popupElement = document.getElementById("eiti-dashboard_popup");
@@ -14,7 +14,7 @@ export class HtmlPopup {
   pop(event) {
     const popupWidth = 400;
 
-    if (this.popupElement == null) return;
+    if (this.popupElement === null) return;
 
     this.popupElement.innerHTML = "";
 
@@ -39,20 +39,20 @@ export class HtmlPopup {
     description.classList.add("popup_description");
     description.innerHTML = "<div>" + this.description + "</div>";
 
-    let span = description.querySelector("span");
-    let div = description.querySelector("div.formula");
+    const span = description.querySelector("span");
+    const div = description.querySelector("div.formula");
 
     if (span) {
       let dataSlug: string | number | null = span.getAttribute("data-slug");
-      if (dataSlug == "first_column") {
+      if (dataSlug === "first_column") {
         dataSlug = 0;
       }
 
-      //  if(dataSlug != null) span.innerText = this.data[0][dataSlug].value || this.data[0][dataSlug];
+      //  if(dataSlug !== null) span.innerText = this.data[0][dataSlug].value || this.data[0][dataSlug];
     }
 
     if (div) {
-      let el = this.formule();
+      const el = this.formule();
 
       div.appendChild(el);
 
@@ -90,11 +90,11 @@ export class HtmlPopup {
       this.popupElement.style.top =
         (44 + event.clientY + window.scrollY).toString() + "px";
       let leftPos = event.clientX - popupWidth / 2;
-      let maxLeft = window.innerWidth - popupWidth - 60;
+      const maxLeft = window.innerWidth - popupWidth - 60;
 
       // litteral edge case
       if (leftPos > maxLeft) {
-        let pielleke: any = document.querySelector(".pielleke");
+        const pielleke: any = document.querySelector(".pielleke");
         pielleke.style.left =
           "calc(" + (popupWidth / 2 - (maxLeft - leftPos)) + "px - 0.1rem)";
         leftPos = maxLeft;
@@ -111,7 +111,7 @@ export class HtmlPopup {
   }
 
   close() {
-    if (this.popupElement == null) return;
+    if (this.popupElement === null) return;
     this.popupElement.style.display = "none";
   }
 
@@ -128,19 +128,19 @@ export class HtmlPopup {
   }
 
   formule() {
-    let miniContainer = document.createElement("div");
+    const miniContainer = document.createElement("div");
     miniContainer.style.display = "flex";
     miniContainer.style.flexDirection = "row";
     // miniContainer.style.justifyContent = 'center';
     miniContainer.style.alignItems = "center";
 
-    let left = document.createElement("div");
+    const left = document.createElement("div");
     left.style.display = "flex";
     left.style.flexDirection = "column";
     left.style.justifyContent = "center";
     left.style.alignItems = "center";
 
-    let top = document.createElement("div");
+    const top = document.createElement("div");
     top.classList.add("top");
     top.style.borderBottom = "1px solid black";
     top.style.paddingTop = "1.5rem";
@@ -165,7 +165,7 @@ export class HtmlPopup {
 
     left.appendChild(top);
 
-    let bottom = document.createElement("div");
+    const bottom = document.createElement("div");
     bottom.classList.add("bottom");
     bottom.style.paddingTop = ".75rem";
     bottom.style.paddingBottom = "1.5rem";
@@ -178,7 +178,7 @@ export class HtmlPopup {
 
     miniContainer.appendChild(left);
 
-    let right = document.createElement("div");
+    const right = document.createElement("div");
     right.style.display = "flex";
     right.style.flexDirection = "row";
     right.style.marginLeft = ".75rem";
@@ -192,8 +192,8 @@ export class HtmlPopup {
   }
 
   populateFormula() {
-    // @ts-ignore
-    let score =
+    // @ts-expect-error
+    const score =
       (this.data[0].waardedaling_besluiten *
         this.data[0].waardedaling_doorlopend_cijfer +
         this.data[0].fysieke_schade_besluiten *
@@ -201,31 +201,31 @@ export class HtmlPopup {
       (this.data[0].waardedaling_besluiten +
         this.data[0].fysieke_schade_besluiten);
 
-    // @ts-ignore
+    // @ts-expect-error
     document.querySelector(
       "#img-dashboard_popup .top.value.w_besluiten",
     ).innerText = this.data[0].waardedaling_besluiten;
-    // @ts-ignore
+    // @ts-expect-error
     document.querySelector(
       "#img-dashboard_popup .top.value.w_cijfer",
     ).innerText = this.data[0].waardedaling_doorlopend_cijfer;
-    // @ts-ignore
+    // @ts-expect-error
     document.querySelector(
       "#img-dashboard_popup .top.value.fs_besluiten",
     ).innerText = this.data[0].fysieke_schade_besluiten;
-    // @ts-ignore
+    // @ts-expect-error
     document.querySelector(
       "#img-dashboard_popup .top.value.fs_cijfer",
     ).innerText = this.data[0].fysieke_schade_doorlopend_cijfer;
-    // @ts-ignore
+    // @ts-expect-error
     document.querySelector(
       "#img-dashboard_popup .bottom.value.w_besluiten",
     ).innerText = this.data[0].waardedaling_besluiten;
-    // @ts-ignore
+    // @ts-expect-error
     document.querySelector(
       "#img-dashboard_popup .bottom.value.fs_besluiten",
     ).innerText = this.data[0].fysieke_schade_besluiten;
-    // @ts-ignore
+    // @ts-expect-error
     document.querySelector("#img-dashboard_popup .kto_result").innerText =
       Math.round(score * 100) / 100;
   }

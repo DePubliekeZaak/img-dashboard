@@ -1,10 +1,15 @@
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2 } from "../../shared/interfaces";
-import { ImgData } from "../../shared/types";
-import { TableData } from "../../shared/types_graphs";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import { incVsCum, tables, pieParts, incVsCum2 } from "../../shared/data.factory";
+import {
+  incVsCum,
+  incVsCum2,
+  pieParts,
+  tables,
+} from "../../shared/data.factory";
 import { preHeaders } from "../../shared/factories/pre_headers";
+import { GroupControllerV1 } from "../../shared/group-v1";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import type { IGroupMappingV2 } from "../../shared/interfaces";
+import type { ImgData } from "../../shared/types";
+import type { TableData } from "../../shared/types_graphs";
 
 export class MuniGroupV1 extends GroupControllerV1 {
   constructor(
@@ -17,7 +22,7 @@ export class MuniGroupV1 extends GroupControllerV1 {
 
   html() {
     const graphWrapper = super.html();
-    let source = HTMLSourceV2(
+    const source = HTMLSourceV2(
       graphWrapper?.parentElement as HTMLElement,
       this.page.main.params.language,
       "IMG",
@@ -27,36 +32,35 @@ export class MuniGroupV1 extends GroupControllerV1 {
 
   async init() {}
 
-
   mapRow = (row: any) => {
     const isNewApi = row.aggregatie !== undefined;
-    
+
     if (!isNewApi) return { ...row, _isNewApi: false };
-    
+
     return {
-          ...row,
-          _isNewApi: true,
-          _startdatum: row.periode_vanaf,
-          _einddatum: row.periode_totenmet,
-          _year: parseInt(row.periode?.split('_')[0]),
-          _month: parseInt(row.periode?.split('_')[1]),
-          _week: parseInt(row.periode?.split('_')[1]),
-          _yearmonth: row.periode,
-          _yearweek: row.periode,
-      };
+      ...row,
+      _isNewApi: true,
+      _startdatum: row.periode_vanaf,
+      _einddatum: row.periode_totenmet,
+      _year: parseInt(row.periode?.split("_")[0]),
+      _month: parseInt(row.periode?.split("_")[1]),
+      _week: parseInt(row.periode?.split("_")[1]),
+      _yearmonth: row.periode,
+      _yearweek: row.periode,
+    };
   };
 
   prepareData(data: ImgData): any {
-
     const _data = JSON.parse(JSON.stringify(data));
 
-    for (const e of this.config.endpoints) {
-        _data[e] = _data[e]
-            .filter(d => d.gemeente == this.page.segment.gemeente)
-            .map(r => this.mapRow(r));  // map retourneert nieuwe array
+
+    console.log("D",_data )
+
+    for (const e of this.config.endpoints!) {
+      _data[e] = _data[e]
+        .filter((d) => d.gemeente === this.page.segment.gemeente)
+        .map((r) => this.mapRow(r)); // map retourneert nieuwe array
     }
-
-
 
     const {
       tableParams,
@@ -67,10 +71,7 @@ export class MuniGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(_data);
 
-
     const { incremental, cumulative } = incVsCum2(graphDataWeek, this.config);
-
-
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 

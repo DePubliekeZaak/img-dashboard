@@ -1,5 +1,3 @@
-
-
 export const tableToCSV = (element: HTMLElement) => {
   const csv_data: string[] = [];
 
@@ -7,19 +5,19 @@ export const tableToCSV = (element: HTMLElement) => {
   for (let i = 0; i < rows.length; i++) {
     const cols = rows[i].querySelectorAll("td,th");
     const csvrow: string[] = [];
-    
+
     for (let j = 0; j < cols.length; j++) {
       let v = cols[j].textContent?.trim() || "";
-      
+
       // Remove currency symbols and non-breaking spaces
       v = v.replace(/€|&nbsp;/g, "").trim();
-      
+
       // Skip if it's a date range or text
-      if (v.includes("t/m") || v.includes("-") && v.length > 10) {
+      if (v.includes("t/m") || (v.includes("-") && v.length > 10)) {
         csvrow.push(v);
         continue;
       }
-      
+
       // Handle Dutch number formatting
       if (v.includes(",")) {
         // Has comma (decimal): remove dots (thousands), replace comma with dot
@@ -28,7 +26,7 @@ export const tableToCSV = (element: HTMLElement) => {
         // Has only dots (thousands separator): remove them
         v = v.replace(/\./g, "");
       }
-      
+
       csvrow.push(v);
     }
 

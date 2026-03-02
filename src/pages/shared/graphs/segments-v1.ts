@@ -1,13 +1,11 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { Segment } from "../types";
-
-import { DataObject } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
-import { Bar, TrendBar } from "../types_graphs";
-import { KeyValue } from "../../../charts/core/types";
+import type { KeyValue } from "../../../charts/core/types";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { trimStart } from "../factories/trend";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
+import { Bar, TrendBar } from "../types_graphs";
 
 export class SegmentsV1 extends core.GraphControllerV3 {
   scrollingContainer;
@@ -73,11 +71,11 @@ export class SegmentsV1 extends core.GraphControllerV3 {
   }
 
   html() {
-    if (this.group.element == null) return;
+    if (this.group.element === null) return;
 
     this.graphEl = super._html();
 
-    if (this.graphEl != null) {
+    if (this.graphEl !== null) {
       this.graphEl.style.height =
         window.innerWidth < breakpoints.sm
           ? this.config.graphHeight?.toString() + "px"
@@ -87,7 +85,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
       this.graphEl.style.whiteSpace = "nowrap";
     }
 
-    // if(this.group.graphs[this.index].header != undefined) {
+    // if(this.group.graphs[this.index].header !== undefined) {
     //     const header = document.createElement('div');
     //     header.classList.add('graph-header');
     //     header.innerText =  this.group.graphs[this.index].header || "";
@@ -111,7 +109,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
     this.config.paddingOuter = 0;
 
     await super._init();
-    if (this.scrollingContainer != null)
+    if (this.scrollingContainer !== null)
       await super._svg(this.scrollingContainer);
 
     this.chartBar = new elements.ChartBandBar(this);
@@ -121,8 +119,8 @@ export class SegmentsV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
-    let _data =
-      this.segment.periodization == "monthly"
+    const _data =
+      this.segment.periodization === "monthly"
         ? data.graphDataMonth
         : data.graphDataWeek;
 
@@ -134,7 +132,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
       return {
         label: param?.label || "",
         name: "_" + param?.column,
-        colour: param != undefined ? param.colour : "orange",
+        colour: param !== undefined ? param.colour : "orange",
         // meta: data,
         value: parseFloat(data[0][param?.column].toString()),
       };
@@ -166,7 +164,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
     this.chartBar.redraw(data.bars, this.segment.periodization);
 
     if (window.innerWidth < breakpoints.md) {
-      if (this.graphEl != null) {
+      if (this.graphEl !== null) {
         this.graphEl.scrollLeft +=
           this.graphEl.scrollWidth - this.graphEl.clientWidth;
       }

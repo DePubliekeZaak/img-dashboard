@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const mapping: IGroupMappingV2[] = [
   //intro
@@ -105,7 +105,7 @@ const mapping: IGroupMappingV2[] = [
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
-            }
+            },
           ],
           [],
         ],
@@ -133,7 +133,7 @@ const mapping: IGroupMappingV2[] = [
         slug: "fs_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["cumulativeVsDelta","weekVsMonth"],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
         parameters: [
           [
             {
@@ -142,7 +142,7 @@ const mapping: IGroupMappingV2[] = [
               colour: "blue",
               format: "decimals",
             },
-          ]
+          ],
         ],
         modifiers: [
           [
@@ -156,7 +156,7 @@ const mapping: IGroupMappingV2[] = [
               column: "{}",
               colour: "blue",
             },
-          ]
+          ],
         ],
         segment: {
           key: "fysiek_bedrag_betaald_totaal",
@@ -201,7 +201,8 @@ const mapping: IGroupMappingV2[] = [
             },
             {
               label: "Aanvullende Vaste vergoeding (AVV)",
-              column: "fysiek_toegekend_als_aanvullende_vaste_vergoeding_cumulatief",
+              column:
+                "fysiek_toegekend_als_aanvullende_vaste_vergoeding_cumulatief",
               colour: "yellow",
               units: "toegekend als aanvullende vaste vergoeding",
             },
@@ -213,14 +214,16 @@ const mapping: IGroupMappingV2[] = [
             },
             {
               label: "Herstel Aannemer Instituut (HAI)",
-              column: "fysiek_toegekend_als_herstel_aannemer_instituut_cumulatief",
+              column:
+                "fysiek_toegekend_als_herstel_aannemer_instituut_cumulatief",
               colour: "purple",
               units: "toegekend als herstel aannemer instituut",
             },
           ],
           [],
         ],
-        modifiers: [[
+        modifiers: [
+          [
             {
               label: "toename",
               column: "{}",
@@ -231,7 +234,8 @@ const mapping: IGroupMappingV2[] = [
               column: "{}_cumulatief",
               colour: "orange",
             },
-          ]],
+          ],
+        ],
         segment: {
           key: "fysiek_toegekend_als_maatwerk",
           cumulative: false,
@@ -274,7 +278,7 @@ const mapping: IGroupMappingV2[] = [
               column: "fysiek_toegekend_als_herstel_aannemer_instituut",
               colour: "purple",
               units: "toegekend als herstel aannemer instituut",
-            }
+            },
           ],
           [],
         ],

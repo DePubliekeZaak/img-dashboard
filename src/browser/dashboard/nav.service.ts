@@ -1,4 +1,4 @@
-import { IDashboardController } from "./dashboard.controller";
+import type { IDashboardController } from "./dashboard.controller";
 
 export const navItems = [
   {
@@ -34,7 +34,7 @@ export const navItems = [
         label: "Vaste vergoedingen",
         label_en: "",
         title: "Fysieke schade - Vaste vergoedingen",
-        title_en: ""
+        title_en: "",
       },
       // {
       //     slug: 'fs_daadwerkelijk_herstel',
@@ -190,12 +190,12 @@ export class NavService implements INavService {
   }
 
   li(i: any, isMobile: boolean, depth: number = 0): HTMLLIElement {
-    let li = document.createElement("li");
+    const li = document.createElement("li");
     li.style.cursor = "pointer";
     li.setAttribute("data-slug", i.slug);
     li.setAttribute("data-depth", depth.toString());
 
-    let a = document.createElement("a");
+    const a = document.createElement("a");
     a.href = "#";
     a.innerText = i.label;
 
@@ -206,8 +206,8 @@ export class NavService implements INavService {
 
     li.appendChild(a);
 
-    if (i.sub == undefined || (i.sub != undefined && i.sub.length < 1)) {
-      if (i.slug == "opendata") {
+    if (i.sub === undefined || (i.sub !== undefined && i.sub.length < 1)) {
+      if (i.slug === "opendata") {
         a.onclick = () =>
           window.open(
             "https://img.publikaan.nl/publieke-data/docs/",
@@ -221,7 +221,7 @@ export class NavService implements INavService {
         a.onclick = () => this.ctrlr.switch("topic", i.slug, isMobile);
       }
     } else {
-      let chevron = document.createElement("span");
+      const chevron = document.createElement("span");
       chevron.innerHTML =
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80" x="0px" y="0px"><g><path d="M49.9873,24.8789,32.6724,40.6016a1,1,0,0,1-1.3448,0L14.0127,24.8789a1,1,0,0,1,1.3447-1.4805L32,38.5107,48.6426,23.3984a1,1,0,0,1,1.3447,1.4805Z"/></g></svg>';
 
@@ -257,7 +257,7 @@ export class NavService implements INavService {
 
   // Helper method to find first item without sub-items
   findFirstClickableItem(items: any[]): any | null {
-    for (let item of items) {
+    for (const item of items) {
       if (!item.sub || item.sub.length === 0) {
         return item;
       } else {
@@ -275,18 +275,18 @@ export class NavService implements INavService {
     isMobile: boolean,
     depth: number = 1,
   ): HTMLUListElement {
-    let subUl = document.createElement("ul");
+    const subUl = document.createElement("ul");
     subUl.id = "submenu-" + parentSlug;
     subUl.hidden = true;
     subUl.role = "menu";
     subUl.setAttribute("data-depth", depth.toString());
 
-    for (let item of items) {
-      let subli = this.li(item, isMobile, depth);
+    for (const item of items) {
+      const subli = this.li(item, isMobile, depth);
 
       // If this sub-item has its own sub-items, create another level
       if (item.sub && item.sub.length > 0) {
-        let nestedSubUl = this.createSubMenu(
+        const nestedSubUl = this.createSubMenu(
           item.sub,
           item.slug,
           isMobile,
@@ -302,21 +302,20 @@ export class NavService implements INavService {
   }
 
   create(isMobile: boolean) {
-
     this.el = document.createElement("nav");
     this.el.classList.add("img_dasboard_nav");
 
-    let ul = document.createElement("ul");
+    const ul = document.createElement("ul");
     ul.style.flexDirection = "column";
     const className = isMobile ? "dashboard_nav_mobile" : "dashboard_nav";
     ul.classList.add(className);
     if (isMobile) ul.hidden = true;
 
-    for (let i of navItems) {
-      let li: HTMLLIElement = this.li(i, isMobile, 0);
+    for (const i of navItems) {
+      const li: HTMLLIElement = this.li(i, isMobile, 0);
 
       if (i.sub && i.sub.length > 0) {
-        let subUl = this.createSubMenu(i.sub, i.slug, isMobile, 1);
+        const subUl = this.createSubMenu(i.sub, i.slug, isMobile, 1);
         li.appendChild(subUl);
       }
 
@@ -331,12 +330,12 @@ export class NavService implements INavService {
   update() {
     const items = [].slice.call(this.el.querySelectorAll("li"));
 
-    for (let item of items) {
+    for (const item of items) {
       item.classList.remove("active");
       item.removeAttribute("aria-current");
 
       if (
-        item.getAttribute("data-slug") == this.ctrlr.params.topic &&
+        item.getAttribute("data-slug") === this.ctrlr.params.topic &&
         this.ctrlr.params.topic !== "company"
       ) {
         item.classList.add("active");
@@ -347,8 +346,8 @@ export class NavService implements INavService {
 
   openButton(): HTMLElement {
     // let div = document.createElement('div');
-    let button = document.createElement("button");
-    let span = document.createElement("span");
+    const button = document.createElement("button");
+    const span = document.createElement("span");
 
     button.id = "mobile-menu-item-open";
     order: 1;
@@ -364,8 +363,8 @@ export class NavService implements INavService {
   }
 
   closeButton(): HTMLElement {
-    let button = document.createElement("button");
-    let span = document.createElement("span");
+    const button = document.createElement("button");
+    const span = document.createElement("span");
 
     button.id = "mobile-menu-item-close";
     button.hidden = true;

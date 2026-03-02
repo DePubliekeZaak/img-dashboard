@@ -1,236 +1,203 @@
 // import * as d3 from 'd3';
-import { IScale } from './types';
-import { IGraphControllerV3 } from './graph-v3';
+
+import type { IGraphControllerV3 } from "./graph-v3";
+import type { IScale } from "./types";
 
 export interface IScaleService {
-
-    set: (data:any, minValue?: number) => any,
-    reset: () => any,
+  set: (data: any, minValue?: number) => any;
+  reset: () => any;
 }
 
-export class ScaleService implements IScaleService{
+export class ScaleService implements IScaleService {
+  dataLength;
+  scale;
 
-    dataLength;
-    scale;
+  constructor(
+    private ctrlr: IGraphControllerV3,
+    private config: IScale,
+  ) {
+    this.dataLength = 0;
+  }
 
-    constructor(
+  set(data, minValue) {
+    if (!this.config.type) return;
 
-        private ctrlr: IGraphControllerV3,
-        private config : IScale,
+    this.dataLength = data.length;
 
-    ) {
-        this.dataLength = 0;
+    const min = window.d3.min(data.filter((v) => !isNaN(v)));
+    const max = window.d3.max(data.filter((v) => !isNaN(v)));
+
+    switch (this.config.type) {
+      case "linear":
+        if (min === undefined || max === undefined) return;
+        this.scale = window.d3
+          .scaleLinear()
+          .domain([parseFloat(min), parseFloat(max)]);
+        break;
+
+      case "log":
+        if (min === undefined || max === undefined) return;
+        this.scale = window.d3.scaleLog().domain([1, parseFloat(max)]);
+        break;
+
+      case "log1000":
+        if (min === undefined || max === undefined) return;
+        this.scale = window.d3.scaleLog().domain([100000, parseFloat(max)]);
+        break;
+
+      case "radius":
+        if (min === undefined || max === undefined) return;
+        this.scale = window.d3
+          .scalePow()
+          .domain([parseFloat(min), parseFloat(max)])
+          .nice();
+        break;
+
+      case "time":
+        // if (min === undefined || max === undefined) return;
+        this.scale = window.d3
+          .scaleTime()
+          .domain([new Date(data[data.length - 1]), new Date(data[0])]);
+        break;
+
+      case "band":
+        if (
+          this.ctrlr.config.paddingInner === undefined ||
+          this.ctrlr.config.paddingOuter === undefined
+        )
+          return;
+
+        this.scale = window.d3
+          .scaleBand()
+          .domain(data)
+          .paddingInner(this.ctrlr.config.paddingInner)
+          .paddingOuter(this.ctrlr.config.paddingOuter)
+          .align(0.5);
+
+        break;
+
+      case "bandTime":
+        this.scale = window.d3
+          .scaleBand()
+          .domain(data)
+          .paddingInner(0.2)
+          .paddingOuter(0.5)
+          .align(0.5);
+
+        break;
+
+      case "normalised":
+        this.scale = window.d3.scaleLinear();
+
+        break;
     }
 
-    set(data, minValue) {
+    return this.scale;
+  }
 
-        if(!this.config.type) return;
+  reset() {
+    if (!this.config.type) return;
 
-        const self = this;
+    if (this.scale.domain().length < 2) {
+      // console.log(this.config + this.scale.domain())
+    }
 
-        this.dataLength = data.length;
+    switch (this.config.direction) {
+      case "horizontal":
+        this.scale.range([0, this.ctrlr.dimensions.coreWidth]); // - self.ctrlr.config.innerPadding.right
 
-        const min = window.d3.min(data.filter( v => !isNaN(v)));
-        const max = window.d3.max(data.filter( v => !isNaN(v)));
+        break;
 
-        switch(this.config.type) {
+      case "horizontal-reverse":
+        this.scale.range([this.ctrlr.dimensions.coreWidth, 0]); // - self.ctrlr.config.innerPadding.right,
 
-            case 'linear':
-                if (min == undefined || max == undefined) return;
-                this.scale = window.d3.scaleLinear().domain([parseFloat(min),parseFloat(max)]);
-                break;
+        break;
 
-            case 'log':
+      case "vertical-reverse":
+        this.scale.range([0, this.ctrlr.dimensions.svgHeight]);
 
-                if (min == undefined || max == undefined) return;
-                this.scale = window.d3.scaleLog().domain([1,parseFloat(max)]);
-                break;
+        break;
 
-            case 'log1000':
+      case "vertical":
+        this.scale.range([this.ctrlr.dimensions.svgHeight, 0]);
 
-                if (min == undefined || max == undefined) return;
-                this.scale = window.d3.scaleLog().domain([100000,parseFloat(max)]);
-                break;
+        break;
 
-            case 'radius':
-
-                if (min == undefined || max == undefined) return;
-                this.scale = window.d3.scalePow().domain([parseFloat(min),parseFloat(max)]).nice();
-                break;
-
-            case 'time':
-
-                // if (min == undefined || max == undefined) return;
-                this.scale = window.d3.scaleTime().domain([new Date(data[data.length - 1]),new Date(data[0])]);
-                break;
-
-            case 'band':
-
-                if(self.ctrlr.config.paddingInner == undefined || self.ctrlr.config.paddingOuter == undefined) return;
-
-                this.scale = window.d3.scaleBand()
-                    .domain(data)
-                    .paddingInner(self.ctrlr.config.paddingInner)
-                    .paddingOuter(self.ctrlr.config.paddingOuter)
-                    .align(.5);
-
-                break;
-
-
-            case 'bandTime':
-
-                this.scale = window.d3.scaleBand()
-                    .domain(data)
-                    .paddingInner(.2)
-                    .paddingOuter(.5)
-                    .align(.5)
-
-                break;
-
-            
-
-            case 'normalised':
-
-                this.scale = window.d3.scaleLinear();
-
-                break;
+      case "radius": {
+        if (this.ctrlr.config.radiusFactor === undefined) {
+          console.log("config.radiusFactor is undefined");
+          return;
         }
 
-        return this.scale;
+        const langsteZijde =
+          this.ctrlr.dimensions.coreWidth > this.ctrlr.dimensions.svgHeight
+            ? this.ctrlr.dimensions.coreWidth
+            : this.ctrlr.dimensions.svgHeight;
+
+        this.scale.range([
+          this.ctrlr.config.minRadius,
+          (langsteZijde / this.dataLength) * this.ctrlr.config.radiusFactor,
+        ]);
+
+        break;
+      }
+
+      case "radial":
+        // let langsteZijde = this.ctrlr.dimensions.width > this.ctrlr.dimensions.height ? this.ctrlr.dimensions.width : this.ctrlr.dimensions.height;
+
+        this.scale.range([0, this.ctrlr.dimensions.coreWidth / 2]);
+
+        break;
+
+      case "opacity":
+        this.scale.range([0.2, 1]);
+
+        break;
+
+      case "flow":
+        this.scale.range([70, -70]);
+
+        break;
+
+      case "log":
+        this.scale.range([10, 100]);
+
+        break;
     }
 
+    return this.scale;
+  }
 
-    reset() {
-
-        const self = this;
-
-        if (!this.config.type) return;
-
-        if(this.scale.domain().length < 2) {
-            // console.log(this.config + this.scale.domain())
-        }
-
-        switch(this.config.direction) {
-
-            case 'horizontal':
-
-                this.scale 
-                    .range([0, this.ctrlr.dimensions.coreWidth]); // - self.ctrlr.config.innerPadding.right
-
-                break;
-
-            case 'horizontal-reverse':
-
-                    this.scale
-                        .range([this.ctrlr.dimensions.coreWidth,  0]);  // - self.ctrlr.config.innerPadding.right,
-    
-                    break;
-
-            case 'vertical-reverse':
-
-                this.scale
-                    .range([0,this.ctrlr.dimensions.svgHeight]);
-
-                break;
-
-            case 'vertical':
-                this.scale
-                    .range([this.ctrlr.dimensions.svgHeight, 0]);
-
-                break;
-
-
-            case 'radius':
-
-                if (this.ctrlr.config.radiusFactor == undefined) {
-                    console.log('config.radiusFactor is undefined')
-                    return
-                }
-
-                let langsteZijde = this.ctrlr.dimensions.coreWidth > this.ctrlr.dimensions.svgHeight ? this.ctrlr.dimensions.coreWidth : this.ctrlr.dimensions.svgHeight;
-
-                this.scale
-                    .range([this.ctrlr.config.minRadius, (langsteZijde / this.dataLength) * this.ctrlr.config.radiusFactor]);
-
-                break;
-
-            case 'radial':
-
-                    // let langsteZijde = this.ctrlr.dimensions.width > this.ctrlr.dimensions.height ? this.ctrlr.dimensions.width : this.ctrlr.dimensions.height;
-    
-                    this.scale
-                        .range([0, this.ctrlr.dimensions.coreWidth / 2]);
-    
-                    break;
-
-            case 'opacity':
-
-                this.scale
-                    .range([0.2,1]);
-
-                break;
-
-            case 'flow':
-
-                this.scale
-                    .range([70,-70]);
-
-                break;
-
-            case 'log':
-
-                this.scale
-                    .range([10,100]);
-
-                break;
-
-
-        }
-
-        return this.scale;
+  fn(x: any) {
+    for (const p of this.scale.range()) {
+      if (isNaN(p) || p === undefined) {
+        // console.log(this.config.slug)
+        // console.log(this.scale.range())
+        throw new RangeError();
+      }
     }
 
-    fn(x: any) {
+    const r = this.scale(x);
 
-
-        for(let p of this.scale.range()) {
-
-            if(isNaN(p) || p == undefined) {
-
-                // console.log(this.config.slug)
-                // console.log(this.scale.range())
-                throw new RangeError();
-            }
-        }
-
-        let r = this.scale(x);
-
-        if(isNaN(r)) {
-
-            // console.log(this.config.slug + " : " + this.config.type)
-            // console.log(x) 
-            // console.log(this.scale.domain())
-            // console.log(this.scale.range())
-
-        } else {
-            return r;
-        }
-
-       
+    if (isNaN(r)) {
+      // console.log(this.config.slug + " : " + this.config.type)
+      // console.log(x)
+      // console.log(this.scale.domain())
+      // console.log(this.scale.range())
+    } else {
+      return r;
     }
+  }
 
-    domain() {
+  domain() {
+    return this.scale.domain();
+  }
 
-        return this.scale.domain();
-    }
+  range() {
+    return this.scale.range();
+  }
 
-    range() {
-
-        return this.scale.range();
-    }
-
-    bandwidth() {
-
-        return this.scale.bandwidth();
-    }
+  bandwidth() {
+    return this.scale.bandwidth();
+  }
 }

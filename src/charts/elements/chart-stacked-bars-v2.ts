@@ -1,6 +1,10 @@
 import { colours } from "../../img-modules/styleguide";
-import { convertToCurrency, thousands, toDutchMonths } from "../../pages/shared/_helpers";
-import { Segment } from "../../pages/shared/types";
+import {
+  convertToCurrency,
+  thousands,
+  toDutchMonths,
+} from "../../pages/shared/_helpers";
+import type { Segment } from "../../pages/shared/types";
 
 export default class ChartStackedBarsV2 {
   bars;
@@ -34,47 +38,48 @@ export default class ChartStackedBarsV2 {
   }
 
   redraw(data: any, segment: Segment) {
-    let self = this;
-
-    const width = self.ctrlr.dimensions.svgWidth / data.stacked[0].length - 2;
+    const width = this.ctrlr.dimensions.svgWidth / data.stacked[0].length - 2;
 
     this.bars
       .attr("x", (d: any, i: number) =>
-        self.ctrlr.scales.x.scale(d.data["date"]),
+        this.ctrlr.scales.x.scale(d.data["date"]),
       )
       .attr("width", width)
       .transition()
       .duration(100)
-      .attr("y", (d) => self.ctrlr.scales.y.scale(d[1]))
+      .attr("y", (d) => this.ctrlr.scales.y.scale(d[1]))
       .attr("height", (d, i) => {
-        let h =
-          self.ctrlr.scales.y.scale(d[0]) - self.ctrlr.scales.y.scale(d[1]);
+        const h =
+          this.ctrlr.scales.y.scale(d[0]) - this.ctrlr.scales.y.scale(d[1]);
         return h > 0 ? h : 0;
       });
 
     this.bars
-      .on("mouseover", function (event: any, d: any) {
+      .on("mouseover", (event: any, d: any) => {
         // console.log(segment?.normalized)
 
         const t = window.d3
           .select(".tooltip")
           .html(() => {
-
-            let tijdsbepaling = segment.periodization == 'monthly' ? toDutchMonths(parseFloat(d.data._month)) : "week " + d.data._week;
+            const tijdsbepaling =
+              segment.periodization === "monthly"
+                ? toDutchMonths(parseFloat(d.data._month))
+                : "week " + d.data._week;
 
             let html = "<div>" + d.data._year + "</div>";
-            html +=
-              "<div>" + tijdsbepaling + "</div>";
+            html += "<div>" + tijdsbepaling + "</div>";
 
-            for (let map of self.ctrlr.parameters[
+            for (const map of this.ctrlr.parameters[
               segment?.parameterIndex || 0
             ]) {
-
-              let c = segment && segment.cumulative ? map.column + '_cumulatief' : map.column
+              const c =
+                segment && segment.cumulative
+                  ? map.column + "_cumulatief"
+                  : map.column;
               let v = d.data[c];
-              v = v == null ? 0 : v;
+              v = v === null ? 0 : v;
 
-              if (map.format == "currency") {
+              if (map.format === "currency") {
                 v = convertToCurrency(v);
               }
 
@@ -85,10 +90,10 @@ export default class ChartStackedBarsV2 {
               html += "<div>" + map.label + " : " + thousands(v) + "</div>";
             }
 
-            // if (data.line != undefined) {
-            //   let period = data.line.find((dd) => dd.time == d.data.date);
+            // if (data.line !== undefined) {
+            //   let period = data.line.find((dd) => dd.time === d.data.date);
 
-            //   if (period != undefined) {
+            //   if (period !== undefined) {
             //     for (let map of self.ctrlr.parameters[1]) {
             //       html +=
             //         "<div>" +
@@ -121,7 +126,7 @@ export default class ChartStackedBarsV2 {
 
         t.transition().duration(250).style("opacity", 1);
       })
-      .on("mouseout", function (event: any, d: any, i: number) {
+      .on("mouseout", (event: any, d: any, i: number) => {
         window.d3.select(event.target).attr("fill", "inherit");
 
         window.d3

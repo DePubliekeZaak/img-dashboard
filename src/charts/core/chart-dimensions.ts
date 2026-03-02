@@ -1,52 +1,66 @@
-import { IGraphConfig, Dimensions } from "../../charts/core/types";
+import type { Dimensions, IGraphConfig } from "../../charts/core/types";
 
 export interface IChartDimensions {
-    element: HTMLElement,
-    config: IGraphConfig,
-    measure: (Dimensions) =>  Dimensions,
-    setHeight: (height: number) => Dimensions
+  element: HTMLElement;
+  config: IGraphConfig;
+  measure: (Dimensions) => Dimensions;
+  setHeight: (height: number) => Dimensions;
 }
 
 export class ChartDimensions implements IChartDimensions {
+  element: HTMLElement;
+  config: IGraphConfig;
+  dimensions: Dimensions;
 
-    element: HTMLElement;
-    config: IGraphConfig;
-    dimensions: Dimensions;
+  constructor(element: HTMLElement, config: IGraphConfig) {
+    this.config = config;
+    this.element = element;
+  }
 
-    constructor(
-        
-        element : HTMLElement,
-        config : IGraphConfig
-    ) {
-        this.config = config;
-        this.element = element
-    }
+  setHeight(height: number) {
+    this.dimensions.svgHeight = height;
+    return this.dimensions;
+  }
 
-    setHeight(height: number) {
-        
-        this.dimensions.svgHeight = height;
-        return this.dimensions;
-    }
+  measure(dimensions: Dimensions) {
+    // console.log(this.config);
 
-    measure(dimensions: Dimensions) {
+    this.dimensions = dimensions;
 
-        // console.log(this.config);
+    // svgWidth enn svgHeight includes the padding for axes
 
-        this.dimensions = dimensions;
+    const parentHeight =
+      this.element.getBoundingClientRect().height -
+      this.config.margin.top -
+      this.config.margin.bottom;
 
-        // svgWidth enn svgHeight includes the padding for axes 
+    this.dimensions.graphHeight =
+      this.config.graphHeight !== undefined
+        ? this.config.graphHeight
+        : parentHeight;
+    this.dimensions.svgHeight =
+      this.dimensions.graphHeight -
+      this.config.padding.top -
+      this.config.padding.bottom;
 
-        const parentHeight = this.element.getBoundingClientRect().height - this.config.margin.top - this.config.margin.bottom;
+    const parentWidth =
+      this.element.getBoundingClientRect().width -
+      this.config.margin.left -
+      this.config.margin.right;
 
-        this.dimensions.graphHeight = this.config.graphHeight != undefined ? this.config.graphHeight : parentHeight;
-        this.dimensions.svgHeight = this.dimensions.graphHeight - this.config.padding.top - this.config.padding.bottom;
+    this.dimensions.graphWidth =
+      this.config.graphRatio === undefined
+        ? parentWidth
+        : this.config.graphRatio * this.dimensions.svgHeight;
+    this.dimensions.svgWidth =
+      dimensions.graphWidth -
+      this.config.padding.left -
+      this.config.padding.right;
+    this.dimensions.coreWidth =
+      this.dimensions.svgWidth -
+      this.config.innerPadding.left -
+      this.config.innerPadding.right;
 
-        const parentWidth = this.element.getBoundingClientRect().width - this.config.margin.left - this.config.margin.right;
-
-        this.dimensions.graphWidth = this.config.graphRatio == undefined ? parentWidth : this.config.graphRatio * this.dimensions.svgHeight;
-        this.dimensions.svgWidth = dimensions.graphWidth - this.config.padding.left - this.config.padding.right;
-        this.dimensions.coreWidth = this.dimensions.svgWidth - this.config.innerPadding.left - this.config.innerPadding.right;
-
-        return this.dimensions;
-    }
+    return this.dimensions;
+  }
 }

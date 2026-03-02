@@ -1,7 +1,3 @@
-
-
-const graphs = {
-
-}
+const graphs = {};
 
 export default graphs;

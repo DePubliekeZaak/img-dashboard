@@ -35,9 +35,8 @@ export const preHeaders = (graphs: any[], segment: any) => {
   //   console.log(g.slug)
   // }
 
-  const overzichtIndex = graphs.findIndex((g) => g.slug == "reg_makeup_trend");
+  const overzichtIndex = graphs.findIndex((g) => g.slug === "reg_makeup_trend");
   if (overzichtIndex > -1) {
-
     pre_headers = [
       [
         { label: "", length: 3 },
@@ -93,12 +92,13 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: graphs[0].parameters.length,
         },
       ],
-    ]
+    ];
   }
 
-  const vergelijkIndex = graphs.findIndex((g) => g.slug == "vergelijk_numbers");
+  const vergelijkIndex = graphs.findIndex(
+    (g) => g.slug === "vergelijk_numbers",
+  );
   if (vergelijkIndex > -1) {
-
     pre_headers = [
       [
         { label: "", length: 3 },
@@ -146,7 +146,7 @@ export const preHeaders = (graphs: any[], segment: any) => {
           length: graphs[0].parameters[0].length,
         },
       ],
-    ]
+    ];
   }
 
   const pieIndex = graphs.findIndex((g) => g.slug.includes("toegekend"));
@@ -177,7 +177,9 @@ export const preHeaders = (graphs: any[], segment: any) => {
     ];
   }
 
-  const imsIndex = graphs.findIndex((g) => g.slug == "ims_totaal_numbers_volw");
+  const imsIndex = graphs.findIndex(
+    (g) => g.slug === "ims_totaal_numbers_volw",
+  );
 
   if (imsIndex !== -1) {
     pre_headers = [
@@ -209,11 +211,10 @@ export const preHeaders = (graphs: any[], segment: any) => {
   }
 
   const bezwarenIndex = graphs.findIndex(
-    (g) => g.slug == "bezwaren_mw_numbers_v1",
+    (g) => g.slug === "bezwaren_mw_numbers_v1",
   );
 
   if (bezwarenIndex !== -1) {
-  
     pre_headers = [
       [
         { label: "", length: 3 },

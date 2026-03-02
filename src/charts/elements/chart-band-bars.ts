@@ -1,6 +1,6 @@
 import { colours } from "../../img-modules/styleguide";
 import { convertToCurrency, thousands } from "../../pages/shared/_helpers";
-import { Bar, Bars } from "../../pages/shared/types_graphs";
+import type { Bar, Bars } from "../../pages/shared/types_graphs";
 
 export class ChartBandBar {
   bars: any;
@@ -32,34 +32,32 @@ export class ChartBandBar {
   }
 
   redraw(data: Bars) {
-    let self = this;
-
     this.bars
       .attr("x", (d: Bar) => {
-        return self.ctrlr.scales.x.fn(d.label);
+        return this.ctrlr.scales.x.fn(d.label);
       })
-      .attr("y", self.ctrlr.dimensions.height)
+      .attr("y", this.ctrlr.dimensions.height)
       .attr("height", 0)
       .attr(
         "width",
-        self.ctrlr.scales.x.config.type === "band"
-          ? self.ctrlr.scales.x.scale.bandwidth()
-          : self.ctrlr.dimensions.width / data.length - 1,
+        this.ctrlr.scales.x.config.type === "band"
+          ? this.ctrlr.scales.x.scale.bandwidth()
+          : this.ctrlr.dimensions.width / data.length - 1,
       )
       // .transition()
       // .duration(500)
       .attr("y", (d: any) =>
         this.ctrlr.config.extra.privacySensitive && d.value < 25
-          ? self.ctrlr.dimensions.height
-          : self.ctrlr.scales.y.fn(d.value),
+          ? this.ctrlr.dimensions.height
+          : this.ctrlr.scales.y.fn(d.value),
       )
       .attr(
         "height",
         (d: any) =>
-          self.ctrlr.dimensions.svgHeight - self.ctrlr.scales.y.fn(d.value),
+          this.ctrlr.dimensions.svgHeight - this.ctrlr.scales.y.fn(d.value),
       );
 
-    this.bars.on("mouseover", function (event: any, d: any) {
+    this.bars.on("mouseover", (event: any, d: any) => {
       // console.log(d);
     });
 
@@ -70,7 +68,7 @@ export class ChartBandBar {
         } else if (d.format === "percentage") {
           return d.value + "%";
         } else {
-          return self.ctrlr.config.extra.privacySensitive && d.value < 25
+          return this.ctrlr.config.extra.privacySensitive && d.value < 25
             ? "< 25"
             : thousands(d.value);
         }
@@ -79,22 +77,22 @@ export class ChartBandBar {
         if (this.ctrlr.scales.x.config.type === "band") {
           return (
             "translate(" +
-            (self.ctrlr.scales.x.fn(d.label) +
-              self.ctrlr.scales.x.scale.bandwidth() / 2) +
+            (this.ctrlr.scales.x.fn(d.label) +
+              this.ctrlr.scales.x.scale.bandwidth() / 2) +
             "," +
-            (self.ctrlr.config.extra.privacySensitive && d.value < 25
-              ? self.ctrlr.dimensions.svgHeight
-              : self.ctrlr.scales.y.fn(d.value)) +
+            (this.ctrlr.config.extra.privacySensitive && d.value < 25
+              ? this.ctrlr.dimensions.svgHeight
+              : this.ctrlr.scales.y.fn(d.value)) +
             ")"
           );
         } else {
           return (
             "translate(" +
-            self.ctrlr.dimensions.width / 2 +
+            this.ctrlr.dimensions.width / 2 +
             "," +
-            (self.ctrlr.config.extra.privacySensitive && d.value < 25
-              ? self.ctrlr.dimensions.svgHeight
-              : self.ctrlr.scales.y.fn(d.value)) +
+            (this.ctrlr.config.extra.privacySensitive && d.value < 25
+              ? this.ctrlr.dimensions.svgHeight
+              : this.ctrlr.scales.y.fn(d.value)) +
             ")"
           );
         }

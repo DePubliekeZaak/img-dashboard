@@ -23,8 +23,6 @@ export class HTMLTables {
   }
 
   init() {
-    const self = this;
-
     this.container =
       this.ctrlr.page.main.window.document.createElement("section");
     this.container.classList.add("graph-container-12");
@@ -46,7 +44,7 @@ export class HTMLTables {
     this.toggler.classList.add("toggler");
     this.toggler.setAttribute("role", "group");
     this.toggler.setAttribute("aria-label", "Tabel periode selectie");
-    this.monthly = this.segment.periodization == "monthly" ? true : false;
+    this.monthly = this.segment.periodization === "monthly" ? true : false;
     this.toggler.setAttribute("data-active", this.monthly ? "month" : "week");
 
     // Create slider element (decorative, hidden from screen readers)
@@ -150,22 +148,32 @@ export class HTMLTables {
     this.toggler.style.display = "none";
     this.scrolltainer.appendChild(this.toggler);
 
-    this.monthTable = this.ctrlr.page.main.window.document.createElement("table");
+    this.monthTable =
+      this.ctrlr.page.main.window.document.createElement("table");
     this.monthTable.setAttribute("id", "month-table");
 
-    this.monthThead = this.ctrlr.page.main.window.document.createElement("thead");
-    this.monthTbody = this.ctrlr.page.main.window.document.createElement("tbody");
+    this.monthThead =
+      this.ctrlr.page.main.window.document.createElement("thead");
+    this.monthTbody =
+      this.ctrlr.page.main.window.document.createElement("tbody");
 
     this.monthTable.appendChild(this.monthThead);
     this.monthTable.appendChild(this.monthTbody);
-    if (!this.monthly) { this.monthTable.classList.add("hidden"); }
+    if (!this.monthly) {
+      this.monthTable.classList.add("hidden");
+    }
     this.scrolltainer.appendChild(this.monthTable);
 
-    this.weekTable = this.ctrlr.page.main.window.document.createElement("table");
+    this.weekTable =
+      this.ctrlr.page.main.window.document.createElement("table");
     this.weekTable.setAttribute("id", "week-table");
-    if (this.monthly) { this.weekTable.classList.add("hidden"); }
-    this.weekThead = this.ctrlr.page.main.window.document.createElement("thead");
-    this.weekTbody = this.ctrlr.page.main.window.document.createElement("tbody");
+    if (this.monthly) {
+      this.weekTable.classList.add("hidden");
+    }
+    this.weekThead =
+      this.ctrlr.page.main.window.document.createElement("thead");
+    this.weekTbody =
+      this.ctrlr.page.main.window.document.createElement("tbody");
 
     this.weekTable.appendChild(this.weekThead);
     this.weekTable.appendChild(this.weekTbody);
@@ -185,10 +193,10 @@ export class HTMLTables {
 
     // Check if month table has data
     const hasMonthData =
-    !this.segment.weekOnly && (
+      !this.segment.weekOnly &&
       data.monthTable &&
       data.monthTable.rows &&
-      data.monthTable.rows.length > 0);
+      data.monthTable.rows.length > 0;
 
     // Show/hide toggler based on whether both tables have data
     if (hasMonthData) {
@@ -223,14 +231,15 @@ export class HTMLTables {
       }
       this.monthThead.appendChild(trm);
 
-    
       if (data.monthTable.rows && Array.isArray(data.monthTable.rows)) {
         for (const row of data.monthTable.rows) {
           const tr = this.ctrlr.page.main.window.document.createElement("tr");
           if (Array.isArray(row)) {
             for (const value of row) {
-              const td = this.ctrlr.page.main.window.document.createElement("td");
-              td.innerHTML = typeof value === 'number' ? thousands(value) : value;
+              const td =
+                this.ctrlr.page.main.window.document.createElement("td");
+              td.innerHTML =
+                typeof value === "number" ? thousands(value) : value;
               tr.appendChild(td);
             }
           }

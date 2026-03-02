@@ -1,5 +1,5 @@
 export interface Version {
-    tag: string;
-    slug: string;
-    name: string;
+  tag: string;
+  slug: string;
+  name: string;
 }

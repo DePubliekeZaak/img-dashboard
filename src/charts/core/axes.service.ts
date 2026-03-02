@@ -1,14 +1,14 @@
-import { localTime, monthAbbrevs, monthNames } from "./_formats";
+import { breakpoints } from "../../img-modules/styleguide";
 import {
   convertToCurrency,
   convertToCurrencyInMillions,
   convertToMillions,
   thousands,
 } from "../../pages/shared/_helpers";
-import { Dimensions } from "./types";
-import { DataPart, Segment } from "../../pages/shared/types";
-import { breakpoints } from "../../img-modules/styleguide";
+import { DataPart, type Segment } from "../../pages/shared/types";
 import { Bars } from "../../pages/shared/types_graphs";
+import { localTime, monthAbbrevs, monthNames } from "./_formats";
+import type { Dimensions } from "./types";
 export class AxesService {
   axis: any;
   axisGroup: any;
@@ -74,46 +74,42 @@ export class AxesService {
   ) {
     switch (this.ctrlr.scales[this.config.scale].config.type) {
       case "band":
-        if (this.config.format == "quarters") {
+        if (this.config.format === "quarters") {
           let year: string;
 
           this.axis.tickFormat((d, i) => {
             let v = "";
-            if (d == undefined || d == null) {
+            if (d === undefined || d === null) {
               return;
             }
-            let newyear = d.slice(0, 4);
-            if (year != newyear && i != 0) {
+            const newyear = d.slice(0, 4);
+            if (year !== newyear && i !== 0) {
               // console.log("new year: " + newyear)
               v = year;
             }
             year = newyear;
             return v;
           });
-        } else if (this.config.format == "month") {
+        } else if (this.config.format === "month") {
           this.axis.tickFormat((d: any, i: number) => {
-        
-            if (segment.periodization == 'weekly') {
-
+            if (segment.periodization === "weekly") {
               const week = parseInt(d.slice(-2));
-              const monthStartWeeks = [1, 5, 9, 14, 18, 22, 27, 31, 36, 40, 44, 48];
-              const monthIndex = monthStartWeeks.findIndex((w, idx) => 
-                week >= w && (idx === 11 || week < monthStartWeeks[idx + 1])
+              const monthStartWeeks = [
+                1, 5, 9, 14, 18, 22, 27, 31, 36, 40, 44, 48,
+              ];
+              const monthIndex = monthStartWeeks.findIndex(
+                (w, idx) =>
+                  week >= w && (idx === 11 || week < monthStartWeeks[idx + 1]),
               );
-              
+
               // Only show label at month start
               if (monthStartWeeks.includes(week)) {
                 return monthAbbrevs[monthIndex];
               }
-              return '';
-              
+              return "";
             } else {
-
-              return monthAbbrevs[parseInt(d.slice(-2)) - 1]
-                         
+              return monthAbbrevs[parseInt(d.slice(-2)) - 1];
             }
-
-            
           });
         } else {
           this.axis.tickFormat((d: any, i: number) => {
@@ -126,15 +122,15 @@ export class AxesService {
         if (this.config.format === "percentage" || segment.normalized) {
           this.axis
             .ticks(5)
-            .tickFormat((d: any) => (segment.normalized ? 100 * d + "%" : d + "%"));
+            .tickFormat((d: any) =>
+              segment.normalized ? 100 * d + "%" : d + "%",
+            );
         } else if (this.config.format === "currency") {
           this.axis.ticks(4).tickFormat((d: number) => convertToCurrency(d));
         } else if (this.config.format === "millions") {
           this.axis.ticks(4).tickFormat((d: number) => {
-            
-            return d > 100 * 999  ? convertToMillions(d) : thousands(d)
-          
-        });
+            return d > 100 * 999 ? convertToMillions(d) : thousands(d);
+          });
         } else if (this.config.format === "hidden") {
           this.axis.ticks(0);
         } else {
@@ -156,7 +152,7 @@ export class AxesService {
 
         break;
 
-      case "time":
+      case "time": {
         let tickOrder, tickSpread;
 
         //    if(this.ctrlr.config.extra.xScaleTicks === 'quarterly') {
@@ -179,6 +175,7 @@ export class AxesService {
           );
 
         break;
+      }
 
       case "bandTime":
         this.axis
@@ -201,7 +198,11 @@ export class AxesService {
       case "bottom":
         this.axisGroup.attr(
           "transform",
-          "translate(" + this.ctrlr.config.innerPadding.left + "," + dimensions.svgHeight + ")",
+          "translate(" +
+            this.ctrlr.config.innerPadding.left +
+            "," +
+            dimensions.svgHeight +
+            ")",
         );
         break;
 
@@ -217,13 +218,20 @@ export class AxesService {
         break;
 
       case "left":
-        this.axisGroup.attr("transform", "translate(" + this.ctrlr.config.innerPadding.left + "," + 0 + ")");
+        this.axisGroup.attr(
+          "transform",
+          "translate(" + this.ctrlr.config.innerPadding.left + "," + 0 + ")",
+        );
         break;
 
       case "right":
         this.axisGroup.attr(
           "transform",
-          "translate(" + (this.ctrlr.config.innerPadding.left + dimensions.coreWidth) + "," + 0 + ")",
+          "translate(" +
+            (this.ctrlr.config.innerPadding.left + dimensions.coreWidth) +
+            "," +
+            0 +
+            ")",
         );
         break;
 
@@ -240,14 +248,14 @@ export class AxesService {
     //         .attr("text-anchor","end")
     //         .attr("transform","translate(-10,0) rotate(-45)")
     //         // .attr("dy", (d,i) => {
-    //         //     return (i % 2 == 0 ) ? 16 : 32
+    //         //     return (i % 2 === 0 ) ? 16 : 32
     //         // } );
 
     //     } else {
 
     //         this.ctrlr.svg.layers.axes.selectAll("g.x-axis g.tick text")
     //         .attr("dy", (d,i) => {
-    //             return (i % 2 == 0 ) ? 16 : 32
+    //             return (i % 2 === 0 ) ? 16 : 32
     //         } );
     //     }
 

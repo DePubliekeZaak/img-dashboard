@@ -1,10 +1,9 @@
-import { GroupControllerV1 } from "./group-v1";
-import { IGroupMappingV2, IParameterMapping } from "./interfaces";
-import { ImgData } from "./types";
-import { TableData } from "./types_graphs";
-
-import { HTMLSourceV2 } from "./html/html-source-v2";
 import { relyOnCompleted } from "./factories/group";
+import { GroupControllerV1 } from "./group-v1";
+import { HTMLSourceV2 } from "./html/html-source-v2";
+import { type IGroupMappingV2, IParameterMapping } from "./interfaces";
+import type { ImgData } from "./types";
+import type { TableData } from "./types_graphs";
 
 export class KTOGroupV1 extends GroupControllerV1 {
   constructor(
@@ -17,7 +16,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
 
   html() {
     const graphWrapper = super.html();
-    let source = HTMLSourceV2(
+    const source = HTMLSourceV2(
       graphWrapper?.parentElement as HTMLElement,
       this.page.main.params.language,
       "IMG",
@@ -28,7 +27,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
-    let {
+    const {
       tableParams,
       graphParams,
       graphDataMonth,
@@ -37,8 +36,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
-
-    let { rows, _data } = relyOnCompleted(
+    const { rows, _data } = relyOnCompleted(
       graphDataMonth,
       tableParams,
       graphParams,

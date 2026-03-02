@@ -1,16 +1,17 @@
+export const HTMLSourceV2 = (
+  wrapper: HTMLElement,
+  lan: string,
+  text: string,
+) => {
+  const container = document.createElement("div");
+  container.classList.add("source_attribution");
 
-export const HTMLSourceV2 = (wrapper: HTMLElement, lan: string, text: string) => { 
+  const span = document.createElement("span");
+  const s = lan === "en" ? "source: " : "bron: ";
+  span.innerText = s + text;
 
+  container.appendChild(span);
+  wrapper.insertBefore(container, wrapper.querySelector(".graph-wrapper"));
 
-        let container = document.createElement('div');
-        container.classList.add('source_attribution');
-     
-        let span = document.createElement('span');
-        let s = lan == 'en' ? 'source: ' : 'bron: ';
-        span.innerText = s + text;
-
-        container.appendChild(span);
-        wrapper.insertBefore(container,wrapper.querySelector(".graph-wrapper"));
-        
-        return container;
-}
+  return container;
+};

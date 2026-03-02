@@ -1,104 +1,113 @@
-
+import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
-import { DataObject, ImgData } from "../../shared/types";
-import { Bars, Definitions, PiePart, TableData } from "../../shared/types_graphs";
-import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import type {
+  IGroupMappingV2,
+  IParameterMapping,
+} from "../../shared/interfaces";
+import { DataObject, type ImgData } from "../../shared/types";
+import {
+  Bars,
+  type Definitions,
+  type PiePart,
+  type TableData,
+} from "../../shared/types_graphs";
 
-export class SchadevergoedingenGroupV1 extends GroupControllerV1 { 
+export class SchadevergoedingenGroupV1 extends GroupControllerV1 {
+  circleGroup: any;
+  barProgression: any;
 
-    circleGroup: any;
-    barProgression: any;
+  funcList: any;
+  // table;
 
-    funcList: any;
-    // table;
+  // htmlHeader;
+  yearSelector;
 
-    // htmlHeader;
-    yearSelector;
+  constructor(
+    public page: any,
+    public config: IGroupMappingV2,
+    public index: number,
+  ) {
+    super(page, config, index);
+  }
 
-    constructor(
-        public page: any,
-        public config: IGroupMappingV2,
-        public index: number
-    ){
-       super(page,config, index);
+  html() {
+    const graphWrapper = super.html();
+    const source = HTMLSourceV2(
+      graphWrapper?.parentElement as HTMLElement,
+      this.page.main.params.language,
+      "IMG",
+    );
+    return graphWrapper;
+  }
+
+  async init() {}
+
+  prepareData(data: ImgData): any {
+    const dataGroup = "historie";
+    const parts: PiePart[] = [];
+    const rows: (string | number)[][] = [];
+    const definitions: Definitions = [];
+
+    const params = [] as IParameterMapping[];
+
+    const graph_1 = this.config.graphs[0];
+    const params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
+    const columns_1 = params_1.map((p) => p.column);
+
+    for (const period of data[dataGroup].filter((p) => p._year > 2019)) {
+      const row: (number | string)[] = [];
+      row.push(period._year);
+      row.push(period._month);
+      row.push(
+        new Date(period._einddatum).toLocaleDateString("nl-NL", {
+          dateStyle: "short",
+        }),
+      );
+
+      let total = 0;
+      for (const column of columns_1) {
+        row.push(convertToCurrencyInTable(period[column]));
+        total = total + period[column];
+      }
+
+      rows.push(row);
     }
 
-    html() {
-        const graphWrapper = super.html();
-        let source = HTMLSourceV2(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"IMG");
-        return graphWrapper
-    }
+    params_1.forEach((p, i) => {
+      parts.push({
+        label: p.label,
+        value: data[dataGroup][0][p.column],
+        colour: p.colour,
+        accented: false,
+        format: "currency",
+      });
 
-    async init() {}
+      definitions.push({
+        name: p.label,
+        description: p.description || "lorem ipsum",
+      });
+    });
 
-    prepareData(data: ImgData) : any {
-      
-        const dataGroup = "historie";
-        const parts: PiePart[]  = [];
-        const rows: (string|number)[][] = [];  
-        const definitions: Definitions = [];
+    const table = {
+      headers: ["Jaar", "Maand", "Datum"].concat(params_1.map((p) => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
+      rows,
+    };
 
-        let params = ([] as IParameterMapping[]);
-        
-        let graph_1 = this.config.graphs[0];
-        let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
-        let columns_1 = params_1.map(( p => p.column));
+    return {
+      pies: [parts],
+      definitions,
+      table,
+    };
+  }
 
-        for (let period of data[dataGroup].filter( p => p._year > 2019)) {
+  populateTable(tableData: TableData) {
+    super.populateTable(tableData);
+  }
 
-            const row : (number|string)[] = [];
-            row.push(period._year);
-            row.push(period._month);
-            row.push(new Date(period._einddatum).toLocaleDateString('nl-NL',{'dateStyle':'short'}));
+  // update(data: DataObject, segment: string, update: boolean) {
 
-            let total = 0;
-            for (let column of columns_1) {
-                row.push(convertToCurrencyInTable(period[column]));  
-                total = total + period[column]  
-            }
-
-            rows.push(row);
-        }
-
-
-        params_1.forEach( (p,i) =>  {
-            
-            parts.push({
-                label: p.label,
-                value:  data[dataGroup][0][p.column],
-                colour: p.colour,
-                accented: false,
-                format: "currency",
-            })
-
-            definitions.push({
-                "name" : p.label,
-                "description" : p.description || "lorem ipsum"
-            })
-        });
-
-        const table = {
-            headers:  ["Jaar","Maand", "Datum"].concat(params_1.map( p => p.label)), //  ["Betaalstroom"].concat(uniqueYears.map( y => y.toString())),
-            rows
-        };
-
-        return {
-            pies: [parts],
-            definitions,
-            table
-        }
-       }
-    
-    populateTable(tableData: TableData) {
-
-        super.populateTable(tableData);
-    }
-
-    // update(data: DataObject, segment: string, update: boolean) {
-
-    //     super.update(data,segment,update)
-    // }  
+  //     super.update(data,segment,update)
+  // }
 }

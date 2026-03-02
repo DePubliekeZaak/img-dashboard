@@ -1,10 +1,10 @@
-import { DataObject, Segment } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
 import breakpoints from "../../../img-modules/styleguide/breakpoints";
 import { parseSegment } from "../factories/segment";
 import { HtmlHeader } from "../html/html-header";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
 
 export class NumbersMultiplesTitledV1 extends core.GraphControllerV3 {
   el;
@@ -45,7 +45,7 @@ export class NumbersMultiplesTitledV1 extends core.GraphControllerV3 {
     let bottom = 0;
 
     if (window.innerWidth < breakpoints.sm) {
-      top = this.index == 0 ? 15 : 0;
+      top = this.index === 0 ? 15 : 0;
       bottom = 15;
     } else {
       top = 15;

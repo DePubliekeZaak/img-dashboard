@@ -1,7 +1,7 @@
 import { IParameterMapping } from "../../../charts/core/types";
 import { breakpoints, colours } from "../../../img-modules/styleguide";
 import { convertToCurrencyInTable, thousands } from "../_helpers";
-import { PiePart } from "../types_graphs";
+import type { PiePart } from "../types_graphs";
 
 export default class HtmlLegendAsSum {
   rowHeight = 22;
@@ -15,7 +15,7 @@ export default class HtmlLegendAsSum {
   draw(data: PiePart[]) {
     this.ctrlr.element.querySelector(".legend")?.remove();
 
-    let legend = document.createElement("div");
+    const legend = document.createElement("div");
     legend.classList.add("legend");
     legend.style.display = "flex";
     legend.style.flexDirection =
@@ -27,8 +27,8 @@ export default class HtmlLegendAsSum {
     legend.style.justifyContent = "center";
     legend.style.width = "360px";
 
-    let table = document.createElement("table");
-    let tbody = document.createElement("tbody");
+    const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
 
     if (window.innerWidth < breakpoints.sm) {
       legend.style.width = "calc(100vw - 2rem)";
@@ -50,22 +50,22 @@ export default class HtmlLegendAsSum {
   }
 
   createRow(map: PiePart, index: number, data: PiePart[]): HTMLDivElement {
-    let row = document.createElement("tr");
-    if (index == data.length - 1) {
+    const row = document.createElement("tr");
+    if (index === data.length - 1) {
       row.classList.add("top_border");
     } else {
       row.classList.add("no_border");
     }
 
-    let colour = document.createElement("td");
+    const colour = document.createElement("td");
     colour.appendChild(this.createCircle(map));
     row.appendChild(colour);
 
-    let label = document.createElement("td");
+    const label = document.createElement("td");
     label.innerText = map.label;
     row.appendChild(label);
 
-    let vEl = document.createElement("td");
+    const vEl = document.createElement("td");
 
     switch (map.format) {
       case "currency":
@@ -92,7 +92,7 @@ export default class HtmlLegendAsSum {
   }
 
   createDiv(): HTMLDivElement {
-    let item = document.createElement("div");
+    const item = document.createElement("div");
     item.style.display = "flex";
     item.style.flexDirection = "row";
     item.style.alignItems = "center";
@@ -102,29 +102,29 @@ export default class HtmlLegendAsSum {
   }
 
   createCircle(map: PiePart): HTMLSpanElement {
-    let circle = document.createElement("span");
+    const circle = document.createElement("span");
     circle.style.width = window.innerWidth > 700 ? "1rem" : ".5rem";
     circle.style.height = window.innerWidth > 700 ? "1rem" : ".5rem";
     circle.style.borderRadius = "50%";
     circle.style.marginRight = window.innerWidth > 700 ? ".5rem" : ".25rem";
     circle.style.display = "flex";
     circle.style.background =
-      map["colour"] != undefined ? colours[map["colour"]][1] : "#eee";
+      map["colour"] !== undefined ? colours[map["colour"]][1] : "#eee";
     circle.style.borderWidth = "1px";
     circle.style.borderColor =
-      map["colour"] != undefined ? colours[map["colour"]][0] : "#ccc";
+      map["colour"] !== undefined ? colours[map["colour"]][0] : "#ccc";
     circle.style.borderStyle = "solid";
     return circle;
   }
 
   createLabel(map: PiePart): HTMLSpanElement {
-    let label = document.createElement("span");
+    const label = document.createElement("span");
     const labelText =
-      this.ctrlr.page.main.params.language == "en"
+      this.ctrlr.page.main.params.language === "en"
         ? map["label_en"]
         : map["label"];
 
-    if (labelText != undefined) {
+    if (labelText !== undefined) {
       label.style.fontFamily = "RO Sans Regular";
       label.style.fontSize = window.innerWidth > 700 ? ".8rem" : ".71em";
       label.style.lineHeight = "1.33";

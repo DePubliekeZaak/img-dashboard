@@ -1,12 +1,12 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { DataObject, Segment } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { createBars } from "../data.format.factory";
-import { TrendBar } from "../types_graphs";
-import { trimStart } from "../factories/trend";
 import { parseSegment } from "../factories/segment";
+import { trimStart } from "../factories/trend";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
+import type { TrendBar } from "../types_graphs";
 
 export class BarTrendKTOV1 extends core.GraphControllerV3 {
   scrollingContainer;
@@ -66,7 +66,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     this.graphEl.classList.remove("graph-container-12");
     this.graphEl.classList.add("graph-container-8");
 
-    if (this.graphEl != null) {
+    if (this.graphEl !== null) {
       this.graphEl.style.overflowX = "auto";
       this.graphEl.style.marginBottom =
         window.innerWidth < breakpoints.lg ? "0" : "2rem";
@@ -89,7 +89,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     this.config.paddingOuter = 0;
 
     await super._init();
-    if (this.scrollingContainer != null)
+    if (this.scrollingContainer !== null)
       await super._svg(this.scrollingContainer);
 
     this.chartBarTrend = new elements.ChartBarTrend(this);
@@ -140,7 +140,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     );
 
     if (window.innerWidth < breakpoints.md) {
-      if (this.graphEl != null) {
+      if (this.graphEl !== null) {
         this.graphEl.scrollLeft +=
           this.graphEl.scrollWidth - this.graphEl.clientWidth;
       }

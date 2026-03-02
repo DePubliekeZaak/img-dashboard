@@ -1,28 +1,25 @@
 import {
-  Dimensions,
-  IGraphConfig,
-  IParameterMapping,
-  IScale,
-  IScales,
-} from "./types";
-import { IChartDimensions } from "./chart-dimensions";
-import { ChartObject } from "./chart-init-objects";
-import { ISvgService } from "./svg-service";
-import { ScaleService } from "./scale.service";
-import { AxesService } from "./axes.service";
-import { SvgService } from "./svg-service";
-import { ChartDimensions } from "./chart-dimensions";
-
-// what about these?
-import { DataObject, Segment } from "../../pages/shared/types";
-import { IPageController } from "../../pages/shared/page.controller";
-import { GroupObject } from "../../pages/shared/interfaces";
-import { HtmlFilters } from "../../pages/shared/html/html-filters";
-import {
   fixMultiple,
   graphIsMultiple,
 } from "../../pages/shared/factories/multiples";
 import { parseSegment } from "../../pages/shared/factories/segment";
+import { HtmlFilters } from "../../pages/shared/html/html-filters";
+import type { GroupObject } from "../../pages/shared/interfaces";
+import type { IPageController } from "../../pages/shared/page.controller";
+// what about these?
+import type { DataObject, Segment } from "../../pages/shared/types";
+import { AxesService } from "./axes.service";
+import { ChartDimensions, type IChartDimensions } from "./chart-dimensions";
+import { ChartObject } from "./chart-init-objects";
+import { ScaleService } from "./scale.service";
+import { type ISvgService, SvgService } from "./svg-service";
+import {
+  type Dimensions,
+  type IGraphConfig,
+  type IParameterMapping,
+  IScale,
+  type IScales,
+} from "./types";
 
 export type IGraphControllerV3 = {
   element: HTMLElement | null;
@@ -97,7 +94,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   init() {}
 
   _init() {
-    let chartObject = ChartObject();
+    const chartObject = ChartObject();
     this.config = Object.assign(chartObject.config(), this.config);
     this.dimensions = chartObject.dimensions();
     this.svg = chartObject.svg();
@@ -113,7 +110,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     graphEl.classList.add(classes);
     graphEl.classList.add("graph-view");
     graphEl.classList.add(this.slug);
-    if (this.element != null) {
+    if (this.element !== null) {
       this.element.appendChild(graphEl);
       graphEl.style.paddingTop = this.config.margin.top + "px";
       graphEl.style.paddingBottom = this.config.margin.bottom + "px";
@@ -123,16 +120,15 @@ export class GraphControllerV3 implements IGraphControllerV3 {
 
     if (graphIsMultiple(this.slug)) {
       const graph = this.group.config.graphs.find(
-        (g) => g.slug == fixMultiple(this.slug),
+        (g) => g.slug === fixMultiple(this.slug),
       );
       const master = this.slug.endsWith("0");
 
       if (
-        graph != undefined &&
-        graph.filters != undefined &&
+        graph !== undefined &&
+        graph.filters !== undefined &&
         graph.filters.length > 0
       ) {
-
         this.filter = new HtmlFilters(
           this,
           master,
@@ -145,14 +141,13 @@ export class GraphControllerV3 implements IGraphControllerV3 {
         this.filter.draw();
       }
     } else {
-      const graph = this.group.config.graphs.find((g) => g.slug == this.slug);
+      const graph = this.group.config.graphs.find((g) => g.slug === this.slug);
 
       if (
-        graph != undefined &&
-        graph.filters != undefined &&
+        graph !== undefined &&
+        graph.filters !== undefined &&
         graph.filters.length > 0
       ) {
-     
         this.filter = new HtmlFilters(
           this,
           true,
@@ -175,7 +170,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
       .select(svgWrapper ? svgWrapper : this.element)
       .node();
 
-    if (this.element == null) return;
+    if (this.element === null) return;
     this.chartDimensions = new ChartDimensions(this.element, this.config);
     this.dimensions = this.chartDimensions.measure(this.dimensions);
 
@@ -186,11 +181,11 @@ export class GraphControllerV3 implements IGraphControllerV3 {
       this.svg,
     );
 
-    for (let c of this.config.scales) {
+    for (const c of this.config.scales) {
       this.scales[c.slug] = new ScaleService(this, c);
     }
 
-    for (let c of this.config.axes) {
+    for (const c of this.config.axes) {
       this.axes[c.slug] = new AxesService(this, c);
     }
 
@@ -198,30 +193,32 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   }
 
   async redraw(data?: any, range?: number[], dimensions?: Dimensions) {
-    if (this.svg && this.svg.body == undefined) return;
+    if (this.svg && this.svg.body === undefined) return;
 
-    this.dimensions = dimensions ? dimensions : this.chartDimensions.measure(this.dimensions);
+    this.dimensions = dimensions
+      ? dimensions
+      : this.chartDimensions.measure(this.dimensions);
 
     this.svgService.redraw(this.dimensions);
 
     if (this.config.scales) {
-      for (let c of this.config.scales) {
+      for (const c of this.config.scales) {
         this.scales[c.slug].reset();
       }
     }
 
     if (this.segment.key) {
-      let g =
-        this.group.config.graphs[this.index] != undefined
+      const g =
+        this.group.config.graphs[this.index] !== undefined
           ? this.group.config.graphs[this.index]
           : this.group.config.graphs[0];
 
-      if (g != undefined) {
+      if (g !== undefined) {
         const params = g.parameters || [];
         const param = params[0].find(
-          (p) => p.column == this.segment.key.replace("_cumul", ""),
+          (p) => p.column === this.segment.key.replace("_cumul", ""),
         );
-        for (let a of this.config.axes) {
+        for (const a of this.config.axes) {
           this.axes[a.slug].redraw(
             this.dimensions,
             this.scales[a.scale].scale,
@@ -249,8 +246,6 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   }
 
   async _update(newData: DataObject, update: boolean, range?: number[]) {
-    let self = this;
-
     this.segment = parseSegment(this.page, this.group.slug, this.slug);
 
     if (update && this.config.extra.noUpdate) {
@@ -258,14 +253,14 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     }
 
     const d = Object.assign({}, newData);
-    const data = self.prepareData(d);
+    const data = this.prepareData(d);
     // //  needed within multiples .. why ???
     this.preparedData = Object.assign({}, data);
-    await self.draw(this.preparedData);
-    await self.redraw(this.preparedData, range);
+    await this.draw(this.preparedData);
+    await this.redraw(this.preparedData, range);
     window.addEventListener(
       "resize",
-      () => self.redraw(this.preparedData),
+      () => this.redraw(this.preparedData),
       false,
     );
 

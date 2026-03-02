@@ -1,9 +1,9 @@
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2 } from "../../shared/interfaces";
-import { ImgData } from "../../shared/types";
-import { TableData, Definitions } from "../../shared/types_graphs";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
+import { GroupControllerV1 } from "../../shared/group-v1";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import type { IGroupMappingV2 } from "../../shared/interfaces";
+import type { ImgData } from "../../shared/types";
+import { Definitions, type TableData } from "../../shared/types_graphs";
 
 export class IntroGroupV1 extends GroupControllerV1 {
   constructor(
@@ -16,7 +16,7 @@ export class IntroGroupV1 extends GroupControllerV1 {
 
   html() {
     const graphWrapper = super.html();
-    let source = HTMLSourceV2(
+    const source = HTMLSourceV2(
       graphWrapper?.parentElement as HTMLElement,
       this.page.main.params.language,
       "IMG",
@@ -27,7 +27,7 @@ export class IntroGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
-    const dataGroup = this.config.endpoints[0];
+    const dataGroup = this.config.endpoints![0];
     const rows: string[][] = [];
 
     const { tableParams, graphData, definitions, graphData_alt, timeline } =
@@ -35,13 +35,13 @@ export class IntroGroupV1 extends GroupControllerV1 {
     const incremental: string[] = [];
     const cumulative: string[] = [];
 
-    for (let p of this.config.graphs[0].parameters[0]) {
+    for (const p of this.config.graphs[0].parameters[0]) {
       incremental.push(data[dataGroup][0][p.column]);
 
       cumulative.push(data[dataGroup][0][p.column + "_cumulatief"]);
     }
 
-    for (let period of graphData) {
+    for (const period of graphData) {
       const row: string[] = [];
       row.push(period._year);
       row.push(period._week);
@@ -57,10 +57,10 @@ export class IntroGroupV1 extends GroupControllerV1 {
 
       // console.log(tableParams)
 
-      for (let p of tableParams) {
-        if (p.format == "currency") {
+      for (const p of tableParams) {
+        if (p.format === "currency") {
           row.push(convertToCurrencyInTable(period[p.column]));
-        } else if (p.format == "percentage") {
+        } else if (p.format === "percentage") {
           row.push((0.1 * Math.round(period[p.column] * 10)).toString() + "%");
         } else {
           row.push(period[p.column]);

@@ -1,5 +1,5 @@
-import { IParameterMapping } from "../interfaces";
 import { breakpoints, colours } from "../../../img-modules/styleguide";
+import type { IParameterMapping } from "../interfaces";
 
 export class HtmlLegendRowWithLines {
   constructor(private ctrlr: any) {}
@@ -11,7 +11,7 @@ export class HtmlLegendRowWithLines {
       this.ctrlr.element.removeChild(prevLegend);
     }
 
-    let legend = document.createElement("div");
+    const legend = document.createElement("div");
     legend.classList.add("legend");
     legend.style.position =
       window.innerWidth < breakpoints.sm ? "absolute" : "relative";
@@ -24,20 +24,20 @@ export class HtmlLegendRowWithLines {
     // console.log("index", this.ctrlr.index);
     // console.log(this.ctrlr.group.graphs);
 
-    if (parameters == undefined) {
+    if (parameters === undefined) {
       parameters = this.ctrlr.group.graphs[this.ctrlr.index].parameters[0];
     }
 
-    if (parameters && parameters[0] != undefined) {
+    if (parameters && parameters[0] !== undefined) {
       parameters[0].forEach((map: any, i: number) => {
-        let item = this.createDiv();
+        const item = this.createDiv();
         item.appendChild(this.createCircle(map));
         item.appendChild(this.createLabel(map));
         legend.appendChild(item);
       });
     }
 
-    // if (parameters && parameters[1] != undefined) {
+    // if (parameters && parameters[1] !== undefined) {
     //   parameters[1].forEach((map: any, i: number) => {
     //     let item = this.createDiv();
     //     item.appendChild(this.createRect(map));
@@ -46,7 +46,7 @@ export class HtmlLegendRowWithLines {
     //   });
     // }
 
-    if (location == "bottom") {
+    if (location === "bottom") {
       this.ctrlr.element.appendChild(legend);
     } else {
       this.ctrlr.element.insertBefore(
@@ -57,7 +57,7 @@ export class HtmlLegendRowWithLines {
   }
 
   createDiv(): HTMLDivElement {
-    let item = document.createElement("div");
+    const item = document.createElement("div");
     item.style.display = "flex";
     item.style.flexDirection = "row";
     item.style.alignItems = "center";
@@ -67,7 +67,7 @@ export class HtmlLegendRowWithLines {
   }
 
   createCircle(map: IParameterMapping): HTMLSpanElement {
-    let circle = document.createElement("span");
+    const circle = document.createElement("span");
     circle.style.width = window.innerWidth > 700 ? "1rem" : ".5rem";
     circle.style.height = window.innerWidth > 700 ? "1rem" : ".5rem";
     circle.style.borderRadius = "50%";
@@ -81,7 +81,7 @@ export class HtmlLegendRowWithLines {
   }
 
   createRect(map: IParameterMapping): HTMLSpanElement {
-    let rect = document.createElement("span");
+    const rect = document.createElement("span");
     rect.style.width = window.innerWidth > 700 ? "1rem" : ".5rem";
     rect.style.height = window.innerWidth > 700 ? "1px" : "1px";
     // circle.style.borderRadius = '50%';
@@ -95,13 +95,13 @@ export class HtmlLegendRowWithLines {
   }
 
   createLabel(map: IParameterMapping): HTMLSpanElement {
-    let label = document.createElement("span");
+    const label = document.createElement("span");
     const labelText =
-      this.ctrlr.page.main.params.language == "en"
+      this.ctrlr.page.main.params.language === "en"
         ? map["label_en"]
         : map["label"];
 
-    if (labelText != undefined) {
+    if (labelText !== undefined) {
       label.style.fontFamily = "RO Sans Regular";
       label.style.fontSize = window.innerWidth > 700 ? ".8rem" : ".71em";
       label.style.lineHeight = "1.33";

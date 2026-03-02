@@ -1,7 +1,7 @@
-import { GeoJsonFeature, Line, Lines, TrendBar } from "./types_graphs";
-import { DataPart, Segment } from "./types";
-import { IParameterMapping } from "./interfaces";
-import { KeyValue } from "../../charts/core/types";
+import type { KeyValue } from "../../charts/core/types";
+import type { IParameterMapping } from "./interfaces";
+import { DataPart, type Segment } from "./types";
+import type { GeoJsonFeature, Line, Lines, TrendBar } from "./types_graphs";
 
 export const filterUnique = (data: any[], key: string): (string | number)[] => {
   const uniques: (string | number)[] = [];
@@ -43,7 +43,7 @@ export const uniquesWithCount = (
   }
 
   for (const u of uniques) {
-    o[u] = data.filter((d) => d[key] == u).length;
+    o[u] = data.filter((d) => d[key] === u).length;
   }
 
   return o;
@@ -78,13 +78,13 @@ export const formatLines = (
 
     for (const year of filterUnique(data, "year").slice()) {
       const object = data.find(
-        (r) => r[keyForLine] == unique && r.year == year,
+        (r) => r[keyForLine] === unique && r.year === year,
       );
-      const value = object != undefined ? object[keyForValue] : 0;
+      const value = object !== undefined ? object[keyForValue] : 0;
       const label =
-        object != undefined || object != null ? object[keyForLabel] : "";
+        object !== undefined || object !== null ? object[keyForLabel] : "";
 
-      if (label != null) {
+      if (label !== null) {
         line.push({
           label,
           time: year,
@@ -101,7 +101,7 @@ export const formatLines = (
     const values = line.map((l) => l.value);
 
     for (const v of values) {
-      if (v != 0) {
+      if (v !== 0) {
         bool = true;
       }
     }
@@ -121,16 +121,16 @@ export const createBars = (
   const bs: TrendBar[] = [];
 
   const periodKey =
-    segment.periodization == "monthly" ? "_yearmonth" : "_yearweek";
+    segment.periodization === "monthly" ? "_yearmonth" : "_yearweek";
 
-  for (let period of data) {
+  for (const period of data) {
     bs.push({
       label: param?.label || "",
       name: "main",
       date: period[periodKey].toString(),
-      colour: param != undefined ? param.colour : "orange",
+      colour: param !== undefined ? param.colour : "orange",
       meta: period,
-      value: period[prop] == null ? 0 : parseFloat(period[prop].toString()),
+      value: period[prop] === null ? 0 : parseFloat(period[prop].toString()),
       format: param?.format || undefined,
     });
   }
@@ -149,16 +149,16 @@ export const createBarsForStacked = (
   const bs: TrendBar[] = [];
 
   const periodKey =
-    segment.periodization == "monthly" ? "_yearmonth" : "_yearweek";
+    segment.periodization === "monthly" ? "_yearmonth" : "_yearweek";
 
-  for (let period of data) {
+  for (const period of data) {
     bs.push({
       label: param?.label || "",
       name: "main",
       date: period.data.date.toString(),
-      colour: param != undefined ? param.colour : "orange",
+      colour: param !== undefined ? param.colour : "orange",
       meta: period.data,
-      value: period[1] == null ? 0 : parseFloat(period[1].toString()),
+      value: period[1] === null ? 0 : parseFloat(period[1].toString()),
     });
   }
 

@@ -1,4 +1,4 @@
-import { IGroupMappingV2 } from "../shared/interfaces";
+import type { IGroupMappingV2 } from "../shared/interfaces";
 
 const group: IGroupMappingV2[] = [
   // intro
@@ -150,7 +150,7 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
-            }
+            },
           ],
           [],
         ],
@@ -178,7 +178,7 @@ const group: IGroupMappingV2[] = [
         slug: "maatwerk_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["cumulativeVsDelta","weekVsMonth"],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
         parameters: [
           [
             {
@@ -412,27 +412,26 @@ const group: IGroupMappingV2[] = [
               label: "Toegekend als maatwerk",
               column: "toegekend_als_maatwerk",
               colour: "moss",
-              units: "toegekend als maatwerk"
+              units: "toegekend als maatwerk",
             },
             {
               label: "Toegekend als HEA",
               column: "toegekend_als_herstel_eigen_aannemer",
               colour: "purple",
-              units: "toegekend als HEA"
+              units: "toegekend als HEA",
             },
             {
               label: "Toegekend als HAI",
               column: "toegekend_als_herstel_aannemer_instituut",
               colour: "blue",
-              units: "toegekend als HAI"
+              units: "toegekend als HAI",
             },
             {
               label: "Afgewezen",
               column: "maatwerk_afgewezen",
               colour: "orange",
               units: "afgewezen",
-              excludeFromTable: true
-
+              excludeFromTable: true,
             },
           ],
           [],
@@ -467,19 +466,19 @@ const group: IGroupMappingV2[] = [
               label: "Toegekend als MW",
               column: "toegekend_als_maatwerk_cumulatief",
               colour: "moss",
-              units: "toegekend als MW"
+              units: "toegekend als MW",
             },
             {
               label: "Toegekend als HEA",
               column: "toegekend_als_herstel_eigen_aannemer_cumulatief",
               colour: "purple",
-              units: "toegekend als HEA"
+              units: "toegekend als HEA",
             },
             {
               label: "Toegekend als HAI",
               column: "toegekend_als_herstel_aannemer_instituut_cumulatief",
               colour: "blue",
-              units: "toegekend als HAI"
+              units: "toegekend als HAI",
             },
             {
               label: "Afgewezen",
@@ -496,7 +495,7 @@ const group: IGroupMappingV2[] = [
               colour: "gray",
               scale: "null",
               format: "",
-              excludeFromTable: true
+              excludeFromTable: true,
             },
           ],
         ],
@@ -512,19 +511,19 @@ const group: IGroupMappingV2[] = [
               label: "Toegekend als MW",
               column: "toegekend_als_maatwerk",
               colour: "moss",
-              units: "toegekend als MW"
+              units: "toegekend als MW",
             },
             {
               label: "Toegekend als HAI",
               column: "toegekend_als_herstel_aannemer_instituut",
               colour: "blue",
-              units: "toegekend als HAI"
+              units: "toegekend als HAI",
             },
             {
               label: "Toegekend als HEA",
               column: "toegekend_als_herstel_eigen_aannemer",
               colour: "purple",
-              units: "toegekend als HEA"
+              units: "toegekend als HEA",
             },
             {
               label: "Afgewezen",
@@ -532,7 +531,7 @@ const group: IGroupMappingV2[] = [
               colour: "orange",
               scale: "null",
               format: "",
-              excludeFromTable: true
+              excludeFromTable: true,
             },
           ],
         ],
@@ -654,7 +653,7 @@ const group: IGroupMappingV2[] = [
               colour: "moss",
               format: "roundup",
               units: "aantal dagen",
-            }
+            },
           ],
           [],
         ],
@@ -683,7 +682,7 @@ const group: IGroupMappingV2[] = [
               column: "maatwerk_dlt_gerealiseerd_gemiddeld_dagen",
               colour: "blue",
               units: "gemiddeld gerealiseerd aantal dagen",
-            }
+            },
           ],
         ],
         segment: {

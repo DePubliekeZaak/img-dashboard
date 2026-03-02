@@ -1,4 +1,4 @@
-import { TableData } from "../types";
+import type { TableData } from "../types";
 
 export class HTMLTable {
   container;
@@ -16,8 +16,6 @@ export class HTMLTable {
   }
 
   init() {
-    const self = this;
-
     this.container =
       this.ctrlr.page.main.window.document.createElement("section");
     this.container.classList.add("graph-container-12");

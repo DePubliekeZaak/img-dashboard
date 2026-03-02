@@ -1,11 +1,14 @@
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
-import { Definitions, TableData } from "../../shared/types_graphs";
-import { convertToCurrencyInTable, slugify } from "../../shared/_helpers";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import { filterUnique } from "../../shared/data.format.factory";
 import * as topojson from "topojson-client";
+import { convertToCurrencyInTable, slugify } from "../../shared/_helpers";
+import { filterUnique } from "../../shared/data.format.factory";
 import { geodata } from "../../shared/geodata";
+import { GroupControllerV1 } from "../../shared/group-v1";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import {
+  type IGroupMappingV2,
+  IParameterMapping,
+} from "../../shared/interfaces";
+import type { Definitions, TableData } from "../../shared/types_graphs";
 
 export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
   circleGroup: any;
@@ -27,7 +30,7 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
 
   html() {
     const graphWrapper = super.html();
-    let source = HTMLSourceV2(
+    const source = HTMLSourceV2(
       graphWrapper?.parentElement as HTMLElement,
       this.page.main.params.language,
       "IMG",
@@ -38,9 +41,9 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: any): any {
-    // @ts-ignore
-    let geojson: any = topojson.feature(geodata, geodata.objects.gemeenten);
-    let features = geojson.features;
+    // @ts-expect-error
+    const geojson: any = topojson.feature(geodata, geodata.objects.gemeenten);
+    const features = geojson.features;
 
     const dataGroup = "map";
     const rows: (string | number)[][] = [];
@@ -48,26 +51,26 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
     const definitions: Definitions = [];
     const geo: any[] = [];
 
-    let graph_1 = this.config.graphs[0];
-    let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
-    let param = params_1[0];
+    const graph_1 = this.config.graphs[0];
+    const params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
+    const param = params_1[0];
 
-    let grouped: any[] = [];
-    let uniqueYears = ["2019", "2020", "2021", "2022", "2023"];
+    const grouped: any[] = [];
+    const uniqueYears = ["2019", "2020", "2021", "2022", "2023"];
     // let uniqueYears = filterUnique(data[dataGroup], "_year");
-    let uniqueMunis = filterUnique(data[dataGroup], "gemeente")
-      .filter((g) => g != "all")
+    const uniqueMunis = filterUnique(data[dataGroup], "gemeente")
+      .filter((g) => g !== "all")
       .sort();
 
-    for (let muni of uniqueMunis) {
+    for (const muni of uniqueMunis) {
       const row: (number | string)[] = [];
       row.push(muni);
-      for (let year of uniqueYears) {
+      for (const year of uniqueYears) {
         const o = data[dataGroup].find(
-          (i) => i._year == year && i.gemeente == muni,
+          (i) => i._year === year && i.gemeente === muni,
         );
-        if (o != undefined) {
-          if (param.format == "currency") {
+        if (o !== undefined) {
+          if (param.format === "currency") {
             row.push(convertToCurrencyInTable(o[param.column]));
           } else {
             row.push(o[param.column] + "%");
@@ -79,24 +82,24 @@ export class GeoGoedgekeurdGroupV1 extends GroupControllerV1 {
       rows.push(row);
     }
 
-    for (let year of uniqueYears) {
-      grouped.push(data[dataGroup].filter((p: any) => p._year == year));
+    for (const year of uniqueYears) {
+      grouped.push(data[dataGroup].filter((p: any) => p._year === year));
     }
 
-    for (let yearData of grouped) {
+    for (const yearData of grouped) {
       const augmentedFeatures: any[] = [];
 
-      for (let feature of features) {
+      for (const feature of features) {
         const f = JSON.parse(JSON.stringify(feature));
 
-        let obj = yearData.find((z) => {
+        const obj = yearData.find((z) => {
           return (
             slugify(z.gemeente).toLowerCase() ===
             slugify(feature.properties.gemeentenaam).toLowerCase()
           );
         });
 
-        if (obj != undefined) {
+        if (obj !== undefined) {
           f.properties["value"] = obj[param.column];
           f.properties.colour = param.colour;
           f.properties.format = param.format;

@@ -1,15 +1,18 @@
+import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
-import { IGroupMappingV2, IParameterMapping } from "../../shared/interfaces";
-import { DataObject, ImgData } from "../../shared/types";
-import {
-  Bars,
-  Definitions,
-  PiePart,
-  TableData,
-} from "../../shared/types_graphs";
-import { convertToCurrencyInTable } from "../../shared/_helpers";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import type {
+  IGroupMappingV2,
+  IParameterMapping,
+} from "../../shared/interfaces";
+import { DataObject, type ImgData } from "../../shared/types";
+import {
+  type Bars,
+  type Definitions,
+  PiePart,
+  type TableData,
+} from "../../shared/types_graphs";
 
 export class OrdesBedragGroupV1 extends GroupControllerV1 {
   circleGroup: any;
@@ -28,7 +31,7 @@ export class OrdesBedragGroupV1 extends GroupControllerV1 {
 
   html() {
     const graphWrapper = super.html();
-    let source = HTMLSourceV2(
+    const source = HTMLSourceV2(
       graphWrapper?.parentElement as HTMLElement,
       this.page.main.params.language,
       "IMG",
@@ -44,13 +47,13 @@ export class OrdesBedragGroupV1 extends GroupControllerV1 {
     const years: any[] = [];
     const definitions: Definitions = [];
 
-    let params = [] as IParameterMapping[];
+    const params = [] as IParameterMapping[];
 
-    let graph_1 = this.config.graphs[0];
-    let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
-    let columns_1 = params_1.map((p) => p.column);
+    const graph_1 = this.config.graphs[0];
+    const params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
+    const columns_1 = params_1.map((p) => p.column);
 
-    for (let period of data[dataGroup]) {
+    for (const period of data[dataGroup]) {
       const row: (number | string)[] = [];
       row.push(period._year);
       // row.push(period._month);
@@ -71,7 +74,7 @@ export class OrdesBedragGroupV1 extends GroupControllerV1 {
 
       years.push(year);
 
-      for (let column of columns_1) {
+      for (const column of columns_1) {
         row.push(period[column]);
       }
 

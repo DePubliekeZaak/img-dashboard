@@ -1,9 +1,13 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { DataObject, Segment } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IGraphMappingV2, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { parseSegment } from "../factories/segment";
+import {
+  type GroupObject,
+  IGraphMappingV2,
+  type IParameterMapping,
+} from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
 
 export class NumbersPlusRespondentsV1 extends core.GraphControllerV3 {
   els = {};
@@ -40,19 +44,18 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3 {
   }
 
   pre() {
-
     const marginBottom = window.innerWidth < breakpoints.lg ? 0 : 60;
     this._addMargin(0, marginBottom, 0, 0);
   }
 
   html() {
     const count = this.parameters[0].length;
-    const className = count == 2 ? "graph-container-6" : "graph-container-4";
+    const className = count === 2 ? "graph-container-6" : "graph-container-4";
 
-    for (let p of this.parameters[0]) {
+    for (const p of this.parameters[0]) {
       this.els[p.column] = super._html([className]);
 
-      let label = document.createElement("div");
+      const label = document.createElement("div");
       label.style.display = "flex";
       label.style.justifyContent = "center";
       label.classList.add("label");
@@ -67,7 +70,7 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3 {
   }
 
   async init() {
-    for (let p of this.parameters[0]) {
+    for (const p of this.parameters[0]) {
       this.numbers[p.column] = new elements.HtmlNumberCircleRespondents(
         this,
         p,
@@ -85,7 +88,7 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-    for (let p of this.parameters[0]) {
+    for (const p of this.parameters[0]) {
       this.numbers[p.column].draw();
       this.els[p.column].querySelector(".label").innerText = p.label;
     }
@@ -93,7 +96,7 @@ export class NumbersPlusRespondentsV1 extends core.GraphControllerV3 {
 
   async redraw(data: any, range: number[]) {
     let i = 0;
-    for (let p of this.parameters[0]) {
+    for (const p of this.parameters[0]) {
       this.numbers[p.column].redraw(
         data.graphDataWeek[0],
         this.parameters[0][i]["column"],

@@ -1,12 +1,12 @@
-import { breakpoints } from "../../../img-modules/styleguide";
-import { DataObject, Segment } from "../types";
 import { core, elements } from "../../../charts";
-import { GroupObject, IParameterMapping } from "../interfaces";
-import { IPageController } from "../page.controller";
+import { breakpoints } from "../../../img-modules/styleguide";
 import { createBars } from "../data.format.factory";
-import { TrendBar } from "../types_graphs";
-import { trimStart } from "../factories/trend";
 import { parseSegment } from "../factories/segment";
+import { trimStart } from "../factories/trend";
+import type { GroupObject, IParameterMapping } from "../interfaces";
+import type { IPageController } from "../page.controller";
+import type { DataObject, Segment } from "../types";
+import type { TrendBar } from "../types_graphs";
 
 export class BarTrendBedragenV1 extends core.GraphControllerV3 {
   scrollingContainer;
@@ -40,7 +40,7 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
 
     if (this.page.segment) {
       this.segment = parseSegment(this.page, this.group.slug, this.slug);
-      // hier check cumulative and apply modifiers 
+      // hier check cumulative and apply modifiers
     }
 
     this.pre();
@@ -58,8 +58,8 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     this._addScale("x", "band", "horizontal-reverse", "date");
     this._addScale("y", "linear", "vertical", "value");
     this._addAxis("x", "x", "bottom", "month");
-    this._addAxis("y", "y", "left","millions");
-    this._addAxis("y2", "y", "right","millions");
+    this._addAxis("y", "y", "left", "millions");
+    this._addAxis("y2", "y", "right", "millions");
   }
 
   html() {
@@ -67,7 +67,7 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     this.graphEl.classList.remove("graph-container-12");
     this.graphEl.classList.add("graph-container-8");
 
-    if (this.graphEl != null) {
+    if (this.graphEl !== null) {
       this.graphEl.style.overflowX = "auto";
       this.graphEl.style.marginBottom =
         window.innerWidth < breakpoints.sm ? "0" : "2rem";
@@ -84,11 +84,12 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
 
     this.graphEl.appendChild(this.scrollingContainer);
 
-    const sibling = this.graphEl.parentElement?.querySelector("section:first-of-type") as HTMLElement;
+    const sibling = this.graphEl.parentElement?.querySelector(
+      "section:first-of-type",
+    ) as HTMLElement;
     sibling?.classList.remove("graph-container-3");
     sibling?.classList.add("graph-container-4");
-    if (sibling) sibling.style.alignSelf = "center"; 
-
+    if (sibling) sibling.style.alignSelf = "center";
   }
 
   async init() {
@@ -96,7 +97,7 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     this.config.paddingOuter = 0;
 
     await super._init();
-    if (this.scrollingContainer != null)
+    if (this.scrollingContainer !== null)
       await super._svg(this.scrollingContainer);
 
     this.chartBarTrend = new elements.ChartBarTrend(this);
@@ -109,30 +110,35 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     data.graphDataWeek = trimStart(data.graphDataWeek, this.parameters, 2);
     data.graphDataMonth = trimStart(data.graphDataMonth, this.parameters, 2);
 
-    if(this.modifiers.length > 0 && this.parameters[0].length < 2) {
+    if (this.modifiers.length > 0 && this.parameters[0].length < 2) {
       const copy = JSON.parse(JSON.stringify(this.parameters[0][0]));
-      copy.column = copy.column + "_cumulatief"
-      this.parameters[0].push(copy)
+      copy.column = copy.column + "_cumulatief";
+      this.parameters[0].push(copy);
     }
 
     for (const pg of this.parameters) {
       for (const p of pg) {
-
         const bars: TrendBar[] = [];
 
-        const periodKey = this.segment.periodization == "monthly" ? "_yearmonth" : "_yearweek";
-        const _data = this.segment.periodization == "monthly" ? data.graphDataMonth : data.graphDataWeek
+        const periodKey =
+          this.segment.periodization === "monthly" ? "_yearmonth" : "_yearweek";
+        const _data =
+          this.segment.periodization === "monthly"
+            ? data.graphDataMonth
+            : data.graphDataWeek;
         // const column = this.segment.cumulative ? p.column + "_cumulatief" : p.column;
 
-        for (let period of _data) {
-
+        for (const period of _data) {
           bars.push({
             label: p?.label || "",
             name: "main",
             date: period[periodKey].toString(),
-            colour: p != undefined ? p.colour : "orange",
+            colour: p !== undefined ? p.colour : "orange",
             meta: period,
-            value: period[p.column] == null ? 0 : parseFloat(period[p.column].toString()),
+            value:
+              period[p.column] === null
+                ? 0
+                : parseFloat(period[p.column].toString()),
             format: p?.format || undefined,
           });
         }
@@ -145,31 +151,25 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-
     const _d = data[this.segment.key];
-  
+
     this.chartBarTrend.draw(_d);
   }
 
   async redraw(data: any) {
-
     const _d = data[this.segment.key];
 
     this.scales.x.set(_d.map((d) => d.date));
     this.scales.y.set(
-      _d
-        .map((d) => (d.value < 0 ? 0 : d.value))
-        .concat([0, 10]),
+      _d.map((d) => (d.value < 0 ? 0 : d.value)).concat([0, 10]),
     );
 
     await super.redraw(_d);
 
-    this.chartBarTrend.redraw(
-      _d, this.segment.periodization
-    );
+    this.chartBarTrend.redraw(_d, this.segment.periodization);
 
     if (window.innerWidth < breakpoints.md) {
-      if (this.graphEl != null) {
+      if (this.graphEl !== null) {
         this.graphEl.scrollLeft +=
           this.graphEl.scrollWidth - this.graphEl.clientWidth;
       }

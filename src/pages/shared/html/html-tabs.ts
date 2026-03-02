@@ -1,7 +1,7 @@
+import { last } from "lodash";
 import { breakpoints } from "../../../img-modules/styleguide";
 import { tableToCSV } from "../download.factory";
-import { IGroupCtrlr } from "../interfaces";
-import { last } from "lodash";
+import type { IGroupCtrlr } from "../interfaces";
 
 export class HtmlTabs {
   listElement;
@@ -37,13 +37,11 @@ export class HtmlTabs {
   }
 
   draw() {
-    const self = this;
-
     const ul = this.listElement.querySelector("ul");
 
     this.mapping.functionality =
       window.innerWidth < breakpoints.sm
-        ? this.mapping.functionality.filter((f) => f != "download")
+        ? this.mapping.functionality.filter((f) => f !== "download")
         : this.mapping.functionality;
 
     for (const func of ["graph"].concat(this.mapping.functionality)) {
@@ -70,14 +68,14 @@ export class HtmlTabs {
       li.appendChild(a);
 
       switch (func) {
-        case "graph":
+        case "graph": {
           a.innerText =
-            this.ctrlr.page.main.params.language == "nl" ? "grafiek" : "graph";
+            this.ctrlr.page.main.params.language === "nl" ? "grafiek" : "graph";
           a.setAttribute("aria-selected", true.toString());
 
           const launchGraph = () => {
             setTimeout(() => {
-              for (let graph of self.ctrlr.page.chartArray[this.groupIndex]
+              for (const graph of this.ctrlr.page.chartArray[this.groupIndex]
                 .graphs) {
                 graph.ctrlr.update(graph.ctrlr.group.data, "", true);
               }
@@ -89,16 +87,17 @@ export class HtmlTabs {
           //     a.addEventListener('click', launchGraph, false);
 
           break;
+        }
 
         case "table":
           a.innerText =
-            this.ctrlr.page.main.params.language == "nl" ? "tabel" : "table";
+            this.ctrlr.page.main.params.language === "nl" ? "tabel" : "table";
 
           break;
 
         case "definitions":
           a.innerText =
-            this.ctrlr.page.main.params.language == "nl"
+            this.ctrlr.page.main.params.language === "nl"
               ? "definities"
               : "definitions";
 
@@ -107,7 +106,7 @@ export class HtmlTabs {
         case "download":
           a.innerText = "download";
           a.title =
-            this.ctrlr.page.main.params.language == "nl"
+            this.ctrlr.page.main.params.language === "nl"
               ? "download csv bestand"
               : "download csv file";
 
@@ -115,7 +114,7 @@ export class HtmlTabs {
 
         case "description":
           a.innerText =
-            this.ctrlr.page.main.params.language == "nl"
+            this.ctrlr.page.main.params.language === "nl"
               ? "omschrijving"
               : "description";
 
@@ -139,21 +138,23 @@ export class HtmlTabs {
 
         // Generate CSV from currently visible table
         const csvData = tableToCSV(this.element);
-        
+
         // Create data URL instead of blob URL
-        const dataUrl = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvData);
+        const dataUrl =
+          "data:text/csv;charset=utf-8," + encodeURIComponent(csvData);
 
         // Create temporary download link
         const tempLink = document.createElement("a");
         tempLink.href = dataUrl;
-        tempLink.download = "IMG_" + this.mapping.slug + ".csv" || "download.csv";
+        tempLink.download =
+          "IMG_" + this.mapping.slug + ".csv" || "download.csv";
         tempLink.style.display = "none";
 
         // Trigger download
         document.body.appendChild(tempLink);
         tempLink.click();
         document.body.removeChild(tempLink);
-        
+
         // No need for URL.revokeObjectURL anymore
       };
 
@@ -161,9 +162,7 @@ export class HtmlTabs {
     }
   }
 
-  redraw(func: string) {
-    let self = this;
-  }
+  redraw(func: string) {}
 
   els() {
     const tabEls = [...this.listElement.querySelectorAll(".tab_list a")];
@@ -180,20 +179,18 @@ export class HtmlTabs {
   }
 
   arm() {
-    const self = this;
-
     const { tabEls } = this.els();
 
     tabEls.forEach((element) => {
-      element.addEventListener("click", function () {
-        self.setSelectedTab(element);
+      element.addEventListener("click", () => {
+        this.setSelectedTab(element);
       });
     });
 
     tabEls.forEach((element) => {
-      element.addEventListener("keydown", function (e) {
+      element.addEventListener("keydown", (e) => {
         if ((e.keyCode || e.which) === 32) {
-          self.setSelectedTab(element);
+          this.setSelectedTab(element);
           element.click();
         }
       });
@@ -211,7 +208,7 @@ export class HtmlTabs {
     });
 
     window.location.href.indexOf("#panel") === -1 ||
-    this.listElement.parentElement.querySelector(window.location.hash) == null
+    this.listElement.parentElement.querySelector(window.location.hash) === null
       ? this.activateFirstPanel()
       : this.checkInitialSelectedTab();
 
@@ -233,7 +230,7 @@ export class HtmlTabs {
       ".tabpanel:target,.tabpanel.visible",
     );
 
-    if (targetedTabPanel != null) {
+    if (targetedTabPanel !== null) {
       const label = targetedTabPanel.getAttribute("aria-labelledby");
       const selectedTab = document.querySelector(`#${label}`);
       selectedTab?.setAttribute("aria-selected", "true");
@@ -262,7 +259,7 @@ export class HtmlTabs {
 
     // ther can be only one :target on page
 
-    // if (element != null) {
+    // if (element !== null) {
 
     // }
 
@@ -283,11 +280,11 @@ export class HtmlTabs {
   maintainOtherTabs(groups) {
     // : target is not enough when having multiple tabgroups on a page.. we can use aria-selected
 
-    for (let group of groups) {
-      let selectedTab = group.querySelector("li a[aria-selected=true]");
+    for (const group of groups) {
+      const selectedTab = group.querySelector("li a[aria-selected=true]");
 
       if (selectedTab) {
-        let activePanelId = selectedTab.href.split("#")[1];
+        const activePanelId = selectedTab.href.split("#")[1];
         document.getElementById(activePanelId)?.classList.add("visible");
       }
     }
@@ -314,9 +311,9 @@ export class HtmlTabs {
     const lastTab = tabEls[tabEls.length - 1];
 
     tabEls.forEach((element) => {
-      element.addEventListener("keydown", function (e) {
+      element.addEventListener("keydown", (e) => {
         if ((e.keyCode || e.which) === 38 || (e.keyCode || e.which) === 37) {
-          if (element == firstTab) {
+          if (element === firstTab) {
             e.preventDefault();
             lastTab.focus();
           } else {
@@ -328,7 +325,7 @@ export class HtmlTabs {
           (e.keyCode || e.which) === 40 ||
           (e.keyCode || e.which) === 39
         ) {
-          if (element == lastTab) {
+          if (element === lastTab) {
             e.preventDefault();
             firstTab.focus();
           } else {
