@@ -1,6 +1,6 @@
 import type { IPageConfig } from "../shared/interfaces";
 
-const group: IPageConfig = {
+const pageConfig: IPageConfig = {
   slug: "gemeente",
   segment: {
     key: "",
@@ -10,8 +10,8 @@ const group: IPageConfig = {
   },
   filters: ["gemeenten"],
   endpoints: [
-    "gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW",
-    "gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc",
+    "gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW&gemeente=eq.{G}",
+    "gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc&periode_vanaf=gte.2025-01-01&gemeente=eq.{G}",
   ],
   groups: [
     {
@@ -801,5 +801,6 @@ const group: IPageConfig = {
         "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WNW","gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WNW&order=periode.desc&periode_vanaf=gte.2025-01-01"],
     }
 ]
+}
 
-export default group;
+export default pageConfig;

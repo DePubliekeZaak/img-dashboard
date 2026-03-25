@@ -55,6 +55,9 @@ export class DataService implements IDataService {
     // @ts-expect-error
     const domain = DOMAIN;
 
+    // endpoint replace {GEMEENTE} and {VANAF} met waardes uit page filter
+    // beginnen met AA en Hunze en 2025-01-01
+
     if (version.tag !== "latest") {
       apibase = `/${apibase.split("/")[1]}/archives/v${version.slug}/api/`;
     }
