@@ -1,3 +1,3 @@
-interface Element{
-    remove(props:string[]);
-}
+// interface Element{
+//     remove();
+// }

@@ -27,9 +27,13 @@ export class DataService implements IDataService {
 
   async fetch(endpoint: string, version: Version, params?: Record<string, string>): Promise<any[]> {
     const url = this.buildUrl(endpoint, version, params);
+    console.log(url)
     const response = await fetch(url);
     if (response.ok) {
-      return response.json();
+      console.log("fetched, parsing...")
+      const data = await response.json();
+      console.log("parsed", data.length, "rows")
+      return data;
     }
     throw new Error(`Fetch failed: ${url}`);
   }

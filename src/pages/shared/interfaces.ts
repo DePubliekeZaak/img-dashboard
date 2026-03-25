@@ -60,6 +60,7 @@ export interface IGroupMappingV2 {
 export interface IPageConfig {
   slug: string;
   segment: Segment;
+  filters: string[];
   endpoints: string[]; // default voor alle groups
   groups: IGroupMappingV2[];
 }

@@ -14,6 +14,7 @@ import { Segment } from "./types";
 export interface IPageController {
   main: IDashboardController;
   slug: string;
+  config: IPageConfig;
   chartArray: any[];
   segment: any;
   init: (config: any, groups: any, graphs: any, version: Version) => void;
@@ -180,6 +181,7 @@ export default class PageController implements IPageController {
         }
       }
     }
+    console.log("data gathered")
   }
 
   addDateToPageHeader() {
@@ -208,6 +210,7 @@ export default class PageController implements IPageController {
     for (const group of this.chartArray) {
       group.data = group.ctrlr.prepareData(this.main.data.collection());
     }
+    console.log("data prepared")
   }
 
   tables() {
@@ -260,6 +263,7 @@ export default class PageController implements IPageController {
         graph.ctrlr.init();
       }
     }
+    console.log("init graphs")
   }
 
   armDownloads() {
@@ -340,11 +344,11 @@ export default class PageController implements IPageController {
   async onFilterChange(updates: Partial<Segment>) {
     // Update page segment
     Object.assign(this.segment, updates);
+
     
     // Cascade naar groups/graphs
     for (const groupSlug of Object.keys(this.segment.groups)) {
       Object.assign(this.segment.groups[groupSlug], updates);
-      
       const graphs = this.segment.groups[groupSlug].graphs;
       if (graphs) {
         for (const graphSlug of Object.keys(graphs)) {
@@ -355,6 +359,9 @@ export default class PageController implements IPageController {
     
     this.main.data.clear();
     await this.gatherData(this.main.params.version);
+
+
+     console.log("FETCHED NEW DATA")
     
     // Re-render met bestaande graphs
     this.prepareData();

@@ -8,6 +8,7 @@ const group: IPageConfig = {
     periodization: "weekly",
     cumulative: false,
   },
+  filters: ["gemeenten"],
   endpoints: [
     "gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW",
     "gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc",
