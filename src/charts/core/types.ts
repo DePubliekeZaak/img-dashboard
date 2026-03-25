@@ -11,7 +11,8 @@ export interface IScale {
     type: string,
     direction: string,
     parameter?: string, // is fit nodig? 
-    fn?: any
+    fn?: any,
+    bandwidth?: () => number
 }
 
 export type IScales = {

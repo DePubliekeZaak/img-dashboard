@@ -6,6 +6,7 @@ export interface IScaleService {
 
     set: (data:any, minValue?: number) => any,
     reset: () => any,
+    bandwidth: () => number
 }
 
 export class ScaleService implements IScaleService{

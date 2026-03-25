@@ -80,7 +80,9 @@ export default class ChartBarTrend {
       }
     };
 
-    let barWidth = data[0].meta._isNewApi ? (this.ctrlr.dimensions.graphWidth / (data.length))  +1 : (this.ctrlr.dimensions.coreWidth / (data.length)) - 2;
+    let barWidth = data[0].meta._isNewApi 
+  ? this.ctrlr.scales.x.bandwidth!() - 1  
+  : (this.ctrlr.dimensions.coreWidth / (data.length)) - 2;
 
     bars
       .attr("x", (d: TrendBar, i: number) => {

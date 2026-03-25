@@ -69,9 +69,6 @@ export class MuniGroupV1 extends GroupControllerV1 {
 
 
     const { incremental, cumulative } = incVsCum2(graphDataWeek, this.config);
-
-
-
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
     const numbers =
@@ -97,6 +94,7 @@ export class MuniGroupV1 extends GroupControllerV1 {
       tableParams,
       pre_headers,
     );
+
 
     return {
       numbers,

@@ -179,12 +179,15 @@ export default class PageController implements IPageController {
   prepareData() {
     for (const group of this.chartArray) {
       group.data = group.ctrlr.prepareData(this.main.data.collection());
+          
     }
   }
 
   tables() {
     for (const group of this.chartArray) {
       if (group.data != undefined && group.data != undefined) {
+
+
         group.ctrlr.populateTable(group.data);
       }
     }

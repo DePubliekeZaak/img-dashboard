@@ -51,7 +51,7 @@ const group : IGroupMappingV2[] = [
             },
             {
                 "slug" : "gemeente_trend",
-                "ctrlr" : "BarTrendV1R",
+                "ctrlr" : "BarTrendV1",
                 "args" : [],
                 "filters": ["parameterSelect","cumulativeVsDelta"],
                 "parameters": [
@@ -130,7 +130,7 @@ const group : IGroupMappingV2[] = [
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW","gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW","gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc&periode_vanaf=gte.2025-01-01"],
     },
     {
         "slug" : "gemeenten_vv",
@@ -261,7 +261,7 @@ const group : IGroupMappingV2[] = [
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.VV","gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.VV&order=periode.desc"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.VV","gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.VV&order=periode.desc&periode_vanaf=gte.2025-01-01"],
     },
     {
         "slug" : "gemeenten_ims",
@@ -392,7 +392,7 @@ const group : IGroupMappingV2[] = [
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMS","gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMS&order=periode.desc"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMS","gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMS&order=periode.desc&periode_vanaf=gte.2025-01-01"],
     },
     {
         "slug" : "gemeenten_imk",
@@ -523,7 +523,7 @@ const group : IGroupMappingV2[] = [
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMK","gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMK&order=periode.desc"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMK","gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMK&order=periode.desc&periode_vanaf=gte.2025-01-01"],
     },
     {
         "slug" : "gemeenten_wd",
@@ -654,7 +654,7 @@ const group : IGroupMappingV2[] = [
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WD","gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WD&order=periode.desc"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WD","gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WD&order=periode.desc&periode_vanaf=gte.2025-01-01"],
     },
     {
         "slug" : "gemeenten_wnw",
@@ -785,7 +785,7 @@ const group : IGroupMappingV2[] = [
             "gemeente": "Groningen"
         },
         "functionality": ['table', 'definitions','download'],
-        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WNW","gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WNW&order=periode.desc"],
+        "endpoints": ["gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WNW","gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WNW&order=periode.desc&periode_vanaf=gte.2025-01-01"],
     }
 ]
 

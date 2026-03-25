@@ -34,6 +34,9 @@ export const tables = (
   const weekRows: string[][] = [];
   const monthRows: string[][] = [];
 
+  graphDataMonth.sort((a, b) => b._yearmonth.localeCompare(a._yearmonth));
+  graphDataWeek.sort((a, b) => b._yearweek.localeCompare(a._yearweek));
+
   for (let period of graphDataWeek) {
     const row: string[] = [];
     row.push(period._year);
