@@ -4,8 +4,10 @@ import type { IGraphControllerV3 } from "./graph-v3";
 import type { IScale } from "./types";
 
 export interface IScaleService {
-  set: (data: any, minValue?: number) => any;
-  reset: () => any;
+
+    set: (data:any, minValue?: number) => any,
+    reset: () => any,
+    bandwidth: () => number
 }
 
 export class ScaleService implements IScaleService {

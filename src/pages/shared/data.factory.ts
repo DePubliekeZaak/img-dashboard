@@ -34,7 +34,14 @@ export const tables = (
   const weekRows: string[][] = [];
   const monthRows: string[][] = [];
 
+<<<<<<< HEAD
   for (const period of graphDataWeek) {
+=======
+  graphDataMonth.sort((a, b) => b._yearmonth.localeCompare(a._yearmonth));
+  graphDataWeek.sort((a, b) => b._yearweek.localeCompare(a._yearweek));
+
+  for (let period of graphDataWeek) {
+>>>>>>> 194a7ddb9ae29760c77159072e399eb7f8877a80
     const row: string[] = [];
     row.push(period._year);
     row.push(period._week);

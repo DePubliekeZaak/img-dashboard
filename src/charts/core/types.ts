@@ -6,11 +6,13 @@
 // }
 
 export interface IScale {
-  slug: string;
-  type: string;
-  direction: string;
-  parameter?: string; // is fit nodig?
-  fn?: any;
+
+    slug: string,
+    type: string,
+    direction: string,
+    parameter?: string, // is fit nodig? 
+    fn?: any,
+    bandwidth?: () => number
 }
 
 export type IScales = {

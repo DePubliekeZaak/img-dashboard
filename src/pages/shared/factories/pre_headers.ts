@@ -1,6 +1,9 @@
 export const preHeaders = (graphs: any[], segment: any) => {
   let pre_headers: any[][] = [];
 
+
+  if(graphs[0].slug.includes("gemeente")) return [];
+
   const numbersIndex = graphs.findIndex(
     (g) => g.ctrlr.includes("Numbers") && segment.cumulative,
   );

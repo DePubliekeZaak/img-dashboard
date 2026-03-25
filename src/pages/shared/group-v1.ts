@@ -192,6 +192,14 @@ export class GroupControllerV1 implements IGroupCtrlr {
           }
         }
       }
+
+      if(graph.modifiers && ( graph.modifiers![0][1].column == "{}_aantal" || graph.modifiers![0][1].column == "{}_cumul")) {
+
+        // lets just only do cumul 
+        tableParams = tableParams.filter(p => 
+          p.column.includes("_cumul") //  || p.column.includes("_aantal")
+        );
+      }
     }
 
     tableParams = removeDuplicates(tableParams);

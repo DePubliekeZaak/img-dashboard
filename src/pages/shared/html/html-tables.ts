@@ -185,11 +185,18 @@ export class HTMLTables {
   }
 
   draw(data: any) {
+
+
     // Clear existing table content
     this.monthThead.innerHTML = "";
     this.monthTbody.innerHTML = "";
     this.weekThead.innerHTML = "";
     this.weekTbody.innerHTML = "";
+
+
+    // data.monthTable.rows.sort((a, b) => a._yearweek.localeCompare(b._yearweek));
+    // data.weekTable.rows.sort((a, b) => a._yearweek.localeCompare(b._yearweek));
+
 
     // Check if month table has data
     const hasMonthData =
@@ -197,6 +204,8 @@ export class HTMLTables {
       data.monthTable &&
       data.monthTable.rows &&
       data.monthTable.rows.length > 0;
+
+
 
     // Show/hide toggler based on whether both tables have data
     if (hasMonthData) {
