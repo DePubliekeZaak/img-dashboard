@@ -2,6 +2,7 @@ import { drop } from "lodash";
 import { breakpoints, colours } from "../../../img-modules/styleguide";
 import { slugify } from "../_helpers";
 import { IParameterMapping } from "../interfaces";
+import { Segment } from "../types";
 
 const munis = [
   "Groningen",
@@ -27,12 +28,12 @@ munis.sort();
 
 export class HtmlMunicipalitySelector {
   constructor(
-    private ctrlr,
-    private element,
+    private ctrlr: any,
+    private element: any,
     private id: string,
   ) {}
 
-  draw(segment, index = 0) {
+  draw(segment: Segment, index = 0) {
     const selectEl = document.getElementById(this.id + "_" + index);
 
     if (selectEl && selectEl.parentNode !== null) {

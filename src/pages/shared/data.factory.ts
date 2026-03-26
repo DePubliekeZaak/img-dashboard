@@ -34,14 +34,10 @@ export const tables = (
   const weekRows: string[][] = [];
   const monthRows: string[][] = [];
 
-<<<<<<< HEAD
-  for (const period of graphDataWeek) {
-=======
   graphDataMonth.sort((a, b) => b._yearmonth.localeCompare(a._yearmonth));
   graphDataWeek.sort((a, b) => b._yearweek.localeCompare(a._yearweek));
 
   for (let period of graphDataWeek) {
->>>>>>> 194a7ddb9ae29760c77159072e399eb7f8877a80
     const row: string[] = [];
     row.push(period._year);
     row.push(period._week);
@@ -128,7 +124,7 @@ export const pieParts = (data: any, graphs: any[], index: number) => {
   const graph_1 = graphs[index];
   const params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
 
-  params_1.forEach((p, i) => {
+  params_1.forEach((p: any, i: number) => {
     parts.push({
       label: p.label,
       value: data[0][p.column],

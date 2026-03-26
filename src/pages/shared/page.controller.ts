@@ -29,10 +29,10 @@ export interface IPageController {
 export default class PageController implements IPageController {
   main: IDashboardController;
   slug: string;
-  config: IPageConfig; // nieuw
+  config!: IPageConfig; // nieuw
   chartArray: any[] = [];
   segment: any;
-  pageFilters: HtmlPageFilters;
+  pageFilters!: HtmlPageFilters;
 
   constructor(main: IDashboardController) {
     this.main = main;
@@ -41,7 +41,7 @@ export default class PageController implements IPageController {
 
   mergeWithCMSContent(cms_content: any, c: IGroupMappingV2) {
     const groupContent = cms_content.find(
-      (g) => g.slug.trim() === c.slug.trim(),
+      (g: any) => g.slug.trim() === c.slug.trim(),
     );
 
     if (groupContent === undefined) return c;
@@ -177,7 +177,7 @@ export default class PageController implements IPageController {
       
       for (const endpoint of endpoints) {
         if (endpoint !== "") {
-          await this.main.data.gather(endpoint, version);
+          await this.main.data.gather(endpoint, version, this.segment);
         }
       }
     }

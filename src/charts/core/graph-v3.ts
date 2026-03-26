@@ -11,7 +11,7 @@ import type { DataObject, Segment } from "../../pages/shared/types";
 import { AxesService } from "./axes.service";
 import { ChartDimensions, type IChartDimensions } from "./chart-dimensions";
 import { ChartObject } from "./chart-init-objects";
-import { ScaleService } from "./scale.service";
+import { IScaleService, ScaleService } from "./scale.service";
 import { type ISvgService, SvgService } from "./svg-service";
 import {
   type Dimensions,
@@ -35,7 +35,7 @@ export type IGraphControllerV3 = {
   segment: Segment;
   dimensions: Dimensions;
   scales: IScales;
-  svg;
+  svg: any;
   chartDimensions: IChartDimensions;
 
   init: () => void;
@@ -52,21 +52,21 @@ export type IGraphControllerV3 = {
 
 export class GraphControllerV3 implements IGraphControllerV3 {
   config: IGraphConfig;
-  graphEl: HTMLElement | null;
-  dimensions: Dimensions;
+  graphEl!: HTMLElement | null;
+  dimensions!: Dimensions;
   svg: any;
-  yScale;
-  xScale;
-  chartDimensions: IChartDimensions;
-  svgService: ISvgService;
+  yScale! :IScaleService;
+  xScale!: IScaleService;
+  chartDimensions!: IChartDimensions;
+  svgService!: ISvgService;
   scales: any;
   axes: any;
-  htmlHeader;
-  htmlSegment;
-  element: HTMLElement | null;
-  popup;
-  preparedData: DataObject;
-  filter;
+  htmlHeader!: HTMLElement;
+  htmlSegment!: HTMLElement;
+  element!: HTMLElement | null;
+  popup!: any;
+  preparedData!: DataObject;
+  filter!: any;
 
   constructor(
     public slug: string,
