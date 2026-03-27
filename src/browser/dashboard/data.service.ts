@@ -20,10 +20,38 @@ export class DataService implements IDataService {
     this._collection = {};
   }
 
+  mapRow = (row: any) => {
+
+    const isNewApi = row.aggregatie !== undefined;
+
+    if (!isNewApi) return { ...row, _isNewApi: false };
+
+    return {
+      ...row,
+      _isNewApi: true,
+      _startdatum: row.periode_vanaf,
+      _einddatum: row.periode_totenmet,
+      _year: parseInt(row.periode?.split("_")[0]),
+      _month: parseInt(row.periode?.split("_")[1]),
+      _week: parseInt(row.periode?.split("_")[1]),
+      _yearmonth: row.periode,
+      _yearweek: row.periode,
+    };
+  };
+
   async gather(endpoint: string, version: Version, segment: Segment, params?: Record<string, string>) {
     const key = this.buildKey(endpoint, params);
     if (this._collection[key] === undefined) {
-      this._collection[key] = await this.fetch(endpoint, version, segment, params);
+      let payload  = await this.fetch(endpoint, version, segment, params);
+
+      if (endpoint.includes("gemeenten?aggregatie") || endpoint.includes("regelingen?aggregatie")) {
+        
+        payload = payload.map ( (row: any) => {
+          return this.mapRow(row)
+        });
+      }
+
+        this._collection[key] = payload;
     }
   }
 
@@ -32,9 +60,7 @@ export class DataService implements IDataService {
     console.log(url)
     const response = await fetch(url);
     if (response.ok) {
-      console.log("fetched, parsing...")
       const data = await response.json();
-      console.log("parsed", data.length, "rows")
       return data;
     }
     throw new Error(`Fetch failed: ${url}`);
@@ -60,12 +86,15 @@ export class DataService implements IDataService {
     // endpoint replace {GEMEENTE} and {VANAF} met waardes uit page filtergit status
     // beginnen met AA en Hunze en 2025-01-01
 
-    console.log("PARAMS", params)
-    console.log("SEGMENT", segment)
+    // console.log("PARAMS", params)
+    // console.log("SEGMENT", segment)
 
     if (endpoint.includes("{GEMEENTE}") && segment.gemeente != undefined) {
-      console.log("harry")
-        endpoint = endpoint.replace("{GEMEENTE}", segment.gemeente)
+      endpoint = endpoint.replace("{GEMEENTE}", encodeURIComponent(segment.gemeente));
+    }
+
+    if (endpoint.includes("{VANAF}") && segment.vanaf != undefined) {
+      endpoint = endpoint.replace("{VANAF}", encodeURIComponent(segment.vanaf));
     }
 
     if (version.tag !== "latest") {

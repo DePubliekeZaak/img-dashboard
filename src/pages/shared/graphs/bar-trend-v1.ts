@@ -136,6 +136,9 @@ export class BarTrendV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+
+    console.log("X_X_X_",data)
+
     const _data =
       data.graphDataMonth !== undefined &&
       this.group.config.endpoints!.length === 2
@@ -144,6 +147,8 @@ export class BarTrendV1 extends core.GraphControllerV3 {
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
+
+    console.log("V-V-V", _data);
 
     const _period =
       this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
@@ -158,7 +163,10 @@ export class BarTrendV1 extends core.GraphControllerV3 {
       const bs: TrendBar[] = [];
       ``;
 
+      
+
       for (const period of data) {
+
         bs.push({
           label: param?.label || "",
           name: "main",
@@ -166,7 +174,7 @@ export class BarTrendV1 extends core.GraphControllerV3 {
           colour: param !== undefined ? param.colour : "orange",
           meta: period,
           value:
-            period[prop] === null ? 0 : parseFloat(period[prop].toString()),
+            period[prop] === null ||  period[prop] === undefined ? 0 : parseFloat(period[prop].toString()),
           format: param?.format || undefined,
         });
       }
@@ -179,6 +187,8 @@ export class BarTrendV1 extends core.GraphControllerV3 {
 
     for (const pg of this.parameters) {
       for (const p of pg) {
+
+        
         data[p.column] = createBars(p.column, p, _data);
         if (this.modifiers !== undefined) {
           for (const mg of this.modifiers) {
@@ -197,12 +207,15 @@ export class BarTrendV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
+
+    console.log("!!!!", data, this.segment.key)
+
     this.chartBar.draw(data[this.segment.key]);
     this.timeline_1?.draw(data.timeline, 0);
   }
 
   async redraw(data: any) {
-    this.scales.x.set(data[this.segment.key].map((d) => d.date));
+    this.scales.x.set(data[this.segment.key].map((d: any) => d.date));
     this.scales.x1.set(
       data[this.segment.key]
         .map((d) => d.meta._startdatum)

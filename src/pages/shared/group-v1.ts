@@ -29,7 +29,7 @@ import type { Definitions } from "./types_graphs";
 export class GroupControllerV1 implements IGroupCtrlr {
   slug: string;
   element: HTMLElement | null;
-  segment: Segment;
+  segment!: Segment;
 
   htmlHeader;
   tabs;
@@ -54,6 +54,10 @@ export class GroupControllerV1 implements IGroupCtrlr {
       this.segment.key = this.segment.cumulative
         ? this.segment.key.replace("_cumulatief", "") + "_cumulatief"
         : this.segment.key.replace("_cumulatief", "");
+    }
+
+    if (!this.config.endpoints?.length) {
+      this.config.endpoints = this.page.config.endpoints;
     }
   }
 
@@ -130,11 +134,14 @@ export class GroupControllerV1 implements IGroupCtrlr {
   }
 
   prepareData(data: any): any {
+
+    console.log("ENDP", this.config.endpoints)
+
     const weekGroup = this.config.endpoints!.find(
       (e) =>
         e.includes("wekelijks") ||
         e.includes("tevredenheid") ||
-        e.includes("eq.week"),
+        e.includes("eq.week"),1
     );
     const monthGroup = this.config.endpoints!.find(
       (e) =>
@@ -143,31 +150,37 @@ export class GroupControllerV1 implements IGroupCtrlr {
         e.includes("eq.maand"),
     );
 
+    console.log("week group", weekGroup)
+
     let tableParams = [] as IParameterMapping[];
     let graphParams = [] as IParameterMapping[];
 
     for (const graph of this.config.graphs) {
-      for (const pg of graph.parameters) {
-        for (const p of pg) {
-          const columnNames = tableParams.map((p) => p.column);
-          if (!columnNames.includes(p.column)) {
-            if (tableParams.indexOf(p) < 0 && !p.excludeFromTable) {
-              tableParams.push(p);
-            }
-            if (graphParams.indexOf(p) < 0) {
-              graphParams.push(p);
+      // if (graph.modifiers == undefined || graph.modifiers.length < 1) {
+        for (const pg of graph.parameters) {
+          for (const p of pg) {
+            const columnNames = tableParams.map((p) => p.column);
+            if (!columnNames.includes(p.column)) {
+              if (tableParams.indexOf(p) < 0 && !p.excludeFromTable) {
+                tableParams.push(p);
+              }
+              if (graphParams.indexOf(p) < 0) {
+                graphParams.push(p);
+              }
             }
           }
-        }
+        // }
       }
 
       if (graph.modifiers !== undefined) {
         for (const mg of graph.modifiers) {
           for (const m of mg) {
+
             // Skip de basis {} modifier
             if (m.column === "{}") continue;
 
             for (const p of JSON.parse(JSON.stringify(graphParams))) {
+
               // Skip als parameter al een suffix heeft
               if (
                 p.column.includes("_cumul") ||
@@ -193,19 +206,21 @@ export class GroupControllerV1 implements IGroupCtrlr {
         }
       }
 
-      if(graph.modifiers && ( graph.modifiers![0][1].column == "{}_aantal" || graph.modifiers![0][1].column == "{}_cumul")) {
+      if(graph.modifiers && graph.modifiers.length > 0 && ( graph.modifiers![0][1].column == "{}_aantal" || graph.modifiers![0][1].column == "{}_cumul")) {
 
         // lets just only do cumul 
         tableParams = tableParams.filter(p => 
           p.column.includes("_cumul") //  || p.column.includes("_aantal")
+        );
+
+        graphParams = graphParams.filter(p => 
+          p.column.includes("_cumul") || p.column.includes("_aantal")
         );
       }
     }
 
     tableParams = removeDuplicates(tableParams);
     graphParams = removeDuplicates(graphParams);
-
-    // console.log(tableParams)
 
     // tableParams = tableParams.filter ( p => !p.column.includes("_cumulatief"))
 

@@ -32,35 +32,32 @@ export class MuniGroupV1 extends GroupControllerV1 {
 
   async init() {}
 
-  mapRow = (row: any) => {
-    const isNewApi = row.aggregatie !== undefined;
+  // mapRow = (row: any) => {
+  //   const isNewApi = row.aggregatie !== undefined;
 
-    if (!isNewApi) return { ...row, _isNewApi: false };
+  //   if (!isNewApi) return { ...row, _isNewApi: false };
 
-    return {
-      ...row,
-      _isNewApi: true,
-      _startdatum: row.periode_vanaf,
-      _einddatum: row.periode_totenmet,
-      _year: parseInt(row.periode?.split("_")[0]),
-      _month: parseInt(row.periode?.split("_")[1]),
-      _week: parseInt(row.periode?.split("_")[1]),
-      _yearmonth: row.periode,
-      _yearweek: row.periode,
-    };
-  };
+  //   return {
+  //     ...row,
+  //     _isNewApi: true,
+  //     _startdatum: row.periode_vanaf,
+  //     _einddatum: row.periode_totenmet,
+  //     _year: parseInt(row.periode?.split("_")[0]),
+  //     _month: parseInt(row.periode?.split("_")[1]),
+  //     _week: parseInt(row.periode?.split("_")[1]),
+  //     _yearmonth: row.periode,
+  //     _yearweek: row.periode,
+  //   };
+  // };
 
   prepareData(data: ImgData): any {
     const _data = JSON.parse(JSON.stringify(data));
 
-
-    console.log("D",_data )
-
-    for (const e of this.config.endpoints!) {
-      _data[e] = _data[e]
-        .filter((d) => d.gemeente === this.page.segment.gemeente)
-        .map((r) => this.mapRow(r)); // map retourneert nieuwe array
-    }
+    // for (const e of this.config.endpoints!) {
+    //   _data[e] = _data[e]
+    //     .filter((d: any) => d.gemeente === this.page.segment.gemeente)
+    //     .map((r: any) => this.mapRow(r)); // map retourneert nieuwe array
+    // }
 
     const {
       tableParams,

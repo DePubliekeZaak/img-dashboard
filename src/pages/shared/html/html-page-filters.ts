@@ -1,11 +1,12 @@
 
 import { IPageController } from "../page.controller";
+import { HtmlDateSelector } from "./date-selector";
 import { HtmlMunicipalitySelector } from "./municipality-selector";
 
 
 export class HtmlPageFilters {
   // ctrlr: IPageController
-  listElement : HTMLElement;
+  listElement! : HTMLElement;
   // selector;
   // hasListener = false;
 
@@ -42,8 +43,6 @@ export class HtmlPageFilters {
     
     const ul = this.listElement.querySelector("ul");
 
-    console.log(this.ctrlr.config);
-
     if (this.ctrlr.config.filters !== undefined) {
       for (const func of this.ctrlr.config.filters) {
         const li = this.ctrlr.main.window.document.createElement("li");
@@ -53,8 +52,6 @@ export class HtmlPageFilters {
         switch (func) {
 
           case "gemeenten": {
-
-            console.log("inside html page filter", this.ctrlr.segment)
 
             const muniSelector = new HtmlMunicipalitySelector(
               this.ctrlr,
@@ -71,6 +68,27 @@ export class HtmlPageFilters {
             });
 
           break;
+
+          }
+
+          case "vanaf": {
+
+            const startDateSelector = new HtmlDateSelector(
+              this.ctrlr,
+              li,
+              this.ctrlr.slug,
+            );
+            const startDateSelectorEl = startDateSelector.draw(this.ctrlr.segment, 1);
+
+            startDateSelectorEl.addEventListener("change", () => {
+             
+              if (startDateSelectorEl.value !== this.ctrlr.segment.vanaf) {
+                this.ctrlr.onFilterChange({ vanaf: startDateSelectorEl.value })
+              }
+            });
+
+          break;
+
           }
         }
          ul!.appendChild(li);

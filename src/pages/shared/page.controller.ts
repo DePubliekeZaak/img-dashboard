@@ -5,7 +5,6 @@ import cms_content from "../../json/groups.json";
 import { HtmlPageFilters } from "./html/html-page-filters";
 import {
   type GroupObject,
-  IGraphMappingV2,
   type IGroupMappingV2,
   type IPageConfig,
 } from "./interfaces";
@@ -172,8 +171,13 @@ export default class PageController implements IPageController {
   }
 
   async gatherData(version: Version) {
+
+    // need to cascade before here 
+
     for (const group of this.chartArray) {
-      const endpoints = group.config.endpoints || this.config.endpoints;
+      const endpoints = group.config.endpoints?.length 
+          ? group.config.endpoints 
+          : this.config.endpoints;
       
       for (const endpoint of endpoints) {
         if (endpoint !== "") {
@@ -181,6 +185,8 @@ export default class PageController implements IPageController {
         }
       }
     }
+
+
   }
 
   addDateToPageHeader() {
@@ -354,6 +360,12 @@ export default class PageController implements IPageController {
         }
       }
     }
+
+    for (const group of this.chartArray) {
+      group.element.style.opacity = '0.5';
+      group.element.style.pointerEvents = 'none';
+    }
+  
    
     this.main.data.clear();
     await this.gatherData(this.main.params.version);
@@ -364,6 +376,8 @@ export default class PageController implements IPageController {
     // Update elke group
     for (const group of this.chartArray) {
       group.ctrlr.update(group.data, this.segment, true);
+      group.element.style.opacity = '1';
+      group.element.style.pointerEvents = 'auto';
     }
   }
 }

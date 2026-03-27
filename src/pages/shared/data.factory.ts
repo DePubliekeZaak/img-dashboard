@@ -1,13 +1,17 @@
 import { convertToCurrencyInTable } from "./_helpers";
 import { NumbersV1 } from "./graphs/numbers-v1";
 
-export const incVsCum = (data: any[], config: any) => {
+export const incVsCum = (data: any[], config: any, graphParams: any[]) => {
   const incremental: string[] = [];
   const cumulative: string[] = [];
-
-  for (const p of config.graphs[0].parameters[0]) {
-    incremental.push(data[0][p.column]);
-    cumulative.push(data[0][p.column + "_cumulatief"]);
+  
+  for (const p of graphParams) {
+    if (p.column.includes('aantal')) {
+      incremental.push(data[0][p.column]);
+    }
+    if (p.column.includes('cumul')) {
+      cumulative.push(data[0][p.column]);
+    }
   }
 
   return { incremental, cumulative };

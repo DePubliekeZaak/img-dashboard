@@ -87,7 +87,10 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3 {
     // }
   }
 
+  
+
   async init() {
+  
     this.number = new elements.HtmlNumberSimple(
       this,
       this.parameters[0][this.index],

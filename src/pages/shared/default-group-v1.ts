@@ -28,6 +28,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
+
     const {
       tableParams,
       graphParams,
@@ -37,7 +38,9 @@ export class DefaultGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
-    const { incremental, cumulative } = incVsCum(graphDataWeek, this.config);
+    console.log("GDW", graphDataWeek, data)
+
+    const { incremental, cumulative } = incVsCum(graphDataWeek, this.config, graphParams);
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 

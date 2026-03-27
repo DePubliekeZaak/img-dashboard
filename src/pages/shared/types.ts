@@ -41,6 +41,7 @@ export type Segment = {
   key: string;
   cumulative: boolean;
   periodization: string;
+  vanaf?: string;
   parameterIndex?: number;
   gemeente?: string;
   specials?: string;
