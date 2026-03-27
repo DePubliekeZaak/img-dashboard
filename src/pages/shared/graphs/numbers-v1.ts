@@ -102,16 +102,18 @@ export class NumbersV1 extends core.GraphControllerV3 {
   }
 
   async redraw(data: any, range: number[]) {
+    const segment = this.page.segment.groups[this.group.slug].graphs[this.slug];
+    
     for (const p of this.parameters[0]) {
-      const column = this.page.segment.groups[this.group.slug].cumulative
-        ? p.column.replace("_cumulatief", "") + "_cumulatief"
-        : p.column.includes("_percentage") || p.column.includes("_peag")
-          ? p.column
-          : p.column.replace("_cumulatief", "");
-
       if (p.column === "---") return;
-      const number = data.numbers[column];
-      this.numbers[p.column].redraw(number);
+
+      const entry = this.group.graphParams![p.column];
+      const variant = segment.cumulative 
+        ? entry?.variants.cumul 
+        : entry?.variants.delta;
+      
+      const column = variant?.column || p.column;
+      this.numbers[p.column]?.redraw(data.numbers[column]);
     }
   }
 

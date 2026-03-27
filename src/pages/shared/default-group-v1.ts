@@ -38,9 +38,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
-    console.log("GDW", graphDataWeek, data)
-
-    const { incremental, cumulative } = incVsCum(graphDataWeek, this.config, graphParams);
+    const { incremental, cumulative } = incVsCum(graphDataWeek, graphParams);
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 

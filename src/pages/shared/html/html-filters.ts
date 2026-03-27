@@ -37,7 +37,6 @@ export class HtmlFilters {
     const prevElement = element.querySelector(".filter_list");
 
     if (this.id.includes("bedragen") && this.id.includes("trend")) {
-      console.log(this.id);
       this.listElement =
         this.ctrlr.page.main.window.document.createElement("div");
       this.listElement.classList.add("filter_list");
@@ -45,7 +44,6 @@ export class HtmlFilters {
       const ul = this.ctrlr.page.main.window.document.createElement("ul");
 
       this.listElement.appendChild(ul);
-      console.log(this.element);
       this.element.prepend(this.listElement);
     } else if (this.master) {
       const container =
@@ -176,24 +174,14 @@ export class HtmlFilters {
           if (selectEl === null) break;
 
           selectEl.addEventListener("change", () => {
-            if (selectEl !== null) {
-              if (localSegment.cumulative !== selectEl.value) {
-                if (localSegment.key.includes("voorraad")) {
-                  localSegment.cumulative = true;
-                  localSegment.key =
-                    localSegment.key.replace("_cumulatief", "") + "_cumulatief";
-                } else {
-                  localSegment.cumulative =
-                    selectEl.value === "cumulative" ? true : false;
-                  localSegment.key =
-                    selectEl.value === "cumulative"
-                      ? localSegment.key.replace("_cumulatief", "") +
-                        "_cumulatief"
-                      : localSegment.key.replace("_cumulatief", "");
+            if (selectEl === null) return;
 
-                  this.ctrlr.update(this.ctrlr.group.data, true);
-                }
-              }
+            const isCumulative = selectEl.value === "cumulative";
+            
+            if (localSegment.cumulative !== isCumulative) {
+              localSegment.cumulative = isCumulative;
+              
+              this.ctrlr.update(this.ctrlr.group.data, true);
             }
           });
 

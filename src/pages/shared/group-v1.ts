@@ -30,6 +30,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
   slug: string;
   element: HTMLElement | null;
   segment!: Segment;
+  group: any;
 
   htmlHeader;
   tabs;
@@ -50,15 +51,18 @@ export class GroupControllerV1 implements IGroupCtrlr {
     this.element = page.main.htmlContainer;
     if (config.segment) this.segment = segmentParse(config.segment);
 
-    if (this.segment.gemeente === "all") {
-      this.segment.key = this.segment.cumulative
-        ? this.segment.key.replace("_cumulatief", "") + "_cumulatief"
-        : this.segment.key.replace("_cumulatief", "");
-    }
+    // if (this.segment.gemeente === "all") {
+    //   this.segment.key = this.segment.cumulative
+    //     ? this.segment.key.replace("_cumulatief", "") + "_cumulatief"
+    //     : this.segment.key.replace("_cumulatief", "");
+    // }
 
     if (!this.config.endpoints?.length) {
       this.config.endpoints = this.page.config.endpoints;
     }
+
+    
+
   }
 
   html(groupEl?: HTMLElement) {
@@ -131,113 +135,110 @@ export class GroupControllerV1 implements IGroupCtrlr {
     }
 
     return this.graphWrapper !== undefined ? this.graphWrapper : this.element;
-  }
+  } 
 
-  prepareData(data: any): any {
+  paramsAndModifiers() {
+      const tableParams: IParameterMapping[] = [];
+      const graphParams: Record<string, {
+        base: IParameterMapping;
+        variants: Record<string, IParameterMapping>;
+      }> = {};
 
-    console.log("ENDP", this.config.endpoints)
+      for (const graph of this.config.graphs) {
+        const modifierPatterns = graph.modifiers?.flat().map(m => m.column) || [];
+        const hasModifiers = modifierPatterns.length > 0;
+        const hasBaseModifier = modifierPatterns.includes("{}");
 
-    const weekGroup = this.config.endpoints!.find(
-      (e) =>
-        e.includes("wekelijks") ||
-        e.includes("tevredenheid") ||
-        e.includes("eq.week"),1
-    );
-    const monthGroup = this.config.endpoints!.find(
-      (e) =>
-        e.includes("maandelijks") ||
-        e.includes("tevredenheid") ||
-        e.includes("eq.maand"),
-    );
+        for (const p of graph.parameters.flat()) {
+          // Skip if already has suffix
+          if (/_cumul|_cumulatief|_aantal|_eur/.test(p.column)) continue;
 
-    console.log("week group", weekGroup)
+          // Initialize entry for this base column
+          if (!graphParams[p.column]) {
+            graphParams[p.column] = {
+              base: p,
+              variants: {},
+            };
+          }
 
-    let tableParams = [] as IParameterMapping[];
-    let graphParams = [] as IParameterMapping[];
-
-    for (const graph of this.config.graphs) {
-      // if (graph.modifiers == undefined || graph.modifiers.length < 1) {
-        for (const pg of graph.parameters) {
-          for (const p of pg) {
-            const columnNames = tableParams.map((p) => p.column);
-            if (!columnNames.includes(p.column)) {
-              if (tableParams.indexOf(p) < 0 && !p.excludeFromTable) {
-                tableParams.push(p);
-              }
-              if (graphParams.indexOf(p) < 0) {
-                graphParams.push(p);
-              }
+          // Add base as variant if no modifiers or has {} modifier
+          if (!hasModifiers || hasBaseModifier) {
+            graphParams[p.column].variants["base"] = p;
+            if (!p.excludeFromTable) {
+              tableParams.push(p);
             }
           }
-        // }
-      }
 
-      if (graph.modifiers !== undefined) {
-        for (const mg of graph.modifiers) {
-          for (const m of mg) {
-
-            // Skip de basis {} modifier
+          // Generate variants from modifiers
+          for (const m of (graph.modifiers || []).flat()) {
             if (m.column === "{}") continue;
 
-            for (const p of JSON.parse(JSON.stringify(graphParams))) {
+            const resolvedColumn = m.column.replace("{}", p.column);
+            const variant: IParameterMapping = {
+              ...p,
+              ...m,
+              column: resolvedColumn,
+              label: p.label,
+            };
 
-              // Skip als parameter al een suffix heeft
-              if (
-                p.column.includes("_cumul") ||
-                p.column.includes("_cumulatief") ||
-                p.column.includes("_aantal")
-              )
-                continue;
+            // Determine variant key (cumul, delta, etc.)
+            const variantKey = m.column.includes("_cumul") ? "cumul" : "delta";
+            graphParams[p.column].variants[variantKey] = variant;
 
-              const n: IParameterMapping = Object.assign({}, m);
-              n.column = m.column.replace("{}", p.column);
-              n.label = p.label;
-              if (p.format !== "" || p.format !== undefined)
-                n.format = p.format;
-
-              graphParams.push(n);
-
-              const columnNames = tableParams.map((p) => p.column);
-              if (!columnNames.includes(n.column)) {
-                tableParams.push(n);
-              }
+            if (!p.excludeFromTable) {
+              tableParams.push(variant);
             }
           }
         }
       }
 
-      if(graph.modifiers && graph.modifiers.length > 0 && ( graph.modifiers![0][1].column == "{}_aantal" || graph.modifiers![0][1].column == "{}_cumul")) {
-
-        // lets just only do cumul 
-        tableParams = tableParams.filter(p => 
-          p.column.includes("_cumul") //  || p.column.includes("_aantal")
-        );
-
-        graphParams = graphParams.filter(p => 
-          p.column.includes("_cumul") || p.column.includes("_aantal")
-        );
-      }
+      return { 
+        tableParams: removeDuplicates(tableParams), 
+        graphParams 
+      };
     }
 
-    tableParams = removeDuplicates(tableParams);
-    graphParams = removeDuplicates(graphParams);
+  prepareData(data: any): any {
 
-    // tableParams = tableParams.filter ( p => !p.column.includes("_cumulatief"))
+    this.group = this.page.chartArray.find(g => g.slug === this.slug);
+    const { tableParams, graphParams } = this.group;
+
+    // console.log("GROUP", this.group)
+
+      const endpoints = this.group?.resolvedEndpoints;
+
+      const weekGroup = endpoints.find(
+        (e) =>
+          e.includes("wekelijks") ||
+          e.includes("tevredenheid") ||
+          e.includes("eq.week"),
+      );
+      
+      const monthGroup = endpoints.find(
+        (e) =>
+          e.includes("maandelijks") ||
+          e.includes("tevredenheid") ||
+          e.includes("eq.maand"),
+      );
 
     let graphDataWeek: any[] = [];
     let graphDataMonth: any[] = [];
 
+    const allColumns = Object.values(graphParams)
+      .flatMap((entry: any) => Object.values(entry.variants))
+      .map( (v: any) => v.column);
+
     if (weekGroup !== undefined && data[weekGroup].length > 0) {
       graphDataWeek = trimColumnsAndOrder(
         data[weekGroup],
-        graphParams.map((p) => p.column).concat(defaultColumns),
+        allColumns.concat(defaultColumns),
       );
     }
 
     if (monthGroup !== undefined && data[monthGroup].length > 0) {
       graphDataMonth = trimColumnsAndOrder(
         data[monthGroup],
-        graphParams.map((p) => p.column).concat(defaultColumns),
+        allColumns.concat(defaultColumns),
       );
     }
 
@@ -292,11 +293,14 @@ export class GroupControllerV1 implements IGroupCtrlr {
   }
 
   populateDescription() {
+
+    const endpoints = this.group?.resolvedEndpoints;
+
     const collection = this.page.main.data.collection();
     const currentData =
-      this.config.endpoints![0] &&
-      collection[this.config.endpoints![0]].length > 0
-        ? collection[this.config.endpoints![0]][0]
+      endpoints![0] &&
+      collection[endpoints![0]].length > 0
+        ? collection[endpoints![0]][0]
         : undefined;
     this.htmlHeader.redraw(currentData);
   }

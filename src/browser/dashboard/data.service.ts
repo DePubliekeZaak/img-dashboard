@@ -7,6 +7,7 @@ export interface IDataService {
   collection: () => Record<string, any[]>;
   gather: (endpoint: string, version: Version, segment: Segment, params?: Record<string, string>) => Promise<void>;
   fetch: (endpoint: string, version: Version, segment: Segment, params?: Record<string, string>) => Promise<any[]>;
+  addVarsToEndpoint: (endpoint:string, segment: Segment) => string;
 }
 
 export class DataService implements IDataService {
@@ -39,19 +40,34 @@ export class DataService implements IDataService {
     };
   };
 
-  async gather(endpoint: string, version: Version, segment: Segment, params?: Record<string, string>) {
-    const key = this.buildKey(endpoint, params);
-    if (this._collection[key] === undefined) {
-      let payload  = await this.fetch(endpoint, version, segment, params);
+  addVarsToEndpoint(endpoint: string, segment: Segment) {
+    let resolvedEndpoint = endpoint;  // Start with original
 
-      if (endpoint.includes("gemeenten?aggregatie") || endpoint.includes("regelingen?aggregatie")) {
-        
-        payload = payload.map ( (row: any) => {
-          return this.mapRow(row)
-        });
+    if (resolvedEndpoint.includes("{GEMEENTE}") && segment.gemeente != undefined) {
+      resolvedEndpoint = resolvedEndpoint.replace("{GEMEENTE}", encodeURIComponent(segment.gemeente));
+    }
+    if (resolvedEndpoint.includes("{VANAF}") && segment.vanaf != undefined) {
+      resolvedEndpoint = resolvedEndpoint.replace("{VANAF}", encodeURIComponent(segment.vanaf));
+    }
+
+    return resolvedEndpoint;
+  }
+
+  async gather(endpoint: string, version: Version, segment: Segment, params?: Record<string, string>) {
+
+    // Resolve placeholders FIRST
+    let resolvedEndpoint = this.addVarsToEndpoint(endpoint, segment);
+
+    const key = this.buildKey(resolvedEndpoint, params);
+    
+    if (this._collection[key] === undefined) {
+      let payload = await this.fetch(resolvedEndpoint, version, segment, params);
+
+      if (resolvedEndpoint.includes("gemeenten?aggregatie") || resolvedEndpoint.includes("regelingen?aggregatie")) {
+        payload = payload.map((row: any) => this.mapRow(row));
       }
 
-        this._collection[key] = payload;
+      this._collection[key] = payload;
     }
   }
 
@@ -82,20 +98,6 @@ export class DataService implements IDataService {
     let apibase = APIBASE;
     // @ts-expect-error
     const domain = DOMAIN;
-
-    // endpoint replace {GEMEENTE} and {VANAF} met waardes uit page filtergit status
-    // beginnen met AA en Hunze en 2025-01-01
-
-    // console.log("PARAMS", params)
-    // console.log("SEGMENT", segment)
-
-    if (endpoint.includes("{GEMEENTE}") && segment.gemeente != undefined) {
-      endpoint = endpoint.replace("{GEMEENTE}", encodeURIComponent(segment.gemeente));
-    }
-
-    if (endpoint.includes("{VANAF}") && segment.vanaf != undefined) {
-      endpoint = endpoint.replace("{VANAF}", encodeURIComponent(segment.vanaf));
-    }
 
     if (version.tag !== "latest") {
       apibase = `/${apibase.split("/")[1]}/archives/v${version.slug}/api/`;

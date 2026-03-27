@@ -9,6 +9,11 @@ import {
 } from "./types";
 import type { Definitions } from "./types_graphs";
 
+export interface GraphParamEntry {
+  base: IParameterMapping;
+  variants: Record<string, IParameterMapping>;  // "cumul" | "delta" | "base"
+}
+
 export interface IParameterMapping {
   label: string;
   label_en?: string;
@@ -35,6 +40,8 @@ export interface IGraphMappingV2 {
   classList?: string[];
   header?: string;
 }
+
+
 
 export type IMappingOption = IParameterMapping | boolean;
 
@@ -71,6 +78,8 @@ export interface GroupObject {
   splice?: boolean;
   graphs: GraphObject[];
   filters?: string[];
+  graphParams?: Record<string, GraphParamEntry>;
+  tableParams?: any[];
   config: IGroupMappingV2;
   element: HTMLElement;
   data: any;
@@ -98,6 +107,7 @@ export interface IGroupCtrlr {
   element: HTMLElement | null;
   graphWrapper: HTMLElement | null;
   groupWrapper: HTMLElement | null;
+  paramsAndModifiers: () => { tableParams: IParameterMapping[]; graphParams: Record<string, { base: IParameterMapping; variants: Record<string, IParameterMapping>;}>};
   html: () => HTMLElement | undefined;
   prepareData: (data: any) => DataObject;
   populateTable: (data: DataObject) => void;

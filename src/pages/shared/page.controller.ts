@@ -91,6 +91,10 @@ export default class PageController implements IPageController {
         data: {},
       };
 
+      const { tableParams, graphParams } = g.ctrlr.paramsAndModifiers();
+      g.tableParams = tableParams;
+      g.graphParams = graphParams;
+
       const el = g.ctrlr.html();
       if (el !== undefined) {
         g.element = el;
@@ -171,22 +175,22 @@ export default class PageController implements IPageController {
   }
 
   async gatherData(version: Version) {
-
-    // need to cascade before here 
-
     for (const group of this.chartArray) {
       const endpoints = group.config.endpoints?.length 
-          ? group.config.endpoints 
-          : this.config.endpoints;
+        ? group.config.endpoints 
+        : this.config.endpoints;
       
-      for (const endpoint of endpoints) {
+      // Store resolved endpoints on the group for later lookup
+      group.resolvedEndpoints = endpoints.map(ep => 
+        this.main.data.addVarsToEndpoint(ep, this.segment)
+      );
+      
+      for (const endpoint of group.resolvedEndpoints) {
         if (endpoint !== "") {
           await this.main.data.gather(endpoint, version, this.segment);
         }
       }
     }
-
-
   }
 
   addDateToPageHeader() {

@@ -57,7 +57,7 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
 
     this._addScale("x", "band", "horizontal-reverse", "date");
     this._addScale("y", "linear", "vertical", "value");
-    this._addAxis("x", "x", "bottom", "month");
+    this._addAxis("x", "x", "bottom", "quarters");
     this._addAxis("y", "y", "left", "millions");
     this._addAxis("y2", "y", "right", "millions");
   }
@@ -107,57 +107,71 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+
+    // console.log(data)
+
+    // only months
+
+    // should be 12 months only 
+
     data.graphDataWeek = trimStart(data.graphDataWeek, this.parameters, 2);
     data.graphDataMonth = trimStart(data.graphDataMonth, this.parameters, 2);
 
-    if (this.modifiers.length > 0 && this.parameters[0].length < 2) {
-      const copy = JSON.parse(JSON.stringify(this.parameters[0][0]));
-      copy.column = copy.column + "_cumulatief";
-      this.parameters[0].push(copy);
-    }
+    const periodKey = this.segment.periodization === "monthly" ? "_yearmonth" : "_yearweek";
+    const _data = this.segment.periodization === "monthly"
+      ? data.graphDataMonth
+      : data.graphDataWeek;
 
-    for (const pg of this.parameters) {
-      for (const p of pg) {
+    // // Iterate over all variants in graphParams
+    for (const entry of Object.values(this.group.graphParams!)) {
+      for (const variant of Object.values(entry.variants)) {
         const bars: TrendBar[] = [];
 
-        const periodKey =
-          this.segment.periodization === "monthly" ? "_yearmonth" : "_yearweek";
-        const _data =
-          this.segment.periodization === "monthly"
-            ? data.graphDataMonth
-            : data.graphDataWeek;
-        // const column = this.segment.cumulative ? p.column + "_cumulatief" : p.column;
-
         for (const period of _data) {
+
           bars.push({
-            label: p?.label || "",
+            label: variant.label || "",
             name: "main",
             date: period[periodKey].toString(),
-            colour: p !== undefined ? p.colour : "orange",
+            colour: variant.colour || "orange",
             meta: period,
-            value:
-              period[p.column] === null
-                ? 0
-                : parseFloat(period[p.column].toString()),
-            format: p?.format || undefined,
+            value: period[variant.column] === null || period[variant.column] === undefined
+              ? 0
+              : parseFloat(period[variant.column].toString()),
+            format: variant.format || undefined,
           });
         }
 
-        data[p.column] = bars;
+        data[variant.column] = bars;
       }
     }
 
     return data;
   }
 
-  async draw(data: DataObject) {
-    const _d = data[this.segment.key];
+  segmentKeyToColumn() {
 
-    this.chartBarTrend.draw(_d);
+    const segment = this.page.segment.groups[this.group.slug].graphs[this.slug];
+    const entry = this.group.graphParams![this.parameters[0][0].column];
+    const variant = segment.cumulative ? entry?.variants.cumul : entry?.variants.delta;
+    const column = variant?.column || this.segment.key;
+
+    return column;
+  }
+
+  async draw(data: DataObject) {
+
+    const column = this.segmentKeyToColumn();
+
+    console.log("!!",)
+
+    this.chartBarTrend.draw(data[column]);
   }
 
   async redraw(data: any) {
-    const _d = data[this.segment.key];
+
+    const column = this.segmentKeyToColumn();
+    const _d = data[column];
 
     this.scales.x.set(_d.map((d) => d.date));
     this.scales.y.set(

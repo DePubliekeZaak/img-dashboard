@@ -137,8 +137,6 @@ export class BarTrendV1 extends core.GraphControllerV3 {
 
   prepareData(data: DataObject): DataObject {
 
-    console.log("X_X_X_",data)
-
     const _data =
       data.graphDataMonth !== undefined &&
       this.group.config.endpoints!.length === 2
@@ -147,8 +145,6 @@ export class BarTrendV1 extends core.GraphControllerV3 {
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
-
-    console.log("V-V-V", _data);
 
     const _period =
       this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
@@ -207,8 +203,6 @@ export class BarTrendV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-
-    console.log("!!!!", data, this.segment.key)
 
     this.chartBar.draw(data[this.segment.key]);
     this.timeline_1?.draw(data.timeline, 0);

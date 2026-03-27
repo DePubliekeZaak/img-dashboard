@@ -1,21 +1,23 @@
 import { convertToCurrencyInTable } from "./_helpers";
 import { NumbersV1 } from "./graphs/numbers-v1";
+import { GraphParamEntry } from "./interfaces";
 
-export const incVsCum = (data: any[], config: any, graphParams: any[]) => {
-  const incremental: string[] = [];
-  const cumulative: string[] = [];
+export const incVsCum = (data: any[], graphParams: Record<string, GraphParamEntry>) => {
+  const incremental: number[] = [];
+  const cumulative: number[] = [];
   
-  for (const p of graphParams) {
-    if (p.column.includes('aantal')) {
-      incremental.push(data[0][p.column]);
+  for (const entry of Object.values(graphParams)) {
+    if (entry.variants.delta) {
+      incremental.push(data[0][entry.variants.delta.column]);
     }
-    if (p.column.includes('cumul')) {
-      cumulative.push(data[0][p.column]);
+    if (entry.variants.cumul) {
+      cumulative.push(data[0][entry.variants.cumul.column]);
     }
   }
 
   return { incremental, cumulative };
 };
+
 
 export const incVsCum2 = (data: any[], config: any) => {
   const incremental: string[] = [];
@@ -30,6 +32,7 @@ export const incVsCum2 = (data: any[], config: any) => {
 };
 
 export const tables = (
+
   graphDataWeek: any[],
   graphDataMonth: any[],
   tableParams: any[],
