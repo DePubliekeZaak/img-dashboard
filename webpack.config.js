@@ -73,15 +73,6 @@ const config = (env) => {
           export: "default",
         },
       },
-      fs_historie: {
-        filename: "scripts/fs_historie.bundle.js",
-        import: "./src/pages/fs_historie/index.ts",
-        library: {
-          name: "fs_historie",
-          type: "window",
-          export: "default",
-        },
-      },
       aos: {
         filename: "scripts/aos.bundle.js",
         import: "./src/pages/aos/index.ts",

@@ -138,72 +138,61 @@ export class GroupControllerV1 implements IGroupCtrlr {
   } 
 
   paramsAndModifiers() {
-      const tableParams: IParameterMapping[] = [];
-      const graphParams: Record<string, {
-        base: IParameterMapping;
-        variants: Record<string, IParameterMapping>;
-      }> = {};
+    const tableParams: IParameterMapping[] = [];
+    const graphParams: Record<string, {
+      base: IParameterMapping;
+      variants: Record<string, IParameterMapping>;
+    }> = {};
 
-      for (const graph of this.config.graphs) {
-        const modifierPatterns = graph.modifiers?.flat().map(m => m.column) || [];
-        const hasModifiers = modifierPatterns.length > 0;
-        const hasBaseModifier = modifierPatterns.includes("{}");
+    for (const graph of this.config.graphs) {
+      for (const p of graph.parameters.flat()) {
+        if (!graphParams[p.column]) {
+          graphParams[p.column] = {
+            base: p,
+            variants: {},
+          };
 
-        for (const p of graph.parameters.flat()) {
-          // Skip if already has suffix
-          if (/_cumul|_cumulatief|_aantal|_eur/.test(p.column)) continue;
+          // Build variants from parameter's own modifiers
+          if (p.modifiers) {
+            for (const [variantKey, suffix] of Object.entries(p.modifiers)) {
+              const variant: IParameterMapping = {
+                ...p,
+                column: p.column + suffix,
+              };
+              graphParams[p.column].variants[variantKey] = variant;
 
-          // Initialize entry for this base column
-          if (!graphParams[p.column]) {
-            graphParams[p.column] = {
-              base: p,
-              variants: {},
-            };
-          }
-
-          // Add base as variant if no modifiers or has {} modifier
-          if (!hasModifiers || hasBaseModifier) {
+              if (!p.excludeFromTable) {
+                tableParams.push(variant);
+              }
+            }
+          } else {
+            // No modifiers — base column is the only variant
             graphParams[p.column].variants["base"] = p;
             if (!p.excludeFromTable) {
               tableParams.push(p);
             }
           }
-
-          // Generate variants from modifiers
-          for (const m of (graph.modifiers || []).flat()) {
-            if (m.column === "{}") continue;
-
-            const resolvedColumn = m.column.replace("{}", p.column);
-            const variant: IParameterMapping = {
-              ...p,
-              ...m,
-              column: resolvedColumn,
-              label: p.label,
-            };
-
-            // Determine variant key (cumul, delta, etc.)
-            const variantKey = m.column.includes("_cumul") ? "cumul" : "delta";
-            graphParams[p.column].variants[variantKey] = variant;
-
-            if (!p.excludeFromTable) {
-              tableParams.push(variant);
-            }
-          }
         }
       }
-
-      return { 
-        tableParams: removeDuplicates(tableParams), 
-        graphParams 
-      };
     }
 
+    return { 
+      tableParams: removeDuplicates(tableParams), 
+      graphParams 
+    };
+  }
+
   prepareData(data: any): any {
+
+    console.log("INCOMING", data)
 
     this.group = this.page.chartArray.find(g => g.slug === this.slug);
     const { tableParams, graphParams } = this.group;
 
-    // console.log("GROUP", this.group)
+
+
+      console.log("GROUP", this.group)
+      console.log("GP", graphParams)
 
       const endpoints = this.group?.resolvedEndpoints;
 

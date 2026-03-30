@@ -1,12 +1,15 @@
 import { core, elements } from "../../../charts";
 import type { KeyValue } from "../../../charts/core/types";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../factories/segment";
 import { trimStart } from "../factories/trend";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import { type DataObject, Segment } from "../types";
 import type { TrendBar } from "../types_graphs";
+import {
+  getGraphSegment,
+  getActiveColumn,
+} from "../../../stores/segment.store";
 
 export class BarTrendAOSV1 extends core.GraphControllerV3 {
   scrollingContainer;
@@ -28,7 +31,7 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
 
   legend;
 
-  constructor(
+   constructor(
     public slug: string,
     public page: IPageController,
     public group: GroupObject,
@@ -36,9 +39,7 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: any,
     public index: number,
-    public pageSegment: any,
   ) {
     super(
       slug,
@@ -48,16 +49,13 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
 
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
-
+    // No more parseSegment here
     this.pre();
   }
+
 
   pre() {
     this.config.graphHeight = window.innerWidth > breakpoints.sm ? 380 : 400; //  this.index < 1 ? 420 : 210;
@@ -136,19 +134,19 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+
+    const periodization = this.segment?.periodization || "weekly";
+
     let _data =
       data.graphDataMonth !== undefined &&
       this.group.config.endpoints!.length === 2
         ? this.group.config.endpoints![1] !== undefined &&
-          this.segment.periodization === "monthly"
+          periodization === "monthly"
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
 
-    const _period =
-      this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
-
-    // console.log(_data);
+    const _period = periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
     _data = _data.filter(
       (p) => new Date(p._einddatum) > new Date("2021-12-31"),
@@ -178,9 +176,7 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
       return bs;
     };
 
-    // types voor line en bar samenvoegen -- alles time based / trend
-    const bars: { [key: string]: TrendBar[] } = {};
-
+    
     for (const pg of this.parameters) {
       for (const p of pg) {
         data[p.column] = createBars(p.column, p, _data);
@@ -201,35 +197,31 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-    this.chartBar.draw(data[this.segment.key]);
+    const key = this.segment?.key || this.parameters[0][0].column;
+
+    this.chartBar.draw(data[key]);
     this.timeline_1?.draw(data.timeline, 0);
   }
 
   async redraw(data: any) {
-    this.scales.x.set(data[this.segment.key].map((d) => d.date));
+    const key = this.segment?.key || this.parameters[0][0].column;
+    const periodization = this.segment?.periodization || "weekly";
+
+    this.scales.x.set(data[key].map((d) => d.date));
     this.scales.x1.set(
-      data[this.segment.key]
+      data[key]
         .map((d) => d.meta._startdatum)
         .filter((d) => d !== null),
     );
     this.scales.y.set(
-      data[this.segment.key]
+      data[key]
         .map((d) => (d.value > 0 ? d.value : 0))
         .concat([0]),
     );
 
-    // if (this.segment.periodization === "weekly") {
-    //   const w = data.graphDataWeek.length * 8;
-    //   this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ????
-    //   this.dimensions.svgWidth = w + 100;
-    //   this.dimensions.coreWidth = w;
+    await super.redraw(data[key], []);
 
-    //   await super.redraw(data[this.segment.key], [], this.dimensions);
-    // } else {
-    await super.redraw(data[this.segment.key], []);
-    // }
-
-    this.chartBar.redraw(data[this.segment.key], this.segment.periodization);
+    this.chartBar.redraw(data[key], periodization);
     const timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);
 
     if (window.innerWidth < breakpoints.md) {

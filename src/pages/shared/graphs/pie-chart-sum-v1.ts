@@ -1,10 +1,13 @@
 import { core, elements } from "../../../charts";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../factories/segment";
 import HtmlLegendAsSum from "../html/html-legend-sum";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import type { DataObject, Segment } from "../types";
+import {
+  getGraphSegment,
+  getActiveColumn,
+} from "../../../stores/segment.store";
 
 export class PieChartSumV1 extends core.GraphControllerV3 {
   chartAxis: any;
@@ -22,7 +25,6 @@ export class PieChartSumV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -33,13 +35,8 @@ export class PieChartSumV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }

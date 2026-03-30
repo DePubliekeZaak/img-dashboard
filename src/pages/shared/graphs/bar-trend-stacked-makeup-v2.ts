@@ -1,6 +1,5 @@
 import { core, elements } from "../../../charts";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../factories/segment";
 import { HtmlLegendRow } from "../html/html-legend-row";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
@@ -21,7 +20,6 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -32,13 +30,8 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }
@@ -113,25 +106,25 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3 {
 
     if (monthFirst) {
       _data =
-        this.segment.periodization === "weekly"
+        this.segment!.periodization === "weekly"
           ? data.graphData_alt
           : data.graphData;
     } else {
       _data =
-        this.segment.periodization === "weekly"
+        this.segment!.periodization === "weekly"
           ? data.graphData
           : data.graphData_alt;
     }
 
     const period =
-      this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
+      this.segment!.periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
     for (const m of _data) {
       m.date = m[period];
     }
 
-    const index =
-      this.segment.parameterIndex !== null ? this.segment.parameterIndex : 0;
+    const index: number =
+      this.segment!.parameterIndex !== null && this.segment!.parameterIndex !== undefined ? this.segment!.parameterIndex : 0;
 
     const ps = this.parameters[index];
 
@@ -139,7 +132,7 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3 {
       .stack()
       .keys(
         ps.map((p) =>
-          this.segment.cumulative ? p.column + "_cumul" : p.column,
+          this.segment!.cumulative ? p.column + "_cumul" : p.column,
         ),
       );
 
@@ -156,7 +149,7 @@ export class BarTrendStackedMakeupV2 extends core.GraphControllerV3 {
 
   async redraw(data: any, range: number[]) {
     const period =
-      this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
+      this.segment!.periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
     this.scales.x.set(data.graphData.map((d) => d[period]));
     this.scales.x1.set(

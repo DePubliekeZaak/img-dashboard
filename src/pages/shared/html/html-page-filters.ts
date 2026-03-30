@@ -1,14 +1,14 @@
-
-import { IPageController } from "../page.controller";
+import type { IPageController } from "../page.controller";
 import { HtmlDateSelector } from "./date-selector";
 import { HtmlMunicipalitySelector } from "./municipality-selector";
-
+import {
+  pageSegment$,
+  updatePageSegment,
+  cascadeSegmentUpdate,
+} from "../../../stores/segment.store";
 
 export class HtmlPageFilters {
-  // ctrlr: IPageController
-  listElement! : HTMLElement;
-  // selector;
-  // hasListener = false;
+  listElement!: HTMLElement;
 
   constructor(private ctrlr: IPageController) {
     this.ctrlr = ctrlr;
@@ -16,7 +16,7 @@ export class HtmlPageFilters {
   }
 
   init() {
-    const container = document.querySelector(".page_header")
+    const container = document.querySelector(".page_header");
 
     if (container !== null) {
       const prevElement = container.querySelector(".page_filter_list_group");
@@ -29,7 +29,6 @@ export class HtmlPageFilters {
       const ul = this.ctrlr.main.window.document.createElement("ul");
       this.listElement.appendChild(ul);
       container.appendChild(this.listElement);
-
     }
 
     return true;
@@ -40,70 +39,61 @@ export class HtmlPageFilters {
   }
 
   draw() {
-    
     const ul = this.listElement.querySelector("ul");
+    if (!ul) return;
 
     if (this.ctrlr.config.filters !== undefined) {
       for (const func of this.ctrlr.config.filters) {
         const li = this.ctrlr.main.window.document.createElement("li");
 
-        let selectEl;
-
         switch (func) {
-
           case "gemeenten": {
+            const pageSegment = pageSegment$.get();
 
             const muniSelector = new HtmlMunicipalitySelector(
               this.ctrlr,
               li,
               this.ctrlr.slug,
             );
-            const muniSelectEl = muniSelector.draw(this.ctrlr.segment, 1);
+            const muniSelectEl = muniSelector.draw(pageSegment, 1);
 
             muniSelectEl.addEventListener("change", () => {
-             
-              if (muniSelectEl.value !== this.ctrlr.segment.gemeente) {
-                this.ctrlr.onFilterChange({ gemeente: muniSelectEl.value })
+              const current = pageSegment$.get();
+
+              if (muniSelectEl.value !== current.gemeente) {
+                this.ctrlr.onFilterChange({ gemeente: muniSelectEl.value });
               }
             });
 
-          break;
-
+            break;
           }
 
           case "vanaf": {
+            const pageSegment = pageSegment$.get();
 
             const startDateSelector = new HtmlDateSelector(
               this.ctrlr,
               li,
               this.ctrlr.slug,
             );
-            const startDateSelectorEl = startDateSelector.draw(this.ctrlr.segment, 1);
+            const startDateSelectorEl = startDateSelector.draw(pageSegment, 1);
 
             startDateSelectorEl.addEventListener("change", () => {
-             
-              if (startDateSelectorEl.value !== this.ctrlr.segment.vanaf) {
-                this.ctrlr.onFilterChange({ vanaf: startDateSelectorEl.value })
+              const current = pageSegment$.get();
+
+              if (startDateSelectorEl.value !== current.vanaf) {
+                this.ctrlr.onFilterChange({ vanaf: startDateSelectorEl.value });
               }
             });
 
-          break;
-
+            break;
           }
         }
-         ul!.appendChild(li);
+
+        ul.appendChild(li);
       }
     }
   }
 
-  // post data retrieval
   redraw() {}
-
-  // hide() {
-  //   this.listElement.style.opacity = "0";
-  // }
-
-  // show() {
-  //   this.listElement.style.opacity = "1";
-  // }
 }

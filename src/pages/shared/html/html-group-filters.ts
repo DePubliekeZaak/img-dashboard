@@ -7,9 +7,16 @@ import { HtmlMunicipalitySelector } from "./municipality-selector";
 import { HtmlPeriodSelector } from "./period-selector";
 import { HtmlSpecialsSelector } from "./specials-selector";
 import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
+import {
+  getGroupSegment,
+  updateGroupSegment,
+  pageSegment$,
+  updatePageSegment,
+} from "../../../stores/segment.store";
+import { getAllData } from "../../../stores/data.store";
 
 export class HtmlGroupFilters {
-  listElement;
+  listElement: HTMLElement | null = null;
   selector;
   companySelector;
   tableButton;
@@ -38,8 +45,6 @@ export class HtmlGroupFilters {
 
       this.listElement.appendChild(ul);
 
-      //  element.insertBefore(this.listElement, element.querySelector('.tab_list'));
-
       element.querySelector(".source_attribution")?.after(this.listElement);
     }
 
@@ -51,7 +56,12 @@ export class HtmlGroupFilters {
   }
 
   draw(segment: string | Segment) {
+    if (!this.listElement) return;
+    
     const ul = this.listElement.querySelector("ul");
+    if (!ul) return;
+
+    const groupSlug = this.ctrlr.slug;
 
     if (this.ctrlr.config.filters !== undefined) {
       for (const func of this.ctrlr.config.filters) {
@@ -69,61 +79,45 @@ export class HtmlGroupFilters {
             const _selectEl = _selector.draw(1);
 
             _selectEl.addEventListener("change", () => {
-              const newSegment = {
-                key:
-                  _selectEl.value === "cumulative"
-                    ? this.strip(this.ctrlr.segment.key) + "_cumulatief"
-                    : this.strip(this.ctrlr.segment.key),
-                cumulative: _selectEl.value === "cumulative" ? true : false,
-                periodization:
-                  this.ctrlr.page.segment.groups[this.ctrlr.slug].periodization,
-              };
+              const current = getGroupSegment(groupSlug);
+              if (!current) return;
 
-              // if ( newSegment.key !== self.ctrlr.segment.key || newSegment.cumulative !== (self.ctrlr.config.segment as any).cumulative!) {
+              const isCumulative = _selectEl.value === "cumulative";
+              const newKey = isCumulative
+                ? this.strip(current.key) + "_cumulatief"
+                : this.strip(current.key);
 
-              this.ctrlr.page.segment.groups[this.ctrlr.slug] = newSegment;
-              this.ctrlr.update(
-                this.ctrlr.page.main.data.collection(),
-                undefined,
-                true,
-              );
-              // }
+              updateGroupSegment(groupSlug, {
+                key: newKey,
+                cumulative: isCumulative,
+              });
+
+              this.ctrlr.update(getAllData(), undefined, true);
             });
 
             break;
           }
 
           case "weekVsMonth": {
-            // fixed
-
             const __selector = new HtmlPeriodSelector(li, this.ctrlr.slug);
 
-            const periodization = this.ctrlr.page.segment.groups[
-              this.ctrlr.slug
-            ]
-              ? this.ctrlr.page.segment.groups[this.ctrlr.slug].periodization
-              : "monthly";
+            const current = getGroupSegment(groupSlug);
+            const periodization = current?.periodization || "monthly";
             const __selectEl = __selector.draw(periodization);
 
             if (__selectEl === null) break;
 
             __selectEl.addEventListener("change", () => {
-              const newSegment = {
-                key: this.ctrlr.page.segment.groups[this.ctrlr.slug].key,
-                cumulative:
-                  this.ctrlr.page.segment.groups[this.ctrlr.slug].cumulative,
-                periodization: __selectEl.value,
-              };
+              const current = getGroupSegment(groupSlug);
+              if (!current) return;
 
-              console.log("ns", newSegment);
-              this.ctrlr.page.segment.groups[this.ctrlr.slug] = newSegment;
-              this.ctrlr.update(
-                this.ctrlr.page.main.data.collection(),
-                undefined,
-                true,
-              );
-              //   }
-              // }
+              if (__selectEl.value !== current.periodization) {
+                updateGroupSegment(groupSlug, {
+                  periodization: __selectEl.value,
+                });
+
+                this.ctrlr.update(getAllData(), undefined, true);
+              }
             });
 
             break;
@@ -133,20 +127,22 @@ export class HtmlGroupFilters {
             break;
 
           case "monthSelect": {
-            const months = [];
-
+            const data = getAllData();
             const selector = new HtmlMonthSelector(
               this.ctrlr,
               li,
               this.ctrlr.slug,
-              this.ctrlr.page.main.data.collection().graphDataMonth,
+              data.graphDataMonth,
             );
             const selectEl = selector.draw(segment);
 
             selectEl.addEventListener("change", () => {
-              if (selectEl.value !== this.ctrlr.segment.key) {
+              const current = getGroupSegment(groupSlug);
+              if (!current) return;
+
+              if (selectEl.value !== current.key) {
                 this.ctrlr.update(
-                  this.ctrlr.page.main.data.collection(),
+                  getAllData(),
                   segmentParse(selectEl.value),
                   true,
                 );
@@ -157,35 +153,22 @@ export class HtmlGroupFilters {
           }
 
           case "gemeente": {
-            // console.log("inside html group filter",this.ctrlr.page.segment)
+            const pageSegment = pageSegment$.get();
 
             const muniSelector = new HtmlMunicipalitySelector(
               this.ctrlr,
               li,
               this.ctrlr.slug,
             );
-            const muniSelectEl = muniSelector.draw(this.ctrlr.page.segment, 1);
+            const muniSelectEl = muniSelector.draw(pageSegment, 1);
 
             muniSelectEl.addEventListener("change", () => {
-              // const segment_key = (typeof this.ctrlr.segment === "string") ?  this.ctrlr.segment : this.ctrlr.segment.key;
+              const currentPage = pageSegment$.get();
 
-              if (muniSelectEl.value !== this.ctrlr.page.segment.gemeente) {
-                this.ctrlr.page.segment.gemeente = muniSelectEl.value;
+              if (muniSelectEl.value !== currentPage.gemeente) {
+                updatePageSegment({ gemeente: muniSelectEl.value });
 
-                // const newSegment = {
-                //     key: self.ctrlr.segment.key,
-                //     cumulative: self.ctrlr.segment.cumulative,
-                //     periodization: self.ctrlr.segment.periodization,
-                //     gemeente: muniSelectEl.value
-                // }
-
-                // console.log(newSegment);
-
-                this.ctrlr.update(
-                  this.ctrlr.page.main.data.collection(),
-                  undefined,
-                  true,
-                );
+                this.ctrlr.update(getAllData(), undefined, true);
               }
             });
 
@@ -193,35 +176,22 @@ export class HtmlGroupFilters {
           }
 
           case "specials": {
-            // console.log("inside html group filter",this.ctrlr.page.segment)
+            const pageSegment = pageSegment$.get();
 
             const spSelector = new HtmlSpecialsSelector(
               this.ctrlr,
               li,
               this.ctrlr.slug,
             );
-            const spSelectEl = spSelector.draw(this.ctrlr.page.segment, 0);
+            const spSelectEl = spSelector.draw(pageSegment, 0);
 
             spSelectEl.addEventListener("change", () => {
-              // const segment_key = (typeof this.ctrlr.segment === "string") ?  this.ctrlr.segment : this.ctrlr.segment.key;
+              const currentPage = pageSegment$.get();
 
-              if (spSelectEl.value !== this.ctrlr.page.segment.gemeente) {
-                this.ctrlr.page.segment.specials = spSelectEl.value;
+              if (spSelectEl.value !== currentPage.specials) {
+                updatePageSegment({ specials: spSelectEl.value });
 
-                // const newSegment = {
-                //     key: self.ctrlr.segment.key,
-                //     cumulative: self.ctrlr.segment.cumulative,
-                //     periodization: self.ctrlr.segment.periodization,
-                //     gemeente: muniSelectEl.value
-                // }
-
-                // console.log(newSegment);
-
-                this.ctrlr.update(
-                  this.ctrlr.page.main.data.collection(),
-                  undefined,
-                  true,
-                );
+                this.ctrlr.update(getAllData(), undefined, true);
               }
             });
 
@@ -234,14 +204,17 @@ export class HtmlGroupFilters {
     }
   }
 
-  // post data retrieval
   redraw(func: string) {}
 
   hide() {
-    this.listElement.style.opacity = "0";
+    if (this.listElement) {
+      this.listElement.style.opacity = "0";
+    }
   }
 
   show() {
-    this.listElement.style.opacity = "1";
+    if (this.listElement) {
+      this.listElement.style.opacity = "1";
+    }
   }
 }

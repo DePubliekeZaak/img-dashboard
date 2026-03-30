@@ -19,121 +19,98 @@ const pageConfig: IPageConfig = {
     `regelingen?aggregatie=eq.maand&domein_code=eq.${DOMEIN_CODE}&regeling_code=eq.${REGELING_CODE}&order=periode.desc`
   ],
   groups: [
-  // {
-  //   slug: "maatwerk_intro",
-  //   ctrlr: "DefaultGroupV1",
-  //   filters: [],
-  //   graphs: [
-  //     {
-  //       slug: "fs_maatwerk_numbers_v1",
-  //       ctrlr: "NumbersMultiplesV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "cumulative",
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Meldingen",
-  //             column: "ingediend",
-  //             colour: "orange",
-  //             units: "meldingen",
-  //           },
-  //           {
-  //             label: "Voorraad",
-  //             column: "voorraad",
-  //             colour: "purple",
-  //             units: "voorraad",
-  //           },
-  //           {
-  //             label: "Afgehandeld",
-  //             column: "afgerond",
-  //             colour: "moss",
-  //             units: "afgehandeld",
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "totaal",
-  //             column: "{}_cumul",
-  //             colour: "orange",
-  //           },
-  //           // WAAR VINDT AANVULLING NU PLAATS .. in group ctrlr ?? 
-  //           {
-  //             label: "afgelopen week",
-  //             column: "{}_aantal",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "ingediend_aantal",
-  //         cumulative: true,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //     {
-  //       slug: "maatwerk_trend",
-  //       ctrlr: "BarTrendV1",
-  //       args: [],
-  //       filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Meldingen",
-  //             column: "ingediend",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "Afgehandeld",
-  //             column: "afgerond",
-  //             colour: "moss",
-  //           },
-  //           {
-  //             label: "Voorraad",
-  //             column: "voorraad",
-  //             colour: "moss",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "toename",
-  //             column: "{}_aantal",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "cumulatief",
-  //             column: "{}_cumul",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "ingediend_aantal",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "ingediend_aantal",
-  //     cumulative: true,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: [
-  //   ],
-  // },
-  // bedragen
   {
-    slug: "maatwerk_bedragen",
+    slug: "maatwerk_intro",
     ctrlr: "DefaultGroupV1",
     filters: [],
     graphs: [
+      {
+        slug: "fs_maatwerk_numbers_v1",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: [],
+        multiples: "cumulative",
+        parameters: [
+          [
+            {
+              label: "Meldingen",
+              column: "ingediend",
+              colour: "orange",
+              units: "meldingen",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Voorraad",
+              column: "voorraad",
+              colour: "purple",
+              units: "voorraad",
+              modifiers: { cumul: "_cumul", delta: "_verschil" },
+            },
+            {
+              label: "Afgehandeld",
+              column: "afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+          ],
+          [],
+        ],
+        segment: {
+          key: "ingediend_aantal",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "maatwerk_trend",
+        ctrlr: "BarTrendV1",
+        args: [],
+        filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
+        parameters: [
+          [
+            {
+              label: "Meldingen",
+              column: "ingediend",
+              colour: "orange",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Afgehandeld",
+              column: "afgerond",
+              colour: "moss",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Voorraad",
+              column: "voorraad",
+              colour: "blue",
+              modifiers: { cumul: "_cumul", delta: "_verschil" },
+            },
+          ],
+        ],
+        segment: {
+          key: "ingediend_aantal",
+          cumulative: false,
+          periodization: "monthly",
+        },
+      },
+    ],
+    segment: {
+      key: "ingediend_aantal",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [
+    ],
+  },
+  // bedragen
+  // {
+  //   slug: "maatwerk_bedragen",
+  //   ctrlr: "DefaultGroupV1",
+  //   filters: [],
+  //   graphs: [
       // {
       //   slug: "fs_maatwerk_numbers_2",
       //   ctrlr: "NumbersV1",
@@ -193,50 +170,50 @@ const pageConfig: IPageConfig = {
       //     periodization: "weekly",
       //   },
       // },
-      {
-        slug: "maatwerk_bedragen_trend",
-        ctrlr: "BarTrendBedragenV1",
-        args: [],
-        filters: ["cumulativeVsDelta"],
-        parameters: [
-          [
-            {
-              label: "Totaal verleende schade",
-              column: "bedrag_betaald_totaal",
-              colour: "blue",
-              format: "currency",
-            },
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}_eur",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumul_eur",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "bedrag_betaald_totaal",
-          cumulative: false,
-          periodization: "monthly",
-        },
-      },
-    ],
-    segment: {
-      key: "bedrag_betaald_totaal",
-      cumulative: true,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: [],
-  },
+  //     {
+  //       slug: "maatwerk_bedragen_trend",
+  //       ctrlr: "BarTrendBedragenV1",
+  //       args: [],
+  //       filters: ["cumulativeVsDelta"],
+  //       parameters: [
+  //         [
+  //           {
+  //             label: "Totaal verleende schade",
+  //             column: "bedrag_betaald_totaal",
+  //             colour: "blue",
+  //             format: "currency",
+  //           },
+  //         ],
+  //       ],
+  //       modifiers: [
+  //         [
+  //           {
+  //             label: "toename",
+  //             column: "{}_eur",
+  //             colour: "orange",
+  //           },
+  //           {
+  //             label: "cumulatief",
+  //             column: "{}_cumul_eur",
+  //             colour: "orange",
+  //           },
+  //         ],
+  //       ],
+  //       segment: {
+  //         key: "bedrag_betaald_totaal",
+  //         cumulative: false,
+  //         periodization: "monthly",
+  //       },
+  //     },
+  //   ],
+  //   segment: {
+  //     key: "bedrag_betaald_totaal",
+  //     cumulative: true,
+  //     periodization: "weekly",
+  //   },
+  //   functionality: ["table", "definitions", "download"],
+  //   endpoints: [],
+  // },
   // // waardering
   // {
   //   slug: "maatwerk_waardering",

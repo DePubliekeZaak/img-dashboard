@@ -14,6 +14,11 @@ export interface GraphParamEntry {
   variants: Record<string, IParameterMapping>;  // "cumul" | "delta" | "base"
 }
 
+export interface IModifierMapping {
+  cumul: string;   // suffix for cumulative, e.g. "_cumul"
+  delta: string;   // suffix for delta/incremental, e.g. "_aantal" or "_verschil"
+}
+
 export interface IParameterMapping {
   label: string;
   label_en?: string;
@@ -26,6 +31,7 @@ export interface IParameterMapping {
   format?: string;
   description?: string;
   excludeFromTable?: boolean;
+  modifiers?: IModifierMapping
 }
 
 export interface IGraphMappingV2 {
@@ -83,6 +89,7 @@ export interface GroupObject {
   config: IGroupMappingV2;
   element: HTMLElement;
   data: any;
+  resolvedEndpoints: string[];
 }
 
 export interface GraphObject {

@@ -1,6 +1,6 @@
 import { breakpoints } from "../../img-modules/styleguide";
 import { versions } from "../../pages/versions";
-import { DataService, type IDataService } from "./data.service";
+import { DataService } from "./data.service";
 import {
   createSideBar,
   createSkipLink,
@@ -22,7 +22,7 @@ import { Version } from "./types";
 export interface IDashboardController {
   window: Window;
   params: IParamService;
-  data: IDataService;
+  data: DataService;
   nav: INavService;
   htmlContainer: HTMLScriptElement;
   close_btn: HTMLElement;

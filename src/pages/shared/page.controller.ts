@@ -9,28 +9,36 @@ import {
   type IPageConfig,
 } from "./interfaces";
 import { Segment } from "./types";
+import {
+  initSegments,
+  cascadeSegmentUpdate,
+  pageSegment$,
+  isLoading$,
+} from "../../stores/segment.store";
+import {
+  getAllData,
+  clearData,
+} from "../../stores/data.store";
 
 export interface IPageController {
   main: IDashboardController;
   slug: string;
   config: IPageConfig;
   chartArray: any[];
-  segment: any;
   init: (config: any, groups: any, graphs: any, version: Version) => void;
   initHtml: () => void;
   gatherData: (version: Version) => void;
   prepareData: () => void;
   tables: () => void;
   initGraphs: () => void;
-  onFilterChange: (updates: Partial<Segment>) => void
+  onFilterChange: (updates: Partial<Segment>) => void;
 }
 
 export default class PageController implements IPageController {
   main: IDashboardController;
   slug: string;
-  config!: IPageConfig; // nieuw
+  config!: IPageConfig;
   chartArray: any[] = [];
-  segment: any;
   pageFilters!: HtmlPageFilters;
 
   constructor(main: IDashboardController) {
@@ -56,26 +64,11 @@ export default class PageController implements IPageController {
 
   async init(config: any, groups: any, graphs: any, version: Version) {
     this.config = config;
-    
 
-    // Page-level segment met groups object
-    this.segment = {
-      ...config.segment,
-      groups: {},
-    };
+    // Initialize segment store from config
+    initSegments(config);
 
     for (let c of config.groups) {
-      // Merge page -> group segment
-      const groupSegment = {
-        ...config.segment,
-        ...(typeof c.segment === "object" ? c.segment : {}),
-      };
-
-      this.segment.groups[c.slug] = {
-        ...groupSegment,
-        graphs: {},
-      };
-
       c = this.mergeWithCMSContent(cms_content.groups, c);
 
       let j = 0;
@@ -89,6 +82,9 @@ export default class PageController implements IPageController {
         config: c,
         element: document.createElement("div") as HTMLElement,
         data: {},
+        tableParams: [],
+        graphParams: {},
+        resolvedEndpoints: [],
       };
 
       const { tableParams, graphParams } = g.ctrlr.paramsAndModifiers();
@@ -103,14 +99,6 @@ export default class PageController implements IPageController {
       let i = 0;
 
       for (const graph of c.graphs) {
-        // Merge page -> group -> graph segment
-        const graphSegment = {
-          ...groupSegment,
-          ...(graph.segment || {}),
-        };
-
-        this.segment.groups[c.slug].graphs[graph.slug] = graphSegment;
-
         g.graphs.push({
           slug: graph.slug,
           multiples:
@@ -122,7 +110,7 @@ export default class PageController implements IPageController {
           parameters: graph.parameters,
           modifiers: graph.modifiers,
           filters: graph.filters,
-          segment: graphSegment,
+          segment: graph.segment,  
           classList: graph.classList || [],
           ctrlr: new graphs[graph.ctrlr](
             graph.slug,
@@ -132,9 +120,8 @@ export default class PageController implements IPageController {
             graph.parameters,
             graph.modifiers,
             graph.filters,
-            graphSegment,
+            graph.segment,
             i,
-            this.segment,
           ),
         });
 
@@ -164,30 +151,34 @@ export default class PageController implements IPageController {
 
   initHtml() {
     for (const group of this.chartArray) {
+      // Setup if needed
     }
   }
 
   initPageFilters() {
-    if (this.segment.gemeente !== undefined) {
+    const segment = pageSegment$.get();
+    if (segment.gemeente !== undefined) {
       this.pageFilters = new HtmlPageFilters(this);
       this.pageFilters.draw();
     }
   }
 
   async gatherData(version: Version) {
+    const segment = pageSegment$.get();
+
     for (const group of this.chartArray) {
-      const endpoints = group.config.endpoints?.length 
-        ? group.config.endpoints 
+      const endpoints = group.config.endpoints?.length
+        ? group.config.endpoints
         : this.config.endpoints;
-      
+
       // Store resolved endpoints on the group for later lookup
-      group.resolvedEndpoints = endpoints.map(ep => 
-        this.main.data.addVarsToEndpoint(ep, this.segment)
+      group.resolvedEndpoints = endpoints.map((ep: string) =>
+        this.main.data.addVarsToEndpoint(ep, segment)
       );
-      
+
       for (const endpoint of group.resolvedEndpoints) {
         if (endpoint !== "") {
-          await this.main.data.gather(endpoint, version, this.segment);
+          await this.main.data.gather(endpoint, version);
         }
       }
     }
@@ -199,10 +190,10 @@ export default class PageController implements IPageController {
     ) as HTMLElement;
 
     if (span) {
-      const data = this.main.data.collection();
-      const endpoint = Object.keys(data).find((d) => d.includes("wekelijks"));
+      const data = getAllData();
+      const endpoint = Object.keys(data).find((d) => d.includes("eq.week"));
 
-      if (endpoint) {
+      if (endpoint && data[endpoint]?.[0]) {
         const date = new Date(data[endpoint][0]["_einddatum"]);
         const formattedDate = new Intl.DateTimeFormat("nl-NL", {
           year: "numeric",
@@ -216,15 +207,16 @@ export default class PageController implements IPageController {
   }
 
   prepareData() {
+    const data = getAllData();
+    console.log("ALL DATA", data)
     for (const group of this.chartArray) {
-      group.data = group.ctrlr.prepareData(this.main.data.collection());
-          
+      group.data = group.ctrlr.prepareData(data);
     }
   }
 
   tables() {
     for (const group of this.chartArray) {
-      if (group.data !== undefined && group.data !== undefined) {
+      if (group.data !== undefined) {
         group.ctrlr.populateTable(group.data);
       }
     }
@@ -232,7 +224,7 @@ export default class PageController implements IPageController {
 
   definitions() {
     for (const group of this.chartArray) {
-      if (group.data !== undefined && group.data.definitions !== undefined) {
+      if (group.data?.definitions !== undefined) {
         group.ctrlr.populateDefinitions(group.data.definitions);
       }
     }
@@ -281,27 +273,22 @@ export default class PageController implements IPageController {
   }
 
   async prepareMultiples() {
-    // dit zorgt voor die wildwas aan files .. is dit wel nodig?
     const { default: graphs } = await import("../" + this.slug + "/graphs/");
 
     for (const group of this.chartArray) {
       const newGraphs: { slug: string; ctrlr: GraphControllerV3 }[] = [];
 
       for (const graph of group.graphs) {
-        // dit moet wel verzorgd worden in group
         if (graph.multiples && group.data[graph.multiples] !== undefined) {
           let i = 0;
 
           for (const m of group.data[graph.multiples]) {
             const slug = graph.slug + "_mult" + i;
-
             const data = Object.assign({}, group.data);
-
-            const segment = graph.segment || group.config.segment;
 
             newGraphs.push({
               slug,
-              ctrlr: new graphs[(this, graph.ctrlrName)](
+              ctrlr: new graphs[graph.ctrlrName](
                 slug,
                 this,
                 group,
@@ -309,20 +296,10 @@ export default class PageController implements IPageController {
                 graph.parameters,
                 graph.modifiers,
                 graph.filters,
-                segment,
+                graph.segment,
                 i,
               ),
             });
-
-            // Ensure segment.groups[group.slug] and graphs property exist
-            if (!this.segment.groups[group.slug]) {
-              this.segment.groups[group.slug] = {};
-            }
-            if (!this.segment.groups[group.slug].graphs) {
-              this.segment.groups[group.slug].graphs = {};
-            }
-
-            this.segment.groups[group.slug]["graphs"][slug] = graph.segment;
 
             i++;
           }
@@ -348,40 +325,31 @@ export default class PageController implements IPageController {
     }
   }
 
-
   async onFilterChange(updates: Partial<Segment>) {
-    // Update page segment
-    Object.assign(this.segment, updates);
-
-    
-    // Cascade naar groups/graphs
-    for (const groupSlug of Object.keys(this.segment.groups)) {
-      Object.assign(this.segment.groups[groupSlug], updates);
-      const graphs = this.segment.groups[groupSlug].graphs;
-      if (graphs) {
-        for (const graphSlug of Object.keys(graphs)) {
-          Object.assign(graphs[graphSlug], updates);
-        }
-      }
-    }
-
+    // Show loading state
+    isLoading$.set(true);
     for (const group of this.chartArray) {
-      group.element.style.opacity = '0.5';
-      group.element.style.pointerEvents = 'none';
+      group.element.style.opacity = "0.5";
+      group.element.style.pointerEvents = "none";
     }
-  
-   
-    this.main.data.clear();
+
+    // Cascade segment updates through store
+    cascadeSegmentUpdate(updates);
+
+    // Clear and refetch data
+    clearData();
     await this.gatherData(this.main.params.version);
-    
-    // Re-render met bestaande graphs
+
+    // Re-render
     this.prepareData();
-    
-    // Update elke group
+
+    // Update each group
     for (const group of this.chartArray) {
-      group.ctrlr.update(group.data, this.segment, true);
-      group.element.style.opacity = '1';
-      group.element.style.pointerEvents = 'auto';
+      group.ctrlr.update(group.data, true);
+      group.element.style.opacity = "1";
+      group.element.style.pointerEvents = "auto";
     }
+
+    isLoading$.set(false);
   }
 }

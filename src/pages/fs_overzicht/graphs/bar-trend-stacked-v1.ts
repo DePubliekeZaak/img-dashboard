@@ -38,7 +38,6 @@ export class BarTrendStackedV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -49,13 +48,9 @@ export class BarTrendStackedV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
 
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }

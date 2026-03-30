@@ -1,6 +1,5 @@
 import { core, elements } from "../../../charts";
 import breakpoints from "../../../img-modules/styleguide/breakpoints";
-import { parseSegment } from "../factories/segment";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import type { DataObject, Segment } from "../types";
@@ -17,7 +16,6 @@ export class NumbersV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
     public pageSegment: any,
   ) {
@@ -29,13 +27,9 @@ export class NumbersV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
+    
 
     this.pre();
   }
@@ -101,14 +95,12 @@ export class NumbersV1 extends core.GraphControllerV3 {
     }
   }
 
-  async redraw(data: any, range: number[]) {
-    const segment = this.page.segment.groups[this.group.slug].graphs[this.slug];
-    
+  async redraw(data: any, range?: number[]) {
     for (const p of this.parameters[0]) {
       if (p.column === "---") return;
 
-      const entry = this.group.graphParams![p.column];
-      const variant = segment.cumulative 
+      const entry = this.group.graphParams?.[p.column];
+      const variant = this.segment?.cumulative 
         ? entry?.variants.cumul 
         : entry?.variants.delta;
       

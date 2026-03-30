@@ -2,12 +2,11 @@ import {
   fixMultiple,
   graphIsMultiple,
 } from "../../pages/shared/factories/multiples";
-import { parseSegment } from "../../pages/shared/factories/segment";
 import { HtmlFilters } from "../../pages/shared/html/html-filters";
 import type { GroupObject } from "../../pages/shared/interfaces";
 import type { IPageController } from "../../pages/shared/page.controller";
-// what about these?
 import type { DataObject, Segment } from "../../pages/shared/types";
+import { getGraphSegment } from "../../stores/segment.store";
 import { AxesService } from "./axes.service";
 import { ChartDimensions, type IChartDimensions } from "./chart-dimensions";
 import { ChartObject } from "./chart-init-objects";
@@ -32,7 +31,7 @@ export type IGraphControllerV3 = {
   modifiers: IParameterMapping[][];
   filters: string[];
   config: IGraphConfig;
-  segment: Segment;
+  segment: Segment | undefined;
   dimensions: Dimensions;
   scales: IScales;
   svg: any;
@@ -55,7 +54,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   graphEl!: HTMLElement | null;
   dimensions!: Dimensions;
   svg: any;
-  yScale! :IScaleService;
+  yScale!: IScaleService;
   xScale!: IScaleService;
   chartDimensions!: IChartDimensions;
   svgService!: ISvgService;
@@ -76,7 +75,6 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     this.scales = {};
@@ -91,6 +89,11 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     };
   }
 
+  // Getter for segment from store
+  get segment(): Segment | undefined {
+    return getGraphSegment(this.group.slug, this.slug);
+  }
+
   init() {}
 
   _init() {
@@ -103,7 +106,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   }
 
   _html(classList?: string[]) {
-    this.element = this.group.element; // window.d3.select().node() as HTMLElement;
+    this.element = this.group.element;
     const classes = classList?.join(",") || "graph-container-12";
 
     const graphEl = document.createElement("section");
@@ -165,7 +168,6 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   }
 
   async _svg(svgWrapper?: HTMLElement) {
-    // with elementID we can create a child element as svg container with a fixed height.
     this.element = window.d3
       .select(svgWrapper ? svgWrapper : this.element)
       .node();
@@ -207,7 +209,8 @@ export class GraphControllerV3 implements IGraphControllerV3 {
       }
     }
 
-    if (this.segment.key) {
+    const segment = this.segment;
+    if (segment?.key) {
       const g =
         this.group.config.graphs[this.index] !== undefined
           ? this.group.config.graphs[this.index]
@@ -216,14 +219,14 @@ export class GraphControllerV3 implements IGraphControllerV3 {
       if (g !== undefined) {
         const params = g.parameters || [];
         const param = params[0].find(
-          (p) => p.column === this.segment.key.replace("_cumul", ""),
+          (p) => p.column === segment.key.replace("_cumul", ""),
         );
         for (const a of this.config.axes) {
           this.axes[a.slug].redraw(
             this.dimensions,
             this.scales[a.scale].scale,
             data.slice,
-            this.segment,
+            segment,
             param?.format,
           );
         }
@@ -246,7 +249,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   }
 
   async _update(newData: DataObject, update: boolean, range?: number[]) {
-    this.segment = parseSegment(this.page, this.group.slug, this.slug);
+    // No more parseSegment — segment comes from store via getter
 
     if (update && this.config.extra.noUpdate) {
       return;
@@ -254,7 +257,6 @@ export class GraphControllerV3 implements IGraphControllerV3 {
 
     const d = Object.assign({}, newData);
     const data = this.prepareData(d);
-    // //  needed within multiples .. why ???
     this.preparedData = Object.assign({}, data);
     await this.draw(this.preparedData);
     await this.redraw(this.preparedData, range);

@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "marked": "^15.0.7",
     "moment": "^2.29.0",
+    "nanostores": "^1.2.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "topojson-client": "^3.1.0"

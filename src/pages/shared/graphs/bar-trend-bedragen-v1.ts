@@ -1,12 +1,14 @@
 import { core, elements } from "../../../charts";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { createBars } from "../data.format.factory";
-import { parseSegment } from "../factories/segment";
 import { trimStart } from "../factories/trend";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import type { DataObject, Segment } from "../types";
 import type { TrendBar } from "../types_graphs";
+import {
+  getGraphSegment,
+  getActiveColumn,
+} from "../../../stores/segment.store";
 
 export class BarTrendBedragenV1 extends core.GraphControllerV3 {
   scrollingContainer;
@@ -23,7 +25,6 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -34,14 +35,8 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-      // hier check cumulative and apply modifiers
-    }
 
     this.pre();
   }
@@ -117,8 +112,8 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     data.graphDataWeek = trimStart(data.graphDataWeek, this.parameters, 2);
     data.graphDataMonth = trimStart(data.graphDataMonth, this.parameters, 2);
 
-    const periodKey = this.segment.periodization === "monthly" ? "_yearmonth" : "_yearweek";
-    const _data = this.segment.periodization === "monthly"
+    const periodKey = this.segment!.periodization === "monthly" ? "_yearmonth" : "_yearweek";
+    const _data = this.segment!.periodization === "monthly"
       ? data.graphDataMonth
       : data.graphDataWeek;
 
@@ -151,10 +146,9 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
 
   segmentKeyToColumn() {
 
-    const segment = this.page.segment.groups[this.group.slug].graphs[this.slug];
     const entry = this.group.graphParams![this.parameters[0][0].column];
-    const variant = segment.cumulative ? entry?.variants.cumul : entry?.variants.delta;
-    const column = variant?.column || this.segment.key;
+    const variant = this.segment!.cumulative ? entry?.variants.cumul : entry?.variants.delta;
+    const column = variant?.column || this.segment!.key;
 
     return column;
   }
@@ -180,7 +174,7 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
 
     await super.redraw(_d);
 
-    this.chartBarTrend.redraw(_d, this.segment.periodization);
+    this.chartBarTrend.redraw(_d, this.segment!.periodization);
 
     if (window.innerWidth < breakpoints.md) {
       if (this.graphEl !== null) {

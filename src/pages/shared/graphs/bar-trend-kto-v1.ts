@@ -23,7 +23,6 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -34,13 +33,8 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }
@@ -112,7 +106,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
           p.column,
           p,
           data.graphDataMonth,
-          this.segment,
+          this.segment!,
         ); // .filter(b => b.value > 0)
       }
     }
@@ -121,21 +115,21 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-    this.chartBarTrend.draw(data[this.segment.key]);
+    this.chartBarTrend.draw(data[this.segment!.key]);
   }
 
   async redraw(data: any) {
-    this.scales.x.set(data[this.segment.key].map((d) => d.date));
+    this.scales.x.set(data[this.segment!.key].map((d) => d.date));
     this.scales.y.set(
-      data[this.segment.key]
+      data[this.segment!.key]
         .map((d) => (d.value < 0 ? 0 : d.value))
         .concat([0, 10]),
     );
 
-    await super.redraw(data[this.segment.key]);
+    await super.redraw(data[this.segment!.key]);
 
     this.chartBarTrend.redraw(
-      data[this.segment.key],
+      data[this.segment!.key],
       this.parameters[1][0].column,
     );
 

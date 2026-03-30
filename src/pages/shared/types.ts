@@ -39,6 +39,7 @@ export type ImgData = ImgDataItem[];
 
 export type Segment = {
   key: string;
+  baseKey?: string;
   cumulative: boolean;
   periodization: string;
   vanaf?: string;

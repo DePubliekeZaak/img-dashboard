@@ -1,11 +1,9 @@
 import { core, elements } from "../../../charts";
 import type { KeyValue } from "../../../charts/core/types";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { trimStart } from "../factories/trend";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import type { DataObject, Segment } from "../types";
-import { Bar, TrendBar } from "../types_graphs";
 
 export class SegmentsV1 extends core.GraphControllerV3 {
   scrollingContainer;
@@ -35,7 +33,6 @@ export class SegmentsV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -46,7 +43,6 @@ export class SegmentsV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
     this.pre();
@@ -120,7 +116,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
 
   prepareData(data: DataObject): DataObject {
     const _data =
-      this.segment.periodization === "monthly"
+      this.segment!.periodization === "monthly"
         ? data.graphDataMonth
         : data.graphDataWeek;
 
@@ -161,7 +157,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
     );
 
     await super.redraw(data);
-    this.chartBar.redraw(data.bars, this.segment.periodization);
+    this.chartBar.redraw(data.bars, this.segment!.periodization);
 
     if (window.innerWidth < breakpoints.md) {
       if (this.graphEl !== null) {

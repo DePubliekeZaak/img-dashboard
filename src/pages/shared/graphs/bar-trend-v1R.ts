@@ -1,12 +1,14 @@
 import { core, elements } from "../../../charts";
 import type { KeyValue } from "../../../charts/core/types";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../factories/segment";
-import { trimStart } from "../factories/trend";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import { type DataObject, Segment } from "../types";
 import type { TrendBar } from "../types_graphs";
+import {
+  getGraphSegment,
+  getActiveColumn,
+} from "../../../stores/segment.store";
 
 export class BarTrendV1R extends core.GraphControllerV3 {
   scrollingContainer;
@@ -36,7 +38,6 @@ export class BarTrendV1R extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: any,
     public index: number,
     public pageSegment: any,
   ) {
@@ -48,13 +49,8 @@ export class BarTrendV1R extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }
@@ -140,14 +136,14 @@ export class BarTrendV1R extends core.GraphControllerV3 {
       data.graphDataMonth !== undefined &&
       this.group.config.endpoints!.length === 2
         ? this.group.config.endpoints![1] !== undefined &&
-          this.segment.periodization === "monthly"
+          this.segment!.periodization === "monthly"
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
 
        
     const _period =
-      this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
+      this.segment!.periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
     // _data = trimStart(_data, this.parameters, 2);
 
@@ -203,35 +199,35 @@ export class BarTrendV1R extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-    this.chartBar.draw(data[this.segment.key]);
+    this.chartBar.draw(data[this.segment!.key]);
     this.timeline_1?.draw(data.timeline, 0);
   }
 
   async redraw(data: any) {
-    this.scales.x.set(data[this.segment.key].map((d) => d.date));
+    this.scales.x.set(data[this.segment!.key].map((d) => d.date));
     this.scales.x1.set(
-      data[this.segment.key]
+      data[this.segment!.key]
         .map((d) => d.meta._startdatum)
         .filter((d) => d !== null),
     );
     this.scales.y.set(
-      data[this.segment.key]
+      data[this.segment!.key]
         .map((d) => (d.value > 0 ? d.value : 0))
         .concat([0]),
     );
 
-    if (this.segment.periodization === "weekly") {
+    if (this.segment!.periodization === "weekly") {
       const w = data.graphDataWeek.length * 8;
       this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ????
       this.dimensions.svgWidth = w + 100;
       this.dimensions.coreWidth = w;
 
-      await super.redraw(data[this.segment.key], [], this.dimensions);
+      await super.redraw(data[this.segment!.key], [], this.dimensions);
     } else {
-      await super.redraw(data[this.segment.key], []);
+      await super.redraw(data[this.segment!.key], []);
     }
 
-    this.chartBar.redraw(data[this.segment.key], this.segment.periodization);
+    this.chartBar.redraw(data[this.segment!.key], this.segment!.periodization);
     const timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);
 
     if (window.innerWidth < breakpoints.md) {

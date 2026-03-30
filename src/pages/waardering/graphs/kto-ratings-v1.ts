@@ -1,20 +1,16 @@
 import { core, elements } from "../../../charts";
 import { ChartBarsHorizontalV1 } from "../../../charts/elements/chart-bars-horizontal-v1";
-import ChartTimeline from "../../../charts/elements/chart-timeline";
 import type { HtmlNumberCircleRespondents } from "../../../charts/elements/html-number-circle-respondents";
-import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../../shared/factories/segment";
-import type { HtmlPeriodSelector } from "../../shared/html/period-selector";
 import type { GroupObject, IParameterMapping } from "../../shared/interfaces";
 import type { IPageController } from "../../shared/page.controller";
 import type { DataObject, Segment } from "../../shared/types";
 
+
 export class KTORatingsV1 extends core.GraphControllerV3 {
-  circleEl: HTMLElement;
-  trendEl: HTMLElement;
-  chartBar: ChartBarsHorizontalV1;
-  htmlCircle: HtmlNumberCircleRespondents;
-  htmlPeriodSelector: HtmlPeriodSelector;
+  circleEl!: HTMLElement;
+  trendEl!: HTMLElement;
+  chartBar!: ChartBarsHorizontalV1;
+  htmlCircle!: HtmlNumberCircleRespondents;
 
   constructor(
     public slug: string,
@@ -35,21 +31,13 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }
 
   pre() {
-    // const marginForTimeline = 360;
-    // const paddingForTimeline = 60;
-
     this._addScale("x", "linear", "horizontal", "value");
     this._addScale("y", "band", "vertical", "label");
 
@@ -72,7 +60,6 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
 
     if (this.element) {
       this.element.appendChild(this.graphEl);
-      // this.element.style.flexDirection = "row-reverse";
     }
   }
 
@@ -96,10 +83,15 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
-    data.selectedMonth = this.segment.cumulative
+  
+    const isCumulative = this.segment?.cumulative ?? true;
+    const key = this.segment?.key || "all";
+
+    data.selectedMonth = isCumulative
       ? data.graphDataMonth[0]
-      : data.graphDataMonth.find((m) => m["_yearmonth"] === this.segment.key);
-    const dataIndex = this.segment.cumulative ? 1 : 2;
+      : data.graphDataMonth.find((m) => m["_yearmonth"] === key);
+
+    const dataIndex = isCumulative ? 1 : 2;
     data.numbers = [];
 
     for (const mapping of this.parameters[dataIndex]) {
@@ -110,7 +102,7 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
       const cijfer = {
         label: mapping.label,
         colour: mapping.colour,
-        value: data.selectedMonth[column],
+        value: data.selectedMonth?.[column] ?? 0,
       };
 
       data.numbers.push(cijfer);
@@ -119,14 +111,18 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
     return data;
   }
 
-  async redraw(data: any, range: number[] | undefined) {
-    const parameter = this.segment.key.startsWith("all")
+  async redraw(data: any, range?: number[]) {
+
+    const key = this.segment?.key || "all";
+
+    const parameter = key.startsWith("all")
       ? this.parameters[0][0].column
       : this.parameters[0][1].column;
 
-    const extraParameter = this.segment.key.startsWith("all")
+    const extraParameter = key.startsWith("all")
       ? this.parameters[0][2].column
       : this.parameters[0][3].column;
+
     this.htmlCircle.redraw(data.selectedMonth, parameter, extraParameter);
 
     super.redraw(data);
@@ -135,9 +131,9 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
 
   async draw(data: DataObject) {
     this.xScale = this.scales.x.set(
-      data.numbers.map((d) => d["value"]).concat([0]),
+      data.numbers.map((d: any) => d["value"]).concat([0]),
     );
-    this.yScale = this.scales.y.set(data.numbers.map((d) => d["label"]));
+    this.yScale = this.scales.y.set(data.numbers.map((d: any) => d["label"]));
 
     this.chartBar.draw(data.numbers);
   }

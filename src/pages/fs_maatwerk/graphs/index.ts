@@ -1,5 +1,4 @@
 import { BarTrendBedragenV1 } from "../../shared/graphs/bar-trend-bedragen-v1";
-import { BarTrendDLTV1 } from "../../shared/graphs/bar-trend-dlt-v1";
 import { BarTrendKTOV1 } from "../../shared/graphs/bar-trend-kto-v1";
 import { BarTrendStackedMakeup } from "../../shared/graphs/bar-trend-stacked-makeup";
 import { BarTrendStackedMakeupV2 } from "../../shared/graphs/bar-trend-stacked-makeup-v2";
@@ -20,7 +19,6 @@ const graphs = {
   PieChartSumV1,
   PieChartV1,
   BarTrendV1,
-  BarTrendDLTV1,
   BarTrendStackedMakeup,
   BarTrendStackedMakeupV2,
   SegmentsV1,

@@ -1,6 +1,5 @@
 import { core, elements } from "../../../charts";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../factories/segment";
 import HtmlLegend from "../html/html-legend";
 import {
   type GroupObject,
@@ -9,6 +8,7 @@ import {
 } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import type { DataObject, Segment } from "../types";
+
 
 export class PieChartV1 extends core.GraphControllerV3 {
   chartAxis;
@@ -26,7 +26,6 @@ export class PieChartV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -37,13 +36,8 @@ export class PieChartV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }

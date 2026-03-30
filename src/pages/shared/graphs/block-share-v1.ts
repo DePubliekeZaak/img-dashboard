@@ -4,7 +4,6 @@ import HtmlLegendV2 from "../../shared/html/html-legend-v2";
 import type { GroupObject, IParameterMapping } from "../../shared/interfaces";
 import type { IPageController } from "../../shared/page.controller";
 import type { DataObject, Segment } from "../../shared/types";
-import { parseSegment } from "../factories/segment";
 
 export class BlockShareV1 extends core.GraphControllerV3 {
   chartAxis;
@@ -25,7 +24,6 @@ export class BlockShareV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -36,13 +34,8 @@ export class BlockShareV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }

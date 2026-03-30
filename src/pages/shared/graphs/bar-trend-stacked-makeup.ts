@@ -1,11 +1,14 @@
 import { core, elements } from "../../../charts";
 import { AxisArrow } from "../../../charts/elements/axis-arrow";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../factories/segment";
 import { HtmlLegendRowWithLines } from "../html/html-legend-row-with-lines";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import type { DataObject, Segment } from "../types";
+import {
+  getGraphSegment,
+  getActiveColumn,
+} from "../../../stores/segment.store";
 
 interface StackDataItem {
   category: string;
@@ -26,7 +29,6 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
     public index: number,
   ) {
     super(
@@ -37,13 +39,8 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }
@@ -116,8 +113,8 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
 
     this.chartBars = new elements.ChartStackedBarsV2(this);
 
-    if (this.segment.label !== undefined && this.segment.label !== "") {
-      this.arrowY = new AxisArrow(this, "y2", this.segment.label);
+    if (this.segment!.label !== undefined && this.segment!.label !== "") {
+      this.arrowY = new AxisArrow(this, "y2", this.segment!.label);
     }
 
     await this.update(this.group.data, false);
@@ -130,20 +127,20 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       data.graphDataMonth !== undefined &&
       this.group.config.endpoints!.length === 2
         ? this.group.config.endpoints![1] !== undefined &&
-          this.segment.periodization === "monthly"
+          this.segment!.periodization === "monthly"
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
 
     const _period =
-      this.segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
+      this.segment!.periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
     for (const m of _data) {
       m.date = m[_period];
     }
 
-    const index =
-      this.segment.parameterIndex !== null ? this.segment.parameterIndex : 0;
+    const index: number =
+      this.segment!.parameterIndex !== null && this.segment!.parameterIndex !== undefined ? this.segment!.parameterIndex : 0;
 
     const ps = this.parameters[index];
 
@@ -151,11 +148,11 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       .stack<StackDataItem>()
       .keys(
         ps.map((p) =>
-          this.segment.cumulative ? p.column + "_cumulatief" : p.column,
+          this.segment!.cumulative ? p.column + "_cumulatief" : p.column,
         ),
       );
 
-    if (!this.segment.normalized) {
+    if (!this.segment!.normalized) {
       data.stacked = stack(_data as StackDataItem[]);
     } else {
       const normalized_data: any[] = [];
@@ -199,7 +196,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     );
     await super.redraw(data.stacked);
 
-    if (this.segment.periodization === "weekly") {
+    if (this.segment!.periodization === "weekly") {
       const w = data.graphDataWeek.length * 8;
       this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ????
       this.dimensions.svgWidth = w + 100;

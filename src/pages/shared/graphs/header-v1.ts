@@ -1,5 +1,4 @@
 import { core, elements } from "../../../charts";
-import { parseSegment } from "../factories/segment";
 import { HtmlHeader } from "../html/html-header";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
@@ -16,7 +15,7 @@ export class HeaderV1 extends core.GraphControllerV3 {
     public parameters: IParameterMapping[][],
     public modifiers: IParameterMapping[][],
     public filters: string[],
-    public segment: Segment,
+
     public index: number,
     public pageSegment: any,
   ) {
@@ -28,13 +27,8 @@ export class HeaderV1 extends core.GraphControllerV3 {
       parameters,
       modifiers,
       filters,
-      segment,
       index,
     );
-
-    if (this.page.segment) {
-      this.segment = parseSegment(this.page, this.group.slug, this.slug);
-    }
 
     this.pre();
   }
