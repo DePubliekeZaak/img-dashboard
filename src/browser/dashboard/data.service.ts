@@ -25,12 +25,13 @@ export class DataService {
     try {
       let payload = await this.fetch(endpoint, version);
 
-      
+
       if (endpoint.includes("gemeenten?aggregatie") || endpoint.includes("regelingen?aggregatie")) {
         payload = payload.map(row => this.mapRow(row));
       }
 
       setData(endpoint, payload);
+      console.log("data set")
     } finally {
       isLoading$.set(false);
     }

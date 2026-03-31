@@ -3,18 +3,31 @@ import { atom } from 'nanostores';
 import type { Segment } from '../pages/shared/types';
 import type { GraphParamEntry } from '../pages/shared/interfaces';
 
-export const pageSegment$ = atom<Segment>({
-  gemeente: 'all',
-  vanaf: '2025-01-01',
-  key: '',
-  baseKey: '',
-  cumulative: true,
-  periodization: 'monthly',
-});
+// Singletons across all bundles
+if (!(window as any).__IMG_PAGE_SEGMENT$__) {
+  (window as any).__IMG_PAGE_SEGMENT$__ = atom<Segment>({
+    gemeente: 'all',
+    vanaf: '2025-01-01',
+    key: '',
+    baseKey: '',
+    cumulative: true,
+    periodization: 'monthly',
+  });
+}
+if (!(window as any).__IMG_GROUP_SEGMENTS$__) {
+  (window as any).__IMG_GROUP_SEGMENTS$__ = atom<Record<string, Segment>>({});
+}
+if (!(window as any).__IMG_GRAPH_SEGMENTS$__) {
+  (window as any).__IMG_GRAPH_SEGMENTS$__ = atom<Record<string, Record<string, Segment>>>({});
+}
+if (!(window as any).__IMG_SEGMENT_LOADING$__) {
+  (window as any).__IMG_SEGMENT_LOADING$__ = atom<boolean>(false);
+}
 
-export const groupSegments$ = atom<Record<string, Segment>>({});
-export const graphSegments$ = atom<Record<string, Record<string, Segment>>>({});
-export const isLoading$ = atom<boolean>(false);
+export const pageSegment$ = (window as any).__IMG_PAGE_SEGMENT$__;
+export const groupSegments$ = (window as any).__IMG_GROUP_SEGMENTS$__;
+export const graphSegments$ = (window as any).__IMG_GRAPH_SEGMENTS$__;
+export const isLoading$ = (window as any).__IMG_SEGMENT_LOADING$__;
 
 export function initSegments(config: any) {
   const pageSegment = { ...pageSegment$.get(), ...config.segment };

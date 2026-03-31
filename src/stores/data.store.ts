@@ -1,15 +1,18 @@
 // stores/data.store.ts
-import { atom, computed } from 'nanostores';
+import { atom } from 'nanostores';
 
-// Raw data from API
-export const rawData$ = atom<Record<string, any[]>>({});
+// Singleton across all bundles
+if (!(window as any).__IMG_RAW_DATA$__) {
+  (window as any).__IMG_RAW_DATA$__ = atom<Record<string, any[]>>({});
+}
+if (!(window as any).__IMG_IS_LOADING$__) {
+  (window as any).__IMG_IS_LOADING$__ = atom<boolean>(false);
+}
 
-// Loading state
-export const isLoading$ = atom<boolean>(false);
+export const rawData$ = (window as any).__IMG_RAW_DATA$__;
+export const isLoading$ = (window as any).__IMG_IS_LOADING$__;
 
-// Helpers
 export function setData(key: string, data: any[]) {
-  console.log(key, data)
   rawData$.set({ ...rawData$.get(), [key]: data });
 }
 

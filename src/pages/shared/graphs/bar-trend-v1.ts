@@ -103,6 +103,8 @@ export class BarTrendV1 extends core.GraphControllerV3 {
     if (this.filters.length > 0) this.graphEl.classList.add("has-filters");
     this.graphEl.appendChild(this.scrollingContainer);
 
+    console.log("GROEP", this.group, this.index)
+
     const h = this.group.graphs[this.index].header;
     if (h !== undefined) {
       const div = document.createElement("div");

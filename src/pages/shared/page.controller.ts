@@ -14,6 +14,8 @@ import {
   cascadeSegmentUpdate,
   pageSegment$,
   isLoading$,
+  updateGraphSegment,
+  getGraphSegment,
 } from "../../stores/segment.store";
 import {
   getAllData,
@@ -120,7 +122,6 @@ export default class PageController implements IPageController {
             graph.parameters,
             graph.modifiers,
             graph.filters,
-            graph.segment,
             i,
           ),
         });
@@ -256,7 +257,7 @@ export default class PageController implements IPageController {
   }
 
   initGraphs() {
-    for (const group of this.chartArray) {
+    for (const group of this.chartArray) {                
       for (const graph of group.graphs) {
         if (graph.ctrlr === null) return;
 
@@ -282,9 +283,17 @@ export default class PageController implements IPageController {
         if (graph.multiples && group.data[graph.multiples] !== undefined) {
           let i = 0;
 
+          // Get the original graph's segment as template
+          const templateSegment = getGraphSegment(group.slug, graph.slug);
+
           for (const m of group.data[graph.multiples]) {
             const slug = graph.slug + "_mult" + i;
             const data = Object.assign({}, group.data);
+
+            // Initialize segment for this multiple
+            if (templateSegment) {
+              updateGraphSegment(group.slug, slug, { ...templateSegment });
+            }
 
             newGraphs.push({
               slug,
@@ -296,7 +305,6 @@ export default class PageController implements IPageController {
                 graph.parameters,
                 graph.modifiers,
                 graph.filters,
-                graph.segment,
                 i,
               ),
             });
@@ -324,7 +332,7 @@ export default class PageController implements IPageController {
       }
     }
   }
-
+  
   async onFilterChange(updates: Partial<Segment>) {
     // Show loading state
     isLoading$.set(true);

@@ -1,3 +1,4 @@
+import { getGroupSegment } from "../../stores/segment.store";
 import { incVsCum, pieParts, tables } from "./data.factory";
 import { preHeaders } from "./factories/pre_headers";
 import { GroupControllerV1 } from "./group-v1";
@@ -42,10 +43,11 @@ export class DefaultGroupV1 extends GroupControllerV1 {
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
+    const groupSegment = getGroupSegment(this.config.slug);
     const numbers =
       nIndex !== -1
         ? graphDataWeek[0]
-        : this.page.segment.groups[this.config.slug]
+        : groupSegment?.cumulative
           ? cumulative
           : incremental;
 

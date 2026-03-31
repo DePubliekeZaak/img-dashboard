@@ -98,6 +98,8 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+
+    console.log("MULTIPLE", this.segment)
     data.numbers = this.segment!.cumulative ? data.cumulative : data.incremental;
     return data;
   }

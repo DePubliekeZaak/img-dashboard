@@ -1,5 +1,6 @@
 // import { definitionList } from "../definitions";
 import definitionList from "../../json/definitions.json";
+import { getAllData } from "../../stores/data.store";
 import { timelineList } from "../timeline";
 import {
   defaultColumns,
@@ -60,9 +61,6 @@ export class GroupControllerV1 implements IGroupCtrlr {
     if (!this.config.endpoints?.length) {
       this.config.endpoints = this.page.config.endpoints;
     }
-
-    
-
   }
 
   html(groupEl?: HTMLElement) {
@@ -184,31 +182,24 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
   prepareData(data: any): any {
 
-    console.log("INCOMING", data)
-
     this.group = this.page.chartArray.find(g => g.slug === this.slug);
     const { tableParams, graphParams } = this.group;
 
+    const endpoints = this.group?.resolvedEndpoints;
 
-
-      console.log("GROUP", this.group)
-      console.log("GP", graphParams)
-
-      const endpoints = this.group?.resolvedEndpoints;
-
-      const weekGroup = endpoints.find(
-        (e) =>
-          e.includes("wekelijks") ||
-          e.includes("tevredenheid") ||
-          e.includes("eq.week"),
-      );
-      
-      const monthGroup = endpoints.find(
-        (e) =>
-          e.includes("maandelijks") ||
-          e.includes("tevredenheid") ||
-          e.includes("eq.maand"),
-      );
+    const weekGroup = endpoints.find(
+      (e) =>
+        e.includes("wekelijks") ||
+        e.includes("tevredenheid") ||
+        e.includes("eq.week"),
+    );
+    
+    const monthGroup = endpoints.find(
+      (e) =>
+        e.includes("maandelijks") ||
+        e.includes("tevredenheid") ||
+        e.includes("eq.maand"),
+    );
 
     let graphDataWeek: any[] = [];
     let graphDataMonth: any[] = [];
@@ -282,15 +273,14 @@ export class GroupControllerV1 implements IGroupCtrlr {
   }
 
   populateDescription() {
-
     const endpoints = this.group?.resolvedEndpoints;
-
-    const collection = this.page.main.data.collection();
+    const data = getAllData();
+    
     const currentData =
-      endpoints![0] &&
-      collection[endpoints![0]].length > 0
-        ? collection[endpoints![0]][0]
+      endpoints?.[0] && data[endpoints[0]]?.length > 0
+        ? data[endpoints[0]][0]
         : undefined;
+        
     this.htmlHeader.redraw(currentData);
   }
 
