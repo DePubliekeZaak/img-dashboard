@@ -495,7 +495,7 @@ const group: IGroupMappingV2[] = [
         ],
         modifiers: [],
         segment: {
-          key: "wd_nietwonen_voorraad_cumulatief",
+          key: "wd_nietwonen_beslistermijn_dagen",
           cumulative: false,
           periodization: "weekly",
         },

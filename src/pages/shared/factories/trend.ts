@@ -10,15 +10,13 @@ export const trimStart = (_data: any, parameters: any, offset: number = 0) => {
     }
       
     function trimToStart(array: any[], key: string) {
-        const indexes = findAllIndexes(array, item => item[key] === null);
-
-        for (let i = 0; i < array.length - 1; i++) {
-            if (array[i + 1] && array[i + 1][key] != null) {
-                return i;
+        for (let i = 0; i < array.length; i++) {
+            const value = array[i][key];
+            if (value !== null && value !== undefined && value !== 0) {
+                return i;  // Return index of first non-empty value
             }
         }
-        
-        return array.length - 1;  // Return last index if nothing found
+        return array.length - 1;
     }
 
     const indexes: number[] = [];
@@ -37,9 +35,12 @@ export const trimStart = (_data: any, parameters: any, offset: number = 0) => {
     }
 
     const minIndex = Math.min(...indexes);
-    if (minIndex > 0) {
-       data = data.slice(minIndex, data.length)
+    const maxTrimIndex = Math.max(0, data.length - 12);  // Don't trim past this point
+    const trimIndex = Math.min(minIndex, maxTrimIndex);
+
+    if (trimIndex > 0) {
+        data = data.slice(trimIndex);
     }
-    
+
     return JSON.parse(JSON.stringify(data)).reverse()
 }

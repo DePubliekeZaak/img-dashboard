@@ -134,7 +134,7 @@ const mapping: IGroupMappingV2[] = [
         slug: "fs_vv_numbers_2",
         ctrlr: "NumbersV1",
         args: [],
-        filters: ["cumulativeVsDelta","weekVsMonth"],
+        filters: [],
         multiples: "cumulative",
         parameters: [
           [
@@ -193,7 +193,7 @@ const mapping: IGroupMappingV2[] = [
         slug: "vv_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta","weekVsMonth"],
         parameters: [
           [
             {
@@ -220,7 +220,7 @@ const mapping: IGroupMappingV2[] = [
         ],
         segment: {
           key: "vv_bedrag_betaald_totaal",
-          cumulative: true,
+          cumulative: false,
           periodization: "monthly",
         },
       },

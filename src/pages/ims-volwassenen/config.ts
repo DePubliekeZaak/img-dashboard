@@ -465,7 +465,7 @@ const group: IGroupMappingV2[] = [
         ],
         modifiers: [],
         segment: {
-          key: "ims_volw_dlt_verwacht_rolling8_dagen",
+          key: "ims_volw_dlt_gerealiseerd_mediaan_dagen",
           cumulative: false,
           periodization: "weekly",
         },
@@ -555,7 +555,7 @@ const group: IGroupMappingV2[] = [
         ],
         modifiers: [],
         segment: {
-          key: "ims_volw_oud_voorraad_gemiddeld_dagen",
+          key: "ims_volw_beslistermijn_dagen",
           cumulative: false,
           periodization: "weekly",
         },

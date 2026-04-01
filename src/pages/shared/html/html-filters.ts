@@ -38,14 +38,12 @@ export class HtmlFilters {
 
     if (this.id.includes("bedragen") && this.id.includes("trend")) {
 
-      console.log(this.id)
       this.listElement = this.ctrlr.page.main.window.document.createElement("div");
       this.listElement.classList.add("filter_list");
 
       const ul = this.ctrlr.page.main.window.document.createElement("ul");
 
       this.listElement.appendChild(ul);
-      console.log(this.element)
       this.element.prepend(this.listElement);
     }
 

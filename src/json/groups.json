@@ -7,9 +7,9 @@
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "datum": "31/03/2026 - heden",
-      "content": "lorem ipsum 221`",
-      "description": "<p dir=\"auto\">lorem ipsum 221`</p>"
+      "datum": "01/04/2026 - heden",
+      "content": "Afgelopen vrijdag 27 maart 2026 is het IMG jaarverslag gepubliceerd, dit is een goed moment om de cijfers op de website weer goed aan te laten aansluiten. Daarnaast zijn enkele verbeteringen doorgevoerd. De aanpassingen zijn zowel bij nieuwe gegevens als op de historische gegevens van toepassing. De belangrijkste wijzigingen:\n\n- **Uitbetaald bedrag**: door het jaar heen laten we de uitbetaalde bedragen zien. Dit is voor het lopende jaar inclusief eventuele terugvorderingen. Deze zijn er nu uitgehaald gelijk aan het jaarverslag, hierdoor zal het totaal uitbetaalde bedrag lager worden. Verder is de uitsplitsing van de uitbetaalde bedragen naar week dan wel maand niet meer inzichtelijk voor 2025.\n    \n- **Adreskoppelingen**: er zijn verbeteringen doorgevoerd op de koppeling van de aanvragen met de adressen. Dit is te zien in met name een verschuiving van aantallen van de groep overig naar een gemeente. Vooral bij Waardedaling is dit het geval.\n    \n- **Berekende velden**: Het toegekend en afgewezen percentage werd berekend over de gehele periode dat een regelingsvariant liep, dit hebben we veranderd naar een percentage over afgelopen jaar. Hierdoor is de impact van recente wisselingen sneller zichtbaar. Daarnaast werden _beschikt binnen termijn_ en de _gerealiseerde doorlooptijd_ over een week of maand berekend, dit hebben we ook alle drie veranderd naar een periode van een jaar. Hierdoor zullen de metingen juist wat stabieler worden en meer zeggen over een periode van een jaar.\n    \n- **Verwijderen verwachte doorlooptijd**: Voor de doorlooptijd lieten we drie verschillende waarden zien, dit hebben we teruggebracht naar twee waarden – (1) de _gerealiseerde doorlooptijd via de mediaan_ en (2) het _gemiddelde_. De verwachte doorlooptijd bevatte te veel ruis van aanvragen die erg afweken van hoe de meerderheid van de aanvragen door het proces gaan.\n    \n- **Aanvragen dubbel geteld**: De dubbele aanvragen zijn eruit gehaald. Dit is met name zichtbaar binnen maatwerk en herstel. Het gaat hier om zaken die in het reguliere proces niet (volledig) verwerkt konden worden en technisch speciale aandacht nodig hadden.",
+      "description": "<p dir=\"auto\">Afgelopen vrijdag 27 maart 2026 is het IMG jaarverslag gepubliceerd, dit is een goed moment om de cijfers op de website weer goed aan te laten aansluiten. Daarnaast zijn enkele verbeteringen doorgevoerd. De aanpassingen zijn zowel bij nieuwe gegevens als op de historische gegevens van toepassing. De belangrijkste wijzigingen:</p>\n<ul>\n<li dir=\"auto\"><strong>Uitbetaald bedrag</strong>: door het jaar heen laten we de uitbetaalde bedragen zien. Dit is voor het lopende jaar inclusief eventuele terugvorderingen. Deze zijn er nu uitgehaald gelijk aan het jaarverslag, hierdoor zal het totaal uitbetaalde bedrag lager worden. Verder is de uitsplitsing van de uitbetaalde bedragen naar week dan wel maand niet meer inzichtelijk voor 2025.<br>\n</li>\n<li dir=\"auto\"><strong>Adreskoppelingen</strong>: er zijn verbeteringen doorgevoerd op de koppeling van de aanvragen met de adressen. Dit is te zien in met name een verschuiving van aantallen van de groep overig naar een gemeente. Vooral bij Waardedaling is dit het geval.<br>\n</li>\n<li dir=\"auto\"><strong>Berekende velden</strong>: Het toegekend en afgewezen percentage werd berekend over de gehele periode dat een regelingsvariant liep, dit hebben we veranderd naar een percentage over afgelopen jaar. Hierdoor is de impact van recente wisselingen sneller zichtbaar. Daarnaast werden <em>beschikt binnen termijn</em> en de <em>gerealiseerde doorlooptijd</em> over een week of maand berekend, dit hebben we ook alle drie veranderd naar een periode van een jaar. Hierdoor zullen de metingen juist wat stabieler worden en meer zeggen over een periode van een jaar.<br>\n</li>\n<li dir=\"auto\"><strong>Verwijderen verwachte doorlooptijd</strong>: Voor de doorlooptijd lieten we drie verschillende waarden zien, dit hebben we teruggebracht naar twee waarden – (1) de <em>gerealiseerde doorlooptijd via de mediaan</em> en (2) het <em>gemiddelde</em>. De verwachte doorlooptijd bevatte te veel ruis van aanvragen die erg afweken van hoe de meerderheid van de aanvragen door het proces gaan.<br>\n</li>\n<li dir=\"auto\"><strong>Aanvragen dubbel geteld</strong>: De dubbele aanvragen zijn eruit gehaald. Dit is met name zichtbaar binnen maatwerk en herstel. Het gaat hier om zaken die in het reguliere proces niet (volledig) verwerkt konden worden en technisch speciale aandacht nodig hadden.</li>\n</ul>"
     },
     {
       "name": "wdl_wonen_intro",
@@ -1386,8 +1386,8 @@
       ],
       "definitions": [],
       "timeline": "[]",
-      "content": "In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatie} euro schadevergoeding toegekend en uitbetaald.",
-      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatie} euro schadevergoeding toegekend en uitbetaald.</p>"
+      "content": "In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatief} euro schadevergoeding toegekend en uitbetaald.",
+      "description": "<p dir=\"auto\">In totaal is voor Immateriële schade voor kinderen en jongeren  {ims_kj_bedrag_betaald_totaal_cumulatief} euro schadevergoeding toegekend en uitbetaald.</p>"
     },
     {
       "name": "ims_kj_toegekend",
@@ -2001,7 +2001,7 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-04-01T08:29:20.743Z",
+    "generatedAt": "2026-04-01T11:06:20.229Z",
     "totalGroups": 128,
     "sourceFiles": [
       "versie_101.group.md",

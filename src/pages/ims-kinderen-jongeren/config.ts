@@ -556,7 +556,7 @@ const group: IGroupMappingV2[] = [
         ],
         modifiers: [],
         segment: {
-          key: "ims_kj_oud_voorraad_gemiddeld_dagen",
+          key: "ims_kj_beslistermijn_dagen",
           cumulative: false,
           periodization: "weekly",
         },
