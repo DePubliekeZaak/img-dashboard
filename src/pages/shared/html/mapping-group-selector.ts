@@ -36,8 +36,6 @@ export class HtmlMappingGroupSelector {
 
       const arr = group[0].column.split("_");
 
-      console.log(arr[arr.length - 1])
-
       switch (arr[arr.length - 1]) {
         case "ingediend":
           label = "ingediend";

@@ -648,13 +648,13 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
-            {
-              label: "Verwacht",
-              column: "maatwerk_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              format: "roundup",
-              units: "aantal dagen",
-            }
+            // {
+            //   label: "Verwacht",
+            //   column: "maatwerk_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   format: "roundup",
+            //   units: "aantal dagen",
+            // }
           ],
           [],
         ],
@@ -693,29 +693,29 @@ const group: IGroupMappingV2[] = [
           label: "dagen",
         },
       },
-      {
-        slug: "fs_maatwerk_duur_trend2",
-        ctrlr: "BarTrendDLTV1",
-        header: "Verwacht aantal dagen tot besluit",
-        filters: [],
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Verwacht aantal dagen tot besluit",
-              column: "maatwerk_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "verwacht aantal dagen",
-            },
-          ],
-        ],
-        segment: {
-          key: "maatwerk_dlt_verwacht_rolling8_dagen",
-          cumulative: false,
-          periodization: "weekly",
-          label: "dagen",
-        },
-      },
+      // {
+      //   slug: "fs_maatwerk_duur_trend2",
+      //   ctrlr: "BarTrendDLTV1",
+      //   header: "Verwacht aantal dagen tot besluit",
+      //   filters: [],
+      //   args: [],
+      //   parameters: [
+      //     [
+      //       {
+      //         label: "Verwacht aantal dagen tot besluit",
+      //         column: "maatwerk_dlt_verwacht_rolling8_dagen",
+      //         colour: "moss",
+      //         units: "verwacht aantal dagen",
+      //       },
+      //     ],
+      //   ],
+      //   segment: {
+      //     key: "maatwerk_dlt_verwacht_rolling8_dagen",
+      //     cumulative: false,
+      //     periodization: "weekly",
+      //     label: "dagen",
+      //   },
+      // },
     ],
     segment: {
       key: "maatwerk_dlt_gerealiseerd_mediaan_dagen",

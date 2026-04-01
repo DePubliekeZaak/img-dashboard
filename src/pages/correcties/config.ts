@@ -16,6 +16,20 @@ const mapping : IGroupMappingV2[] = [
         
     },
     {
+        "slug" : "versie_101",
+        "ctrlr": "CorrectionGroupV1",
+        "filters" : [],
+        "graphs": [],
+        "functionality": [],
+        "segment": {
+            "key": "",
+            "cumulative": true,
+            "periodization": "monthly",
+        },
+        "endpoints": ["all_wekelijks", "all_maandelijks"],
+        
+    },
+    {
         "slug" : "versie_100",
         "ctrlr": "CorrectionGroupV1",
         "filters" : [],

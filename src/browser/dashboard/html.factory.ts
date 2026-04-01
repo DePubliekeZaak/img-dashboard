@@ -75,6 +75,7 @@ export const pageHeader = (
   v.innerText = version.name;
   v.addEventListener("click", () => {
     // window.location.reload();
+    console.log("haallllo")
     ctrlr.switch("topic", "correcties", false);
   });
 

@@ -392,12 +392,12 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
-            {
-              label: "Verwacht",
-              column: "wd_wonen_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
+            // {
+            //   label: "Verwacht",
+            //   column: "wd_wonen_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   units: "aantal dagen",
+            // },
           ],
           [],
         ],
@@ -427,12 +427,12 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gemiddeld gerealiseerd aantal dagen",
             },
-            {
-              label: "Verwacht aantal dagen tot besluit",
-              column: "wd_wonen_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "verwacht aantal dagen",
-            },
+            // {
+            //   label: "Verwacht aantal dagen tot besluit",
+            //   column: "wd_wonen_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   units: "verwacht aantal dagen",
+            // },
           ],
         ],
         segment: {

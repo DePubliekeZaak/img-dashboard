@@ -43,7 +43,6 @@ export class DataService implements IDataService {
       // }
 
       const url = domain + apibase + endpoint;
-      console.log(url);
       const response = await fetch(url);
       if (response.ok) {
         resolve(response.json());

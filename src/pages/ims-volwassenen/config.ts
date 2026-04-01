@@ -454,12 +454,12 @@ const group: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
-            {
-              label: "Verwacht",
-              column: "ims_volw_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
+            // {
+            //   label: "Verwacht",
+            //   column: "ims_volw_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   units: "aantal dagen",
+            // },
           ],
           [],
         ],

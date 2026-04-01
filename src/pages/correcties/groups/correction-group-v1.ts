@@ -23,8 +23,8 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
 
     archiveLink.classList.add("correctie");
     archiveLink.innerText = "Bekijk deze versie";
-    archiveLink.style.marginBottom = "3rem"
-    archiveLink.style.display = "inline-block"
+    archiveLink.style.marginBottom = "3rem";
+    archiveLink.style.display = "inline-block";
 
     archiveLink.addEventListener("click", () => {
       this.page.main.switchVersion(this.config.slug);
@@ -47,6 +47,7 @@ export class CorrectionGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
+
     let { tableParams, graphData, definitions, graphData_alt, timeline } =
       super.prepareData(data);
 

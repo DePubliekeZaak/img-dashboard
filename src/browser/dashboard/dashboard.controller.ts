@@ -125,7 +125,9 @@ export class DashboardController implements IDashboardController {
 
   switchVersion(slug: string): void {
 
-    if (slug = "versie_001") {
+    const v = versions.find( v => 'versie_' + v.slug == slug);
+
+    if (v.slug == "versie_001") {
 
           const container = document.querySelector("[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']");
           container.innerHTML = '';
@@ -139,7 +141,13 @@ export class DashboardController implements IDashboardController {
 
         const currentParams = new URLSearchParams(window.location.search);
         currentParams.set("topic", "regelingen");
-        currentParams.set("version", slug);
+
+        if (v.tag === 'latest') {
+          currentParams.delete("version");
+        }  else {
+          currentParams.set("version", slug.replace("versie_",""));
+        }
+
         const newurl =
           window.location.protocol +
           "//" +
@@ -147,6 +155,8 @@ export class DashboardController implements IDashboardController {
           window.location.pathname +
           "?" +
           currentParams.toString();
+
+          console.log(newurl)
 
         window.history.pushState({ path: newurl }, "", newurl);
 

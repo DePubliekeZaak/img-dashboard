@@ -39,7 +39,7 @@ export class ParamService implements IParamService {
         if(this._params.version == undefined || this._params.version == 'latest') {
 
             this._version = {
-                slug: "v1",
+                slug: "v101",
                 tag: "latest",
                 name: "Actuele versie"
             }

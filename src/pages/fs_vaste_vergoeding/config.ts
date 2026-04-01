@@ -618,12 +618,12 @@ const mapping: IGroupMappingV2[] = [
               colour: "blue",
               units: "gerealiseerd aantal dagen",
             },
-            {
-              label: "Verwacht",
-              column: "vv_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
+            // {
+            //   label: "Verwacht",
+            //   column: "vv_dlt_verwacht_rolling8_dagen",
+            //   colour: "moss",
+            //   units: "aantal dagen",
+            // },
           ],
           [],
         ],
