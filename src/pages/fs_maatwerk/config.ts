@@ -596,7 +596,7 @@ const group: IGroupMappingV2[] = [
         ctrlr: "BarTrendV1",
         args: [],
         filters: [],
-        header: "Percentage beschikt binnen termijn over de afgelopen 12 maanden",
+        header: "Per maand staat hieronder een percentage beschikte zaken binnen de termijn, gekeken naar alle beschikte zaken in de periode van een jaar ervoor",
         parameters: [
           [
             {
