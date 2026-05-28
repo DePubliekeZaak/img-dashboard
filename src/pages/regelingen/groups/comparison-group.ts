@@ -1,0 +1,170 @@
+import { tables } from "../../shared/data.factory";
+import { preHeaders } from "../../shared/factories/pre_headers";
+import { GroupControllerV1 } from "../../shared/group-v1";
+import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import type { IGroupMappingV2 } from "../../shared/interfaces";
+import type { ImgData } from "../../shared/types";
+import type { TableData } from "../../shared/types_graphs";
+
+const mapping: Record<string, string> = {
+    mw: "MW",
+    vv: "VV",
+    ims: "IMS",
+    imk: "IMK",
+    wd: "WD",
+    wnw: "WNW",
+    namteg: "NAMTEG",
+};
+
+export class ComparisonGroupV1 extends GroupControllerV1 {
+	constructor(
+		public page: any,
+		public config: IGroupMappingV2,
+		public index: number,
+	) {
+		super(page, config, index);
+	}
+
+	html() {
+		const graphWrapper = super.html();
+		void HTMLSourceV2(
+			graphWrapper?.parentElement as HTMLElement,
+			this.page.main.params.language,
+			"IMG",
+		);
+		return graphWrapper;
+	}
+
+	async init() {}
+
+	prepareData(data: ImgData): any {
+		const { tableParams, graphParams, definitions, timeline } =
+			super.prepareData(data);
+
+		const aggregatie =
+			this.segment.periodization === "monthly" ? "month" : "week";
+		let endpoints = this.getAggregationEndpoints(aggregatie);
+    endpoints.push('tevredenheid')
+
+		// Extract needed API columns from graphParams
+
+
+		const graphDataWeek = this.aggregateDataForPeriod(
+			data,
+			endpoints,
+			aggregatie,
+      graphParams
+		);
+		const graphDataMonth = this.aggregateDataForPeriod(
+			data,
+			endpoints,
+			aggregatie,
+      graphParams
+		);
+
+		const pre_headers = preHeaders(this.config.graphs, this.segment);
+
+		const { weekTable, monthTable } = tables(
+			graphDataWeek,
+			graphDataMonth,
+			tableParams,
+			pre_headers,
+		);
+
+    const numbers = graphDataWeek[0];
+
+    console.log(numbers)
+
+		return {
+      numbers,
+			graphDataWeek,
+			// graphDataMonth,
+			weekTable,
+			monthTable,
+			definitions,
+			timeline,
+		};
+	}
+
+	populateTable(tableData: TableData) {
+		super.populateTable(tableData);
+	}
+
+	getAggregationEndpoints(aggregatie: "week" | "month"): string[] {
+		const keys = this.getAggregationKeys();
+
+		return keys.map(
+			(key) =>
+				`regelingen?aggregatie=eq.${aggregatie}&regeling_code=eq.${key}&order=periode.desc&limit=1`,
+		);
+	}
+
+	// Extract regeling codes from column names
+	private getAggregationKeys(): string[] {
+		const columns = this.config.graphs.flatMap((g) =>
+			g.parameters.flatMap((p) => p.map((param) => param.column)),
+		);
+
+		const prefixes = new Set(columns.map((c) => c.split("_")[0]));
+
+		return Array.from(prefixes)
+			.map((p) => mapping[p])
+			.filter(Boolean) as string[];
+	}
+
+	// Aggregate data from multiple endpoints
+	private aggregateDataForPeriod(
+		data: any,
+		endpoints: string[],
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		_period: "week" | "month",
+    graphParams: any
+	): any[] {
+		const allRows: any[] = [];
+
+		// Collect all data from all endpoints
+		for (const endpoint of endpoints) {
+			const rows = data[endpoint] ? [data[endpoint][0]] : [];
+			if (rows && rows.length > 0) {
+				allRows.push(
+					...rows.map((row: any) => ({
+						...row,
+						_sourceRegeling: this.extractRegelingFromEndpoint(endpoint),
+					})),
+				);
+			}
+		}
+
+		if (allRows.length === 0) {
+			return [];
+		}
+
+
+		const periods: any = {};
+
+		for (const row of allRows) {
+
+      if (row._sourceRegeling == "unknown") {
+
+        for (const column of Object.values(graphParams).map( (p: any) => p.base.column)) {
+          if (row[column] && row[column] !== undefined) periods[column] = row[column]
+        }
+
+      } else {
+
+        const prefix = row._sourceRegeling.toLowerCase();
+        for (const cleanCol of Object.values(graphParams).map( (p: any) => p.base.column.split('_').slice(1).join('_'))) {
+          const prefixedCol = prefix + "_" + cleanCol;
+          if (row[cleanCol] && row[cleanCol] !== undefined) periods[prefixedCol] = row[cleanCol];
+        }
+      }
+    }
+		return [periods]
+	}
+
+	// Helper to extract regeling code from endpoint URL
+	private extractRegelingFromEndpoint(endpoint: string): string {
+		const match = endpoint.match(/regeling_code=eq\.([A-Z]+)/);
+		return match ? match[1] : "unknown";
+	}
+}

@@ -33,15 +33,15 @@ export class GroupControllerV1 implements IGroupCtrlr {
   segment!: Segment;
   group: any;
 
-  htmlHeader;
-  tabs;
-  table;
-  definitions;
+  htmlHeader: any;
+  tabs: any;
+  table: any;
+  definitions: any;
   filters: any;
-  description;
+  description: any;
 
-  groupWrapper;
-  graphWrapper;
+  groupWrapper: any;
+  graphWrapper: any;
 
   constructor(
     public page: any,
@@ -182,20 +182,21 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
   prepareData(data: any): any {
 
-    this.group = this.page.chartArray.find(g => g.slug === this.slug);
+    this.group = this.page.chartArray.find( (g: any) => g.slug === this.slug);
+  
     const { tableParams, graphParams } = this.group;
 
     const endpoints = this.group?.resolvedEndpoints;
 
     const weekGroup = endpoints.find(
-      (e) =>
+      (e: any) =>
         e.includes("wekelijks") ||
         e.includes("tevredenheid") ||
         e.includes("eq.week"),
     );
     
     const monthGroup = endpoints.find(
-      (e) =>
+      (e: any) =>
         e.includes("maandelijks") ||
         e.includes("tevredenheid") ||
         e.includes("eq.maand"),
@@ -244,7 +245,11 @@ export class GroupControllerV1 implements IGroupCtrlr {
             .sort()
         : [];
 
+
+    const numbers = graphDataWeek[0]
+
     return {
+      numbers,
       tableParams,
       graphParams,
       graphDataMonth,
@@ -309,7 +314,7 @@ export class GroupControllerV1 implements IGroupCtrlr {
     //   this.config.segment = segment;
     // }
 
-    const group = this.page.chartArray.find((i) => i.config.slug === this.slug);
+    const group = this.page.chartArray.find((i: any) => i.config.slug === this.slug);
 
     group.data = this.prepareData(this.page.main.data.collection());
 

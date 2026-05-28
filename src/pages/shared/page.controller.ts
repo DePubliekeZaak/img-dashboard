@@ -209,7 +209,6 @@ export default class PageController implements IPageController {
 
   prepareData() {
     const data = getAllData();
-    console.log("ALL DATA", data)
     for (const group of this.chartArray) {
       group.data = group.ctrlr.prepareData(data);
     }
