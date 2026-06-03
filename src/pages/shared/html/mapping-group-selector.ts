@@ -1,6 +1,7 @@
 import { drop } from "lodash";
 import { breakpoints, colours } from "../../../img-modules/styleguide";
 import type { IParameterMapping } from "../interfaces";
+import { getGroupSegment } from "../../../stores/segment.store";
 
 export class HtmlMappingGroupSelector {
   constructor(
@@ -36,7 +37,7 @@ export class HtmlMappingGroupSelector {
 
       const arr = group[0].column.split("_");
 
-      console.log(arr[arr.length - 1]);
+      // console.log(arr[arr.length - 1]);
 
       switch (arr[arr.length - 1]) {
         case "ingediend":
@@ -64,11 +65,12 @@ export class HtmlMappingGroupSelector {
 
       const option = document.createElement("option");
       option.label = label;
-      option.value = i.toString();
+      option.value = option.value = group[0].column.split("_").slice(1).join("_");
       option.innerText = label;
-      if (group[0].column === this.ctrlr.page.segment.key) {
+      const segment = getGroupSegment(this.ctrlr.slug);
+      if (group[0].column.split("_").slice(1).join("_") === segment?.baseKey) {
         option.selected = true;
-      }
+      }-
       dropdown.appendChild(option);
     });
 

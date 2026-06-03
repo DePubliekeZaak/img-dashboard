@@ -1,3 +1,4 @@
+import { tables } from "./data.factory";
 import { relyOnCompleted } from "./factories/group";
 import { GroupControllerV1 } from "./group-v1";
 import { HTMLSourceV2 } from "./html/html-source-v2";
@@ -47,11 +48,20 @@ export class KTOGroupV1 extends GroupControllerV1 {
       rows,
     };
 
+    const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul} = tables(
+      graphDataWeek,
+      graphDataMonth,
+      tableParams,
+      []
+    );
+
     return {
       graphDataMonth,
       graphDataWeek,
-      monthTable,
-      weekTable: [],
+      weekTableInc: [], 
+      monthTableInc, 
+      weekTableCumul: [], 
+      monthTableCumul,
       timeline,
       definitions,
     };

@@ -16,6 +16,8 @@ import {
   isLoading$,
   updateGraphSegment,
   getGraphSegment,
+  getGroupSegment,
+  updateGroupSegment,
 } from "../../stores/segment.store";
 import {
   getAllData,
@@ -90,8 +92,33 @@ export default class PageController implements IPageController {
       };
 
       const { tableParams, graphParams } = g.ctrlr.paramsAndModifiers();
+
       g.tableParams = tableParams;
       g.graphParams = graphParams;
+
+      const groupSeg = getGroupSegment(g.slug);
+      if (groupSeg) {
+        const baseKey = graphParams[groupSeg.key] 
+          ? groupSeg.key  // already a base key
+          : Object.keys(graphParams).find(k => 
+              Object.values(graphParams[k].variants).some((v: any) => v.column === groupSeg.key)
+            ) ?? groupSeg.key;
+
+        updateGroupSegment(g.slug, { baseKey });
+
+        // Same for each graph
+        for (const graph of c.graphs) {
+          const graphSeg = getGraphSegment(g.slug, graph.slug);
+          if (graphSeg) {
+            const gBaseKey = graphParams[graphSeg.key]
+              ? graphSeg.key
+              : Object.keys(graphParams).find(k =>
+                  Object.values(graphParams[k].variants).some((v: any) => v.column === graphSeg.key)
+                ) ?? graphSeg.key;
+            updateGraphSegment(g.slug, graph.slug, { baseKey: gBaseKey });
+          }
+        }
+      }
 
       const el = g.ctrlr.html();
       if (el !== undefined) {

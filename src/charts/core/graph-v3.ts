@@ -210,26 +210,18 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     }
 
     const segment = this.segment;
-    if (segment?.key) {
-      const g =
-        this.group.config.graphs[this.index] !== undefined
-          ? this.group.config.graphs[this.index]
-          : this.group.config.graphs[0];
-
-      if (g !== undefined) {
-        const params = g.parameters || [];
-        const param = params[0].find(
-          (p) => p.column === segment.key.replace("_cumul", ""),
+    if (segment?.baseKey) {
+      const entry = this.group.graphParams?.[segment.baseKey];
+      const param = this.parameters[0].find((p) => p.column === segment.baseKey); // will thjis nwork accross all graphs? 
+      
+      for (const a of this.config.axes) {
+        this.axes[a.slug].redraw(
+          this.dimensions,
+          this.scales[a.scale].scale,
+          data.slice,
+          segment,
+          param?.format,
         );
-        for (const a of this.config.axes) {
-          this.axes[a.slug].redraw(
-            this.dimensions,
-            this.scales[a.scale].scale,
-            data.slice,
-            segment,
-            param?.format,
-          );
-        }
       }
     }
 

@@ -1,4 +1,6 @@
-import { tables } from "../../shared/data.factory";
+import { ObjectLiteralExpression } from "ts-morph";
+import { convertToCurrencyInTable } from "../../shared/_helpers";
+import { groupByPrefix, tables } from "../../shared/data.factory";
 import { preHeaders } from "../../shared/factories/pre_headers";
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
@@ -44,7 +46,7 @@ export class ComparisonGroupV1 extends GroupControllerV1 {
 		const aggregatie =
 			this.segment.periodization === "monthly" ? "month" : "week";
 		let endpoints = this.getAggregationEndpoints(aggregatie);
-    endpoints.push('tevredenheid')
+    	endpoints.push('tevredenheid')
 
 		// Extract needed API columns from graphParams
 
@@ -53,22 +55,20 @@ export class ComparisonGroupV1 extends GroupControllerV1 {
 			data,
 			endpoints,
 			aggregatie,
-      graphParams
+      		graphParams
 		);
 		const graphDataMonth = this.aggregateDataForPeriod(
 			data,
 			endpoints,
 			aggregatie,
-      graphParams
+      		graphParams
 		);
 
-		const pre_headers = preHeaders(this.config.graphs, this.segment);
-
-		const { weekTable, monthTable } = tables(
+		const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul} = tables(
 			graphDataWeek,
 			graphDataMonth,
 			tableParams,
-			pre_headers,
+			[]
 		);
 
     const numbers = graphDataWeek[0];
@@ -78,12 +78,67 @@ export class ComparisonGroupV1 extends GroupControllerV1 {
 		return {
       numbers,
 			graphDataWeek,
-			// graphDataMonth,
-			weekTable,
-			monthTable,
+			// graphDataMonth: [],
+			weekTableInc: [], 
+			monthTableInc: [], 
+			weekTableCumul, 
+			monthTableCumul: [],
 			definitions,
 			timeline,
 		};
+	}
+
+
+	tables (
+	
+	  graphDataWeek: any[],
+	  tableParams: any[],
+	  pre_headers?: any[][],
+	) {
+	  const weekRows: string[][] = [];
+	  const monthRows: string[][] = [];
+
+	  const data = {
+		...graphDataWeek[0],
+		mw_doorlopend_cijfer : graphDataWeek[0]['fysieke_schade_doorlopend_cijfer'] ,
+		imk_doorlopend_cijfer : graphDataWeek[0]['imkj_doorlopend_cijfer'] ,
+		wd_doorlopend_cijfer : graphDataWeek[0]['waardedaling_doorlopend_cijfer'],
+		wnw_doorlopend_cijfer : graphDataWeek[0]['waardedaling_doorlopend_cijfer'],
+		vv_doorlopend_cijfer : graphDataWeek[0]['ves_doorlopend_cijfer'],
+	  }
+
+	  const prefixes = ['mw', 'vv', 'ims', 'imk', 'wd', 'wnw'];
+
+	  const { grouped, ungrouped } = groupByPrefix(data, prefixes);
+
+	  let i = 0;
+	  for (const [key, group] of Object.entries(grouped)) {
+		const row: string[] = [];
+		row.push(this.config.graphs[i].header!);
+		let j = 0;
+		for (const [propKey, propValue] of Object.entries(group as any)) {
+
+			if (this.config.graphs[0].parameters[0][j].format == 'percentage') {
+
+				 row.push((Math.round(propValue as number * 10) / 10).toFixed(1) + "%");
+
+			} else {
+				row.push(String(propValue));
+			}
+			j++;
+		}
+
+		weekRows.push(row);
+		i++;
+	}
+			
+	  const weekTable = {
+		pre_headers: [],
+		headers: ["Regeling"].concat(this.config.graphs[0].parameters[0].map( c => c.units ?? "")),  //  "Mediaan dagen tot besluit", "Toegekend", "bezwaar gemaakt","waardering"],
+		rows: weekRows,
+	  };
+	
+	  return { weekTable };
 	}
 
 	populateTable(tableData: TableData) {
@@ -118,7 +173,7 @@ export class ComparisonGroupV1 extends GroupControllerV1 {
 		endpoints: string[],
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		_period: "week" | "month",
-    graphParams: any
+    	graphParams: any
 	): any[] {
 		const allRows: any[] = [];
 

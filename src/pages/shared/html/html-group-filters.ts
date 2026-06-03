@@ -14,14 +14,15 @@ import {
   updatePageSegment,
 } from "../../../stores/segment.store";
 import { getAllData } from "../../../stores/data.store";
+import { AnyNode } from "postcss";
 
 export class HtmlGroupFilters {
   listElement: HTMLElement | null = null;
-  selector;
-  companySelector;
-  tableButton;
-  downloadButton;
-  definitionsButton;
+  selector: any;
+  companySelector: any;
+  tableButton: any;
+  downloadButton: any;
+  definitionsButton: any;
   hasListener = false;
 
   constructor(private ctrlr: IGroupCtrlr) {
@@ -83,9 +84,12 @@ export class HtmlGroupFilters {
               if (!current) return;
 
               const isCumulative = _selectEl.value === "cumulative";
+              const baseKey = this.strip(current.key);
+           
+              const entry = this.ctrlr.group.graphParams[baseKey];
               const newKey = isCumulative
-                ? this.strip(current.key) + "_cumulatief"
-                : this.strip(current.key);
+                ? (entry?.variants?.cumul?.column ?? baseKey + "_cumulatief")
+                : (entry?.variants?.delta?.column ?? baseKey);
 
               updateGroupSegment(groupSlug, {
                 key: newKey,

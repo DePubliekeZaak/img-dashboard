@@ -1,5 +1,5 @@
 import { getGroupSegment } from "../../stores/segment.store";
-import { incVsCum, pieParts, tables } from "./data.factory";
+import { incVsCum, incVsCum2, pieParts, tables } from "./data.factory";
 import { preHeaders } from "./factories/pre_headers";
 import { GroupControllerV1 } from "./group-v1";
 import { HTMLSourceV2 } from "./html/html-source-v2";
@@ -39,7 +39,19 @@ export class DefaultGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
-    const { incremental, cumulative } = incVsCum(graphDataWeek, graphParams);
+    if (this.config.slug == "all_totals") {
+
+      for (let p of graphDataWeek) {
+
+        p["bedrag_betaald_totaal_cumul_eur"] = "-";
+        // p["bedrag_betaald_totaal_eur"] = "-";
+      }
+
+      graphDataWeek[0]["bedrag_betaald_totaal_cumul_eur"] = graphDataMonth[graphDataMonth.length - 1]["bedrag_betaald_totaal_cumul_eur"]
+    //   graphDataWeek[0]["bedrag_betaald_totaal_eur"] = graphDataMonth[graphDataMonth.length - 1]["bedrag_betaald_totaal_eur"] 
+    }
+
+    const { incremental, cumulative } = incVsCum2(graphDataWeek, this.config);
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
@@ -50,6 +62,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
         : groupSegment?.cumulative
           ? cumulative
           : incremental;
+        
 
     let pies: any[] | null = null;
     const pieChartIndex = this.config.graphs.findIndex(
@@ -61,7 +74,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
 
     const pre_headers = preHeaders(this.config.graphs, this.segment);
 
-    const { weekTable, monthTable } = tables(
+    const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul,} = tables(
       graphDataWeek,
       graphDataMonth,
       tableParams,
@@ -75,8 +88,10 @@ export class DefaultGroupV1 extends GroupControllerV1 {
       incremental,
       cumulative,
       ...(pies && { pies }),
-      weekTable,
-      monthTable,
+      weekTableInc,
+      monthTableInc,
+      weekTableCumul,
+      monthTableCumul,
       definitions,
       timeline,
     };

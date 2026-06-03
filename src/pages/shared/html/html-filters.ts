@@ -203,6 +203,48 @@ export class HtmlFilters {
 
           break;
 
+        case "mappingGroupSelect":
+          if (this.master) {
+
+            selector = new HtmlMappingGroupSelector(
+              this.ctrlr,
+              li,
+              this.id,
+              this.parameters, // different input 
+            );
+            selectEl = selector.draw(1);
+          } else {
+            selectEl = this.ctrlr.page.main.window.document.getElementById(
+              this.id + "_mapping_1",
+            ) as HTMLSelectElement;
+          }
+
+          if (selectEl === null) break;
+
+          selectEl.addEventListener("change", () => {
+            if (selectEl === null) return;
+            
+            const baseColumn = selectEl.value;
+            const current = getGraphSegment(groupSlug, graphSlug);
+            
+            if (current && baseColumn !== current.baseKey) {
+              const entry = this.ctrlr.group.graphParams![baseColumn];
+              const variant = current.cumulative 
+                ? entry?.variants.cumul 
+                : entry?.variants.delta;
+
+              
+              updateGraphSegment(groupSlug, graphSlug, {
+                baseKey: baseColumn,
+                key: variant?.column || baseColumn,
+              });
+              
+              this.ctrlr.update(this.ctrlr.group.data, true);
+            }
+          });
+
+          break;
+
         // ... other cases similarly updated
       }
 

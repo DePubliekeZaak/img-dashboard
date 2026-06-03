@@ -98,12 +98,14 @@ export class NumbersV1 extends core.GraphControllerV3 {
   async redraw(data: any, range?: number[]) {
     for (const p of this.parameters[0]) {
       if (p.column === "---") return;
-
       const entry = this.group.graphParams?.[p.column];
-      const variant = this.segment?.cumulative 
-        ? entry?.variants.cumul 
+      const seg = this.group.config.segment;
+      const isCumulative = typeof seg === 'object' && seg?.cumulative;
+
+      const variant = isCumulative
+        ? entry?.variants.cumul
         : entry?.variants.delta;
-      
+
       const column = variant?.column || p.column;
       this.numbers[p.column]?.redraw(data.numbers[column]);
     }

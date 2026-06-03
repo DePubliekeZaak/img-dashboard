@@ -17,246 +17,238 @@ const pageConfig: IPageConfig = {
   ],
   groups: [
   // intro
-  // {
-  //   slug: "all_totals",
-  //   ctrlr: "DefaultGroupV1",
-  //   filters: ["totaalVsRecent"],
-  //   graphs: [
-  //     {
-  //       slug: "all_total_numbers",
-  //       ctrlr: "NumbersV1",
+  {
+    slug: "all_totals",
+    ctrlr: "DefaultGroupV1",
+    filters: ["totaalVsRecent"],
+    graphs: [
+      {
+        slug: "all_total_numbers",
+        ctrlr: "NumbersV1",
 
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Aanvragen",
-  //             column: "all_ingediend",
-  //             colour: "orange",
-  //             units: "aanvragen",
-  //           },
-  //           {
-  //             label: "Afgehandeld",
-  //             column: "all_afgerond",
-  //             colour: "moss",
-  //             units: "afgehandeld",
-  //           },
-  //           // {
-  //           //   label: "Verleend",
-  //           //   column: "all_bedrag_verleende_schade_cumulatief",
-  //           //   colour: "blue",
-  //           //   format: "currency",
-  //           //   units: "verleende schade",
-  //           // },
-  //           {
-  //             label: "Uitbetaald",
-  //             column: "all_bedrag_betaald_totaal",
-  //             colour: "blue",
-  //             format: "currency",
-  //             units: "totaal uitbetaalde bedrag",
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "toename",
-  //             column: "{}",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "cumulatief",
-  //             column: "{}_cumulatief",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "all_ingediend_cumulatief",
-  //         cumulative: true,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "all_ingediend_cumulatief",
-  //     cumulative: true,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: [],
-  // },
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Aanvragen",
+              column: "ingediend",
+              colour: "orange",
+              units: "aanvragen",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Afgehandeld",
+              column: "afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Uitbetaald",
+              column: "bedrag_betaald_totaal",
+              colour: "blue",
+              format: "currency",
+              units: "totaal uitbetaalde bedrag",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" },           
+            }
+          ],
+          [],
+        ],
+        segment: {
+          key: "ingediend_aantal",
+          cumulative: true,
+          periodization: "monthly",
+        },
+      },
+    ],
+    segment: {
+      key: "ingediend_aantal",
+      cumulative: true,
+      periodization: "monthly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+  },
   // waardering
-  // {
-  //   slug: "all_waardering",
-  //   ctrlr: "KTOGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "a_waardering_numbers",
-  //       ctrlr: "NumbersPlusRespondentsV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Sinds start",
-  //             column: "doorlopend_cijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Totaal respondenten",
-  //             column: "aantal_respondenten",
-  //             units: "respondenten sinds start",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "doorlopend_cijfer",
-  //         cumulative: false,
-  //         periodization: "latest",
-  //       },
-  //     },
-  //     {
-  //       slug: "a_waardering_trend",
-  //       ctrlr: "BarTrendKTOV1",
-  //       args: [],
-  //       filters: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Maand cijfer",
-  //             column: "maandcijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Aantal nieuwe respondenten",
-  //             column: "aantal_respondenten_maand",
-  //             colour: "orange",
-  //             units: "respondenten",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "maandcijfer",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "maandcijfer",
-  //     cumulative: false,
-  //     periodization: "monthly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["tevredenheid"],
-  // },
-  // // overzicht
-  // {
-  //   slug: "all_regelingen_overzicht",
-  //   ctrlr: "DefaultGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "reg_makeup_trend",
-  //       ctrlr: "BarTrendStackedMakeup",
-  //       args: [],
-  //       filters: ["mappingGroupSelect", "cumulativeVsDelta"],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Waardedalingsregeling",
-  //             column: "wd_ingediend",
-  //             colour: "moss",
-  //           },
-  //           {
-  //             label: "Immateriele schade",
-  //             column: "ims_ingediend",
-  //             colour: "blue",
-  //           },
-  //           {
-  //             label: "Fysieke schade",
-  //             column: "fs_ingediend",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Waardedalingsregeling",
-  //             column: "wd_afgerond",
-  //             colour: "moss",
-  //           },
-  //           {
-  //             label: "Immateriele schade",
-  //             column: "ims_afgerond",
-  //             colour: "blue",
-  //           },
-  //           {
-  //             label: "Fysieke schade",
-  //             column: "fs_afgerond",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Waardedalingsregeling",
-  //             column: "wd_bedrag_betaald_totaal",
-  //             colour: "moss",
-  //             format: "currency",
-  //           },
-  //           {
-  //             label: "Immateriele schade",
-  //             column: "ims_bedrag_betaald_totaal",
-  //             colour: "blue",
-  //             format: "currency",
-  //           },
-  //           {
-  //             label: "Fysieke schade",
-  //             column: "fs_bedrag_betaald_totaal",
-  //             colour: "orange",
-  //             format: "currency",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "toename",
-  //             column: "{}",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "cumulatief",
-  //             column: "{}_cumulatief",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "wd_ingediend",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //         parameterIndex: 0,
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "wd_ingediend",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //     parameterIndex: 0,
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["all_wekelijks", "all_maandelijks"],
-  // },
-  // // vergelijk
+  {
+    slug: "all_waardering",
+    ctrlr: "KTOGroupV1",
+    graphs: [
+      {
+        slug: "a_waardering_numbers",
+        ctrlr: "NumbersPlusRespondentsV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Sinds start",
+              column: "doorlopend_cijfer",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Totaal respondenten",
+              column: "aantal_respondenten",
+              units: "respondenten sinds start",
+              colour: "orange",
+            },
+          ],
+        ],
+        segment: {
+          key: "doorlopend_cijfer",
+          cumulative: false,
+          periodization: "latest",
+        },
+      },
+      {
+        slug: "a_waardering_trend",
+        ctrlr: "BarTrendKTOV1",
+        args: [],
+        filters: [],
+        parameters: [
+          [
+            {
+              label: "Maand cijfer",
+              column: "maandcijfer",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Aantal nieuwe respondenten",
+              column: "aantal_respondenten_maand",
+              colour: "orange",
+              units: "respondenten",
+            },
+          ],
+        ],
+        segment: {
+          key: "maandcijfer",
+          cumulative: false,
+          periodization: "monthly",
+        },
+      },
+    ],
+    segment: {
+      key: "maandcijfer",
+      cumulative: false,
+      periodization: "monthly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["tevredenheid"],
+  },
+ // overzicht
+  {
+    slug: "all_regelingen_overzicht",
+    ctrlr: "DomainComparisonGroupV1",
+    graphs: [
+      {
+        slug: "reg_makeup_trend",
+        ctrlr: "BarTrendStackedMakeup",
+        args: [],
+        filters: ["mappingGroupSelect", "cumulativeVsDelta"], //
+        parameters: [
+          [
+            {
+              label: "Waardedalingsregeling",
+              short: "WD",
+              column: "wdl_ingediend",
+              colour: "moss",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },  
+            },
+            {
+              label: "Immateriele schade",
+              short: "IMS",
+              column: "ims_ingediend",
+              colour: "blue",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Fysieke schade",
+              short: "FS",
+              column: "fs_ingediend",
+              colour: "orange",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }, 
+            },
+          ],
+          [
+            {
+              label: "Waardedalingsregeling",
+              short: "WD",
+              column: "wdl_afgerond",
+              colour: "moss",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Immateriele schade",
+              short: "IMS",
+              column: "ims_afgerond",
+              colour: "blue",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Fysieke schade",
+              short: "FS",
+              column: "fs_afgerond",
+              colour: "orange",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+          ],
+          [
+            {
+              label: "Waardedalingsregeling",
+              short: "WD",
+              column: "wdl_bedrag_betaald_totaal",
+              colour: "moss",
+              format: "currency",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" },  
+            },
+            {
+              label: "Immateriele schade",
+              short: "IMS",
+              column: "ims_bedrag_betaald_totaal",
+              colour: "blue",
+              format: "currency",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" },  
+            },
+            {
+              label: "Fysieke schade",
+              short: "FS",
+              column: "fs_bedrag_betaald_totaal",
+              colour: "orange",
+              format: "currency",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" },  
+            },
+          ],
+        ],
+        segment: {
+          key: "wdl_ingediend_aantal",
+          cumulative: false,
+          periodization: "monthly",
+          parameterIndex: 0,
+        },
+      },
+    ],
+    segment: {
+      key: "wdl_ingediend_aantal",
+      cumulative: false,
+      periodization: "monthly",
+      parameterIndex: 0,
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [
+      // 'regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&select=periode%2caggregatie%2cingediend_aantal%2cingediend_cumul%2cafgerond_aantal%2cafgerond_cumul%2cbedrag_betaald_totaal_cumul_eur%2cbedrag_betaald_totaal_eur&order=periode.desc&periode_vanaf=gte.{VANAF}',
+      'regelingen?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cingediend_aantal%2cingediend_cumul%2cafgerond_aantal%2cafgerond_cumul%2cbedrag_betaald_totaal_cumul_eur%2cbedrag_betaald_totaal_eur&order=periode.desc',
+      // 'regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&select=periode%2caggregatie%2cingediend_aantal%2cingediend_cumul%2cafgerond_aantal%2cafgerond_cumul%2cbedrag_betaald_totaal_cumul_eur%2cbedrag_betaald_totaal_eur&order=periode.desc&periode_vanaf=gte.{VANAF}',
+      'regelingen?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cingediend_aantal%2cingediend_cumul%2cafgerond_aantal%2cafgerond_cumul%2cbedrag_betaald_totaal_cumul_eur%2cbedrag_betaald_totaal_eur&order=periode.desc',
+      // 'regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2caggregatie%2cingediend_aantal%2cingediend_cumul%2cafgerond_aantal%2cafgerond_cumul%2cbedrag_betaald_totaal_cumul_eur%2cbedrag_betaald_totaal_eur&order=periode.desc&periode_vanaf=gte.{VANAF}',
+      'regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cingediend_aantal%2cingediend_cumul%2cafgerond_aantal%2cafgerond_cumul%2cbedrag_betaald_totaal_cumul_eur%2cbedrag_betaald_totaal_eur&order=periode.desc'
+    ],
+  },
+  // vergelijk
   {
     slug: "all_vergelijk",
     ctrlr: "ComparisonGroupV1",
@@ -385,7 +377,7 @@ const pageConfig: IPageConfig = {
           [],
         ],
         segment: {
-          key: "ves_mediaan_dagen",
+          key: "vv_mediaan_dagen",
           cumulative: false,
           periodization: "weekly",
         },
@@ -524,6 +516,7 @@ const pageConfig: IPageConfig = {
       key: "mw_dlt_gerealiseerd_mediaan_dagen",
       cumulative: false,
       periodization: "weekly",
+      // weekOnly: true
     },
     functionality: ["table", "definitions", "download"],
     endpoints: [

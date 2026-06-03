@@ -123,33 +123,38 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+    const segment = this.segment;
+    if (!segment) return data;
+
     const _data =
       data.graphDataMonth !== undefined &&
-      this.group.config.endpoints!.length === 2
+      this.group.config.endpoints!.length > 1
         ? this.group.config.endpoints![1] !== undefined &&
-          this.segment!.periodization === "monthly"
+          segment.periodization === "monthly"
           ? data.graphDataMonth
           : data.graphDataWeek
         : data.graphDataWeek;
 
-    const _period =
-      this.segment!.periodization === "weekly" ? "_yearweek" : "_yearmonth";
+    const _period = segment.periodization === "weekly" ? "_yearweek" : "_yearmonth";
 
     for (const m of _data) {
       m.date = m[_period];
     }
 
-    const index: number =
-      this.segment!.parameterIndex !== null && this.segment!.parameterIndex !== undefined ? this.segment!.parameterIndex : 0;
-
-    const ps = this.parameters[index];
-
+    const index = this.parameters.findIndex(
+      (group) => group[0].column.includes(segment.baseKey!)
+    );
+    const ps = this.parameters[Math.max(0, index)];
+    const isCumulative = segment.cumulative;
     const stack = window.d3
       .stack<StackDataItem>()
       .keys(
-        ps.map((p) =>
-          this.segment!.cumulative ? p.column + "_cumulatief" : p.column,
-        ),
+        ps.map((p) => {
+          const entry = this.group.graphParams![p.column];
+          return isCumulative
+            ? (entry?.variants?.cumul?.column ?? p.column + "_cumulatief")
+            : (entry?.variants?.delta?.column ?? p.column);
+        }),
       );
 
     if (!this.segment!.normalized) {
@@ -183,6 +188,10 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   async redraw(data: any, range: number[]) {
+
+    const segment = this.segment;
+    if (!segment) return;
+
     this.scales.x.set(data.stacked[0].map((d) => d.data.date));
     this.scales.y.set(
       data.stacked[data.stacked.length - 1]
@@ -196,7 +205,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     );
     await super.redraw(data.stacked);
 
-    if (this.segment!.periodization === "weekly") {
+    if (segment.periodization === "weekly") {
       const w = data.graphDataWeek.length * 8;
       this.dimensions.graphWidth = w + 100; // 2 * paddingForAxis;  ????
       this.dimensions.svgWidth = w + 100;
@@ -207,7 +216,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       await super.redraw(data.stacked, []);
     }
 
-    this.chartBars.redraw(data, this.segment);
+    this.chartBars.redraw(data, segment);
     if (this.arrowY !== undefined) {
       await this.arrowY.redraw();
     }

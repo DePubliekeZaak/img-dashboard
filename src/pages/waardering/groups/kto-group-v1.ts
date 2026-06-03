@@ -67,6 +67,8 @@ export class KTOGroupV1 extends GroupControllerV1 {
       rows,
     };
 
+
+
     return {
       graphData,
       graphData_alt: graphData,

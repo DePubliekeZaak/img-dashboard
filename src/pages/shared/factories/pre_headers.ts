@@ -4,35 +4,35 @@ export const preHeaders = (graphs: any[], segment: any) => {
 
   if(graphs[0].slug.includes("gemeente")) return [];
 
-  const numbersIndex = graphs.findIndex(
-    (g) => g.ctrlr.includes("Numbers") && segment.cumulative,
-  );
-  if (numbersIndex !== -1) {
-    pre_headers = [
-      [
-        { label: "", length: 3 },
-        {
-          label: "Per week",
-          length: graphs[0].parameters[0].length,
-        },
-        {
-          label: "Cumulatief",
-          length: graphs[0].parameters[0].length,
-        },
-      ],
-      [
-        { label: "", length: 3 },
-        {
-          label: "Per maand",
-          length: graphs[0].parameters[0].length,
-        },
-        {
-          label: "Cumulatief",
-          length: graphs[0].parameters[0].length,
-        },
-      ],
-    ];
-  }
+  // const numbersIndex = graphs.findIndex(
+  //   (g) => g.ctrlr.includes("Numbers") && segment.cumulative,
+  // );
+  // if (numbersIndex !== -1) {
+  //   pre_headers = [
+  //     [
+  //       { label: "", length: 3 },
+  //       {
+  //         label: "Per week",
+  //         length: graphs[0].parameters[0].length,
+  //       },
+  //       {
+  //         label: "Cumulatief",
+  //         length: graphs[0].parameters[0].length,
+  //       },
+  //     ],
+  //     [
+  //       { label: "", length: 3 },
+  //       {
+  //         label: "Per maand",
+  //         length: graphs[0].parameters[0].length,
+  //       },
+  //       {
+  //         label: "Cumulatief",
+  //         length: graphs[0].parameters[0].length,
+  //       },
+  //     ],
+  //   ];
+  // }
 
   // for (let g of graphs) {
   //   console.log(g.slug)
@@ -55,18 +55,6 @@ export const preHeaders = (graphs: any[], segment: any) => {
           label: "Uitbetaald bedrag",
           length: graphs[0].parameters.length,
         },
-        {
-          label: "Ingediend cumulatief",
-          length: graphs[0].parameters.length,
-        },
-        {
-          label: "Afgerond cumulatief",
-          length: graphs[0].parameters.length,
-        },
-        {
-          label: "Uitbetaald bedrag cumulatief",
-          length: graphs[0].parameters.length,
-        },
       ],
       [
         { label: "", length: 3 },
@@ -80,18 +68,6 @@ export const preHeaders = (graphs: any[], segment: any) => {
         },
         {
           label: "Uitbetaald bedrag",
-          length: graphs[0].parameters.length,
-        },
-        {
-          label: "Ingediend cumulatief",
-          length: graphs[0].parameters.length,
-        },
-        {
-          label: "Afgerond cumulatief",
-          length: graphs[0].parameters.length,
-        },
-        {
-          label: "Uitbetaald bedrag cumulatief",
           length: graphs[0].parameters.length,
         },
       ],

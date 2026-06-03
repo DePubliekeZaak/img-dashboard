@@ -31,7 +31,6 @@ export class DataService {
       }
 
       setData(endpoint, payload);
-      console.log("data set")
     } finally {
       isLoading$.set(false);
     }

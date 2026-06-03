@@ -1,6 +1,7 @@
 // import { definitionList } from "../definitions";
 import definitionList from "../../json/definitions.json";
 import { getAllData } from "../../stores/data.store";
+import { getGroupSegment } from "../../stores/segment.store";
 import { timelineList } from "../timeline";
 import {
   defaultColumns,
@@ -310,13 +311,15 @@ export class GroupControllerV1 implements IGroupCtrlr {
   }
 
   update(data: DataObject, segment: Segment | undefined, update: boolean) {
-    // if (segment !== undefined) {
-    //   this.config.segment = segment;
-    // }
+ 
+
+    this.config.segment = getGroupSegment(this.config.slug);
+
+    console.log("UPDATE",this.config.segment)
 
     const group = this.page.chartArray.find((i: any) => i.config.slug === this.slug);
 
-    group.data = this.prepareData(this.page.main.data.collection());
+    group.data = this.prepareData(data);
 
     this.tabs.redraw();
 

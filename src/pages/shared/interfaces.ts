@@ -47,8 +47,6 @@ export interface IGraphMappingV2 {
   header?: string;
 }
 
-
-
 export type IMappingOption = IParameterMapping | boolean;
 
 export interface IGroupMappingV2 {
@@ -114,6 +112,11 @@ export interface IGroupCtrlr {
   element: HTMLElement | null;
   graphWrapper: HTMLElement | null;
   groupWrapper: HTMLElement | null;
+  group: any;
+  // graphParams?: Record<string, {
+  //   base: IParameterMapping;
+  //   variants: Record<string, IParameterMapping>;
+  // }>;
   paramsAndModifiers: () => { tableParams: IParameterMapping[]; graphParams: Record<string, { base: IParameterMapping; variants: Record<string, IParameterMapping>;}>};
   html: () => HTMLElement | undefined;
   prepareData: (data: any) => DataObject;

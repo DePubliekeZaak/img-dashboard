@@ -88,7 +88,7 @@ export class MuniGroupV1 extends GroupControllerV1 {
 
     const pre_headers = preHeaders(this.config.graphs, this.segment);
 
-    const { weekTable, monthTable } = tables(
+    const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul,} = tables(
       graphDataWeek,
       graphDataMonth,
       tableParams,
@@ -103,8 +103,10 @@ export class MuniGroupV1 extends GroupControllerV1 {
       incremental,
       cumulative,
       ...(pies && { pies }),
-      weekTable,
-      monthTable,
+      weekTableInc,
+      monthTableInc,
+      weekTableCumul,
+      monthTableCumul,
       definitions,
       timeline,
     };

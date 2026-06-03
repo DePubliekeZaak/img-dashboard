@@ -127,6 +127,8 @@ export function convertToCurrencyInMillions(number: number) {
 }
 
 export function convertToCurrencyInTable(number: number) {
+  if (isNaN(number)) return "-";
+
   const toString = (number: number) =>
     number.toLocaleString("nl-NL", {
       style: "currency",
