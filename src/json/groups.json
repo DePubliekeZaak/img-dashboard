@@ -610,8 +610,8 @@
         "Westerwijtwerd",
         "Wirdum"
       ],
-      "content": "Deze verhouding laat de beoordeling van aanvragen zien. Het aantal toekenningen wordt uitsplitst in de Vaste vergoeding (VES) en Aanvullende vaste vergoeding (AVV). In de afwijzingen wordt geen onderscheid gemaakt doordat de aanvraag voor beide keuzes niet in aanmerking kwam. Voor de vaste vergoedingen betekent een afwijzing dat er volgens de voorwaarden geen recht is op een vergoeding.",
-      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien. Het aantal toekenningen wordt uitsplitst in de Vaste vergoeding (VES) en Aanvullende vaste vergoeding (AVV). In de afwijzingen wordt geen onderscheid gemaakt doordat de aanvraag voor beide keuzes niet in aanmerking kwam. Voor de vaste vergoedingen betekent een afwijzing dat er volgens de voorwaarden geen recht is op een vergoeding.</p>"
+      "content": "Deze verhouding laat de beoordeling van aanvragen zien. Het aantal toekenningen wordt uitsplitst in de Vaste vergoeding (VES), Aanvullende vaste vergoeding (AVV) en Vaste herhaal vergoeding (VHV). In de afwijzingen wordt geen onderscheid gemaakt doordat de aanvraag voor beide keuzes niet in aanmerking kwam. Voor de vaste vergoedingen betekent een afwijzing dat er volgens de voorwaarden geen recht is op een vergoeding.",
+      "description": "<p dir=\"auto\">Deze verhouding laat de beoordeling van aanvragen zien. Het aantal toekenningen wordt uitsplitst in de Vaste vergoeding (VES), Aanvullende vaste vergoeding (AVV) en Vaste herhaal vergoeding (VHV). In de afwijzingen wordt geen onderscheid gemaakt doordat de aanvraag voor beide keuzes niet in aanmerking kwam. Voor de vaste vergoedingen betekent een afwijzing dat er volgens de voorwaarden geen recht is op een vergoeding.</p>"
     },
     {
       "name": "vv_intro",

@@ -531,6 +531,11 @@ const mapping: IGroupMappingV2[] = [
               colour: "blue",
             },
             {
+              label: "Toegekend als VHV",
+              column: "vv_toegekend_vhv_cumulatief",
+              colour: "purple",
+            },
+            {
               label: "Afgewezen",
               column: "vv_afgewezen_cumulatief",
               colour: "orange",
@@ -565,6 +570,11 @@ const mapping: IGroupMappingV2[] = [
               label: "Aanvullende vaste vergoeding (AVV)",
               column: "vv_toegekend_avv",
               colour: "blue",
+            },
+            {
+              label: "Vaste herhaal vergoeding (VHV)",
+              column: "vv_toegekend_vhv",
+              colour: "purple",
             },
             {
               label: "Afgewezen",
