@@ -10,6 +10,9 @@ export class HtmlNumberSimple {
   ) {}
 
   draw() {
+
+    if (this.parameter == undefined) return;
+
     const element =
       this.element !== undefined ? this.element : this.ctrlr.element;
 
@@ -49,8 +52,9 @@ export class HtmlNumberSimple {
     number.style.color = "black";
     number.style.fontFamily = "Sora,sans-serif";
     number.style.fontWeight = "500";
+    let c = colours[this.parameter?.colour!];
     number.style.borderBottom =
-      "2px solid " + colours[this.parameter.colour!][0];
+      "2px solid " + c != undefined ? c[0] : "black";
 
     div.appendChild(number);
 
@@ -73,6 +77,9 @@ export class HtmlNumberSimple {
   }
 
   redraw(data: any, extraParameter: string) {
+
+    if (this.parameter == undefined) return;
+
     const element =
       this.element !== undefined ? this.element : this.ctrlr.element;
 

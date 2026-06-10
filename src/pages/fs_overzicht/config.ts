@@ -1,69 +1,72 @@
-import type { IGroupMappingV2 } from "../shared/interfaces";
 
-const mapping: IGroupMappingV2[] = [
-  //intro
+import type { IPageConfig } from "../shared/interfaces";
+
+const pageConfig: IPageConfig = {
+  slug: "regelingen",
+  segment: {
+    key: "",
+    gemeente: "all",
+    periodization: "weekly",
+    cumulative: false,
+    vanaf: "2025-01-01"
+  },
+  filters: ["gemeenten","vanaf"],
+  endpoints: [
+    "regelingen?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc",
+    "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}",
+  ],
+  groups: [
   {
     slug: "fs_totals",
     ctrlr: "DefaultGroupV1",
-    filters: [],
+    filters: ["totaalVsRecent"],
     graphs: [
       {
         slug: "fs_numbers_v1",
         ctrlr: "NumbersMultiplesV1",
         args: [],
-        filters: ["totaalVsRecent"],
+        filters: [],
         multiples: "cumulative",
         parameters: [
           [
             {
               label: "Ingediend",
-              column: "fysiek_ingediend",
+              column: "ingediend",
               colour: "orange",
               units: "ingediend",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "Voorraad",
-              column: "fysiek_voorraad",
+              column: "voorraad",
               colour: "purple",
               units: "voorraad",
+              modifiers: { cumul: "_cumul", delta: "_verschil" },
             },
             {
               label: "Afgehandeld",
-              column: "fysiek_afgerond",
+              column: "afgerond",
               colour: "moss",
               units: "afgehandeld",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
           ],
           [],
         ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
-        ],
         segment: {
-          key: "fysiek_ingediend",
+          key: "ingediend",
           cumulative: true,
-          periodization: "weekly",
+          periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "fysiek_ingediend",
+      key: "ingediend",
       cumulative: true,
-      periodization: "weekly",
+      periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],
+    endpoints: [],
   },
   // bedragen
   {
@@ -101,32 +104,19 @@ const mapping: IGroupMappingV2[] = [
             // },
             {
               label: "betaald totaal",
-              column: "fysiek_bedrag_betaald_totaal",
+              column: "bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" }
             },
           ],
           [],
         ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "blue",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "blue",
-            },
-          ],
-        ],
         segment: {
           key: "fysiek_bedrag_betaald_totaal",
           cumulative: true,
-          periodization: "weekly",
+          periodization: "monthly",
         },
       },
       {
@@ -138,23 +128,10 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "Maand cijfer",
-              column: "fysiek_bedrag_betaald_totaal",
+              column: "bedrag_betaald_totaal",
               colour: "blue",
               format: "decimals",
-            },
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "blue",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "blue",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" }
             },
           ],
         ],
@@ -168,12 +145,12 @@ const mapping: IGroupMappingV2[] = [
     segment: {
       key: "fysiek_bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "weekly",
+      periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],
+    endpoints: [],
   },
-  // keuzes
+  // // keuzes
   {
     slug: "fs_keuzepaden",
     ctrlr: "DefaultGroupV1",
@@ -183,62 +160,51 @@ const mapping: IGroupMappingV2[] = [
         slug: "fs_peag_afgerond",
         ctrlr: "SegmentsV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta"],
         header: "Sinds maatregelen n.a.v. parlementaire enquete",
         parameters: [
           [
             {
               label: "Maatwerk (MW)",
-              column: "fysiek_toegekend_als_maatwerk_cumulatief",
+              column: "toegekend_mv",
               colour: "blue",
               units: "toegekend als maatwerk",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "Vaste Vergoeding (VES)",
-              column: "fysiek_toegekend_als_vaste_vergoeding_cumulatief",
+              column: "toegekend_ves",
               colour: "orange",
               units: "toegekend als vaste vergoeding",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "Aanvullende Vaste vergoeding (AVV)",
-              column:
-                "fysiek_toegekend_als_aanvullende_vaste_vergoeding_cumulatief",
+              column:"toegekend_avv",
               colour: "yellow",
               units: "toegekend als aanvullende vaste vergoeding",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "Herstel Eigen Aannemer (HEA)",
-              column: "fysiek_toegekend_als_herstel_eigen_aannemer_cumulatief",
+              column: "toegekend_hea",
               colour: "moss",
               units: "toegekend als herstel eigen aannemer",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "Herstel Aannemer Instituut (HAI)",
-              column:
-                "fysiek_toegekend_als_herstel_aannemer_instituut_cumulatief",
+              column: "toegekend_hai",
               colour: "purple",
               units: "toegekend als herstel aannemer instituut",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
           ],
           [],
         ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
         segment: {
-          key: "fysiek_toegekend_als_maatwerk",
-          cumulative: false,
+          key: "toegekend_mv_cumul",
+          cumulative: true,
           periodization: "weekly",
         },
       },
@@ -251,53 +217,44 @@ const mapping: IGroupMappingV2[] = [
           [
             {
               label: "MW",
-              column: "fysiek_toegekend_als_maatwerk",
+              column: "toegekend_mv",
               colour: "blue",
               units: "toegekend als maatwerk",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "VES",
-              column: "fysiek_toegekend_als_vaste_vergoeding",
+              column: "toegekend_ves",
               colour: "orange",
               units: "toegekend als vaste vergoeding",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "AVV",
-              column: "fysiek_toegekend_als_aanvullende_vaste_vergoeding",
+              column: "toegekend_avv",
               colour: "yellow",
               units: "toegekend als aanvullende vaste vergoeding",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "HEA",
-              column: "fysiek_toegekend_als_herstel_eigen_aannemer",
+              column: "toegekend_hai",
               colour: "moss",
               units: "toegekend als herstel eigen aannemer",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "HAI",
-              column: "fysiek_toegekend_als_herstel_aannemer_instituut",
+              column: "toegekend_hea",
               colour: "purple",
               units: "toegekend als herstel aannemer instituut",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
           ],
           [],
         ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
         segment: {
-          key: "maatwerk_afgehandeld",
+          key: "toegekend_mv_cumul",
           cumulative: false,
           periodization: "monthly",
           label: "toegekende zaken",
@@ -305,14 +262,15 @@ const mapping: IGroupMappingV2[] = [
       },
     ],
     segment: {
-      key: "maatwerk_afgehandeld",
+      key: "toegekend_mv_cumul",
       cumulative: true,
       periodization: "weekly",
       label: "toegekende zaken",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["fysiek_totaal_wekelijks", "fysiek_totaal_maandelijks"],
+    endpoints: [],
   },
-];
+]};
 
-export default mapping;
+export default pageConfig;
+

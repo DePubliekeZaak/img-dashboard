@@ -11,11 +11,11 @@ import {
 } from "../../../stores/segment.store";
 
 export class BarTrendBedragenV1 extends core.GraphControllerV3 {
-  scrollingContainer;
-  chartBarTrend;
-  legend;
-  arrowX;
-  arrowY;
+  scrollingContainer!: HTMLElement;
+  chartBarTrend: any;
+  legend: any;
+  arrowX: any;
+  arrowY: any;
 
   constructor(
     public slug: string,
@@ -52,7 +52,7 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
 
     this._addScale("x", "band", "horizontal-reverse", "date");
     this._addScale("y", "linear", "vertical", "value");
-    this._addAxis("x", "x", "bottom", "quarters");
+    this._addAxis("x", "x", "bottom", "month");
     this._addAxis("y", "y", "left", "millions");
     this._addAxis("y2", "y", "right", "millions");
   }
@@ -112,6 +112,8 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     data.graphDataWeek = trimStart(data.graphDataWeek, this.parameters, 2);
     data.graphDataMonth = trimStart(data.graphDataMonth, this.parameters, 2);
 
+    data.graphDataMonth = data.graphDataMonth.slice(0,12);
+
     const periodKey = this.segment!.periodization === "monthly" ? "_yearmonth" : "_yearweek";
     const _data = this.segment!.periodization === "monthly"
       ? data.graphDataMonth
@@ -157,8 +159,6 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
 
     const column = this.segmentKeyToColumn();
 
-    console.log("!!",)
-
     this.chartBarTrend.draw(data[column]);
   }
 
@@ -167,9 +167,9 @@ export class BarTrendBedragenV1 extends core.GraphControllerV3 {
     const column = this.segmentKeyToColumn();
     const _d = data[column];
 
-    this.scales.x.set(_d.map((d) => d.date));
+    this.scales.x.set(_d.map((d: any) => d.date));
     this.scales.y.set(
-      _d.map((d) => (d.value < 0 ? 0 : d.value)).concat([0, 10]),
+      _d.map((d: any) => (d.value < 0 ? 0 : d.value)).concat([0, 10]),
     );
 
     await super.redraw(_d);

@@ -1,6 +1,7 @@
 import { core, elements } from "../../../charts";
 import type { KeyValue } from "../../../charts/core/types";
 import { breakpoints } from "../../../img-modules/styleguide";
+import { getGroupSegment } from "../../../stores/segment.store";
 import type { GroupObject, IParameterMapping } from "../interfaces";
 import type { IPageController } from "../page.controller";
 import type { DataObject, Segment } from "../types";
@@ -115,8 +116,11 @@ export class SegmentsV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+
+    const segment = getGroupSegment(this.group.slug)
+
     const _data =
-      this.segment!.periodization === "monthly"
+      segment!.periodization === "monthly"
         ? data.graphDataMonth
         : data.graphDataWeek;
 
@@ -125,12 +129,18 @@ export class SegmentsV1 extends core.GraphControllerV3 {
       param: IParameterMapping,
       data: KeyValue[],
     ) => {
+
+      const entry = this.group.graphParams![prop];
+      const column = this.segment?.cumulative
+            ? (entry?.variants?.cumul?.column)
+            : (entry?.variants?.delta?.column);
+
       return {
         label: param?.label || "",
-        name: "_" + param?.column,
+        name: "_" + column,
         colour: param !== undefined ? param.colour : "orange",
         // meta: data,
-        value: parseFloat(data[0][param?.column].toString()),
+        value: parseFloat(data[0][column].toString()),
       };
     };
 

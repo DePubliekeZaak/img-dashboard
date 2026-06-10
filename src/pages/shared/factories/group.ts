@@ -33,7 +33,6 @@ export const relyOnCompleted = (
         }
       } else {
         if (period[p.column] !== null) {
-          console.log(period,p.column);
           row.push(period[p.column].toFixed(0));
         } else {
           row.push("0");

@@ -1,5 +1,5 @@
 import { getGroupSegment } from "../../stores/segment.store";
-import { incVsCum, incVsCum2, pieParts, tables } from "./data.factory";
+import { incVsCum, pieParts, tables } from "./data.factory";
 import { preHeaders } from "./factories/pre_headers";
 import { GroupControllerV1 } from "./group-v1";
 import { HTMLSourceV2 } from "./html/html-source-v2";
@@ -51,7 +51,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
     //   graphDataWeek[0]["bedrag_betaald_totaal_eur"] = graphDataMonth[graphDataMonth.length - 1]["bedrag_betaald_totaal_eur"] 
     }
 
-    const { incremental, cumulative } = incVsCum2(graphDataWeek, this.config);
+    const { incremental, cumulative } = incVsCum(graphDataWeek, graphParams);
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
@@ -69,7 +69,7 @@ export class DefaultGroupV1 extends GroupControllerV1 {
       (g) => g.ctrlr === "PieChartSumV1",
     );
     if (pieChartIndex !== -1) {
-      pies = pieParts(graphDataWeek, this.config.graphs, pieChartIndex);
+      pies = pieParts(this.group, graphDataWeek, this.config.graphs, pieChartIndex);
     }
 
     const pre_headers = preHeaders(this.config.graphs, this.segment);

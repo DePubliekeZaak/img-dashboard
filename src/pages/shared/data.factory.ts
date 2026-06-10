@@ -1,3 +1,4 @@
+import { getGroupSegment } from "../../stores/segment.store";
 import { convertToCurrencyInTable } from "./_helpers";
 import { NumbersV1 } from "./graphs/numbers-v1";
 import { GraphParamEntry } from "./interfaces";
@@ -19,18 +20,18 @@ export const incVsCum = (data: any[], graphParams: Record<string, GraphParamEntr
 };
 
 
-export const incVsCum2 = (data: any[], config: any) => {
-  const incremental: string[] = [];
-  const cumulative: string[] = [];
+// export const incVsCum2 = (data: any[], config: any) => {
+//   const incremental: string[] = [];
+//   const cumulative: string[] = [];
 
-  for (const p of config.graphs[0].parameters[0]) {
-    // console.log(p.column,data[0])
-    incremental.push(data[0][p.column + "_aantal"]);
-    cumulative.push(data[0][p.column + "_cumul"]);
-  }
+//   for (const p of config.graphs[0].parameters[0]) {
+//     // console.log(p.column,data[0])
+//     incremental.push(data[0][p.column + "_aantal"]);
+//     cumulative.push(data[0][p.column + "_cumul"]);
+//   }
 
-  return { incremental, cumulative };
-};
+//   return { incremental, cumulative };
+// };
 
 const rowing = (data: any, tableParams: any) => {
 
@@ -276,16 +277,26 @@ export const ktoTables = (
   };
 };
 
-export const pieParts = (data: any, graphs: any[], index: number) => {
+export const pieParts = (group: any, data: any, graphs: any[], index: number) => {
   const parts: any[] = [];
   //PIE CHA
   const graph_1 = graphs[index];
   const params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
 
+  const segment = getGroupSegment(group.slug)
+
+
+
   params_1.forEach((p: any, i: number) => {
+
+    const entry = group.graphParams![p.column];
+    const variant = segment!.cumulative ? entry?.variants.cumul : entry?.variants.delta;
+
+
+
     parts.push({
       label: p.label,
-      value: data[0][p.column],
+      value: data[0][variant.column],
       colour: p.colour,
       accented: false,
       format: "",

@@ -152,8 +152,8 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
         ps.map((p) => {
           const entry = this.group.graphParams![p.column];
           return isCumulative
-            ? (entry?.variants?.cumul?.column ?? p.column + "_cumulatief")
-            : (entry?.variants?.delta?.column ?? p.column);
+            ? (entry?.variants?.cumul?.column)
+            : (entry?.variants?.delta?.column);
         }),
       );
 

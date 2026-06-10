@@ -39,17 +39,20 @@ export class HtmlFilters {
   init(el: HTMLElement | undefined) {
     const element = el !== undefined ? el : this.element;
 
-    const prevElement = element.querySelector(".filter_list");
+    const prevElement = element.querySelector(".filter_list_" + this.id);
 
     if (this.id.includes("bedragen") && this.id.includes("trend")) {
       this.listElement =
         this.ctrlr.page.main.window.document.createElement("div");
       this.listElement.classList.add("filter_list");
+      this.listElement.classList.add("filter_list_" + this.id);
 
       const ul = this.ctrlr.page.main.window.document.createElement("ul");
 
       this.listElement.appendChild(ul);
       this.element.prepend(this.listElement);
+
+
     } else if (this.master) {
       const container =
         this.ctrlr.page.main.window.document.createElement("section");
@@ -57,11 +60,13 @@ export class HtmlFilters {
         "graph-container-12",
         "graph-view",
         "filter-wrapper",
+        "filter-wrapper-graph"
       );
 
       this.listElement =
         this.ctrlr.page.main.window.document.createElement("div");
       this.listElement.classList.add("filter_list");
+      this.listElement.classList.add("filter_list_" + this.id);
 
       const ul = this.ctrlr.page.main.window.document.createElement("ul");
 
@@ -86,7 +91,7 @@ export class HtmlFilters {
     
     if (!localSegment) return;
 
-    const ul = this.element.parentElement.querySelector(".filter_list ul");
+    const ul = this.element.parentElement.querySelector(`.filter_list_${this.id} ul`);
 
     for (const func of this.filters) {
       const li = this.ctrlr.page.main.window.document.createElement("li");

@@ -315,8 +315,6 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
     this.config.segment = getGroupSegment(this.config.slug);
 
-    console.log("UPDATE",this.config.segment)
-
     const group = this.page.chartArray.find((i: any) => i.config.slug === this.slug);
 
     group.data = this.prepareData(data);

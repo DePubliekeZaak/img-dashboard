@@ -106,518 +106,465 @@ const pageConfig: IPageConfig = {
     ],
   },
   // bedragen
-  // {
-  //   slug: "maatwerk_bedragen",
-  //   ctrlr: "DefaultGroupV1",
-  //   filters: [],
-  //   graphs: [
-      // {
-      //   slug: "fs_maatwerk_numbers_2",
-      //   ctrlr: "NumbersV1",
-      //   args: [],
-      //   filters: ["cumulativeVsDelta"],
-      //   multiples: "cumulative",
-      //   parameters: [
-      //     [
-      //       // {
-      //       //   label: "beschikte schade",
-      //       //   column: "maatwerk_bedrag_beschikt_schade",
-      //       //   colour: "blue",
-      //       //   format: "currency",
-      //       //   units: "beschikt schadebedrag",
-      //       // },
-      //       // {
-      //       //   label: "beschikt totaal",
-      //       //   column: "maatwerk_bedrag_beschikt_totaal",
-      //       //   colour: "blue",
-      //       //   format: "currency",
-      //       //   units: "beschikt totaalbedrag",
-      //       // },
-      //       // {
-      //       //   label: "betaalde schade",
-      //       //   column: "maatwerk_bedrag_betaald_schade",
-      //       //   colour: "moss",
-      //       //   format: "currency",
-      //       //   units: "betaald schadebedrag",
-      //       // },
-      //       {
-      //         label: "betaald totaal",
-      //         column: "bedrag_betaald_totaal",
-      //         colour: "blue",
-      //         format: "currency",
-      //         units: "betaald totaalbedrag",
-      //       },
-      //     ],
-      //     [],
-      //   ],
-      //   modifiers: [
-      //     [
-      //       {
-      //         label: "totaal",
-      //         column: "{}_cumul_eur",
-      //         colour: "orange",
-      //       },
-      //       {
-      //         label: "afgelopen week",
-      //         column: "{}_eur",
-      //         colour: "orange",
-      //       },
-      //     ],
-      //   ],
-      //   segment: {
-      //     key: "bedrag_betaald_totaal",
-      //     cumulative: true,
-      //     periodization: "weekly",
-      //   },
-      // },
-  //     {
-  //       slug: "maatwerk_bedragen_trend",
-  //       ctrlr: "BarTrendBedragenV1",
-  //       args: [],
-  //       filters: ["cumulativeVsDelta"],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Totaal verleende schade",
-  //             column: "bedrag_betaald_totaal",
-  //             colour: "blue",
-  //             format: "currency",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "toename",
-  //             column: "{}_eur",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "cumulatief",
-  //             column: "{}_cumul_eur",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "bedrag_betaald_totaal",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "bedrag_betaald_totaal",
-  //     cumulative: true,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: [],
-  // },
+  {
+    slug: "maatwerk_bedragen",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
+      {
+        slug: "fs_maatwerk_numbers_2",
+        ctrlr: "NumbersV1",
+        args: [],
+        filters: ["cumulativeVsDelta"],
+        multiples: "cumulative",
+        parameters: [
+          [
+            // {
+            //   label: "beschikte schade",
+            //   column: "maatwerk_bedrag_beschikt_schade",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt schadebedrag",
+            // },
+            // {
+            //   label: "beschikt totaal",
+            //   column: "maatwerk_bedrag_beschikt_totaal",
+            //   colour: "blue",
+            //   format: "currency",
+            //   units: "beschikt totaalbedrag",
+            // },
+            // {
+            //   label: "betaalde schade",
+            //   column: "maatwerk_bedrag_betaald_schade",
+            //   colour: "moss",
+            //   format: "currency",
+            //   units: "betaald schadebedrag",
+            // },
+            {
+              label: "betaald totaal",
+              column: "bedrag_betaald_totaal",
+              colour: "blue",
+              format: "currency",
+              units: "betaald totaalbedrag",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" }
+            },
+          ],
+          [],
+        ],
+        segment: {
+          key: "bedrag_betaald_totaal",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "maatwerk_bedragen_trend",
+        ctrlr: "BarTrendBedragenV1",
+        args: [],
+        filters: ["cumulativeVsDelta"],
+        parameters: [
+          [
+            {
+              label: "Totaal verleende schade",
+              column: "bedrag_betaald_totaal",
+              colour: "blue",
+              format: "currency",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" }
+            },
+          ],
+        ],
+        segment: {
+          key: "bedrag_betaald_totaal",
+          cumulative: false,
+          periodization: "monthly",
+        },
+      },
+    ],
+    segment: {
+      key: "bedrag_betaald_totaal",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+  },
   // // waardering
-  // {
-  //   slug: "maatwerk_waardering",
-  //   ctrlr: "KTOGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "mw_waardering_numbers",
-  //       ctrlr: "NumbersPlusRespondentsV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Sinds start",
-  //             column: "fysieke_schade_doorlopend_cijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Totaal respondenten",
-  //             column: "fysieke_schade_aantal_respondenten_doorlopend",
-  //             units: "respondenten sinds start",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //     },
-  //     {
-  //       slug: "mw_waardering_trend",
-  //       ctrlr: "BarTrendKTOV1",
-  //       args: [],
-  //       filters: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Maand cijfer",
-  //             column: "fysieke_schade_maandcijfer",
-  //             colour: "orange",
-  //             format: "decimals",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Aantal nieuwe respondenten",
-  //             column: "fysieke_schade_aantal_respondenten",
-  //             colour: "orange",
-  //             units: "respondenten",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //     },
-  //   ],
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["tevredenheid", "tevredenheid"],
-  //   segment: {
-  //     key: "fysieke_schade_maandcijfer",
-  //     cumulative: false,
-  //     periodization: "monthly",
-  //   },
-  // },
+  {
+    slug: "maatwerk_waardering",
+    ctrlr: "KTOGroupV1",
+    graphs: [
+      {
+        slug: "mw_waardering_numbers",
+        ctrlr: "NumbersPlusRespondentsV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Sinds start",
+              column: "fysieke_schade_doorlopend_cijfer",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Totaal respondenten",
+              column: "fysieke_schade_aantal_respondenten_doorlopend",
+              units: "respondenten sinds start",
+              colour: "orange",
+            },
+          ],
+        ],
+      },
+      {
+        slug: "mw_waardering_trend",
+        ctrlr: "BarTrendKTOV1",
+        args: [],
+        filters: [],
+        parameters: [
+          [
+            {
+              label: "Maand cijfer",
+              column: "fysieke_schade_maandcijfer",
+              colour: "orange",
+              format: "decimals",
+            },
+          ],
+          [
+            {
+              label: "Aantal nieuwe respondenten",
+              column: "fysieke_schade_aantal_respondenten",
+              colour: "orange",
+              units: "respondenten",
+            },
+          ],
+        ],
+        modifiers: [],
+      },
+    ],
+    functionality: ["table", "definitions", "download"],
+    endpoints: ["tevredenheid"],
+    segment: {
+      key: "fysieke_schade_maandcijfer",
+      cumulative: false,
+      periodization: "monthly",
+    },
+  },
   // // besluiten
-  // {
-  //   slug: "maatwerk_besluiten",
-  //   ctrlr: "DefaultGroupV1",
-  //   filters: [],
-  //   graphs: [
-  //     {
-  //       slug: "fs_maatwerk_numbers_besluiten_v1",
-  //       ctrlr: "NumbersMultiplesV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "cumulative",
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Afgehandeld",
-  //             column: "maatwerk_afgerond",
-  //             colour: "moss",
-  //             units: "afgehandeld",
-  //           },
-  //           {
-  //             label: "Besluiten",
-  //             column: "maatwerk_beschikt",
-  //             colour: "blue",
-  //             units: "besluiten",
-  //           },
-  //           {
-  //             label: "Anders afgehandeld",
-  //             column: "maatwerk_anders_afgehandeld",
-  //             colour: "orange",
-  //             units: "anders afgehandeld",
-  //           },
-  //           {
-  //             label: "Percentage binnen termijn",
-  //             column: "maatwerk_beschikt_binn_termijn_perc",
-  //             colour: "moss",
-  //             format: "percentage",
-  //             units: "afgehandeld binnen termijn",
-  //           },
-  //           // {
-  //           //   label: "Toegekend als maatwerk",
-  //           //   column: "toegekend_als_maatwerk",
-  //           //   colour: "purple",
-  //           //   units: "toegekend als maatwerk"
-  //           // },
-  //           // {
-  //           //   label: "Toegekend als maatwerk",
-  //           //   column: "toegekend_als_herstel_aannemer_instituut",
-  //           //   colour: "yellow",
-  //           //   units: "herstel aannemer instituut"
-  //           // },
-  //           // {
-  //           //   label: "Toegekend als maatwerk",
-  //           //   column: "toegekend_als_herstel_eigen_aannemer",
-  //           //   colour: "green",
-  //           //   units: "herstel eigen aannemer"
-  //           // }
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "totaal",
-  //             column: "{}_cumulatief",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "afgelopen week",
-  //             column: "{}",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "maatwerk_beschikt",
-  //         cumulative: true,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "maatwerk_beschikt_binn_termijn_perc",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
-  // },
+  {
+    slug: "maatwerk_besluiten",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
+      {
+        slug: "fs_maatwerk_numbers_besluiten_v1",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: [],
+        multiples: "cumulative",
+        parameters: [
+          [
+            {
+              label: "Afgehandeld",
+              column: "afgerond",
+              colour: "moss",
+              units: "afgehandeld",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Besluiten",
+              column: "beschikt",
+              colour: "blue",
+              units: "besluiten",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Anders afgehandeld",
+              column: "anders_afgehandeld",
+              colour: "orange",
+              units: "anders afgehandeld",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Percentage binnen termijn",
+              column: "beschikt_binn_termijn",
+              colour: "moss",
+              format: "percentage",
+              units: "afgehandeld binnen termijn",
+              modifiers: { cumul: "_cumul_perc", delta: "_perc" },
+            },
+            // {
+            //   label: "Toegekend als maatwerk",
+            //   column: "toegekend_als_maatwerk",
+            //   colour: "purple",
+            //   units: "toegekend als maatwerk"
+            // },
+            // {
+            //   label: "Toegekend als maatwerk",
+            //   column: "toegekend_als_herstel_aannemer_instituut",
+            //   colour: "yellow",
+            //   units: "herstel aannemer instituut"
+            // },
+            // {
+            //   label: "Toegekend als maatwerk",
+            //   column: "toegekend_als_herstel_eigen_aannemer",
+            //   colour: "green",
+            //   units: "herstel eigen aannemer"
+            // }
+          ],
+          [],
+        ],
+        segment: {
+          key: "beschikt",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+    ],
+    segment: {
+      key: "beschikt_binn_termijn_perc",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+  },
   // // toegekend/afgewezen
-  // {
-  //   slug: "maatwerk_toegekend",
-  //   ctrlr: "DefaultGroupV1",
-  //   filters: [],
-  //   graphs: [
-  //     {
-  //       slug: "fs_maatwerk_numbers_toekenningen_v1",
-  //       ctrlr: "NumbersMultiplesV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "cumulative",
-  //       parameters: [
-  //         [
-  //           // {
-  //           //   label: "Afgehandeld",
-  //           //   column: "maatwerk_afgerond",
-  //           //   colour: "moss",
-  //           //   units: "afgehandeld",
-  //           // },
-  //           // {
-  //           //   label: "Besluiten",
-  //           //   column: "maatwerk_beschikt",
-  //           //   colour: "blue",
-  //           //   units: "besluiten",
-  //           // },
-  //           // {
-  //           //   label: "Anders afgehandeld",
-  //           //   column: "maatwerk_anders_afgehandeld",
-  //           //   colour: "orange",
-  //           //   units: "anders afgehandeld",
-  //           // },
-  //           // {
-  //           //   label: "Percentage binnen termijn",
-  //           //   column: "maatwerk_beschikt_binn_termijn_perc",
-  //           //   colour: "moss",
-  //           //   format: "percentage",
-  //           //   units: "afgehandeld binnen termijn",
-  //           // },
-  //           {
-  //             label: "Toegekend als maatwerk",
-  //             column: "toegekend_als_maatwerk",
-  //             colour: "moss",
-  //             units: "toegekend als maatwerk",
-  //           },
-  //           {
-  //             label: "Toegekend als HEA",
-  //             column: "toegekend_als_herstel_eigen_aannemer",
-  //             colour: "purple",
-  //             units: "toegekend als HEA",
-  //           },
-  //           {
-  //             label: "Toegekend als HAI",
-  //             column: "toegekend_als_herstel_aannemer_instituut",
-  //             colour: "blue",
-  //             units: "toegekend als HAI",
-  //           },
-  //           {
-  //             label: "Afgewezen",
-  //             column: "maatwerk_afgewezen",
-  //             colour: "orange",
-  //             units: "afgewezen",
-  //             excludeFromTable: true,
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [
-  //         [
-  //           {
-  //             label: "totaal",
-  //             column: "{}_cumulatief",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "afgelopen week",
-  //             column: "{}",
-  //             colour: "orange",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "maatwerk_beschikt",
-  //         cumulative: true,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //     {
-  //       slug: "fs_maatwerk_toegekend_taart",
-  //       ctrlr: "PieChartSumV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Toegekend als MW",
-  //             column: "toegekend_als_maatwerk_cumulatief",
-  //             colour: "moss",
-  //             units: "toegekend als MW",
-  //           },
-  //           {
-  //             label: "Toegekend als HEA",
-  //             column: "toegekend_als_herstel_eigen_aannemer_cumulatief",
-  //             colour: "purple",
-  //             units: "toegekend als HEA",
-  //           },
-  //           {
-  //             label: "Toegekend als HAI",
-  //             column: "toegekend_als_herstel_aannemer_instituut_cumulatief",
-  //             colour: "blue",
-  //             units: "toegekend als HAI",
-  //           },
-  //           {
-  //             label: "Afgewezen",
-  //             column: "maatwerk_afgewezen_cumulatief",
-  //             colour: "orange",
-  //             scale: "null",
-  //             format: "",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Besluiten",
-  //             column: "maatwerk_beschikt_cumulatief",
-  //             colour: "gray",
-  //             scale: "null",
-  //             format: "",
-  //             excludeFromTable: true,
-  //           },
-  //         ],
-  //       ],
-  //     },
-  //     {
-  //       slug: "fs_maatwerk_toegekend_trend",
-  //       ctrlr: "BarTrendStackedMakeup",
-  //       filters: ["absoluteVsNormalized", "weekVsMonth"],
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Toegekend als MW",
-  //             column: "toegekend_als_maatwerk",
-  //             colour: "moss",
-  //             units: "toegekend als MW",
-  //           },
-  //           {
-  //             label: "Toegekend als HAI",
-  //             column: "toegekend_als_herstel_aannemer_instituut",
-  //             colour: "blue",
-  //             units: "toegekend als HAI",
-  //           },
-  //           {
-  //             label: "Toegekend als HEA",
-  //             column: "toegekend_als_herstel_eigen_aannemer",
-  //             colour: "purple",
-  //             units: "toegekend als HEA",
-  //           },
-  //           {
-  //             label: "Afgewezen",
-  //             column: "maatwerk_afgewezen",
-  //             colour: "orange",
-  //             scale: "null",
-  //             format: "",
-  //             excludeFromTable: true,
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "maatwerk_toegekend",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //         label: "besluiten",
-  //         normalized: false,
-  //       },
-  //     },
-  //   ],
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
-  //   segment: {
-  //     key: "maatwerk_toegekend_cumulatief",
-  //     cumulative: true,
-  //     periodization: "weekly",
-  //   },
-  // },
+  {
+    slug: "maatwerk_toegekend",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
+      {
+        slug: "fs_maatwerk_numbers_toekenningen_v1",
+        ctrlr: "NumbersMultiplesV1",
+        args: [],
+        filters: [],
+        multiples: "cumulative",
+        parameters: [
+          [
+            {
+              label: "Toegekend als maatwerk",
+              column: "toegekend_mv",
+              colour: "moss",
+              units: "toegekend als maatwerk",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Toegekend als HEA",
+              column: "toegekend_hea",
+              colour: "purple",
+              units: "toegekend als HEA",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Toegekend als HAI",
+              column: "toegekend_hai",
+              colour: "blue",
+              units: "toegekend als HAI",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Afgewezen",
+              column: "afgewezen",
+              colour: "orange",
+              units: "afgewezen",
+              excludeFromTable: true,
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+          ],
+          [],
+        ],
+        segment: {
+          key: "beschikt",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "fs_maatwerk_toegekend_taart",
+        ctrlr: "PieChartSumV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Toegekend als MW",
+              column: "toegekend_mv",
+              colour: "moss",
+              units: "toegekend als MW",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
+              label: "Toegekend als HEA",
+              column: "toegekend_hea",
+              colour: "purple",
+              units: "toegekend als HEA",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
+              label: "Toegekend als HAI",
+              column: "toegekend_hai",
+              colour: "blue",
+              units: "toegekend als HAI",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
+              label: "Afgewezen",
+              column: "afgewezen",
+              colour: "orange",
+              scale: "null",
+              format: "",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+          ],
+          [
+            {
+              label: "Besluiten",
+              column: "beschikt",
+              colour: "gray",
+              scale: "null",
+              format: "",
+              excludeFromTable: true,
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+          ],
+        ],
+        segment: {
+          key: "beschikt",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "fs_maatwerk_toegekend_trend",
+        ctrlr: "BarTrendStackedMakeup",
+        filters: ["absoluteVsNormalized", "weekVsMonth"],
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Toegekend als MW",
+              column: "toegekend_mv",
+              colour: "moss",
+              units: "toegekend als MW",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
+              label: "Toegekend als HAI",
+              column: "toegekend_hai",
+              colour: "blue",
+              units: "toegekend als HAI",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
+              label: "Toegekend als HEA",
+              column: "toegekend_hea",
+              colour: "purple",
+              units: "toegekend als HEA",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
+              label: "Afgewezen",
+              column: "afgewezen",
+              colour: "orange",
+              scale: "null",
+              format: "",
+              excludeFromTable: true,
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+          ],
+        ],
+        segment: {
+          key: "toegekend",
+          cumulative: false,
+          periodization: "monthly",
+          label: "besluiten",
+          normalized: false,
+        },
+      },
+    ],
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+    segment: {
+      key: "toegekend",
+      cumulative: true,
+      periodization: "weekly",
+    },
+  },
   // // termijn
-  // {
-  //   slug: "maatwerk_binnen_buiten",
-  //   ctrlr: "DefaultGroupV1",
-  //   filters: [],
-  //   graphs: [
-  //     {
-  //       slug: "fs_maatwerk_binnen_termijn",
-  //       ctrlr: "PieChartSumV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Binnen termijn",
-  //             column: "maatwerk_beschikt_binn_termijn_cumulatief",
-  //             colour: "moss",
-  //             scale: "null",
-  //             format: "",
-  //           },
-  //           {
-  //             label: "Buiten termijn",
-  //             column: "maatwerk_beschikt_buiten_termijn_cumulatief",
-  //             colour: "orange",
-  //             scale: "null",
-  //             format: "",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Besluiten",
-  //             column: "maatwerk_beschikt_cumulatief",
-  //             colour: "gray",
-  //             scale: "null",
-  //             format: "",
-  //           },
-  //         ],
-  //       ],
-  //     },
-  //     {
-  //       slug: "binnen_termijn_trend",
-  //       ctrlr: "BarTrendV1",
-  //       args: [],
-  //       filters: [],
-  //       header: "Percentage beschikt binnen termijn",
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Beschikt binnen termijn",
-  //             column: "maatwerk_beschikt_binn_termijn_perc",
-  //             colour: "orange",
-  //             format: "percentage",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "maatwerk_beschikt_binn_termijn_perc",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "maatwerk_beschikt_binn_termijn_perc",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: ["fysiek_maatwerk_wekelijks", "fysiek_maatwerk_maandelijks"],
-  // },
+  {
+    slug: "maatwerk_binnen_buiten",
+    ctrlr: "DefaultGroupV1",
+    filters: [],
+    graphs: [
+      {
+        slug: "fs_maatwerk_binnen_termijn",
+        ctrlr: "PieChartSumV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Binnen termijn",
+              column: "beschikt_binn_termijn",
+              colour: "moss",
+              scale: "null",
+              format: "",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
+              label: "Buiten termijn",
+              column: "beschikt_buit_termijn",
+              colour: "orange",
+              scale: "null",
+              format: "",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+          ],
+          [
+            {
+              label: "Besluiten",
+              column: "beschikt",
+              colour: "gray",
+              scale: "null",
+              format: "",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+          ],
+        ],
+      },
+      {
+        slug: "binnen_termijn_trend",
+        ctrlr: "BarTrendV1",
+        args: [],
+        filters: [],
+        header: "Percentage beschikt binnen termijn",
+        parameters: [
+          [
+            {
+              label: "Beschikt binnen termijn",
+              column: "beschikt_binn_termijn_cumul_perc",
+              colour: "orange",
+              format: "percentage",
+              // modifiers: { cumul: "_cumul_perc", delta: "_perc" }
+            },
+          ],
+        ],
+        modifiers: [],
+        segment: {
+          key: "beschikt_binn_termijn_cumul_perc",
+          cumulative: false,
+          periodization: "monthly",
+        },
+      },
+    ],
+    segment: {
+      key: "beschikt_binn_termijn_cumul_perc",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+  },
   // // duur
   // {
   //   slug: "maatwerk_duur",

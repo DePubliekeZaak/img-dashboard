@@ -81,8 +81,6 @@ export default class ChartBarTrend {
       }
     };
 
-    console.log("BW", data[0].meta)
-
     let barWidth = data[0].meta._isNewApi || data[0].meta._isNewApi == ""
   ? this.ctrlr.scales.x.bandwidth!() - 1  
   : (this.ctrlr.dimensions.coreWidth / (data.length)) - 2;

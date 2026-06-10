@@ -81,8 +81,6 @@ export default class ChartBarTrendKTOV1 {
 
         bars
             .attr("x", (d: TrendBar, i: number)  => {
-
-                console.log(d)
                 return self.ctrlr.scales.x.fn(d.date)
             })
      

@@ -25,7 +25,6 @@ const pageConfig: IPageConfig = {
       {
         slug: "all_total_numbers",
         ctrlr: "NumbersV1",
-
         args: [],
         parameters: [
           [

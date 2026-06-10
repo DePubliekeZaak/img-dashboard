@@ -1,6 +1,5 @@
 import {
   incVsCum,
-  incVsCum2,
   pieParts,
   tables,
 } from "../../shared/data.factory";
@@ -68,7 +67,7 @@ export class MuniGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(_data);
 
-    const { incremental, cumulative } = incVsCum2(graphDataWeek, this.config);
+    const { incremental, cumulative } = incVsCum(graphDataWeek, graphParams);
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
 
     const numbers =
@@ -83,8 +82,10 @@ export class MuniGroupV1 extends GroupControllerV1 {
       (g) => g.ctrlr === "PieChartSumV1",
     );
     if (pieChartIndex !== -1) {
-      pies = pieParts(graphDataWeek, this.config.graphs, pieChartIndex);
+      pies = pieParts(this.group, graphDataWeek, this.config.graphs, pieChartIndex);
     }
+
+
 
     const pre_headers = preHeaders(this.config.graphs, this.segment);
 

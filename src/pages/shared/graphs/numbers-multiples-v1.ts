@@ -6,12 +6,13 @@ import type { DataObject, Segment } from "../types";
 import {
   getGraphSegment,
   getActiveColumn,
+  getGroupSegment,
 } from "../../../stores/segment.store";
 
 export class NumbersMultiplesV1 extends core.GraphControllerV3 {
-  el;
-  number;
-  header;
+  el!: HTMLElement;
+  number!: any;
+  header!: HTMLElement;
 
   constructor(
     public slug: string,
@@ -99,8 +100,8 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3 {
 
   prepareData(data: DataObject): DataObject {
 
-    console.log("MULTIPLE", this.segment)
-    data.numbers = this.segment!.cumulative ? data.cumulative : data.incremental;
+    const segment = getGroupSegment(this.group.slug)
+    data.numbers = segment!.cumulative ? data.cumulative : data.incremental;
     return data;
   }
 

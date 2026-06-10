@@ -25,7 +25,7 @@ export class BarTrendBedragenV2 extends core.GraphControllerV3 {
   bottomAxis;
   leftAxis;
 
-  legend;
+  legend: any;
 
   constructor(
     public slug: string,
