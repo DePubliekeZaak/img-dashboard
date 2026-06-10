@@ -98,6 +98,50 @@ const rowing = (data: any, tableParams: any) => {
 
 }
 
+const ktoRowing = (data: any, tableParams: any) => {
+
+  const inc: string[][] = []; 
+  const cumul: string[][] = []; 
+
+  for (let period of data) {
+
+    const incRow: string[] = [];
+    const cumulRow: string[] = [];
+    incRow.push(period._year);
+    incRow.push(period.completed_month);
+    // cumulRow.push(period._year);
+    // cumulRow.push(period.completed_month);
+
+    for (const p of tableParams) {
+
+      // if (p.column.includes("_cumul")) { 
+      //   if (p.format === "currency") {
+      //     cumulRow.push(convertToCurrencyInTable(period[p.column]));
+      //   } else if (p.format === "percentage") {
+      //     cumulRow.push((Math.round(period[p.column] * 10) / 10).toFixed(1) + "%");
+      //   } else {
+      //     cumulRow.push(period[p.column]);
+      //   }
+      // } else {
+          if (p.format === "currency") {
+          incRow.push(convertToCurrencyInTable(period[p.column]));
+        } else if (p.format === "percentage") {
+          incRow.push((Math.round(period[p.column] * 10) / 10).toFixed(1) + "%");
+        } else {
+          incRow.push(period[p.column]);
+        }
+      // }
+    }
+
+
+    if (incRow.length > 3) inc.push(incRow);
+    // if (cumulRow.length > 3) cumul.push(cumulRow);
+  }
+
+  return { inc, cumul } 
+
+}
+
 export const tables = (
 
   graphDataWeek: any[],
@@ -160,6 +204,73 @@ export const tables = (
     monthTableInc,
     weekTableCumul,
     monthTableCumul,
+    showToggle: graphDataWeek.length > 0 && graphDataMonth.length > 0,
+    hasAny: graphDataWeek.length > 0 || graphDataMonth.length > 0,
+  };
+};
+
+export const ktoTables = (
+
+  graphDataWeek: any[],
+  graphDataMonth: any[],
+  tableParams: any[],
+  pre_headers?: any[][],
+) => {
+
+  graphDataMonth.sort((a, b) => b._yearmonth.localeCompare(a._yearmonth));
+  // graphDataWeek.sort((a, b) => b._yearweek.localeCompare(a._yearweek));
+
+  // const { inc: weekRowsInc, cumul: weekRowsCumul} = ktoRowing(graphDataWeek, tableParams)
+  const { inc: monthRowsInc, cumul: monthRowsCumul} = ktoRowing(graphDataMonth, tableParams)
+
+  // Build weekTable only if week data exists
+  // const weekTableInc = graphDataWeek.length > 0
+  //   ? {
+  //       pre_headers: pre_headers !== null ? pre_headers![0] : [],
+  //       headers: ["Jaar", "Week", "Periode"].concat(
+  //         tableParams.filter( p => !p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
+  //       ),
+  //       rows: weekRowsInc,
+  //     }
+  //   : null;
+
+
+  // const weekTableCumul = graphDataWeek.length > 0
+  //   ? {
+  //       pre_headers: pre_headers !== null ? pre_headers![0] : [],
+  //       headers: ["Jaar", "Week"].concat(
+  //         tableParams.filter( p => p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
+  //       ),
+  //       rows: weekRowsCumul,
+  //     }
+  //   : null;
+
+    // Build monthTable only if month data exists
+  const monthTableInc = graphDataMonth.length > 0
+    ? {
+        pre_headers: pre_headers !== null ? pre_headers![1] : [],
+        headers: ["Jaar", "Maand"].concat(
+          tableParams.filter( p => !p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
+        ),
+        rows: monthRowsInc,
+      }
+    : null;
+
+  // const monthTableCumul = graphDataMonth.length > 0
+  //   ? {
+  //       pre_headers: pre_headers !== null ? pre_headers![1] : [],
+  //       headers: ["Jaar", "Maand"].concat(
+  //         tableParams.filter( p => p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
+  //       ),
+  //       rows: monthRowsCumul,
+  //     }
+  //   : null;
+
+  return {
+    // weekTableInc,
+    monthTableInc,
+    // weekTableCumul,
+    // monthTableCumul,
     showToggle: graphDataWeek.length > 0 && graphDataMonth.length > 0,
     hasAny: graphDataWeek.length > 0 || graphDataMonth.length > 0,
   };

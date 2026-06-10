@@ -225,7 +225,7 @@ const config = (env) => {
     },
     devServer: {
       open: false,
-      port: 4445,
+      port: 4446,
       hot: true,
       client: {
         overlay: true,

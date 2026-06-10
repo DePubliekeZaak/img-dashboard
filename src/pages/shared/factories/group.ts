@@ -13,23 +13,7 @@ export const relyOnCompleted = (
   for (const period of JSON.parse(JSON.stringify(filteredData))) {
     const row: string[] = [];
     row.push(period._year);
-    const start = new Date(period._einddatum);
-    const startDate = new Date(
-      start.getTime() + 24 * 60 * 60 * 1000,
-    ).toLocaleDateString("nl-NL", { day: "2-digit", month: "2-digit" });
-
-    if (i > 0) {
-      row.push(
-        startDate +
-          " t/m " +
-          new Date(filteredData[i - 1]._einddatum).toLocaleDateString("nl-NL", {
-            day: "2-digit",
-            month: "2-digit",
-          }),
-      );
-    } else {
-      row.push(startDate + " t/m ...");
-    }
+    row.push(period.completed_month);
 
     for (const p of tableParams) {
       if (p.format === "currency") {
@@ -49,6 +33,7 @@ export const relyOnCompleted = (
         }
       } else {
         if (period[p.column] !== null) {
+          console.log(period,p.column);
           row.push(period[p.column].toFixed(0));
         } else {
           row.push("0");
@@ -61,20 +46,20 @@ export const relyOnCompleted = (
       rows.push(row);
     }
 
-    period["_startdatum"] = new Date(
-      start.getTime() + 24 * 60 * 60 * 1000,
-    ).toLocaleDateString("nl-NL", {
-      day: "2-digit",
-      month: "2-digit",
-    });
-    if (i > 0) {
-      period["_einddatum"] = new Date(
-        filteredData[i - 1]._einddatum,
-      ).toLocaleDateString("nl-NL", {
-        day: "2-digit",
-        month: "2-digit",
-      });
-    }
+    // period["_startdatum"] = new Date(
+    //   start.getTime() + 24 * 60 * 60 * 1000,
+    // ).toLocaleDateString("nl-NL", {
+    //   day: "2-digit",
+    //   month: "2-digit",
+    // });
+    // if (i > 0) {
+    //   period["_einddatum"] = new Date(
+    //     filteredData[i - 1]._einddatum,
+    //   ).toLocaleDateString("nl-NL", {
+    //     day: "2-digit",
+    //     month: "2-digit",
+    //   });
+    // }
 
     alteredData.push(period);
 

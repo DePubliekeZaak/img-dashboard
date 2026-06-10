@@ -4,7 +4,7 @@ import type { TrendBar } from "../../pages/shared/types_graphs";
 import type { IGraphControllerV3 } from "../core/graph-v3";
 
 export default class ChartBarTrendV2 {
-  slug;
+  slug!: string;
 
   constructor(private ctrlr: IGraphControllerV3) {}
 
@@ -21,14 +21,14 @@ export default class ChartBarTrendV2 {
       .selectAll("g." + groupSlug)
       .data([groupSlug])
       .join("g")
-      .attr("class", (d) => d);
+      .attr("class", (d: any) => d);
 
     // if there is a select option dont use the extra class
     const bars = group
       .selectAll(".bar." + this.slug)
-      .data(data, (d) => d.date)
+      .data(data, (d: any) => d.date)
       .join("rect")
-      .attr("class", (d) => "bar " + this.slug)
+      .attr("class", (d: any) => "bar " + this.slug)
       .attr("y", this.ctrlr.dimensions.svgHeight)
       .attr("height", 0);
   }
@@ -42,7 +42,7 @@ export default class ChartBarTrendV2 {
 
     const bars = group.selectAll(".bar." + this.slug);
 
-    const tooltip = function popup(d) {
+    const tooltip = function popup(d: any) {
       if (period === "weekly") {
         return `
                   
@@ -79,19 +79,19 @@ export default class ChartBarTrendV2 {
       .attr("width", barWidth)
       .transition()
       .duration(300)
-      .attr("y", (d) => this.ctrlr.scales.y.fn(d.value))
-      .attr("height", (d) => {
+      .attr("y", (d: any) => this.ctrlr.scales.y.fn(d.value))
+      .attr("height", (d: any) => {
         const h =
           this.ctrlr.dimensions.svgHeight - this.ctrlr.scales.y.fn(d.value);
         return h > 0 ? h : 0;
       })
-      .attr("fill", (d) => colours[d.colour][1]);
+      .attr("fill", (d: any) => colours[d.colour][1]);
 
     bars
       .on("mouseover", (event: any, d: any) => {
         this.ctrlr.svg.layers.data
           .selectAll(".bar")
-          .style("fill", (b) =>
+          .style("fill", (b: any) =>
             b !== d ? colours[b.colour][1] : colours[b.colour][0],
           );
 
@@ -115,10 +115,10 @@ export default class ChartBarTrendV2 {
           t.style("right", w - event.pageX + 0 + "px").style("left", "auto");
         }
       })
-      .on("mouseout", (d) => {
+      .on("mouseout", (d: any) => {
         this.ctrlr.svg.layers.data
           .selectAll(".bar")
-          .style("fill", (b) => colours[b.colour][1]);
+          .style("fill", (b: any) => colours[b.colour][1]);
 
         window.d3
           .select(".tooltip")

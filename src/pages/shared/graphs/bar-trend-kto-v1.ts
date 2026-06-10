@@ -1,6 +1,6 @@
 import { core, elements } from "../../../charts";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { createBars } from "../data.format.factory";
+import { createBars, createBarsForKTO } from "../data.format.factory";
 import { parseSegment } from "../factories/segment";
 import { trimStart } from "../factories/trend";
 import type { GroupObject, IParameterMapping } from "../interfaces";
@@ -9,11 +9,11 @@ import type { DataObject, Segment } from "../types";
 import type { TrendBar } from "../types_graphs";
 
 export class BarTrendKTOV1 extends core.GraphControllerV3 {
-  scrollingContainer;
-  chartBarTrend;
-  legend;
-  arrowX;
-  arrowY;
+  scrollingContainer!: any;
+  chartBarTrend!: any;
+  legend!: any;
+  arrowX!: any;
+  arrowY!: any;
 
   constructor(
     public slug: string,
@@ -86,7 +86,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     if (this.scrollingContainer !== null)
       await super._svg(this.scrollingContainer);
 
-    this.chartBarTrend = new elements.ChartBarTrend(this);
+    this.chartBarTrend = new elements.ChartBarTrendKTOV1(this);
     await this.update(this.group.data, false);
 
     return;
@@ -102,7 +102,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
 
     for (const pg of this.parameters) {
       for (const p of pg) {
-        data[p.column] = createBars(
+        data[p.column] = createBarsForKTO(
           p.column,
           p,
           data.graphDataMonth,
@@ -119,10 +119,10 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
   }
 
   async redraw(data: any) {
-    this.scales.x.set(data[this.segment!.key].map((d) => d.date));
+    this.scales.x.set(data[this.segment!.key].map((d: any) => d.date));
     this.scales.y.set(
       data[this.segment!.key]
-        .map((d) => (d.value < 0 ? 0 : d.value))
+        .map((d: any) => (d.value < 0 ? 0 : d.value))
         .concat([0, 10]),
     );
 

@@ -7,16 +7,16 @@ import {
 import type { Segment } from "../../pages/shared/types";
 
 export default class ChartStackedBarsV2 {
-  bars;
-  barsEnter;
+  bars: any;
+  barsEnter: any;
 
-  barLabels;
-  barLabelsEnter;
+  barLabels: any;
+  barLabelsEnter: any;
 
-  group;
-  series;
+  group: any;
+  series: any;
 
-  constructor(private ctrlr) {}
+  constructor(private ctrlr: any) {}
 
   draw(data) {
     this.series = this.ctrlr.svg.layers.data
@@ -74,8 +74,8 @@ export default class ChartStackedBarsV2 {
             ]) {
               const c =
                 segment && segment.cumulative
-                  ? map.column + "_cumulatief"
-                  : map.column;
+                  ? map.column + "_cumul"
+                  : map.column + "_aantal"
               let v = d.data[c];
               v = v === null ? 0 : v;
 

@@ -1,4 +1,4 @@
-import { tables } from "./data.factory";
+import { ktoTables, tables } from "./data.factory";
 import { relyOnCompleted } from "./factories/group";
 import { GroupControllerV1 } from "./group-v1";
 import { HTMLSourceV2 } from "./html/html-source-v2";
@@ -43,12 +43,12 @@ export class KTOGroupV1 extends GroupControllerV1 {
       graphParams,
     );
 
-    const monthTable = {
-      headers: ["Jaar", "Periode"].concat(tableParams.map((p) => p.label)),
-      rows,
-    };
+    // const monthTable = {
+    //   headers: ["Jaar", "Maand"].concat(tableParams.map((p: any) => p.label)),
+    //   rows,
+    // };
 
-    const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul} = tables(
+    const { monthTableInc} = ktoTables(
       graphDataWeek,
       graphDataMonth,
       tableParams,
@@ -61,7 +61,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
       weekTableInc: [], 
       monthTableInc, 
       weekTableCumul: [], 
-      monthTableCumul,
+      monthTableCumul: [],
       timeline,
       definitions,
     };

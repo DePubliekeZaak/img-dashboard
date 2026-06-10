@@ -16,10 +16,10 @@ interface StackDataItem {
 }
 
 export class BarTrendStackedMakeup extends core.GraphControllerV3 {
-  chartBars;
-  legend;
-  arrowY;
-  scrollingContainer;
+  chartBars: any;
+  legend: any;
+  arrowY: any;
+  scrollingContainer: any;
 
   constructor(
     public slug: string,
@@ -192,15 +192,15 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     const segment = this.segment;
     if (!segment) return;
 
-    this.scales.x.set(data.stacked[0].map((d) => d.data.date));
+    this.scales.x.set(data.stacked[0].map((d: any) => d.data.date));
     this.scales.y.set(
       data.stacked[data.stacked.length - 1]
-        .map((d) => (d[1] < 0 ? 0 : d[1]))
+        .map((d: any) => (d[1] < 0 ? 0 : d[1]))
         .concat([0]),
     );
     this.scales.y2.set(
       data.stacked[data.stacked.length - 1]
-        .map((d) => (d[1] < 0 ? 0 : d[1]))
+        .map((d: any) => (d[1] < 0 ? 0 : d[1]))
         .concat([0]),
     );
     await super.redraw(data.stacked);

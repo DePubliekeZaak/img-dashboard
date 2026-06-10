@@ -3,6 +3,7 @@ import { AxisArrow } from "./elements/axis-arrow";
 import { ChartBandBar } from "./elements/chart-band-bars";
 import ChartBarTrend from "./elements/chart-bar-trend";
 import ChartBarTrendV2 from "./elements/chart-bar-trend-v2";
+import ChartBarTrendKTOV1 from './elements/chart-bar-trend-kto-v1';
 import ChartBarTrendwithNumber from "./elements/chart-bar-trend-with-number";
 import { ChartBarsHorizontalV1 } from "./elements/chart-bars-horizontal-v1";
 import { ChartBlocksV1 } from "./elements/chart-blocks-v1";
@@ -26,6 +27,7 @@ export const core = {
 export const elements = {
   ChartBarTrend,
   ChartBarTrendV2,
+  ChartBarTrendKTOV1,
   ChartBarTrendwithNumber,
   ChartBarsHorizontalV1,
   ChartStackedBars,

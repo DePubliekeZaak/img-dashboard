@@ -1,5 +1,5 @@
 import { thousands } from "../_helpers";
-import { TableData } from "../types";
+import { Segment, TableData } from "../types";
 import { createTable, createToggler, populateTable, getState } from "./table.factory";
 
 export class HTMLTables {
@@ -18,8 +18,8 @@ export class HTMLTables {
 
   constructor(
     private ctrlr: any,
-    private parentElement: any,
-    private segment: any,
+    private parentElement: HTMLElement,
+    private segment: Segment,
   ) {
     this.init();
   }

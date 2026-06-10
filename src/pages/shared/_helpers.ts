@@ -35,6 +35,7 @@ export const defaultColumns = [
   "gemeente",
   "periodization",
   "complete",
+  "completed_month"
 ];
 
 export const trimColumnsAndOrder = (json: any, neededColumns: string[]) => {

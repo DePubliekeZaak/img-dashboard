@@ -32,7 +32,7 @@ export const uniquesWithCount = (
   data: any[],
   key: string,
 ): { [key: string]: number } => {
-  const o = {};
+  const o: any = {};
   const uniques: (string | number)[] = [];
 
   for (const report of data) {
@@ -78,7 +78,7 @@ export const formatLines = (
 
     for (const year of filterUnique(data, "year").slice()) {
       const object = data.find(
-        (r) => r[keyForLine] === unique && r.year === year,
+        (r: any) => r[keyForLine] === unique && r.year === year,
       );
       const value = object !== undefined ? object[keyForValue] : 0;
       const label =
@@ -136,6 +136,32 @@ export const createBars = (
   }
 
   // console.log(bs);
+
+  return bs;
+};
+
+export const createBarsForKTO = (
+  prop: string,
+  param: IParameterMapping,
+  data: KeyValue[],
+  segment: Segment,
+) => {
+  const bs: TrendBar[] = [];
+
+  const periodKey =
+    segment.periodization == "monthly" ? "_yearmonth" : "_yearweek";
+
+  for (let period of data) {
+    bs.push({
+      label: param?.label || "",
+      name: "main",
+      date: period._year + "_" + period.completed_month.toString(),
+      colour: param != undefined ? param.colour : "orange",
+      meta: period,
+      value: period[prop] == null ? 0 : parseFloat(period[prop].toString()),
+      format: param?.format || undefined,
+    });
+  }
 
   return bs;
 };
