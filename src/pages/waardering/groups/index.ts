@@ -1,4 +1,4 @@
-import { DefaultGroupV1 } from "../../shared/default-group-v1";
+import { DefaultGroupV1 } from "../../../shared/default-group-v1";
 import { GeaggregeerdV1 } from "./geaggregeerd-v1";
 import { IntroGroupV1 } from "./intro-group-v1";
 import { KTOGroupV1 } from "./kto-group-v1";

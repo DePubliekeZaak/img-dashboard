@@ -1,9 +1,9 @@
-import { tables } from "../../shared/data.factory";
-import { preHeaders } from "../../shared/factories/pre_headers";
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import type { IGroupMappingV2 } from "../../shared/interfaces";
-import type { ImgData } from "../../shared/types";
+import { tables } from "../../../shared/data.factory";
+import { preHeaders } from "../../../shared/factories/pre_headers";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
+import type { IGroupMappingV2 } from "../../../shared/interfaces";
+import type { ImgData } from "../../../shared/types";
 
 const domeinPrefixMap: Record<string, string> = {
   FYSIEK: "fs",

@@ -1,19 +1,19 @@
-import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { filterUnique } from "../../shared/data.format.factory";
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+import { convertToCurrencyInTable } from "../../../shared/_helpers";
+import { filterUnique } from "../../../shared/data.format.factory";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
 import {
   type IGroupMappingV2,
   IParameterMapping,
-} from "../../shared/interfaces";
-import { DataObject, type ImgData } from "../../shared/types";
+} from "../../../shared/interfaces";
+import { DataObject, type ImgData } from "../../../shared/types";
 import {
   Bar,
   Bars,
   Line,
   PiePart,
   type TableData,
-} from "../../shared/types_graphs";
+} from "../../../shared/types_graphs";
 
 export class GeaggregeerdV1 extends GroupControllerV1 {
   constructor(

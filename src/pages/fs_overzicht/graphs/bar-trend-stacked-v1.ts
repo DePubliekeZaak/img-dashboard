@@ -1,10 +1,10 @@
 import { core, elements } from "../../../charts";
-import { AxisArrow } from "../../../charts/elements/axis-arrow";
+import { AxisArrow } from "../../../charts/renderers/axis-arrow";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { parseSegment } from "../../shared/factories/segment";
-import type { GroupObject, IParameterMapping } from "../../shared/interfaces";
-import type { IPageController } from "../../shared/page.controller";
-import type { DataObject, Segment } from "../../shared/types";
+import { parseSegment } from "../../../shared/factories/segment";
+import type { GroupObject, IParameterMapping } from "../../../shared/interfaces";
+import type { IPageController } from "../../../shared/page.controller";
+import type { DataObject, Segment } from "../../../shared/types";
 
 export class BarTrendStackedV1 extends core.GraphControllerV3 {
   scrollingContainer;

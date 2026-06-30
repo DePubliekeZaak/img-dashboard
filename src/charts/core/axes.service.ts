@@ -4,9 +4,9 @@ import {
   convertToCurrencyInMillions,
   convertToMillions,
   thousands,
-} from "../../pages/shared/_helpers";
-import { DataPart, type Segment } from "../../pages/shared/types";
-import { Bars } from "../../pages/shared/types_graphs";
+} from "../../shared/_helpers";
+import { DataPart, type Segment } from "../../shared/types";
+import { Bars } from "../../shared/types_graphs";
 import { localTime, monthAbbrevs, monthNames } from "./_formats";
 import type { Dimensions } from "./types";
 export class AxesService {

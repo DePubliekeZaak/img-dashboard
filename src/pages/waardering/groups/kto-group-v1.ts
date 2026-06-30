@@ -1,9 +1,9 @@
-import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import type { IGroupMappingV2 } from "../../shared/interfaces";
-import type { ImgData } from "../../shared/types";
-import type { TableData } from "../../shared/types_graphs";
+import { convertToCurrencyInTable } from "../../../shared/_helpers";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
+import type { IGroupMappingV2 } from "../../../shared/interfaces";
+import type { ImgData } from "../../../shared/types";
+import type { TableData } from "../../../shared/types_graphs";
 
 export class KTOGroupV1 extends GroupControllerV1 {
   constructor(

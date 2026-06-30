@@ -1,5 +1,5 @@
-import { DefaultGroupV1 } from "../../shared/default-group-v1";
-import { KTOGroupV1 } from "../../shared/kto-group-v1";
+import { DefaultGroupV1 } from "../../../shared/default-group-v1";
+import { KTOGroupV1 } from "../../../shared/kto-group-v1";
 import { ComparisonGroupV1 } from "./comparison-group";
 import { DomainComparisonGroupV1 } from "./domain-comparison-group";
 

@@ -1,23 +1,23 @@
 import { core, elements } from "../../../charts";
 import { KeyValue } from "../../../charts/core/types";
 import { breakpoints } from "../../../img-modules/styleguide";
-import { createBars } from "../../shared/data.format.factory";
-import { parseSegment } from "../../shared/factories/segment";
-import { HtmlLegendCustom } from "../../shared/html/html-legend-custom";
-import { HtmlRadio } from "../../shared/html/html-radio";
+import { createBars } from "../../../shared/data.format.factory";
+import { parseSegment } from "../../../shared/factories/segment";
+import { HtmlLegendCustom } from "../../../charts/renderers/html-legend-custom";
+import { HtmlRadio } from "../../../widgets/html-radio";
 import {
   type GroupObject,
   IGraphMappingV2,
   type IParameterMapping,
-} from "../../shared/interfaces";
-import type { IPageController } from "../../shared/page.controller";
+} from "../../../shared/interfaces";
+import type { IPageController } from "../../../shared/page.controller";
 import {
   type DataObject,
   DataPart,
   ImgData,
   type Segment,
-} from "../../shared/types";
-import { TrendBar } from "../../shared/types_graphs";
+} from "../../../shared/types";
+import { TrendBar } from "../../../shared/types_graphs";
 
 export class BarTrendV1 extends core.GraphControllerV3 {
   chartAxis;

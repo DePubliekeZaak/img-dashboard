@@ -1,4 +1,4 @@
-import type { IPageConfig } from "../shared/interfaces";
+import type { IPageConfig } from "../../shared/interfaces";
 
 const pageConfig: IPageConfig = {
   slug: "gemeente",

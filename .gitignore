@@ -11,3 +11,5 @@ public/styles
 bundle.js
 deploy.sh
 
+src/pages/shared/geodata.ts
+assets

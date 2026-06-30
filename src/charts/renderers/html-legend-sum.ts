@@ -1,0 +1,136 @@
+import { IParameterMapping } from "../../charts/core/types";
+import { breakpoints, colours } from "../../img-modules/styleguide";
+import { convertToCurrencyInTable, thousands } from "../../shared/_helpers";
+import type { PiePart } from "../../shared/types_graphs";
+
+export default class HtmlLegendAsSum {
+  rowHeight = 22;
+  legend;
+
+  constructor(
+    private ctrlr,
+    private withPercentage?: boolean,
+  ) {}
+
+  draw(data: PiePart[]) {
+    this.ctrlr.element.querySelector(".legend")?.remove();
+
+    const legend = document.createElement("div");
+    legend.classList.add("legend");
+    legend.style.display = "flex";
+    legend.style.flexDirection =
+      window.innerWidth < breakpoints.xsm ? "column" : "column";
+    legend.style.paddingBottom =
+      window.innerWidth < breakpoints.xsm
+        ? this.ctrlr.config.padding.left + "px"
+        : "0";
+    legend.style.justifyContent = "center";
+    legend.style.width = "360px";
+
+    const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
+
+    if (window.innerWidth < breakpoints.sm) {
+      legend.style.width = "calc(100vw - 2rem)";
+      legend.style.marginLeft = "-1rem";
+    }
+
+    data.forEach((map: PiePart, i: number, data: PiePart[]) => {
+      if (map.value !== undefined) {
+        tbody.appendChild(this.createRow(map, i, data));
+      }
+    });
+
+    table.appendChild(tbody);
+    legend.appendChild(table);
+
+    this.ctrlr.element.appendChild(legend); // insertBefore(legend,this.ctrlr.element.querySelector('svg'))
+
+    return legend;
+  }
+
+  createRow(map: PiePart, index: number, data: PiePart[]): HTMLDivElement {
+    const row = document.createElement("tr");
+    if (index === data.length - 1) {
+      row.classList.add("top_border");
+    } else {
+      row.classList.add("no_border");
+    }
+
+    const colour = document.createElement("td");
+    colour.appendChild(this.createCircle(map));
+    row.appendChild(colour);
+
+    const label = document.createElement("td");
+    label.innerText = map.label;
+    row.appendChild(label);
+
+    const vEl = document.createElement("td");
+
+    switch (map.format) {
+      case "currency":
+        vEl.innerText = convertToCurrencyInTable(map.value);
+        break;
+
+      case "percentage":
+        vEl.innerText = (Math.round(10 * map.value) / 10).toString() + "%";
+        break;
+
+      default:
+        vEl.innerText = thousands(map.value).toString();
+    }
+
+    if (this.withPercentage) {
+      const total = data[data.length - 1].value;
+      const percentage = Math.round((1000 * map.value) / total) / 10;
+      vEl.innerText = vEl.innerText + " (" + percentage + "%)";
+    }
+
+    row.appendChild(vEl);
+
+    return row;
+  }
+
+  createDiv(): HTMLDivElement {
+    const item = document.createElement("div");
+    item.style.display = "flex";
+    item.style.flexDirection = "row";
+    item.style.alignItems = "center";
+    item.style.marginBottom = window.innerWidth > 700 ? ".5rem" : ".5rem";
+
+    return item;
+  }
+
+  createCircle(map: PiePart): HTMLSpanElement {
+    const circle = document.createElement("span");
+    circle.style.width = window.innerWidth > 700 ? "1rem" : ".5rem";
+    circle.style.height = window.innerWidth > 700 ? "1rem" : ".5rem";
+    circle.style.borderRadius = "50%";
+    circle.style.marginRight = window.innerWidth > 700 ? ".5rem" : ".25rem";
+    circle.style.display = "flex";
+    circle.style.background =
+      map["colour"] !== undefined ? colours[map["colour"]][1] : "#eee";
+    circle.style.borderWidth = "1px";
+    circle.style.borderColor =
+      map["colour"] !== undefined ? colours[map["colour"]][0] : "#ccc";
+    circle.style.borderStyle = "solid";
+    return circle;
+  }
+
+  createLabel(map: PiePart): HTMLSpanElement {
+    const label = document.createElement("span");
+    const labelText =
+      this.ctrlr.page.main.params.language === "en"
+        ? map["label_en"]
+        : map["label"];
+
+    if (labelText !== undefined) {
+      label.style.fontFamily = "RO Sans Regular";
+      label.style.fontSize = window.innerWidth > 700 ? ".8rem" : ".71em";
+      label.style.lineHeight = "1.33";
+      label.innerText = labelText;
+    }
+
+    return label;
+  }
+}

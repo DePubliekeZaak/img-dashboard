@@ -25,7 +25,6 @@ const init = () => {
   }
 
   if (ENV === "prod") {
-    console.log("loading production stylesheets");
     addStylesheets();
   }
 };

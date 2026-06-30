@@ -1,11 +1,11 @@
 import {
   fixMultiple,
   graphIsMultiple,
-} from "../../pages/shared/factories/multiples";
-import { HtmlFilters } from "../../pages/shared/html/html-filters";
-import type { GroupObject } from "../../pages/shared/interfaces";
-import type { IPageController } from "../../pages/shared/page.controller";
-import type { DataObject, Segment } from "../../pages/shared/types";
+} from "../../shared/factories/multiples";
+import { HtmlFilters } from "../../widgets/html-filters";
+import type { GroupObject } from "../../shared/interfaces";
+import type { IPageController } from "../../shared/page.controller";
+import type { DataObject, Segment } from "../../shared/types";
 import { getGraphSegment } from "../../stores/segment.store";
 import { AxesService } from "./axes.service";
 import { ChartDimensions, type IChartDimensions } from "./chart-dimensions";
@@ -20,6 +20,14 @@ import {
   type IScales,
 } from "./types";
 
+/**
+ * Controllers (subclasses under `charts/controllers/`, both shared and
+ * page-local) own lifecycle and segment/data wiring — construct, prepareData,
+ * draw, redraw, update. Renderers (under `charts/renderers/`) own SVG/DOM
+ * drawing and are shared across multiple controllers — see each controller's
+ * `html()` / `_svg()` for which renderer(s) it uses. Cardinality is many-to-one:
+ * e.g. `ChartBarTrend` renders 6 different controller variants.
+ */
 export type IGraphControllerV3 = {
   element: HTMLElement | null;
   slug: string;

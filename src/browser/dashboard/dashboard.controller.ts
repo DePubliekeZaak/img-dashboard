@@ -158,9 +158,7 @@ export class DashboardController implements IDashboardController {
   _toggleSubMenu(slug: string, isMobile: boolean): void {
     toggleSubMenu(slug, isMobile);
   }
-
   _reloadHtml(): void {
-    console.log(window.innerWidth);
 
     const isMobile = window.innerWidth < breakpoints.bax;
 

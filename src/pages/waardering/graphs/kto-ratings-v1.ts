@@ -1,9 +1,9 @@
 import { core, elements } from "../../../charts";
-import { ChartBarsHorizontalV1 } from "../../../charts/elements/chart-bars-horizontal-v1";
-import type { HtmlNumberCircleRespondents } from "../../../charts/elements/html-number-circle-respondents";
-import type { GroupObject, IParameterMapping } from "../../shared/interfaces";
-import type { IPageController } from "../../shared/page.controller";
-import type { DataObject, Segment } from "../../shared/types";
+import { ChartBarsHorizontalV1 } from "../../../charts/renderers/chart-bars-horizontal-v1";
+import type { HtmlNumberCircleRespondents } from "../../../charts/renderers/html-number-circle-respondents";
+import type { GroupObject, IParameterMapping } from "../../../shared/interfaces";
+import type { IPageController } from "../../../shared/page.controller";
+import type { DataObject, Segment } from "../../../shared/types";
 
 
 export class KTORatingsV1 extends core.GraphControllerV3 {

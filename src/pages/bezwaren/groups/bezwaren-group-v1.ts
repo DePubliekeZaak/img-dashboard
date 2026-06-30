@@ -1,12 +1,12 @@
-import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { filterUnique } from "../../shared/data.format.factory";
-import { GroupControllerV1 } from "../../shared/group-v1";
+import { convertToCurrencyInTable } from "../../../shared/_helpers";
+import { filterUnique } from "../../../shared/data.format.factory";
+import { GroupControllerV1 } from "../../../shared/group-v1";
 import type {
   IGroupMappingV2,
   IParameterMapping,
-} from "../../shared/interfaces";
-import { DataObject, type ImgData } from "../../shared/types";
-import { Bars, type PiePart, type TableData } from "../../shared/types_graphs";
+} from "../../../shared/interfaces";
+import { DataObject, type ImgData } from "../../../shared/types";
+import { Bars, type PiePart, type TableData } from "../../../shared/types_graphs";
 
 export class BezwarenGroupV1 extends GroupControllerV1 {
   circleGroup: any;

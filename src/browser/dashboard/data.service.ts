@@ -1,7 +1,7 @@
 // services/data.service.ts
 import { setData, hasData, clearData, isLoading$ } from '../../stores/data.store';
 import type { Version } from "./types";
-import type { Segment } from "../../pages/shared/types";
+import type { Segment } from "../../shared/types";
 
 export class DataService {
 

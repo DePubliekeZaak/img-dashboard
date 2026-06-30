@@ -1,7 +1,7 @@
 // stores/segment.store.ts
 import { atom } from 'nanostores';
-import type { Segment } from '../pages/shared/types';
-import type { GraphParamEntry } from '../pages/shared/interfaces';
+import type { Segment } from '../shared/types';
+import type { GraphParamEntry } from '../shared/interfaces';
 
 // Singletons across all bundles
 if (!(window as any).__IMG_PAGE_SEGMENT$__) {

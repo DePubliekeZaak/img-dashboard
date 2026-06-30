@@ -1,12 +1,12 @@
 import { ObjectLiteralExpression } from "ts-morph";
-import { convertToCurrencyInTable } from "../../shared/_helpers";
-import { groupByPrefix, tables } from "../../shared/data.factory";
-import { preHeaders } from "../../shared/factories/pre_headers";
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import type { IGroupMappingV2 } from "../../shared/interfaces";
-import type { ImgData } from "../../shared/types";
-import type { TableData } from "../../shared/types_graphs";
+import { convertToCurrencyInTable } from "../../../shared/_helpers";
+import { groupByPrefix, tables } from "../../../shared/data.factory";
+import { preHeaders } from "../../../shared/factories/pre_headers";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
+import type { IGroupMappingV2 } from "../../../shared/interfaces";
+import type { ImgData } from "../../../shared/types";
+import type { TableData } from "../../../shared/types_graphs";
 
 const mapping: Record<string, string> = {
     mw: "MW",
@@ -197,9 +197,20 @@ export class ComparisonGroupV1 extends GroupControllerV1 {
 
 		const periods: any = {};
 
-		for (const row of allRows) {
+		    for (const row of allRows) {
 
-      if (row._sourceRegeling == "unknown") {
+		      // Copy metadata fields from first row so tables()/rowing() can
+		      // derive _year, _week, _startdatum, _einddatum for the table header
+		      if (Object.keys(periods).length === 0) {
+		        periods._year = row._year;
+		        periods._month = row._month;
+		        periods._week = row._week;
+		        periods._startdatum = row._startdatum;
+		        periods._einddatum = row._einddatum;
+		        periods.periode = row.periode;
+		      }
+
+		      if (row._sourceRegeling == "unknown") {
 
         for (const column of Object.values(graphParams).map( (p: any) => p.base.column)) {
           if (row[column] && row[column] !== undefined) periods[column] = row[column]

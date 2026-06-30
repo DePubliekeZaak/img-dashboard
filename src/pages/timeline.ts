@@ -1,4 +1,4 @@
-import type { Timeline } from "./shared/types";
+import type { Timeline } from "../shared/types";
 
 export const timelineList: Timeline[] = [
   {

@@ -2,16 +2,16 @@ import { breakpoints } from "../../../img-modules/styleguide";
 import {
   convertToCurrencyInTable,
   trimColumnsAndOrder,
-} from "../../shared/_helpers";
-import { filterUnique } from "../../shared/data.format.factory";
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
+} from "../../../shared/_helpers";
+import { filterUnique } from "../../../shared/data.format.factory";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
 import {
   type IGroupMappingV2,
   IParameterMapping,
-} from "../../shared/interfaces";
-import { DataObject, type ImgData } from "../../shared/types";
-import { type TableData, TrendBar } from "../../shared/types_graphs";
+} from "../../../shared/interfaces";
+import { DataObject, type ImgData } from "../../../shared/types";
+import { type TableData, TrendBar } from "../../../shared/types_graphs";
 
 export class ProgressGroupV1 extends GroupControllerV1 {
   constructor(

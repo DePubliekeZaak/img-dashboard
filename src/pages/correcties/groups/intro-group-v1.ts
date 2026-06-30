@@ -1,7 +1,7 @@
-import { GroupControllerV1 } from "../../shared/group-v1";
-import type { IGroupMappingV2 } from "../../shared/interfaces";
-import type { ImgData } from "../../shared/types";
-import type { TableData } from "../../shared/types_graphs";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import type { IGroupMappingV2 } from "../../../shared/interfaces";
+import type { ImgData } from "../../../shared/types";
+import type { TableData } from "../../../shared/types_graphs";
 
 export class IntroGroupV1 extends GroupControllerV1 {
   constructor(

@@ -2,13 +2,13 @@ import {
   incVsCum,
   pieParts,
   tables,
-} from "../../shared/data.factory";
-import { preHeaders } from "../../shared/factories/pre_headers";
-import { GroupControllerV1 } from "../../shared/group-v1";
-import { HTMLSourceV2 } from "../../shared/html/html-source-v2";
-import type { IGroupMappingV2 } from "../../shared/interfaces";
-import type { ImgData } from "../../shared/types";
-import type { TableData } from "../../shared/types_graphs";
+} from "../../../shared/data.factory";
+import { preHeaders } from "../../../shared/factories/pre_headers";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
+import type { IGroupMappingV2 } from "../../../shared/interfaces";
+import type { ImgData } from "../../../shared/types";
+import type { TableData } from "../../../shared/types_graphs";
 
 export class MuniGroupV1 extends GroupControllerV1 {
   constructor(
