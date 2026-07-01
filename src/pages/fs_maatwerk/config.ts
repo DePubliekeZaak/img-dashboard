@@ -5,7 +5,7 @@ const REGELING_CODE = "MW";
 
 
 const pageConfig: IPageConfig = {
-  slug: "gemeente",
+  slug: "fs_maatwerk",
   segment: {
     key: "",
     gemeente: "all",
@@ -291,7 +291,7 @@ const pageConfig: IPageConfig = {
               colour: "moss",
               format: "percentage",
               units: "afgehandeld binnen termijn",
-              modifiers: { cumul: "_cumul_perc", delta: "_perc" },
+              modifiers: { cumul: "_cumul_perc", delta: "_cumul_perc" },
             },
             // {
             //   label: "Toegekend als maatwerk",
@@ -542,6 +542,13 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Beschikt binnen termijn",
+              column: "beschikt_binn_termijn_cumul_perc",
+              colour: "orange",
+              format: "percentage",
+              // modifiers: { cumul: "_cumul_perc", delta: "_perc" }
+            },
+            {
+              label: "Beschikt buiten termijn",
               column: "beschikt_binn_termijn_cumul_perc",
               colour: "orange",
               format: "percentage",

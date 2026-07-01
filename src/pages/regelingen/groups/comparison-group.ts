@@ -6,7 +6,6 @@ import { GroupControllerV1 } from "../../../shared/group-v1";
 import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
 import type { IGroupMappingV2 } from "../../../shared/interfaces";
 import type { ImgData } from "../../../shared/types";
-import type { TableData } from "../../../shared/types_graphs";
 
 const mapping: Record<string, string> = {
     mw: "MW",
@@ -141,7 +140,46 @@ export class ComparisonGroupV1 extends GroupControllerV1 {
 	  return { weekTable };
 	}
 
-	populateTable(tableData: TableData) {
+	populateTable(tableData: any) {
+		// Generate per-regeling rows from the merged graphDataWeek[0] row.
+		// Columns = parameters (from graphs[0].parameters[0]), rows = regeling types.
+		// This mirrors what NumbersV1 renders — one row per regeling with period values.
+		const mergedRow = tableData.graphDataWeek?.[0];
+		if (mergedRow) {
+			const prefixes = ['mw', 'vv', 'ims', 'imk', 'wd', 'wnw'];
+			const weekRows: string[][] = [];
+
+			for (let i = 0; i < Math.min(this.config.graphs.length, prefixes.length); i++) {
+				const graph = this.config.graphs[i];
+				const prefix = prefixes[i];
+				const graphRow: string[] = [graph.header ?? ''];
+
+				for (const param of graph.parameters[0]) {
+					// Try param column name directly, then construct prefixed version
+					let val = mergedRow[param.column];
+					if (val == null && param.column.includes('_')) {
+						const clean = param.column.split('_').slice(1).join('_');
+						val = mergedRow[prefix + '_' + clean];
+					}
+					if (param.format === 'percentage') {
+						graphRow.push(val != null ? (Math.round(val * 10) / 10).toFixed(1) + '%' : '-');
+					} else if (param.format === 'decimals') {
+						graphRow.push(val != null ? (val as number).toFixed(1) : '-');
+					} else {
+						graphRow.push(val != null ? String(val) : '-');
+					}
+				}
+				weekRows.push(graphRow);
+			}
+
+			(tableData as any).weekTableCumul = {
+				pre_headers: [],
+				headers: ['Regeling'].concat(
+					this.config.graphs[0].parameters[0].map((c: any) => c.units ?? ''),
+				),
+				rows: weekRows,
+			};
+		}
 		super.populateTable(tableData);
 	}
 

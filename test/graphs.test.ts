@@ -20,6 +20,7 @@ import { BarTrendStackedMakeup } from '../src/charts/controllers/bar-trend-stack
 import { NumbersMultiplesV1 } from '../src/charts/controllers/numbers-multiples-v1';
 import { BarTrendBedragenV1 } from '../src/charts/controllers/bar-trend-bedragen-v1';
 import { SegmentsV1 } from '../src/charts/controllers/segments-v1';
+import { PieChartSumV1 } from '../src/charts/controllers/pie-chart-sum-v1';
 import type { IPageConfig, IGroupMappingV2, IParameterMapping } from '../src/shared/interfaces';
 
 // Pin innerWidth so layout branching doesn't differ between machines
@@ -939,5 +940,112 @@ describe('SegmentsV1 (Tier B — fs_overzicht)', () => {
     // Bars rendered matching segments count (one per parameter)
     const bars = group.element.querySelectorAll('rect.bar');
     expect(bars.length).toBe(2); // toegekend_mv + toegekend_ves
+  });
+});
+
+// =============================================================================
+// PieChartSumV1 (Tier B — pie with legend + sum row)
+// =============================================================================
+
+describe('PieChartSumV1 (Tier B — pie with legend + sum)', () => {
+  async function buildPieGraph() {
+    // Full group with a PieChartSumV1 graph so the SVG infra is wired
+    const pieParams: IParameterMapping[][] = [
+      [
+        { label: 'Toegekend', column: 'toegekend', colour: 'moss',
+          modifiers: { cumul: '_cumul', delta: '_aantal' } } as any,
+        { label: 'Afgewezen', column: 'afgewezen', colour: 'orange',
+          modifiers: { cumul: '_cumul', delta: '_aantal' } } as any,
+      ],
+      [
+        { label: 'Besluiten', column: 'beschikt', colour: 'gray',
+          modifiers: { cumul: '_cumul', delta: '_aantal' } } as any,
+      ],
+    ];
+    const groupConf: IGroupMappingV2 = {
+      slug: 'test_pie', ctrlr: 'DefaultGroupV1', filters: [], graphs: [
+        { slug: 'test_pie_taart', ctrlr: 'PieChartSumV1', args: [], filters: [],
+          parameters: pieParams, segment: { key: 'beschikt', cumulative: true, periodization: 'weekly' } } as any,
+      ],
+      segment: { key: 'beschikt', cumulative: true, periodization: 'weekly' },
+      functionality: ['table', 'definitions', 'download'],
+      endpoints: [
+        'regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}',
+      ],
+    };
+    const pageConf = buildPageConfig('regelingen', { key: 'beschikt', cumulative: true, periodization: 'weekly' }, [groupConf]);
+    initPageStore(pageConf);
+    const page = fakePage(pageConf);
+    const group = buildGroup(page, groupConf, groups, 0);
+    page.chartArray = [group];
+
+    // Minimal fixture — just need the cumul columns for pieParts to resolve
+    const rawWeekRow = {
+      aggregatie: 'week', periode: '2026_25', domein_code: 'FYSIEK', regeling_code: 'Totaal',
+      toegekend_cumul: 270307, afgewezen_cumul: 56644, beschikt_cumul: 326951,
+    };
+    const rawPayloads: Record<string, any[]> = {
+      'aggregatie=eq.week&domein_code=eq.FYSIEK': [rawWeekRow],
+    };
+    const mappedData = fixtureData(rawPayloads, group.resolvedEndpoints);
+    group.data = { ...group.data, ...mappedData };
+    const processed = group.ctrlr.prepareData(group.data);
+    group.data = { ...group.data, ...processed };
+
+    // Inject pies data directly — pieParts() is only called inside group.html()
+    // which this test doesn't invoke.  The pie values match the fixture row above:
+    //   toegekend_cumul=270307, afgewezen_cumul=56644, beschikt_cumul=326951
+    // These satisfy: 270307 + 56644 = 326951
+    group.data.pies = [
+      [
+        { label: 'Toegekend', value: 270307, colour: 'moss', accented: false, format: '' },
+        { label: 'Afgewezen', value: 56644, colour: 'orange', accented: false, format: '' },
+        { label: 'Besluiten', value: 326951, colour: 'gray', accented: false, format: '' },
+      ],
+    ];
+
+    pushGraphStub(group, 'test_pie_taart', pieParams, { segment: { key: 'beschikt', cumulative: true, periodization: 'weekly' } });
+    const graph = buildGraph(PieChartSumV1, page, group,
+      { slug: 'test_pie_taart', parameters: pieParams, modifiers: [], filters: [] }, 0) as PieChartSumV1;
+    group.graphs[0].ctrlr = graph;
+    mountGroup(group);
+    return { group, graph };
+  }
+
+  it('renders pie arcs and legend with sum row (2nd param array)', async () => {
+    const { group, graph } = await buildPieGraph();
+
+    graph.html();
+    await graph.init();
+
+    // SVG exists
+    const svg = group.element.querySelector('svg');
+    expect(svg).toBeDefined();
+
+    // Pie slices: N-1 paths (excludes the last item — the sum/total)
+    const arcs = svg!.querySelectorAll('path.arc');
+    expect(arcs.length).toBe(2); // toegekend + afgewezen = 2 parts, beschikt is the sum
+
+    // Legend exists with a table
+    const legend = group.element.querySelector('.legend');
+    expect(legend).toBeDefined();
+    const rows = legend!.querySelectorAll('tr');
+    expect(rows.length).toBe(3); // toegekend + afgewezen + beschikt (sum)
+
+    // Last row is the sum — has top_border class
+    const lastRow = rows[rows.length - 1];
+    expect(lastRow.classList.contains('top_border')).toBe(true);
+    const nonSumRows = rows[0];
+    expect(nonSumRows.classList.contains('no_border')).toBe(true);
+
+    // Row labels match the parameter labels
+    expect((rows[0].querySelector('td:nth-child(2)') as any)?.innerText).toBe('Toegekend');
+    expect((rows[1].querySelector('td:nth-child(2)') as any)?.innerText).toBe('Afgewezen');
+    expect((lastRow.querySelector('td:nth-child(2)') as any)?.innerText).toBe('Besluiten');
+
+    // Values formatted with thousands separator + percentage (withPercentage=true)
+    expect((rows[0].querySelector('td:nth-child(3)') as any)?.innerText).toBe('270.307 (82.7%)');
+    expect((rows[1].querySelector('td:nth-child(3)') as any)?.innerText).toBe('56.644 (17.3%)');
+    expect((lastRow.querySelector('td:nth-child(3)') as any)?.innerText).toBe('326.951 (100%)');
   });
 });

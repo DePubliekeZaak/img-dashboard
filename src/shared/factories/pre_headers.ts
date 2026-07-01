@@ -128,33 +128,33 @@ export const preHeaders = (graphs: any[], segment: any) => {
     ];
   }
 
-  const pieIndex = graphs.findIndex((g) => g.slug.includes("toegekend"));
-  if (pieIndex !== -1) {
-    pre_headers = [
-      [
-        { label: "", length: 3 },
-        {
-          label: "Per week",
-          length: 3,
-        },
-        {
-          label: "Cumulatief",
-          length: graphs[0].parameters[0].length,
-        },
-      ],
-      [
-        { label: "", length: 3 },
-        {
-          label: "Per week",
-          length: 3,
-        },
-        {
-          label: "Cumulatief",
-          length: graphs[0].parameters[0].length,
-        },
-      ],
-    ];
-  }
+  // const pieIndex = graphs.findIndex((g) => g.slug.includes("toegekend"));
+  // if (pieIndex !== -1) {
+  //   pre_headers = [
+  //     [
+  //       { label: "", length: 3 },
+  //       {
+  //         label: "Per week",
+  //         length: 3,
+  //       },
+  //       {
+  //         label: "Cumulatief",
+  //         length: graphs[0].parameters[0].length,
+  //       },
+  //     ],
+  //     [
+  //       { label: "", length: 3 },
+  //       {
+  //         label: "Per week",
+  //         length: 3,
+  //       },
+  //       {
+  //         label: "Cumulatief",
+  //         length: graphs[0].parameters[0].length,
+  //       },
+  //     ],
+  //   ];
+  // }
 
   const imsIndex = graphs.findIndex(
     (g) => g.slug === "ims_totaal_numbers_volw",

@@ -513,9 +513,8 @@ const pageConfig: IPageConfig = {
     ],
     segment: {
       key: "mw_dlt_gerealiseerd_mediaan_dagen",
-      cumulative: false,
+      cumulative: true,
       periodization: "weekly",
-      // weekOnly: true
     },
     functionality: ["table", "definitions", "download"],
     endpoints: [

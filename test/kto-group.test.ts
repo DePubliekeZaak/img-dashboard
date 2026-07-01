@@ -12,6 +12,8 @@ import { KTOGroupV1 } from '../src/shared/kto-group-v1';
 import type { IPageConfig, IGroupMappingV2 } from '../src/shared/interfaces';
 import * as tevredenheidRaw from './fixtures/regelingen/all_waardering/ep1.json';
 
+const TEVREDENHEID_FIXTURE_ROWS = (tevredenheidRaw as any).default?.length ?? (tevredenheidRaw as any).length ?? 0;
+
 const groups: Record<string, new (...args: any[]) => any> = { KTOGroupV1 };
 
 beforeEach(() => {
@@ -135,10 +137,16 @@ describe('KTOGroupV1 with recorded tevredenheid fixture', () => {
   });
 
   describe('return shape — only monthTableInc is populated', () => {
-    it('monthTableInc has rows', () => {
+    // 83 of 357 raw rows have complete=true — that's the expected table row count
+    const EXPECTED_KTO_ROWS = 83;
+
+    it('monthTableInc has rows matching the filtered count', () => {
       const { result } = buildKTOData();
       expect(result.monthTableInc).not.toBeNull();
-      expect(result.monthTableInc!.rows.length).toBeGreaterThan(0);
+      expect(result.monthTableInc!.rows.length).toBe(EXPECTED_KTO_ROWS);
+      // Dimensional check: 2 fixed headers (Jaar, Maand) + 4 param columns
+      // (doorlopend_cijfer, aantal_respondenten, maandcijfer, aantal_respondenten_maand)
+      expect(result.monthTableInc!.headers.length).toBe(6);
     });
 
     it('week inc, week cumul, and month cumul tables are empty arrays', () => {
@@ -146,6 +154,23 @@ describe('KTOGroupV1 with recorded tevredenheid fixture', () => {
       expect(result.weekTableInc).toEqual([]);
       expect(result.weekTableCumul).toEqual([]);
       expect(result.monthTableCumul).toEqual([]);
+    });
+
+    it('visibility check — month-table-inc is the single visible table', () => {
+      const { result, group, page } = buildKTOData();
+
+      document.body.appendChild(page.main.htmlContainer);
+      group.ctrlr.html();
+      group.ctrlr.populateTable(result);
+
+      const tables = document.querySelectorAll('table');
+      const visibleTables = Array.from(tables).filter(t => !t.classList.contains('hidden'));
+      // KTO segment: cumulative=false, periodization=monthly → visible index = 1 + 0*2 = 1 (month-table-inc)
+      expect(visibleTables).toHaveLength(1);
+      expect(visibleTables[0].id).toBe('month-table-inc');
+
+      const tbody = visibleTables[0].querySelector('tbody');
+      expect(tbody?.querySelectorAll('tr').length).toBe(83);
     });
 
     it('month inc headers start with ["Jaar", "Maand"] (no Periode column for KTO)', () => {

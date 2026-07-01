@@ -1,6 +1,23 @@
-import type { IGroupMappingV2 } from "../../shared/interfaces";
+import type { IPageConfig } from "../../shared/interfaces";
 
-const group: IGroupMappingV2[] = [
+const DOMEIN_CODE = "IMS";
+const REGELING_CODE = "Totaal";
+
+const pageConfig: IPageConfig = {
+  slug: "ims-overzicht",
+  segment: {
+    key: "",
+    gemeente: "all",
+    periodization: "monthly",
+    cumulative: false,
+    vanaf: "2025-01-01"
+  },
+  filters: ["vanaf"],
+  endpoints: [
+    `regelingen?aggregatie=eq.week&domein_code=eq.${DOMEIN_CODE}&regeling_code=eq.${REGELING_CODE}&periode_vanaf=gte.{VANAF}&order=periode.desc`,
+    `regelingen?aggregatie=eq.maand&domein_code=eq.${DOMEIN_CODE}&regeling_code=eq.${REGELING_CODE}&order=periode.desc`,
+  ],
+  groups: [
   // intro
   {
     slug: "ims_totaal_intro",
@@ -17,53 +34,42 @@ const group: IGroupMappingV2[] = [
           [
             {
               label: "Aanvragen",
-              column: "ims_totaal_ingediend",
+              column: "ingediend",
               colour: "orange",
               units: "aanvragen",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
               label: "Voorraad",
-              column: "ims_totaal_voorraad",
+              column: "voorraad",
               colour: "purple",
               units: "aanvragen in werkvoorraad",
+              modifiers: { cumul: "_cumul", delta: "_verschil" },
             },
             {
               label: "Afgehandeld",
-              column: "ims_totaal_afgerond",
+              column: "afgerond",
               colour: "moss",
               units: "afgeronde aanvragen",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
           ],
           [],
         ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
-        ],
         segment: {
-          key: "ims_totaal_ingediend",
+          key: "ingediend",
           cumulative: true,
           periodization: "weekly",
         },
       },
     ],
     segment: {
-      key: "ims_totaal_ingediend",
+      key: "ingediend",
       cumulative: true,
       periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
+    endpoints: [],
   },
   // bedragen
   {
@@ -79,53 +85,40 @@ const group: IGroupMappingV2[] = [
         multiples: "cumulative",
         parameters: [
           [
-            //  {
+            // {
             //   label: "beschikte schade",
-            //   column: "ims_totaal_bedrag_beschikt_schade",
+            //   column: "bedrag_beschikt_schade",
             //   colour: "blue",
             //   format: "currency",
             //   units: "beschikt schadebedrag",
             // },
             // {
             //   label: "beschikt totaal",
-            //   column: "ims_totaal_bedrag_beschikt_totaal",
+            //   column: "bedrag_beschikt_totaal",
             //   colour: "blue",
             //   format: "currency",
             //   units: "beschikt totaalbedrag",
             // },
             // {
             //   label: "betaalde schade",
-            //   column: "ims_totaal_bedrag_betaald_schade",
+            //   column: "bedrag_betaald_schade",
             //   colour: "moss",
             //   format: "currency",
             //   units: "betaald schadebedrag",
             // },
             {
               label: "betaald totaal",
-              column: "ims_totaal_bedrag_betaald_totaal",
+              column: "bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
               units: "betaald totaalbedrag",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" },
             },
           ],
           [],
         ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
-        ],
         segment: {
-          key: "ims_totaal_bedrag_betaald_totaal",
+          key: "bedrag_betaald_totaal",
           cumulative: true,
           periodization: "weekly",
         },
@@ -139,40 +132,27 @@ const group: IGroupMappingV2[] = [
           [
             {
               label: "Totaal betaald bedrag",
-              column: "ims_totaal_bedrag_betaald_totaal",
+              column: "bedrag_betaald_totaal",
               colour: "blue",
               format: "currency",
-            },
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
+              modifiers: { cumul: "_cumul_eur", delta: "_eur" },
             },
           ],
         ],
         segment: {
-          key: "ims_totaal_bedrag_betaald_totaal",
+          key: "bedrag_betaald_totaal",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "ims_totaal_bedrag_betaald_totaal",
+      key: "bedrag_betaald_totaal",
       cumulative: true,
       periodization: "weekly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
+    endpoints: [],
   },
   // waardering
   {
@@ -236,200 +216,156 @@ const group: IGroupMappingV2[] = [
       periodization: "monthly",
     },
   },
-  // keuzes
-  {
-    slug: "ims_totaal_keuzepaden",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "ims_totaal_numbers_volw",
-        ctrlr: "NumbersV1",
-        args: [],
-        filters: [],
-        header: "Volwassenen",
-        // multiples: "cumulative",
-        parameters: [
-          [
-            {
-              label: "Ingediend",
-              column: "ims_volw_ingediend_cumulatief",
-              colour: "blue",
-              units: "aanvragen",
-            },
-            {
-              label: "Afgehandeld",
-              column: "ims_volw_afgerond_cumulatief",
-              colour: "blue",
-              units: "afgehandeld",
-            },
-            {
-              label: "Betaald bedrag",
-              column: "ims_volw_bedrag_betaald_totaal_cumulatief",
-              colour: "blue",
-              units: "betaald bedrag",
-              format: "currency",
-            },
-          ],
-          [],
-        ],
-        modifiers: [
-          // [
-          //   {
-          //     label: "totaal",
-          //     column: "{}_cumulatief",
-          //     colour: "orange",
-          //   },
-          //   {
-          //     label: "afgelopen week",
-          //     column: "{}",
-          //     colour: "orange",
-          //   },
-          // ],
-        ],
-        segment: {
-          key: "ims_volw_ingediend_cumulatief",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "ims_totaal_numbers_kj",
-        ctrlr: "NumbersV1",
-        args: [],
-        filters: [],
-        header: "Kinderen en jongeren",
-        // multiples: "cumulative",
-        parameters: [
-          [
-            {
-              label: "Ingediend",
-              column: "ims_kj_ingediend_cumulatief",
-              colour: "orange",
-              units: "aanvragen",
-            },
-            {
-              label: "Afgehandeld",
-              column: "ims_kj_afgerond_cumulatief",
-              colour: "orange",
-              units: "afgehandeld",
-            },
-            {
-              label: "Verleende schade",
-              column: "ims_kj_bedrag_betaald_totaal_cumulatief",
-              colour: "orange",
-              units: "betaald bedrag",
-              format: "currency",
-            },
-          ],
-          [],
-        ],
-        modifiers: [
-          // [
-          //   {
-          //     label: "totaal",
-          //     column: "{}_cumulatief",
-          //     colour: "orange",
-          //   },
-          //   {
-          //     label: "afgelopen week",
-          //     column: "{}",
-          //     colour: "orange",
-          //   },
-          // ],
-        ],
-        segment: {
-          key: "ims_kj_ingediend_cumulatief",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "ims_totaal_makeup_trend",
-        ctrlr: "BarTrendStackedMakeup",
-        args: [],
-        filters: ["mappingGroupSelect", "cumulativeVsDelta", "weekVsMonth"],
-        parameters: [
-          [
-            {
-              label: "Volwassenen",
-              column: "ims_volw_ingediend",
-              colour: "blue",
-              units: "aanvragen",
-              excludeFromTable: true,
-            },
-            {
-              label: "Kinderen en jongeren",
-              column: "ims_kj_ingediend",
-              colour: "orange",
-              units: "aanvragen",
-              excludeFromTable: true,
-            },
-          ],
-          [
-            {
-              label: "Volwassenen",
-              column: "ims_volw_afgerond",
-              colour: "blue",
-              units: "afgehandeld",
-              excludeFromTable: true,
-            },
-            {
-              label: "Kinderen en jongeren",
-              column: "ims_kj_afgerond",
-              colour: "orange",
-              units: "afgehandeld",
-              excludeFromTable: true,
-            },
-          ],
-          // [
-          //   {
-          //     label: "Volwassenen",
-          //     column: "ims_volw_bedrag_totaal_bedrag",
-          //     colour: "blue",
-          //     units: "betaald bedrag",
-          //     format: "currency",
-          //     excludeFromTable: true,
-          //   },
-          //   {
-          //     label: "Kinderen en jongeren",
-          //     column: "ims_kj_bedrag_totaal_bedrag",
-          //     colour: "orange",
-          //     units: "betaald bedrag",
-          //     format: "currency",
-          //     excludeFromTable: true,
-          //   },
-          // ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_volw_afgehandeld",
-          cumulative: false,
-          periodization: "monthly",
-          parameterIndex: 0,
-        },
-      },
-    ],
-    segment: {
-      key: "ims_volw_afgehandeld",
-      cumulative: true,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_totaal_wekelijks", "ims_totaal_maandelijks"],
-  },
-];
+  // keuzepaden — commented out: volw/kj sub-population columns do not exist in the
+  // regelingen view (regeling_code=eq.IMS has no ims_volw_*/ims_kj_* columns).
+  // This group needs a separate data source before it can be migrated.
+        // {
+        // slug: "ims_totaal_keuzepaden",
+        // ctrlr: "DefaultGroupV1",
+        // graphs: [
+        // {
+        // slug: "ims_totaal_numbers_volw",
+        // ctrlr: "NumbersV1",
+        // args: [],
+        // filters: [],
+        // header: "Volwassenen",
+        // parameters: [
+        // [
+        // {
+        // label: "Ingediend",
+        // column: "volw_ingediend",
+        // colour: "blue",
+        // units: "aanvragen",
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // {
+        // label: "Afgehandeld",
+        // column: "volw_afgerond",
+        // colour: "blue",
+        // units: "afgehandeld",
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // {
+        // label: "Betaald bedrag",
+        // column: "volw_bedrag_betaald_totaal",
+        // colour: "blue",
+        // units: "betaald bedrag",
+        // format: "currency",
+        // modifiers: { cumul: "_cumul", delta: "_eur" },
+        // },
+        // ],
+        // [],
+        // ],
+        // segment: {
+        // key: "volw_ingediend",
+        // cumulative: true,
+        // periodization: "weekly",
+        // },
+        // },
+        // {
+        // slug: "ims_totaal_numbers_kj",
+        // ctrlr: "NumbersV1",
+        // args: [],
+        // filters: [],
+        // header: "Kinderen en jongeren",
+        // parameters: [
+        // [
+        // {
+        // label: "Ingediend",
+        // column: "kj_ingediend",
+        // colour: "orange",
+        // units: "aanvragen",
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // {
+        // label: "Afgehandeld",
+        // column: "kj_afgerond",
+        // colour: "orange",
+        // units: "afgehandeld",
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // {
+        // label: "Verleende schade",
+        // column: "kj_bedrag_betaald_totaal",
+        // colour: "orange",
+        // units: "betaald bedrag",
+        // format: "currency",
+        // modifiers: { cumul: "_cumul", delta: "_eur" },
+        // },
+        // ],
+        // [],
+        // ],
+        // segment: {
+        // key: "kj_ingediend",
+        // cumulative: true,
+        // periodization: "weekly",
+        // },
+        // },
+        // {
+        // slug: "ims_totaal_makeup_trend",
+        // ctrlr: "BarTrendStackedMakeup",
+        // args: [],
+        // filters: ["mappingGroupSelect", "cumulativeVsDelta", "weekVsMonth"],
+        // parameters: [
+        // [
+        // {
+        // label: "Volwassenen",
+        // column: "volw_ingediend",
+        // colour: "blue",
+        // units: "aanvragen",
+        // excludeFromTable: true,
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // {
+        // label: "Kinderen en jongeren",
+        // column: "kj_ingediend",
+        // colour: "orange",
+        // units: "aanvragen",
+        // excludeFromTable: true,
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // ],
+        // [
+        // {
+        // label: "Volwassenen",
+        // column: "volw_afgerond",
+        // colour: "blue",
+        // units: "afgehandeld",
+        // excludeFromTable: true,
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // {
+        // label: "Kinderen en jongeren",
+        // column: "kj_afgerond",
+        // colour: "orange",
+        // units: "afgehandeld",
+        // excludeFromTable: true,
+        // modifiers: { cumul: "_cumul", delta: "_aantal" },
+        // },
+        // ],
+        // ],
+        // segment: {
+        // key: "volw_afgerond",
+        // cumulative: false,
+        // periodization: "monthly",
+        // parameterIndex: 0,
+        // },
+        // },
+        // ],
+        // segment: {
+        // key: "volw_afgerond",
+        // cumulative: true,
+        // periodization: "weekly",
+        // },
+        // functionality: ["table", "definitions", "download"],
+        // endpoints: [
+        // "regelingen?aggregatie=eq.week&regeling_code=eq.IMS&order=periode.desc",                                                                                                                                                                   
+        // "regelingen?aggregatie=eq.week&regeling_code=eq.IMK&order=periode.desc", 
+        // "regelingen?aggregatie=eq.maand&regeling_code=eq.IMS&order=periode.desc",                                                                                                                                                                   
+        // "regelingen?aggregatie=eq.maand&regeling_code=eq.IMK&order=periode.desc",     
+        // ],
+        // },
+],
+};
 
-export default group;
+export default pageConfig;

@@ -30,6 +30,8 @@ export class DefaultGroupV1 extends GroupControllerV1 {
 
   prepareData(data: ImgData): any {
 
+    console.log(data);
+
     const {
       tableParams,
       graphParams,
@@ -39,17 +41,17 @@ export class DefaultGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
-    if (this.config.slug == "all_totals") {
+    // if (this.config.slug == "all_totals") {
 
-      for (let p of graphDataWeek) {
+    //   for (let p of graphDataWeek) {
 
-        p["bedrag_betaald_totaal_cumul_eur"] = "-";
-        // p["bedrag_betaald_totaal_eur"] = "-";
-      }
+    //     p["bedrag_betaald_totaal_cumul_eur"] = "-";
+    //     // p["bedrag_betaald_totaal_eur"] = "-";
+    //   }
 
-      graphDataWeek[0]["bedrag_betaald_totaal_cumul_eur"] = graphDataMonth[graphDataMonth.length - 1]["bedrag_betaald_totaal_cumul_eur"]
-    //   graphDataWeek[0]["bedrag_betaald_totaal_eur"] = graphDataMonth[graphDataMonth.length - 1]["bedrag_betaald_totaal_eur"] 
-    }
+    //   graphDataWeek[0]["bedrag_betaald_totaal_cumul_eur"] = graphDataMonth[graphDataMonth.length - 1]["bedrag_betaald_totaal_cumul_eur"]
+    // //   graphDataWeek[0]["bedrag_betaald_totaal_eur"] = graphDataMonth[graphDataMonth.length - 1]["bedrag_betaald_totaal_eur"] 
+    // }
 
     const { incremental, cumulative } = incVsCum(graphDataWeek, graphParams);
 

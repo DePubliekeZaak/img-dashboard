@@ -11,6 +11,10 @@ import type { IPageConfig, IGroupMappingV2 } from '../src/shared/interfaces';
 import * as fsWeekRaw from './fixtures/fs_overzicht/fs_totals/week.json';
 import * as fsMonthRaw from './fixtures/fs_overzicht/fs_totals/month.json';
 
+// Number of rows in recorded fixtures
+const WEEK_FIXTURE_ROWS = (fsWeekRaw as any).default?.length ?? (fsWeekRaw as any).length ?? 0;
+const MONTH_FIXTURE_ROWS = (fsMonthRaw as any).default?.length ?? (fsMonthRaw as any).length ?? 0;
+
 const groups: Record<string, new (...args: any[]) => any> = { DefaultGroupV1 };
 
 beforeEach(() => {
@@ -151,6 +155,18 @@ describe('DefaultGroupV1 with recorded fixtures', () => {
       expect(result.weekTableCumul).not.toBeNull();
       expect(result.monthTableInc).not.toBeNull();
       expect(result.monthTableCumul).not.toBeNull();
+
+      // Dimensional check — rows match fixture length, headers = 3 fixed + param count
+      const incParamCount = 3; // ingediend, voorraad, afgerond
+      const cumulParamCount = 3;
+      expect(result.weekTableInc!.rows.length).toBe(WEEK_FIXTURE_ROWS);
+      expect(result.weekTableInc!.headers.length).toBe(3 + incParamCount);
+      expect(result.weekTableCumul!.rows.length).toBe(WEEK_FIXTURE_ROWS);
+      expect(result.weekTableCumul!.headers.length).toBe(3 + cumulParamCount);
+      expect(result.monthTableInc!.rows.length).toBe(MONTH_FIXTURE_ROWS);
+      expect(result.monthTableInc!.headers.length).toBe(3 + incParamCount);
+      expect(result.monthTableCumul!.rows.length).toBe(MONTH_FIXTURE_ROWS);
+      expect(result.monthTableCumul!.headers.length).toBe(3 + cumulParamCount);
     });
 
     it('inc tables carry non-_cumul params; cumul tables carry _cumul params', () => {
@@ -163,6 +179,33 @@ describe('DefaultGroupV1 with recorded fixtures', () => {
       expect(result.weekTableCumul!.headers.slice(3)).toEqual([
         'Ingediend', 'Voorraad', 'Afgehandeld',
       ]);
+    });
+  });
+
+  describe('visibility check — one table visible, ID derived from segment', () => {
+    it('mounts and populates tables, the visible table matches segment', () => {
+      const { result, group, page } = buildAndPrepare(true); // cumulative=true, periodization=monthly
+
+      document.body.appendChild(page.main.htmlContainer);
+      group.ctrlr.html();
+      group.ctrlr.populateTable(result);
+
+      // Derive expected visible table from segment
+      const periodIndex = group.config.segment.periodization === 'monthly' ? 1 : 0;
+      const calcIndex = group.config.segment.cumulative ? 1 : 0;
+      const visibleIndex = periodIndex + calcIndex * 2;
+      const tableIds = ['week-table-inc', 'month-table-inc', 'week-table-cumul', 'month-table-cumul'];
+      const expectedId = tableIds[visibleIndex];
+
+      // Exactly one table is visible (others have class="hidden")
+      const tables = document.querySelectorAll('table');
+      const visibleTables = Array.from(tables).filter(t => !t.classList.contains('hidden'));
+      expect(visibleTables).toHaveLength(1);
+      expect(visibleTables[0].id).toBe(expectedId);
+
+      // The visible table has rows
+      const tbody = visibleTables[0].querySelector('tbody');
+      expect(tbody?.querySelectorAll('tr').length).toBeGreaterThan(0);
     });
   });
 
