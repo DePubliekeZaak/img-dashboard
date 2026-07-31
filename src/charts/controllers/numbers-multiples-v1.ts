@@ -75,20 +75,9 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3 {
     }
 
     this.el = super._html([elClass]);
-    // this.el.parentElement.style.paddingTop = "5rem";
-
-    // if(this.index === 0) {
-
-    //     const header = document.createElement('h3');
-    //     header.innerText = "Aanvullende vaste vergoeding"
-    //     this.el.parentElement.parentElement.insertBefore(header, this.el.parentElement);
-    // }
   }
 
-  
-
   async init() {
-  
     this.number = new elements.HtmlNumberSimple(
       this,
       this.parameters[0][this.index],
@@ -99,18 +88,28 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+    const segment = getGraphSegment(this.group.slug, this.slug);
+    const param = this.parameters[0]?.[this.index];
+    if (!param) return data;
 
-    const segment = getGroupSegment(this.group.slug)
-    data.numbers = segment!.cumulative ? data.cumulative : data.incremental;
+    const entry = this.group.graphParams?.[param.column];
+    const variant = segment?.cumulative
+      ? (entry?.variants?.cumul ?? entry?.variants?.base)
+      : (entry?.variants?.delta ?? entry?.variants?.base);
+    const col = variant?.column ?? param.column;
+
+    console.log(data, col)
+
+    data.number = data.graphDataWeek?.[0]?.[col];
     return data;
   }
 
   async draw(data: DataObject) {
-    this.number.draw();
+    this.number.draw(data.number);
   }
 
   async redraw(data: any, range: number[]) {
-    this.number.redraw(data.numbers[this.index]);
+    this.number.redraw(data.number, this.parameters[0][this.index].column);
   }
 
   async update(data: DataObject, update: boolean, range?: number[]) {

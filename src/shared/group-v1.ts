@@ -1,7 +1,7 @@
 // import { definitionList } from "../definitions";
 import definitionList from "../json/definitions.json";
 import { getAllData } from "../stores/data.store";
-import { getGroupSegment } from "../stores/segment.store";
+import { getGroupSegment, updateGraphSegment } from "../stores/segment.store";
 import { timelineList } from "../pages/timeline";
 import {
   defaultColumns,
@@ -183,8 +183,9 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
   prepareData(data: any): any {
 
-    this.group = this.page.chartArray.find( (g: any) => g.slug === this.slug);
-  
+    this.group = this.page.chartArray.find((g: any) => g.slug === this.slug);
+    if (!this.group) return data;
+
     const { tableParams, graphParams } = this.group;
 
     const endpoints = this.group?.resolvedEndpoints;
@@ -207,17 +208,18 @@ export class GroupControllerV1 implements IGroupCtrlr {
     let graphDataMonth: any[] = [];
 
     const allColumns = Object.values(graphParams)
-      .flatMap((entry: any) => Object.values(entry.variants))
-      .map( (v: any) => v.column);
+      .flatMap((entry: any) => entry?.variants ? Object.values(entry.variants) : [])
+      .map((v: any) => v?.column)
+      .filter(Boolean);
 
-    if (weekGroup !== undefined && data[weekGroup].length > 0) {
+    if (weekGroup !== undefined && data[weekGroup]?.length > 0) {
       graphDataWeek = trimColumnsAndOrder(
         data[weekGroup],
         allColumns.concat(defaultColumns),
       );
     }
 
-    if (monthGroup !== undefined && data[monthGroup].length > 0) {
+    if (monthGroup !== undefined && data[monthGroup]?.length > 0) {
       graphDataMonth = trimColumnsAndOrder(
         data[monthGroup],
         allColumns.concat(defaultColumns),
@@ -311,22 +313,29 @@ export class GroupControllerV1 implements IGroupCtrlr {
   }
 
   update(data: DataObject, segment: Segment | undefined, update: boolean) {
- 
 
     this.config.segment = getGroupSegment(this.config.slug);
 
     const group = this.page.chartArray.find((i: any) => i.config.slug === this.slug);
+    if (!group) return;
 
-    group.data = this.prepareData(data);
+    // Cascade group segment to graph segments
+    for (const graph of group.graphs) {
+      updateGraphSegment(this.config.slug, graph.ctrlr.slug, {
+        key: this.config.segment!.key,
+        cumulative: this.config.segment!.cumulative,
+        periodization: this.config.segment!.periodization,
+      });
+    }
 
     this.tabs.redraw();
 
     for (const graph of group.graphs) {
-      graph.ctrlr.update(group.data, true);
+      graph.ctrlr.update(data, true);
     }
 
-    this.populateTable(group.data);
+    this.populateTable(data);
 
-    this.populateDefinitions(group.data.definitions);
+    this.populateDefinitions(data.definitions);
   }
 }

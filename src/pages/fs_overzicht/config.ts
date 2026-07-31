@@ -19,7 +19,7 @@ const pageConfig: IPageConfig = {
   {
     slug: "fs_totals",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent"],
+    filters: ["cumulativeVsDelta"],
     graphs: [
       {
         slug: "fs_numbers_v1",
@@ -72,12 +72,13 @@ const pageConfig: IPageConfig = {
   {
     slug: "fs_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: [],
+    filters: ["cumulativeVsDelta", "weekVsMonth"],
     graphs: [
       {
         slug: "fs_totaal_numbers_2",
         ctrlr: "NumbersV1",
         args: [],
+        filters: [],
         multiples: "cumulative",
         parameters: [
           [
@@ -116,14 +117,14 @@ const pageConfig: IPageConfig = {
         segment: {
           key: "fysiek_bedrag_betaald_totaal",
           cumulative: true,
-          periodization: "monthly",
+          periodization: "weekly",
         },
       },
       {
         slug: "fs_bedragen_trend",
         ctrlr: "BarTrendBedragenV1",
         args: [],
-        filters: ["cumulativeVsDelta", "weekVsMonth"],
+        filters: [],
         parameters: [
           [
             {

@@ -25,13 +25,13 @@ export const switchTopic = (
   if (popupElement !== null) {
     popupElement.style.display = "none";
   }
-  const graphEls = [].slice.call(
+  const graphEls: HTMLElement[] = [].slice.call(
     document.querySelectorAll(
       ".graph-container, h2.img_dashboard, .graph-wrapper",
     ),
   );
   for (const el of graphEls) {
-    el.parentNode.removeChild(el);
+    el.parentNode!.removeChild(el);
   }
 
   ctrlr.params.renew();
@@ -76,7 +76,7 @@ export const toggleSubMenu = (slug: string, isMobile: boolean): void => {
   const expanded = parentLi.getAttribute("aria-expanded") === "true" || false;
   parentLi.setAttribute("aria-expanded", expanded ? "false" : "true");
   const submenu = document.getElementById(
-    parentLi.getAttribute("aria-controls"),
+    parentLi.getAttribute("aria-controls") || "",
   );
 
   if (!submenu) return;
@@ -149,15 +149,19 @@ export const openSubMenu = (slug: string, isMobile: boolean): void => {
       )
     : document.querySelector("ul.dashboard_nav li[data-slug=" + slug + "]");
 
+  if (!parentLi) return;
+
   const expanded = parentLi.getAttribute("aria-expanded") === "true" || false;
   parentLi.setAttribute("aria-expanded", expanded ? "false" : "true");
   const submenu = document.getElementById(
-    parentLi.getAttribute("aria-controls"),
+    parentLi.getAttribute("aria-controls") || "",
   );
+
+  if (!submenu) return;
 
   if (!expanded) {
     submenu.removeAttribute("hidden");
-    submenu.querySelector("a").focus(); // Set focus to the first submenu item
+    submenu.querySelector("a")?.focus();
   } else {
     submenu.setAttribute("hidden", "");
   }
@@ -165,7 +169,7 @@ export const openSubMenu = (slug: string, isMobile: boolean): void => {
 
 export const setActiveMenuItem = (slug: string, isMobile: boolean): void => {
   const className = isMobile ? "dashboard_nav_mobile" : "dashboard_nav";
-  const lis = [].slice.call(
+  const lis: HTMLElement[] = [].slice.call(
     document.querySelectorAll("ul." + className + " li a"),
   );
 
@@ -192,7 +196,7 @@ export const setActiveMenuItem = (slug: string, isMobile: boolean): void => {
         if (parentLi && parentLi.getAttribute("aria-controls")) {
           parentLi.setAttribute("aria-expanded", "true");
           const submenu = document.getElementById(
-            parentLi.getAttribute("aria-controls"),
+            parentLi.getAttribute("aria-controls") || "",
           );
           if (submenu) {
             submenu.removeAttribute("hidden");

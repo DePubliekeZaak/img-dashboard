@@ -66,5 +66,12 @@
     "build:dev": "webpack --env ENV=prod DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/staging/api/",
     "serve": "webpack serve --env ENV=dev DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/staging/api/"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "core-js",
+      "ejs"
+    ]
+  }
 }

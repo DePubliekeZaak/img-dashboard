@@ -74,6 +74,7 @@ export class GraphControllerV3 implements IGraphControllerV3 {
   popup!: any;
   preparedData!: DataObject;
   filter!: any;
+  _resizeHandler: (() => void) | null = null;
 
   constructor(
     public slug: string,
@@ -260,11 +261,13 @@ export class GraphControllerV3 implements IGraphControllerV3 {
     this.preparedData = Object.assign({}, data);
     await this.draw(this.preparedData);
     await this.redraw(this.preparedData, range);
-    window.addEventListener(
-      "resize",
-      () => this.redraw(this.preparedData),
-      false,
-    );
+
+    // Remove stale resize listener before adding a fresh one
+    if (this._resizeHandler) {
+      window.removeEventListener("resize", this._resizeHandler);
+    }
+    this._resizeHandler = () => this.redraw(this.preparedData);
+    window.addEventListener("resize", this._resizeHandler, false);
 
     return;
   }
@@ -321,5 +324,12 @@ export class GraphControllerV3 implements IGraphControllerV3 {
       left,
       right,
     };
+  }
+
+  destroy() {
+    if (this._resizeHandler) {
+      window.removeEventListener("resize", this._resizeHandler);
+      this._resizeHandler = null;
+    }
   }
 }

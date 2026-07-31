@@ -309,12 +309,17 @@ export default class PageController implements IPageController {
 
       for (const graph of group.graphs) {
         if (graph.multiples && group.data[graph.multiples] !== undefined) {
-          let i = 0;
+          const maxIndex = graph.parameters?.[0]?.length ?? 0;
 
           // Get the original graph's segment as template
           const templateSegment = getGraphSegment(group.slug, graph.slug);
 
-          for (const m of group.data[graph.multiples]) {
+          const multipleData = group.data[graph.multiples];
+          const iterCount = multipleData.length > 0
+            ? Math.min(multipleData.length, maxIndex)
+            : maxIndex;
+
+          for (let i = 0; i < iterCount; i++) {
             const slug = graph.slug + "_mult" + i;
             const data = Object.assign({}, group.data);
 
@@ -337,7 +342,6 @@ export default class PageController implements IPageController {
               ),
             });
 
-            i++;
           }
         } else {
           newGraphs.push(graph);
@@ -387,5 +391,14 @@ export default class PageController implements IPageController {
     }
 
     isLoading$.set(false);
+  }
+
+  destroy() {
+    for (const group of this.chartArray) {
+      for (const graph of group.graphs) {
+        graph.ctrlr.destroy?.();
+      }
+    }
+    this.chartArray = [];
   }
 }

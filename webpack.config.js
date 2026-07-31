@@ -55,24 +55,6 @@ const config = (env) => {
           export: "default",
         },
       },
-      fs_daadwerkelijk_herstel: {
-        filename: "scripts/fs_daadwerkelijk_herstel.bundle.js",
-        import: "./src/pages/fs_daadwerkelijk_herstel/index.ts",
-        library: {
-          name: "fs_daadwerkelijk_herstel",
-          type: "window",
-          export: "default",
-        },
-      },
-      fs_aanvullende_vaste_vergoeding: {
-        filename: "scripts/fs_aanvullende_vaste_vergoeding.bundle.js",
-        import: "./src/pages/fs_aanvullende_vaste_vergoeding/index.ts",
-        library: {
-          name: "fs_aanvullende_vaste_vergoeding",
-          type: "window",
-          export: "default",
-        },
-      },
       aos: {
         filename: "scripts/aos.bundle.js",
         import: "./src/pages/aos/index.ts",
@@ -105,15 +87,6 @@ const config = (env) => {
         import: "./src/pages/ims-kinderen-jongeren/index.ts",
         library: {
           name: "ims-kinderen-jongeren",
-          type: "window",
-          export: "default",
-        },
-      },
-      ims_herbeoordeling: {
-        filename: "scripts/ims-herbeoordeling.bundle.js",
-        import: "./src/pages/ims-herbeoordeling/index.ts",
-        library: {
-          name: "ims-herbeoordeling",
           type: "window",
           export: "default",
         },
@@ -227,6 +200,7 @@ const config = (env) => {
       open: false,
       port: 4446,
       hot: true,
+      allowedHosts: 'all',
       client: {
         overlay: true,
         progress: true,

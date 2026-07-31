@@ -140,22 +140,35 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     for (const m of _data) {
       m.date = m[_period];
     }
-
+    
     const index = this.parameters.findIndex(
       (group) => group[0].column.includes(segment.baseKey!)
     );
     const ps = this.parameters[Math.max(0, index)];
     const isCumulative = segment.cumulative;
+    const stackKeys = ps
+      .map((p) => {
+        const entry = this.group.graphParams![p.column];
+        if (!entry) return undefined;
+        const col = isCumulative
+          ? entry.variants.cumul
+          : entry.variants.delta;
+        return col?.column ?? entry.variants.base?.column ?? p.column;
+      })
+      .filter((k): k is string => k !== undefined);
+
     const stack = window.d3
       .stack<StackDataItem>()
-      .keys(
-        ps.map((p) => {
-          const entry = this.group.graphParams![p.column];
-          return isCumulative
-            ? (entry?.variants?.cumul?.column)
-            : (entry?.variants?.delta?.column);
-        }),
-      );
+      .keys(stackKeys);
+
+    // Fill missing stack column values to prevent nulls in stacked output
+    for (const d of _data) {
+      for (const k of stackKeys) {
+        if ((d as any)[k] == null) {
+          (d as any)[k] = 0;
+        }
+      }
+    }
 
     if (!this.segment!.normalized) {
       data.stacked = stack(_data as StackDataItem[]);
@@ -163,21 +176,25 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       const normalized_data: any[] = [];
 
       for (const d of _data) {
-        const newItem = { ...d };
+        const newItem: any = { ...d };
 
         let total = 0;
         for (const p of Object.values(ps)) {
-          total = total + d[p.column];
+          total = total + (d[p.column] ?? 0);
         }
 
+        total = total || 1; // avoid division by zero
+
         for (const p of Object.values(ps)) {
-          newItem[p.column] = d[p.column] / total;
+          newItem[p.column] = (d[p.column] ?? 0) / total;
         }
         normalized_data.push(newItem);
       }
 
       data.stacked = stack(normalized_data);
     }
+
+    console.log("d",data)
 
     return data;
   }
@@ -192,17 +209,14 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
     const segment = this.segment;
     if (!segment) return;
 
+    console.log(data)
+
     this.scales.x.set(data.stacked[0].map((d: any) => d.data.date));
-    this.scales.y.set(
-      data.stacked[data.stacked.length - 1]
-        .map((d: any) => (d[1] < 0 ? 0 : d[1]))
-        .concat([0]),
-    );
-    this.scales.y2.set(
-      data.stacked[data.stacked.length - 1]
-        .map((d: any) => (d[1] < 0 ? 0 : d[1]))
-        .concat([0]),
-    );
+    const yValues = data.stacked[data.stacked.length - 1]
+      .map((d: any) => (d[1] == null || d[1] < 0 ? 0 : d[1]))
+      .concat([0]);
+    this.scales.y.set(yValues);
+    this.scales.y2.set(yValues);
     await super.redraw(data.stacked);
 
     if (segment.periodization === "weekly") {

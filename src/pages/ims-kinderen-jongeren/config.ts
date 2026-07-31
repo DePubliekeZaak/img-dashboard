@@ -1,705 +1,638 @@
-import type { IGroupMappingV2 } from "../../shared/interfaces";
+import type { IPageConfig } from "../../shared/interfaces";
 
-const group: IGroupMappingV2[] = [
-  // intro
-  {
-    slug: "ims_kj_intro",
-    ctrlr: "DefaultGroupV1",
-    filters: [],
-    graphs: [
-      {
-        slug: "ims_kj_numbers_v1",
-        ctrlr: "NumbersMultiplesV1",
-        args: [],
-        filters: [],
-        multiples: "cumulative",
-        parameters: [
-          [
-            {
-              label: "Aanvragen",
-              column: "ims_kj_ingediend",
-              colour: "orange",
-              units: "aanvragen",
-            },
-            {
-              label: "Voorraad",
-              column: "ims_kj_voorraad",
-              colour: "purple",
-              units: "voorraad",
-            },
-            {
-              label: "Afgehandeld",
-              column: "ims_kj_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
-            },
-          ],
-          [],
-        ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_ingediend",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "ims_kj_trend",
-        ctrlr: "BarTrendV1",
-        args: [],
-        filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
-        parameters: [
-          [
-            {
-              label: "Aanvragen",
-              column: "ims_kj_ingediend",
-              colour: "orange",
-            },
-            {
-              label: "Afgehandeld",
-              column: "ims_kj_afgerond",
-              colour: "moss",
-            },
-            {
-              label: "Voorraad",
-              column: "ims_kj_voorraad",
-              colour: "moss",
-            },
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_ingediend",
-          cumulative: false,
-          periodization: "monthly",
-        },
-      },
-    ],
-    segment: {
-      key: "ims_kj_ingediend",
-      cumulative: true,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
-  },
-  // bedragen
-  {
-    slug: "ims_kj_bedragen",
-    ctrlr: "DefaultGroupV1",
-    filters: [],
-    graphs: [
-      {
-        slug: "fs_ims_kj_numbers_2",
-        ctrlr: "NumbersV1",
-        args: [],
-        filters: [],
-        multiples: "cumulative",
-        parameters: [
-          [
-            // {
-            //   label: "beschikte schade",
-            //   column: "ims_kj_bedrag_beschikt_schade",
-            //   colour: "blue",
-            //   format: "currency",
-            //   units: "beschikt schadebedrag",
-            // },
-            // {
-            //   label: "beschikt totaal",
-            //   column: "ims_kj_bedrag_beschikt_totaal",
-            //   colour: "blue",
-            //   format: "currency",
-            //   units: "beschikt totaalbedrag",
-            // },
-            // {
-            //   label: "betaalde schade",
-            //   column: "ims_kj_bedrag_betaald_schade",
-            //   colour: "moss",
-            //   format: "currency",
-            //   units: "betaald schadebedrag",
-            // },
-            {
-              label: "betaald totaal",
-              column: "ims_kj_bedrag_betaald_totaal",
-              colour: "blue",
-              format: "currency",
-              units: "betaald totaalbedrag",
-            },
-          ],
-          [],
-        ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_bedrag_betaald_totaal",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "ims_kj_bedragen_trend",
-        ctrlr: "BarTrendBedragenV1",
-        args: [],
-        filters: ["cumulativeVsDelta", "weekVsMonth"],
-        parameters: [
-          [
-            {
-              label: "Totaal betaald bedrag",
-              column: "ims_kj_bedrag_betaald_totaal",
-              colour: "blue",
-              format: "currency",
-            },
-          ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_bedrag_betaald_totaal",
-          cumulative: false,
-          periodization: "monthly",
-        },
-      },
-    ],
-    segment: {
-      key: "ims_kj_bedrag_betaald_totaal",
-      cumulative: true,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
-  },
-  // waardering
-  {
-    slug: "ims_kj_waardering",
-    ctrlr: "KTOGroupV1",
-    graphs: [
-      {
-        slug: "ims_kj_waardering_numbers",
-        ctrlr: "NumbersPlusRespondentsV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Sinds start",
-              column: "imkj_doorlopend_cijfer",
-              colour: "orange",
-              format: "decimals",
-            },
-          ],
-          [
-            {
-              label: "Totaal respondenten",
-              column: "imkj_aantal_respondenten_doorlopend",
-              units: "respondenten sinds start",
-              colour: "orange",
-            },
-          ],
-        ],
-      },
-      {
-        slug: "ims_kj_waardering_trend",
-        ctrlr: "BarTrendKTOV1",
-        args: [],
-        filters: [],
-        parameters: [
-          [
-            {
-              label: "Maand cijfer",
-              column: "imkj_maandcijfer",
-              colour: "orange",
-              format: "decimals",
-            },
-          ],
-          [
-            {
-              label: "Aantal nieuwe respondenten",
-              column: "imkj_aantal_respondenten",
-              colour: "orange",
-              units: "respondenten",
-            },
-          ],
-        ],
-        modifiers: [],
-      },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["tevredenheid", "tevredenheid"],
-    segment: {
-      key: "imkj_maandcijfer",
-      cumulative: false,
-      periodization: "monthly",
-    },
-  },
-  // besluiten
-  {
-    slug: "ims_kj_besluiten",
-    ctrlr: "DefaultGroupV1",
-    filters: [],
-    graphs: [
-      {
-        slug: "ims_kj_numbers_besluiten_v1",
-        ctrlr: "NumbersMultiplesV1",
-        args: [],
-        filters: [],
-        multiples: "cumulative",
-        parameters: [
-          [
-            {
-              label: "Afgehandeld",
-              column: "ims_kj_afgerond",
-              colour: "moss",
-              units: "afgehandeld",
-            },
-            {
-              label: "Besluiten",
-              column: "ims_kj_beschikt",
-              colour: "blue",
-              units: "besluiten",
-            },
-            {
-              label: "Anders afgehandeld",
-              column: "ims_kj_anders_afgehandeld",
-              colour: "orange",
-              units: "anders afgehandeld",
-            },
-            {
-              label: "Percentage binnen termijn",
-              column: "ims_kj_beschikt_binn_termijn_perc",
-              colour: "moss",
-              format: "percentage",
-              units: "afgehandeld binnen termijn",
-            },
-          ],
-          [],
-        ],
-        modifiers: [
-          [
-            {
-              label: "totaal",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "afgelopen week",
-              column: "{}",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_beschikt",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-    ],
-    segment: {
-      key: "ims_kj_beschikt_binn_termijn_perc",
-      cumulative: false,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
-  },
-  // toegekend
-  {
-    slug: "ims_kj_toegekend",
-    ctrlr: "DefaultGroupV1",
-    filters: [],
-    graphs: [
-      {
-        slug: "ims_kj_toegekend_taart",
-        ctrlr: "PieChartSumV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "ims_kj_toegekend_cumulatief",
-              colour: "moss",
-              scale: "null",
-              format: "",
-            },
-            {
-              label: "Afgewezen",
-              column: "ims_kj_afgewezen_cumulatief",
-              colour: "orange",
-              scale: "null",
-              format: "",
-            },
-          ],
-          [
-            {
-              label: "Besluiten",
-              column: "ims_kj_beschikt_cumulatief",
-              colour: "gray",
-              scale: "null",
-              format: "",
-            },
-          ],
-        ],
-      },
-      {
-        slug: "ims_kj_toegekend_trend",
-        ctrlr: "BarTrendStackedMakeup",
-        filters: ["absoluteVsNormalized", "weekVsMonth"],
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "ims_kj_toegekend",
-              colour: "moss",
-              scale: "null",
-              format: "",
-            },
-            {
-              label: "Afgewezen",
-              column: "ims_kj_afgewezen",
-              colour: "orange",
-              scale: "null",
-              format: "",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_toegekend",
-          cumulative: false,
-          periodization: "monthly",
-          label: "besluiten",
-          normalized: false,
-        },
-      },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
-    segment: {
-      key: "ims_kj_toegekend_cumulatief",
-      cumulative: true,
-      periodization: "weekly",
-    },
-  },
-  // duur
-  {
-    slug: "ims_kj_duur",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "ims_kj_duur_numbers_v1",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "incremental",
-        parameters: [
-          [
-            {
-              label: "Mediaan",
-              column: "ims_kj_dlt_gerealiseerd_mediaan_dagen",
-              colour: "orange",
-              units: "gerealiseerd aantal dagen",
-            },
-            {
-              label: "Gemiddelde",
-              column: "ims_kj_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gerealiseerd aantal dagen",
-            },
-            {
-              label: "Verwacht",
-              column: "ims_kj_dlt_verwacht_rolling8_dagen",
-              colour: "moss",
-              units: "aantal dagen",
-            },
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "ims_kj_dlt_gerealiseerd_mediaan_dagen",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "ims_kj_duur_trend",
-        ctrlr: "BarTrendV1",
-        filters: ["parameterSelect"],
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Gerealiseerde mediaan aantal dagen tot besluit",
-              column: "ims_kj_dlt_gerealiseerd_mediaan_dagen",
-              colour: "orange",
-              units: "mediaan gerealiseerd aantal dagen",
-            },
-            {
-              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-              column: "ims_kj_dlt_gerealiseerd_gemiddeld_dagen",
-              colour: "blue",
-              units: "gemiddeld gerealiseerd aantal dagen",
-            },
-            // {
-            //   label: "Verwacht aantal dagen tot besluit",
-            //   column: "ims_kj_dlt_verwacht_rolling8_dagen",
-            //   colour: "moss",
-            //   units: "verwacht aantal dagen",
-            // },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_dlt_gerealiseerd_mediaan_dagen",
-          cumulative: false,
-          periodization: "monthly",
-          label: "dagen",
-        },
-      },
-    ],
-    segment: {
-      key: "ims_kj_dlt_gerealiseerd_mediaan_dagen",
-      cumulative: false,
-      periodization: "weekly",
-      label: "dagen",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
-  },
-  // voorraad
-  {
-    slug: "ims_kj_voorraad",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "ims_kj_voorrraad_getallen",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "incremental",
-        parameters: [
-          [
-            {
-              label: "Vooraad",
-              column: "ims_kj_voorraad_cumulatief",
-              colour: "moss",
-              units: "dossiers",
-            },
-            {
-              label: "Beslistermijn",
-              column: "ims_kj_beslistermijn_dagen",
-              colour: "moss",
-              units: "dagen",
-            },
-            // {
-            //   label: "Mediaan",
-            //   column: "ims_kj_oud_voorraad_mediaan_dagen",
-            //   colour: "orange",
-            //   units: "dagen in voorraad",
-            // },
-            // {
-            //   label: "Gemiddelde",
-            //   column: "ims_kj_oud_voorraad_gemiddeld_dagen",
-            //   colour: "blue",
-            //   units: "dagen in voorraad",
-            // },
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "ims_kj_oud_voorraad_gemiddeld_dagen",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "ims_kj_voorraad_groepen",
-        ctrlr: "SegmentsV1",
-        args: [],
-        filters: [],
-        parameters: [
-          [
-            {
-              label: "< 56 dagen",
-              column: "ims_kj_oud_voorraad_binnen_termijn",
-              colour: "orange",
-            },
-            {
-              label: "56 - 112 dagen",
-              column: "ims_kj_oud_voorraad_1_2_termijn",
-              colour: "moss",
-            },
-            {
-              label: "112 - 224 dagen",
-              column: "ims_kj_oud_voorraad_2_4_termijn",
-              colour: "blue",
-            },
-            {
-              label: "> 224 dagen",
-              column: "ims_kj_oud_voorraad_buiten_4_termijn",
-              colour: "purple",
-            },
-          ],
-        ],
-        modifiers: [],
-        segment: {
-          key: "ims_kj_oud_voorraad_binnen_termijn",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      //
-    ],
-    segment: {
-      key: "ims_kj_oud_voorraad_binnen_termijn",
-      cumulative: false,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
-  },
-  // bezwaren
-  {
-    slug: "ims_kj_bezwaren",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "fs_ims_kj_bezwaren_numbers_v1",
-        ctrlr: "NumbersMultiplesTitledV1",
-        args: [],
-        filters: [],
-        multiples: "incremental",
-        parameters: [
-          [
-            {
-              label: "Ingediend",
-              column: "ims_kj_bz_ingediend_cumulatief",
-              colour: "orange",
-              units: "bezwaren",
-            },
-            {
-              label: "In procedure",
-              column: "ims_kj_bz_voorraad_cumulatief",
-              colour: "purple",
-              units: "bezwaren",
-            },
-            {
-              label: "Afgerond",
-              column: "ims_kj_bz_afgerond_cumulatief",
-              colour: "moss",
-              units: "bezwaren",
-            },
-            {
-              label: "Bezwaarpercentage",
-              column: "ims_kj_bz_perc_cumulatief",
-              colour: "blue",
-              format: "percentage",
-              units: "t.o.v. aantal besluiten",
-            },
-          ],
-          [],
-        ],
-        modifiers: [],
-        segment: {
-          key: "ims_kj_bz_ingediend",
-          cumulative: false,
-          periodization: "weekly",
-        },
-      },
-      {
-        slug: "bezwaren_taart_toegekend",
-        ctrlr: "PieChartSumV1",
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Toegekend",
-              column: "ims_kj_bz_toegekend_cumulatief",
-              colour: "moss",
-            },
-            {
-              label: "Afgewezen",
-              column: "ims_kj_bz_afgewezen_cumulatief",
-              colour: "orange",
-            },
-            {
-              label: "Anders afgerond",
-              column: "ims_kj_bz_anders_afgehandeld_cumulatief",
-              colour: "blue",
-            },
-          ],
-          [
-            {
-              label: "Totaal afgerond",
-              column: "ims_kj_bz_afgerond_cumulatief",
-              colour: "gray",
-            },
-          ],
-        ],
-        segment: {
-          key: "ims_kj_bz_toegekend_cumulatief",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-    ],
-    segment: {
-      key: "ims_kj_bz_toegekend_cumulatief",
-      cumulative: false,
-      periodization: "weekly",
-    },
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["ims_kj_wekelijks", "ims_kj_maandelijks"],
-  },
-];
+const DOMEIN_CODE = "IMS";
+const REGELING_CODE = "IMK";
 
-export default group;
+const pageConfig: IPageConfig = {
+  slug: "ims-kinderen-jongeren",
+  segment: {
+    key: "",
+    gemeente: "all",
+    periodization: "monthly",
+    cumulative: false,
+    vanaf: "2025-01-01"
+  },
+  filters: ["vanaf"],
+  endpoints: [
+    `regelingen?aggregatie=eq.week&domein_code=eq.${DOMEIN_CODE}&regeling_code=eq.${REGELING_CODE}&periode_vanaf=gte.{VANAF}&order=periode.desc`,
+    `regelingen?aggregatie=eq.maand&domein_code=eq.${DOMEIN_CODE}&regeling_code=eq.${REGELING_CODE}&order=periode.desc`,
+  ],
+  groups: [
+    // ── intro ──
+    {
+      slug: "ims_kj_intro",
+      ctrlr: "DefaultGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "ims_kj_numbers_v1",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: [],
+          multiples: "cumulative",
+          parameters: [
+            [
+              {
+                label: "Aanvragen",
+                column: "ingediend",
+                colour: "orange",
+                units: "aanvragen",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Voorraad",
+                column: "voorraad",
+                colour: "purple",
+                units: "voorraad",
+                modifiers: { cumul: "_cumul", delta: "_verschil" },
+              },
+              {
+                label: "Afgehandeld",
+                column: "afgerond",
+                colour: "moss",
+                units: "afgehandeld",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+            ],
+            [],
+          ],
+          segment: {
+            key: "ingediend_cumul",
+            cumulative: true,
+            periodization: "weekly",
+          },
+        },
+        {
+          slug: "ims_kj_trend",
+          ctrlr: "BarTrendV1",
+          args: [],
+          filters: ["parameterSelect", "cumulativeVsDelta", "weekVsMonth"],
+          parameters: [
+            [
+              {
+                label: "Aanvragen",
+                column: "ingediend",
+                colour: "orange",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Afgehandeld",
+                column: "afgerond",
+                colour: "moss",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Voorraad",
+                column: "voorraad",
+                colour: "moss",
+                modifiers: { cumul: "_cumul", delta: "_verschil" },
+              },
+            ],
+          ],
+          segment: {
+            key: "ingediend",
+            cumulative: false,
+            periodization: "monthly",
+          },
+        },
+      ],
+      segment: {
+        key: "ingediend",
+        cumulative: true,
+        periodization: "weekly",
+      },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+    },
+    // ── bedragen ──
+    {
+      slug: "ims_kj_bedragen",
+      ctrlr: "DefaultGroupV1",
+      filters: ["cumulativeVsDelta", "weekVsMonth"],
+      graphs: [
+        {
+          slug: "fs_ims_kj_numbers_2",
+          ctrlr: "NumbersV1",
+          args: [],
+          filters: [],
+          multiples: "cumulative",
+          parameters: [
+            [
+              {
+                label: "betaald totaal",
+                column: "bedrag_betaald_totaal",
+                colour: "blue",
+                format: "currency",
+                units: "betaald totaalbedrag",
+                modifiers: { cumul: "_cumul_eur", delta: "_eur" },
+              },
+            ],
+            [],
+          ],
+          segment: {
+            key: "bedrag_betaald_totaal",
+            cumulative: true,
+            periodization: "weekly",
+          },
+        },
+        {
+          slug: "ims_kj_bedragen_trend",
+          ctrlr: "BarTrendBedragenV1",
+          args: [],
+          filters: [],
+          parameters: [
+            [
+              {
+                label: "Totaal betaald bedrag",
+                column: "bedrag_betaald_totaal",
+                colour: "blue",
+                format: "currency",
+                modifiers: { cumul: "_cumul_eur", delta: "_eur" },
+              },
+            ],
+          ],
+          segment: {
+            key: "bedrag_betaald_totaal",
+            cumulative: false,
+            periodization: "monthly",
+          },
+        },
+      ],
+      segment: {
+        key: "bedrag_betaald_totaal",
+        cumulative: true,
+        periodization: "monthly",
+      },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+    },
+    // ── waardering ──
+    {
+      slug: "ims_kj_waardering",
+      ctrlr: "KTOGroupV1",
+      graphs: [
+        {
+          slug: "ims_kj_waardering_numbers",
+          ctrlr: "NumbersPlusRespondentsV1",
+          args: [],
+          parameters: [
+            [
+              {
+                label: "Sinds start",
+                column: "imkj_doorlopend_cijfer",
+                colour: "orange",
+                format: "decimals",
+              },
+            ],
+            [
+              {
+                label: "Totaal respondenten",
+                column: "imkj_aantal_respondenten_doorlopend",
+                units: "respondenten sinds start",
+                colour: "orange",
+              },
+            ],
+          ],
+        },
+        {
+          slug: "ims_kj_waardering_trend",
+          ctrlr: "BarTrendKTOV1",
+          args: [],
+          filters: [],
+          parameters: [
+            [
+              {
+                label: "Maand cijfer",
+                column: "imkj_maandcijfer",
+                colour: "orange",
+                format: "decimals",
+              },
+            ],
+            [
+              {
+                label: "Aantal nieuwe respondenten",
+                column: "imkj_aantal_respondenten",
+                colour: "orange",
+                units: "respondenten",
+              },
+            ],
+          ],
+          modifiers: [],
+        },
+      ],
+      functionality: ["table", "definitions", "download"],
+      endpoints: ["tevredenheid"],
+      segment: {
+        key: "imkj_maandcijfer",
+        cumulative: false,
+        periodization: "monthly",
+      },
+    },
+    // ── besluiten ──
+    {
+      slug: "ims_kj_besluiten",
+      ctrlr: "DefaultGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "ims_kj_numbers_besluiten_v1",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: [],
+          multiples: "cumulative",
+          parameters: [
+            [
+              {
+                label: "Afgehandeld",
+                column: "afgerond",
+                colour: "moss",
+                units: "afgehandeld",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Besluiten",
+                column: "beschikt",
+                colour: "blue",
+                units: "besluiten",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Anders afgehandeld",
+                column: "anders_afgehandeld",
+                colour: "orange",
+                units: "anders afgehandeld",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Percentage binnen termijn",
+                column: "beschikt_binn_termijn",
+                colour: "moss",
+                format: "percentage",
+                units: "afgehandeld binnen termijn",
+                modifiers: { cumul: "_cumul_perc", delta: "_cumul_perc" },
+              },
+            ],
+            [],
+          ],
+          segment: {
+            key: "beschikt",
+            cumulative: true,
+            periodization: "weekly",
+          },
+        },
+      ],
+      segment: {
+        key: "beschikt_binn_termijn_perc",
+        cumulative: false,
+        periodization: "weekly",
+      },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+    },
+    // ── toegekend / afgewezen ──
+    {
+      slug: "ims_kj_toegekend",
+      ctrlr: "DefaultGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "ims_kj_toegekend_taart",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              {
+                label: "Toegekend",
+                column: "toegekend",
+                colour: "moss",
+                scale: "null",
+                format: "",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Afgewezen",
+                column: "afgewezen",
+                colour: "orange",
+                scale: "null",
+                format: "",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+            ],
+            [
+              {
+                label: "Besluiten",
+                column: "beschikt",
+                colour: "gray",
+                scale: "null",
+                format: "",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+            ],
+          ],
+          segment: {
+            key: "beschikt",
+            cumulative: true,
+            periodization: "weekly",
+          },
+        },
+        {
+          slug: "ims_kj_toegekend_trend",
+          ctrlr: "BarTrendStackedMakeup",
+          filters: ["absoluteVsNormalized", "weekVsMonth"],
+          args: [],
+          parameters: [
+            [
+              {
+                label: "Toegekend",
+                column: "toegekend",
+                colour: "moss",
+                scale: "null",
+                format: "",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Afgewezen",
+                column: "afgewezen",
+                colour: "orange",
+                scale: "null",
+                format: "",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+            ],
+          ],
+          segment: {
+            key: "toegekend",
+            cumulative: false,
+            periodization: "monthly",
+            label: "besluiten",
+            normalized: false,
+          },
+        },
+      ],
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+      segment: {
+        key: "toegekend",
+        cumulative: true,
+        periodization: "weekly",
+      },
+    },
+    // ── duur ──
+    {
+      slug: "ims_kj_duur",
+      ctrlr: "DefaultGroupV1",
+      graphs: [
+        {
+          slug: "ims_kj_duur_numbers_v1",
+          ctrlr: "NumbersMultiplesTitledV1",
+          args: [],
+          filters: [],
+          multiples: "incremental",
+          parameters: [
+            [
+              {
+                label: "Mediaan",
+                column: "dlt_gerealiseerd_mediaan_dagen",
+                colour: "orange",
+                units: "gerealiseerd aantal dagen",
+              },
+              {
+                label: "Gemiddelde",
+                column: "dlt_gerealiseerd_gemiddeld_dagen",
+                colour: "blue",
+                units: "gerealiseerd aantal dagen",
+              }
+            ],
+            [],
+          ],
+          modifiers: [],
+          segment: {
+            key: "dlt_gerealiseerd_mediaan_dagen",
+            cumulative: false,
+            periodization: "weekly",
+          },
+        },
+        {
+          slug: "ims_kj_duur_trend",
+          ctrlr: "BarTrendV1",
+          filters: ["parameterSelect"],
+          args: [],
+          parameters: [
+            [
+               {
+                label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
+                column: "dlt_gerealiseerd_gemiddeld_dagen",
+                colour: "blue",
+                units: "gemiddeld gerealiseerd aantal dagen",
+              },
+              {
+                label: "Gerealiseerde mediaan aantal dagen tot besluit",
+                column: "dlt_gerealiseerd_mediaan_dagen",
+                colour: "orange",
+                units: "mediaan gerealiseerd aantal dagen",
+              },
+             
+            ],
+          ],
+          segment: {
+            key: "dlt_gerealiseerd_gemiddeld_dagen",
+            cumulative: false,
+            periodization: "monthly",
+            label: "dagen",
+          },
+        },
+      ],
+      segment: {
+        key: "dlt_gerealiseerd_gemiddeld_dagen",
+        cumulative: false,
+        periodization: "weekly",
+        label: "dagen",
+      },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+    },
+    // ── voorraad ──
+    {
+      slug: "ims_kj_voorraad",
+      ctrlr: "DefaultGroupV1",
+      graphs: [
+        {
+          slug: "ims_kj_voorrraad_getallen",
+          ctrlr: "NumbersMultiplesTitledV1",
+          args: [],
+          filters: [],
+          multiples: "incremental",
+          parameters: [
+            [
+              {
+                label: "Voorraad",
+                column: "voorraad_cumul",
+                colour: "moss",
+                units: "dossiers",
+              },
+              {
+                label: "Beslistermijn",
+                column: "beslistermijn_dagen",
+                colour: "moss",
+                units: "dagen",
+              },
+            ],
+            [],
+          ],
+          modifiers: [],
+          segment: {
+            key: "beslistermijn_dagen",
+            cumulative: false,
+            periodization: "weekly",
+          },
+        },
+        {
+          slug: "ims_kj_voorraad_groepen",
+          ctrlr: "SegmentsV1",
+          args: [],
+          filters: [],
+          parameters: [
+            [
+              {
+                label: "< 56 dagen",
+                column: "oud_voorraad_binnen_termijn",
+                colour: "orange",
+              },
+              {
+                label: "56 - 112 dagen",
+                column: "oud_voorraad_1_2_termijn",
+                colour: "moss",
+              },
+              {
+                label: "112 - 224 dagen",
+                column: "oud_voorraad_2_4_termijn",
+                colour: "blue",
+              },
+              {
+                label: "> 224 dagen",
+                column: "oud_voorraad_buiten_4_termijn",
+                colour: "purple",
+              },
+            ],
+          ],
+          modifiers: [],
+          segment: {
+            key: "oud_voorraad_binnen_termijn",
+            cumulative: false,
+            periodization: "weekly",
+          },
+        },
+      ],
+      segment: {
+        key: "oud_voorraad_binnen_termijn",
+        cumulative: false,
+        periodization: "weekly",
+      },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+    },
+    // ── bezwaren ──
+    {
+      slug: "ims_kj_bezwaren",
+      ctrlr: "DefaultGroupV1",
+      graphs: [
+        {
+          slug: "fs_ims_kj_bezwaren_numbers_v1",
+          ctrlr: "NumbersMultiplesTitledV1",
+          args: [],
+          filters: ["cumulativeVsDelta", "weekVsMonth"],
+          multiples: "incremental",
+          parameters: [
+            [
+              {
+                label: "Ingediend",
+                column: "bz_ingediend",
+                colour: "orange",
+                units: "bezwaren",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "In procedure",
+                column: "bz_voorraad",
+                colour: "purple",
+                units: "bezwaren",
+                modifiers: { cumul: "_cumul", delta: "_verschil" },
+              },
+              {
+                label: "Afgerond",
+                column: "bz_afgerond",
+                colour: "moss",
+                units: "bezwaren",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Bezwaarpercentage",
+                column: "bz_vertraagd_jaar_perc",
+                colour: "blue",
+                format: "percentage",
+                units: "t.o.v. aantal besluiten",
+                modifiers: { cumul: "", delta: "" },
+              },
+            ],
+            [],
+          ],
+          modifiers: [],
+          segment: {
+            key: "bz_ingediend_cumul",
+            cumulative: true,
+            periodization: "weekly",
+          },
+        },
+        {
+          slug: "bezwaren_taart_toegekend",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              {
+                label: "Toegekend",
+                column: "bz_toegekend",
+                colour: "moss",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Afgewezen",
+                column: "bz_afgewezen",
+                colour: "orange",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Anders afgerond",
+                column: "bz_anders_afgehandeld",
+                colour: "blue",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+            ],
+            [
+              {
+                label: "Totaal afgerond",
+                column: "bz_afgerond",
+                colour: "gray",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+            ],
+          ],
+          segment: {
+            key: "bz_toegekend_cumul",
+            cumulative: true,
+            periodization: "weekly",
+          },
+        },
+      ],
+      segment: {
+        key: "bz_toegekend_cumul",
+        cumulative: true,
+        periodization: "weekly",
+      },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+    },
+  ],
+};
+
+export default pageConfig;

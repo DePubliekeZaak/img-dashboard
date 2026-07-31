@@ -5,9 +5,9 @@ import type { IPageController } from "../../shared/page.controller";
 import type { DataObject } from "../../shared/types";
 
 export class NumbersMultiplesTitledV1 extends core.GraphControllerV3 {
-  el;
-  number;
-  header;
+  el: any;
+  number: any;
+  header: any;
 
   constructor(
     public slug: string,
@@ -73,9 +73,16 @@ export class NumbersMultiplesTitledV1 extends core.GraphControllerV3 {
   }
 
   async init() {
+    const param = this.parameters[0]?.[this.index];
+    if (!param) {
+      console.warn(
+        `NumbersMultiplesTitledV1[${this.slug}]: no param at index ${this.index} (params[0].length=${this.parameters[0]?.length})`,
+      );
+      return;
+    }
     this.number = new elements.HtmlNumberTitled(
       this,
-      [this.parameters[0][this.index], this.parameters[1][this.index]],
+      [param],
       this.el,
     );
     await this.update(this.group.data, false);
@@ -83,15 +90,22 @@ export class NumbersMultiplesTitledV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
-    data.numbers = this.segment!.cumulative ? data.cumulative : data.incremental;
+    const numbers = (this.segment!.cumulative ? data.cumulative : data.incremental);
+    data.numbers = numbers?.length
+      ? numbers
+      : (data.graphDataWeek?.[0]
+        ? this.parameters[0].map((p: any) => data.graphDataWeek[0][p.column])
+        : []);
     return data;
   }
 
   async draw(data: DataObject) {
+    if (!this.number) return;
     this.number.draw();
   }
 
   async redraw(data: any, range: number[]) {
+    if (!this.number) return;
     this.number.redraw(data.numbers[this.index]);
   }
 

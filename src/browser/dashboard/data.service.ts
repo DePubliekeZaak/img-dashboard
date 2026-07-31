@@ -40,7 +40,18 @@ export class DataService {
     const url = this.buildUrl(endpoint, version);
     const response = await fetch(url);
     if (response.ok) {
-      return response.json();
+      const data = await response.json();
+      // guard: validate aggregatie endpoints contain expected columns from the `select` query param
+      if (endpoint.includes("aggregatie") && Array.isArray(data) && data.length > 0) {
+        const required = ['aggregatie', 'periode', 'periode_totenmet', 'periode_vanaf'];
+        const missing = required.filter(f => !(f in data[0]));
+        if (missing.length > 0) {
+          throw new Error(
+            `API response for aggregatie endpoint is missing required fields: ${missing.join(', ')} — ${url}`
+          );
+        }
+      }
+      return data;
     }
     throw new Error(`Fetch failed: ${url}`);
   }

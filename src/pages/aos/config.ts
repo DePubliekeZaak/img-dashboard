@@ -1,106 +1,108 @@
-import type { IGroupMappingV2 } from "../../shared/interfaces";
+import type { IPageConfig } from "../../shared/interfaces";
 
-const config: IGroupMappingV2[] = [
-  {
-    slug: "aos_voortgang",
-    ctrlr: "DefaultGroupV1",
-    graphs: [
-      {
-        slug: "aos_numbers_1",
-        ctrlr: "NumbersV1",
-        filters: [],
-        args: [],
-        parameters: [
-          [
-            {
-              label: "Meldingen",
-              column: "aos_meldingen_cumulatief",
-              units: "meldingen",
-              colour: "orange",
-            },
-            {
-              label: "Acuut Onveilige Situatie",
-              column: "aos_meldingen_gegrond_cumulatief",
-              units: "acuut onveilige situaties",
-              colour: "moss",
-            },
-            {
-              label: "Percentage gegronde meldingen",
-              column: "aos_percentage_gegrond_cumulatief",
-              units: "gegronde meldingen",
-              colour: "blue",
-              format: "percentage",
-            },
-          ],
-        ],
-        segment: {
-          key: "aos_meldingen_cumulatief",
-          cumulative: true,
-          periodization: "weekly",
-        },
-      },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["aos_wekelijks", "aos_maandelijks"],
-    segment: {
-      key: "aos_meldingen_cumulatief",
-      cumulative: true,
-      periodization: "weekly",
-    },
+const pageConfig: IPageConfig = {
+  slug: "aos",
+  segment: {
+    key: "",
+    gemeente: "all",
+    periodization: "weekly",
+    cumulative: false,
+    vanaf: "2022-01-01"
   },
-  {
-    slug: "aos_trend",
-    ctrlr: "DefaultGroupV1",
-
-    graphs: [
-      {
-        slug: "aos_trend_1",
-        ctrlr: "BarTrendAOSV1",
-        filters: ["cumulativeVsDelta"], //  "weekVsMonth"
-        args: [],
-        parameters: [
-          [
-            {
-              label: "meldingen",
-              column: "aos_meldingen",
-              colour: "blue",
-            },
-            {
-              label: "Acuut Onveilige Situatie",
-              column: "aos_meldingen_gegrond",
-              colour: "orange",
-            },
+  filters: ["vanaf"],
+  endpoints: [
+    // "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
+    "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}&order=periode.desc",
+  ],
+  groups: [
+    {
+      slug: "aos_voortgang",
+      ctrlr: "DefaultGroupV1",
+      graphs: [
+        {
+          slug: "aos_numbers_1",
+          ctrlr: "NumbersV1",
+          filters: [],
+          args: [],
+          parameters: [
+            [
+              {
+                label: "Meldingen",
+                column: "aos_ingediend_cumul",
+                units: "meldingen",
+                colour: "orange",
+              },
+              {
+                label: "Acuut Onveilige Situatie",
+                column: "aos_gegrond_cumul",
+                units: "acuut onveilige situaties",
+                colour: "moss",
+              },
+              {
+                label: "Percentage gegronde meldingen",
+                column: "aos_gegrond_perc",
+                format: "percentage",
+                units: "gegronde meldingen",
+                colour: "blue",
+              },
+            ],
           ],
-        ],
-        modifiers: [
-          [
-            {
-              label: "toename",
-              column: "{}",
-              colour: "orange",
-            },
-            {
-              label: "cumulatief",
-              column: "{}_cumulatief",
-              colour: "orange",
-            },
-          ],
-        ],
-        segment: {
-          key: "aos_meldingen",
-          cumulative: false,
-          periodization: "weekly",
+          segment: {
+            key: "aos_ingediend_cumul",
+            cumulative: true,
+            periodization: "weekly",
+          },
         },
+      ],
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+      segment: {
+        key: "aos_ingediend_cumul",
+        cumulative: true,
+        periodization: "weekly",
       },
-    ],
-    functionality: ["table", "definitions", "download"],
-    endpoints: ["aos_wekelijks"],
-    segment: {
-      key: "aos_meldingen",
-      cumulative: false,
-      periodization: "weekly",
     },
-  },
-];
+    {
+      slug: "aos_trend",
+      ctrlr: "DefaultGroupV1",
+      graphs: [
+        {
+          slug: "aos_trend_1",
+          ctrlr: "BarTrendAOSV1",
+          filters: ["cumulativeVsDelta"],
+          args: [],
+          parameters: [
+            [
+              {
+                label: "meldingen",
+                column: "aos_ingediend",
+                colour: "blue",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+              {
+                label: "Acuut Onveilige Situatie",
+                column: "aos_gegrond",
+                colour: "orange",
+                modifiers: { cumul: "_cumul", delta: "_aantal" },
+              },
+            ],
+          ],
+          segment: {
+            key: "aos_ingediend",
+            cumulative: false,
+            periodization: "weekly",
+          },
+        },
+      ],
+      functionality: ["table", "definitions", "download"],
+      endpoints: [],
+      segment: {
+        key: "aos_ingediend",
+        cumulative: true,
+        periodization: "weekly",
+      },
+    },
+  ],
+};
 
-export default config;
+export default pageConfig;

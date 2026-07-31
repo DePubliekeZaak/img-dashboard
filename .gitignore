@@ -13,3 +13,5 @@ deploy.sh
 
 src/pages/shared/geodata.ts
 assets
+.npmrc
+

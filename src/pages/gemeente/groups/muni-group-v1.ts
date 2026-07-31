@@ -94,6 +94,10 @@ export class MuniGroupV1 extends GroupControllerV1 {
       graphDataMonth,
       tableParams,
       pre_headers,
+      this.segment?.cumulative,
+      this.config.graphs.some((g: any) =>
+        g.parameters?.flat().some((p: any) => p.modifiers),
+      ),
     );
 
 

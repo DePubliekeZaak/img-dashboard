@@ -334,16 +334,16 @@ const NUMBERS_GROUP_CONF: IGroupMappingV2 = {
     ctrlr: 'NumbersV1',
     args: [],
     parameters: NUMBERS_PARAMS,
-    segment: { key: 'ingediend', cumulative: true, periodization: 'monthly' },
+    segment: { key: 'ingediend', cumulative: true, periodization: 'weekly' },
   } as any],
-  segment: { key: 'ingediend', cumulative: true, periodization: 'monthly' },
+  segment: { key: 'ingediend', cumulative: true, periodization: 'weekly' },
   functionality: ['table', 'definitions', 'download'],
   endpoints: BASE_ENDPOINTS,
 };
 
 const NUMBERS_PAGE_CONF: IPageConfig = buildPageConfig(
   'regelingen',
-  { key: 'ingediend', cumulative: true, periodization: 'monthly' },
+  { key: 'ingediend', cumulative: true, periodization: 'weekly' },
   [NUMBERS_GROUP_CONF],
 );
 
@@ -404,6 +404,10 @@ describe('NumbersV1 (Tier A)', () => {
       [{
         ...NUMBERS_GROUP_CONF,
         segment: { key: 'ingediend', cumulative: false, periodization: 'weekly' },
+        graphs: [{
+          ...NUMBERS_GROUP_CONF.graphs[0],
+          segment: { key: 'ingediend', cumulative: false, periodization: 'weekly' },
+        }],
       }],
     );
 

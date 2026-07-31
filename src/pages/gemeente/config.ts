@@ -9,811 +9,319 @@ const pageConfig: IPageConfig = {
     cumulative: false,
     vanaf: "2025-01-01"
   },
-  filters: ["gemeenten","vanaf"],
+  filters: ["gemeenten", "vanaf"],
   endpoints: [
-    "gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW&gemeente=eq.{GEMEENTE}",
-    "gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}",
+    "gemeenten?aggregatie=eq.maand&gemeente=eq.{GEMEENTE}&order=periode.desc",
+    "gemeenten?aggregatie=eq.week&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}&order=periode.desc",
   ],
   groups: [
     {
-        "slug" : "gemeenten_maatwerk",
-        "ctrlr": "MuniGroupV1",
-        "filters" : [],
-        "graphs": [
-            {
-                "slug" : "gemeente_numbers_v1",
-                "ctrlr" : "NumbersMultiplesV1",
-                "args" : [],
-                "filters" : ["totaalVsRecent"],
-                "multiples": "cumulative", 
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "meldingen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "afgehandeld"
-                        },
-                    ],
-                    []
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "maatwerk",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        }, 
-                        {
-                            "label": "afgelopen week",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": true,
-                    "periodization": "latest",
-                }
-            },
-            {
-                "slug" : "gemeente_trend",
-                "ctrlr" : "BarTrendV1",
-                "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "meldingen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "afgehandeld"
-                        },
-                    ]
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "toename",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                        {
-                            "label": "cumulatief",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        },   
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": false,
-                    "periodization": "monthly",
-                }
-            },
-            {
-                "slug" : "gemeente_toegekend_taart",
-                "ctrlr" : "PieChartSumV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        {
-                            "label": "Toegekend",
-                            "column": "toegekend_cumul",
-                            "colour": "moss",  
-                            "scale" : "null",
-                            "format": ""
-                        },
-                        {
-                            "label": "Afgewezen",
-                            "column": "afgewezen_cumul",
-                            "colour": "orange",
-                            "scale" : "null",
-                            "format": ""
-                        },
-                    ],
-                    [
-                        {
-                            "label": "Afgehandeld",
-                            "column": "afgerond_cumul",
-                            "colour": "gray",
-                            "scale" : "null",
-                            "format": ""
-                        }
-                    ]
-                ]
-            }
-        ],
-        "segment": {
-            "key": "ingediend",
-            "cumulative": true,
-            "periodization": "monthly",
-            "gemeente": "Groningen"
+      slug: "gemeenten_maatwerk",
+      ctrlr: "RegelingComparisonGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "gemeente_numbers_v1",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: ["cumulativeVsDelta"],
+          multiples: "cumulative",
+          parameters: [
+            [
+              { label: "Meldingen", column: "mw_ingediend", colour: "orange", units: "meldingen", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "mw_afgerond", colour: "moss", units: "afgehandeld", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [],
+          ],
+          segment: { key: "mw_ingediend", cumulative: true, periodization: "weekly" },
         },
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": [
-            "gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.MW&gemeente=eq.{GEMEENTE}",
-            "gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.MW&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}"],
+        {
+          slug: "gemeente_trend",
+          ctrlr: "BarTrendV1",
+          args: [],
+          filters: ["parameterSelect", "cumulativeVsDelta"],
+          parameters: [
+            [
+              { label: "Meldingen", column: "mw_ingediend", colour: "orange", units: "meldingen", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "mw_afgerond", colour: "moss", units: "afgehandeld", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+          ],
+          segment: { key: "mw_ingediend", cumulative: false, periodization: "weekly" },
+        },
+        {
+          slug: "gemeente_toegekend_taart",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              { label: "Toegekend", column: "mw_toegekend", colour: "moss", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" }},
+              { label: "Afgewezen", column: "mw_afgewezen", colour: "orange", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [
+              { label: "Afgehandeld", column: "mw_afgerond_cumul", colour: "gray", scale: "null", format: "", excludeFromTable: true  },
+            ],
+          ],
+        },
+      ],
+      segment: { key: "mw_ingediend", cumulative: true, periodization: "weekly"},
+      functionality: ["table", "definitions", "download"],
     },
     {
-        "slug" : "gemeenten_vv",
-        "ctrlr": "MuniGroupV1",
-        "filters" : [],
-        "graphs": [
-            {
-                "slug" : "gemeente_numbers_vv_v1",
-                "ctrlr" : "NumbersMultiplesV1",
-                "args" : [],
-                "filters" : ["totaalVsRecent"],
-                "multiples": "cumulative", 
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "zaken"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ],
-                    []
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "vaste vergoeding",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        }, 
-                        {
-                            "label": "afgelopen week",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": true,
-                    "periodization": "latest",
-                }
-            },
-            {
-                "slug" : "gemeente_trend_vv",
-                "ctrlr" : "BarTrendV1",
-                "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "meldingen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ]
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "toename",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                        {
-                            "label": "cumulatief",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        },   
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": false,
-                    "periodization": "monthly",
-                }
-            },
-            {
-                "slug" : "gemeente_toegekend_taart_vv",
-                "ctrlr" : "PieChartSumV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        {
-                            "label": "Toegekend",
-                            "column": "toegekend_cumul",
-                            "colour": "moss",  
-                            "scale" : "null",
-                            "format": ""
-                        },
-                        {
-                            "label": "Afgewezen",
-                            "column": "afgewezen_cumul",
-                            "colour": "orange",
-                            "scale" : "null",
-                            "format": ""
-                        },
-                    ],
-                    [
-                        {
-                            "label": "Afgehandeld",
-                            "column": "afgerond_cumul",
-                            "colour": "gray",
-                            "scale" : "null",
-                            "format": ""
-                        }
-                    ]
-                ]
-            }
-        ],
-        "segment": {
-            "key": "ingediend",
-            "cumulative": true,
-            "periodization": "monthly",
-            "gemeente": "Groningen"
+      slug: "gemeenten_vv",
+      ctrlr: "RegelingComparisonGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "gemeente_numbers_vv_v1",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: ["cumulativeVsDelta"],
+          multiples: "cumulative",
+          parameters: [
+            [
+              { label: "Meldingen", column: "vv_ingediend", colour: "orange", units: "zaken", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "vv_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [],
+          ],
+          segment: { key: "vv_ingediend", cumulative: true, periodization: "latest" },
         },
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": [
-            "gemeenten?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.VV&gemeente=eq.{GEMEENTE}",
-            "gemeenten?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.VV&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}"],
+        {
+          slug: "gemeente_trend_vv",
+          ctrlr: "BarTrendV1",
+          args: [],
+          filters: ["parameterSelect", "cumulativeVsDelta"],
+          parameters: [
+            [
+              { label: "Meldingen", column: "vv_ingediend", colour: "orange", units: "meldingen", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "vv_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+          ],
+          segment: { key: "vv_ingediend", cumulative: false, periodization: "weekly" },
+        },
+        {
+          slug: "gemeente_toegekend_taart_vv",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              { label: "Toegekend", column: "vv_toegekend", colour: "moss", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgewezen", column: "vv_afgewezen", colour: "orange", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [
+              { label: "Afgehandeld", column: "vv_afgerond_cumul", colour: "gray", scale: "null", format: "", excludeFromTable: true  },
+            ],
+          ],
+        },
+      ],
+      segment: { key: "vv_ingediend", cumulative: true, periodization: "weekly" },
+      functionality: ["table", "definitions", "download"],
     },
     {
-        "slug" : "gemeenten_ims",
-        "ctrlr": "MuniGroupV1",
-        "filters" : [],
-        "graphs": [
-            {
-                "slug" : "gemeente_numbers_v1_ims",
-                "ctrlr" : "NumbersMultiplesV1",
-                "args" : [],
-                "filters" : ["totaalVsRecent"],
-                "multiples": "cumulative", 
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "zaken"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ],
-                    []
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "immaterieel",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        }, 
-                        {
-                            "label": "afgelopen week",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": true,
-                    "periodization": "latest",
-                }
-            },
-            {
-                "slug" : "gemeente_trend_ims",
-                "ctrlr" : "BarTrendV1",
-                "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "meldingen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ]
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "toename",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                        {
-                            "label": "cumulatief",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        },   
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": false,
-                    "periodization": "monthly",
-                }
-            },
-            {
-                "slug" : "gemeente_toegekend_taart_ims",
-                "ctrlr" : "PieChartSumV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        {
-                            "label": "Toegekend",
-                            "column": "toegekend_cumul",
-                            "colour": "moss",  
-                            "scale" : "null",
-                            "format": ""
-                        },
-                        {
-                            "label": "Afgewezen",
-                            "column": "afgewezen_cumul",
-                            "colour": "orange",
-                            "scale" : "null",
-                            "format": ""
-                        },
-                    ],
-                    [
-                        {
-                            "label": "Afgehandeld",
-                            "column": "afgerond_cumul",
-                            "colour": "gray",
-                            "scale" : "null",
-                            "format": ""
-                        }
-                    ]
-                ]
-            }
-        ],
-        "segment": {
-            "key": "ingediend",
-            "cumulative": true,
-            "periodization": "monthly",
-            "gemeente": "Groningen"
+      slug: "gemeenten_ims",
+      ctrlr: "RegelingComparisonGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "gemeente_numbers_v1_ims",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: ["cumulativeVsDelta"],
+          multiples: "cumulative",
+          parameters: [
+            [
+              { label: "Meldingen", column: "ims_ingediend", colour: "orange", units: "zaken", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "ims_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [],
+          ],
+          segment: { key: "ims_ingediend", cumulative: true, periodization: "latest" },
         },
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": [
-            "gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMS&gemeente=eq.{GEMEENTE}",
-            "gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMS&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}"],
+        {
+          slug: "gemeente_trend_ims",
+          ctrlr: "BarTrendV1",
+          args: [],
+          filters: ["parameterSelect", "cumulativeVsDelta"],
+          parameters: [
+            [
+              { label: "Meldingen", column: "ims_ingediend", colour: "orange", units: "meldingen", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "ims_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+          ],
+          segment: { key: "ims_ingediend", cumulative: false, periodization: "weekly" },
+        },
+        {
+          slug: "gemeente_toegekend_taart_ims",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              { label: "Toegekend", column: "ims_toegekend", colour: "moss", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgewezen", column: "ims_afgewezen", colour: "orange", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [
+              { label: "Afgehandeld", column: "ims_afgerond_cumul", colour: "gray", scale: "null", format: "", excludeFromTable: true  },
+            ],
+          ],
+        },
+      ],
+      segment: { key: "ims_ingediend", cumulative: true, periodization: "weekly" },
+      functionality: ["table", "definitions", "download"],
     },
     {
-        "slug" : "gemeenten_imk",
-        "ctrlr": "MuniGroupV1",
-        "filters" : [],
-        "graphs": [
-            {
-                "slug" : "gemeente_numbers_v1_imk",
-                "ctrlr" : "NumbersMultiplesV1",
-                "args" : [],
-                "filters" : ["totaalVsRecent"],
-                "multiples": "cumulative", 
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "zaken"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ],
-                    []
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "kindregeling",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        }, 
-                        {
-                            "label": "afgelopen week",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": true,
-                    "periodization": "latest",
-                }
-            },
-            {
-                "slug" : "gemeente_trend_imk",
-                "ctrlr" : "BarTrendV1",
-                "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "meldingen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ]
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "toename",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                        {
-                            "label": "cumulatief",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        },   
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": false,
-                    "periodization": "monthly",
-                }
-            },
-            {
-                "slug" : "gemeente_toegekend_taart_imk",
-                "ctrlr" : "PieChartSumV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        {
-                            "label": "Toegekend",
-                            "column": "toegekend_cumul",
-                            "colour": "moss",  
-                            "scale" : "null",
-                            "format": ""
-                        },
-                        {
-                            "label": "Afgewezen",
-                            "column": "afgewezen_cumul",
-                            "colour": "orange",
-                            "scale" : "null",
-                            "format": ""
-                        },
-                    ],
-                    [
-                        {
-                            "label": "Afgehandeld",
-                            "column": "afgerond_cumul",
-                            "colour": "gray",
-                            "scale" : "null",
-                            "format": ""
-                        }
-                    ]
-                ]
-            }
-        ],
-        "segment": {
-            "key": "ingediend",
-            "cumulative": true,
-            "periodization": "monthly",
-            "gemeente": "Groningen"
+      slug: "gemeenten_imk",
+      ctrlr: "RegelingComparisonGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "gemeente_numbers_v1_imk",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: ["cumulativeVsDelta"],
+          multiples: "cumulative",
+          parameters: [
+            [
+              { label: "Meldingen", column: "imk_ingediend", colour: "orange", units: "zaken", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "imk_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [],
+          ],
+          segment: { key: "imk_ingediend", cumulative: true, periodization: "latest" },
         },
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": [
-            "gemeenten?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.IMK&gemeente=eq.{GEMEENTE}",
-            "gemeenten?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.IMK&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}"],
+        {
+          slug: "gemeente_trend_imk",
+          ctrlr: "BarTrendV1",
+          args: [],
+          filters: ["parameterSelect", "cumulativeVsDelta"],
+          parameters: [
+            [
+              { label: "Meldingen", column: "imk_ingediend", colour: "orange", units: "meldingen", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "imk_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+          ],
+          segment: { key: "imk_ingediend", cumulative: false, periodization: "weekly" },
+        },
+        {
+          slug: "gemeente_toegekend_taart_imk",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              { label: "Toegekend", column: "imk_toegekend", colour: "moss", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgewezen", column: "imk_afgewezen", colour: "orange", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [
+              { label: "Afgehandeld", column: "imk_afgerond_cumul", colour: "gray", scale: "null", format: "", excludeFromTable: true  },
+            ],
+          ],
+        },
+      ],
+      segment: { key: "imk_ingediend", cumulative: true, periodization: "weekly"},
+      functionality: ["table", "definitions", "download"],
     },
     {
-        "slug" : "gemeenten_wd",
-        "ctrlr": "MuniGroupV1",
-        "filters" : [],
-        "graphs": [
-            {
-                "slug" : "gemeente_numbers_v1_wd",
-                "ctrlr" : "NumbersMultiplesV1",
-                "args" : [],
-                "filters" : ["totaalVsRecent"],
-                "multiples": "cumulative", 
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "zaken"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ],
-                    []
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "waardedaling",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        }, 
-                        {
-                            "label": "afgelopen week",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": true,
-                    "periodization": "latest",
-                }
-            },
-            {
-                "slug" : "gemeente_trend_wd",
-                "ctrlr" : "BarTrendV1",
-                "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "meldingen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ]
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "toename",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                        {
-                            "label": "cumulatief",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        },   
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": false,
-                    "periodization": "monthly",
-                }
-            },
-            {
-                "slug" : "gemeente_toegekend_taart_wd",
-                "ctrlr" : "PieChartSumV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        {
-                            "label": "Toegekend",
-                            "column": "toegekend_cumul",
-                            "colour": "moss",  
-                            "scale" : "null",
-                            "format": ""
-                        },
-                        {
-                            "label": "Afgewezen",
-                            "column": "afgewezen_cumul",
-                            "colour": "orange",
-                            "scale" : "null",
-                            "format": ""
-                        },
-                    ],
-                    [
-                        {
-                            "label": "Afgehandeld",
-                            "column": "afgerond_cumul",
-                            "colour": "gray",
-                            "scale" : "null",
-                            "format": ""
-                        }
-                    ]
-                ]
-            }
-        ],
-        "segment": {
-            "key": "ingediend",
-            "cumulative": true,
-            "periodization": "monthly",
-            "gemeente": "Groningen"
+      slug: "gemeenten_wd",
+      ctrlr: "RegelingComparisonGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "gemeente_numbers_v1_wd",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: ["cumulativeVsDelta"],
+          multiples: "cumulative",
+          parameters: [
+            [
+              { label: "Meldingen", column: "wd_ingediend", colour: "orange", units: "zaken", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "wd_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [],
+          ],
+          segment: { key: "ingediend", cumulative: true, periodization: "latest" },
         },
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": [
-            "gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WD&gemeente=eq.{GEMEENTE}",
-            "gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WD&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}"],
+        {
+          slug: "gemeente_trend_wd",
+          ctrlr: "BarTrendV1",
+          args: [],
+          filters: ["parameterSelect", "cumulativeVsDelta"],
+          parameters: [
+            [
+              { label: "Meldingen", column: "wd_ingediend", colour: "orange", units: "meldingen", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "wd_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+          ],
+          segment: { key: "wd_ingediend", cumulative: false, periodization: "weekly" },
+        },
+        {
+          slug: "gemeente_toegekend_taart_wd",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              { label: "Toegekend", column: "wd_toegekend", colour: "moss", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgewezen", column: "wd_afgewezen", colour: "orange", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [
+              { label: "Afgehandeld", column: "wd_afgerond_cumul", colour: "gray", scale: "null", format: "", excludeFromTable: true },
+            ],
+          ],
+        },
+      ],
+      segment: { key: "wd_ingediend", cumulative: true, periodization: "weekly" },
+      functionality: ["table", "definitions", "download"],
     },
     {
-        "slug" : "gemeenten_wnw",
-        "ctrlr": "MuniGroupV1",
-        "filters" : [],
-        "graphs": [
-            {
-                "slug" : "gemeente_numbers_v1_wnw",
-                "ctrlr" : "NumbersMultiplesV1",
-                "args" : [],
-                "filters" : ["totaalVsRecent"],
-                "multiples": "cumulative", 
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "zaken"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ],
-                    []
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "niet-woningen",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        }, 
-                        {
-                            "label": "afgelopen week",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": true,
-                    "periodization": "latest",
-                }
-            },
-            {
-                "slug" : "gemeente_trend_wnw",
-                "ctrlr" : "BarTrendV1",
-                "args" : [],
-                "filters": ["parameterSelect","cumulativeVsDelta"],
-                "parameters": [
-                    [
-                        { 
-                            "label" : "Meldingen",
-                            "column" : "ingediend",
-                            "colour" : "orange",
-                            "units" : "meldingen"
-                        },
-                        { 
-                            "label" : "Afgehandeld",
-                            "column" : "afgerond",
-                            "colour" : "moss",
-                            "units": "besluiten"
-                        },
-                    ]
-                ],
-                "modifiers" : [
-                    [
-                        {
-                            "label": "toename",
-                            "column": "{}_aantal",
-                            "colour": "orange"
-                        },
-                        {
-                            "label": "cumulatief",
-                            "column": "{}_cumul",
-                            "colour": "orange"
-                        },   
-                    ]
-                ],
-                "segment": {
-                    "key": "ingediend",
-                    "cumulative": false,
-                    "periodization": "monthly",
-                }
-            },
-            {
-                "slug" : "gemeente_toegekend_taart_wnw",
-                "ctrlr" : "PieChartSumV1",
-                "args" : [],
-                "parameters": [
-                    [
-                        {
-                            "label": "Toegekend",
-                            "column": "toegekend_cumul",
-                            "colour": "moss",  
-                            "scale" : "null",
-                            "format": ""
-                        },
-                        {
-                            "label": "Afgewezen",
-                            "column": "afgewezen_cumul",
-                            "colour": "orange",
-                            "scale" : "null",
-                            "format": ""
-                        },
-                    ],
-                    [
-                        {
-                            "label": "Afgehandeld",
-                            "column": "afgerond_cumul",
-                            "colour": "gray",
-                            "scale" : "null",
-                            "format": ""
-                        }
-                    ]
-                ]
-            }
-        ],
-        "segment": {
-            "key": "ingediend",
-            "cumulative": true,
-            "periodization": "monthly",
-            "gemeente": "Groningen"
+      slug: "gemeenten_wnw",
+      ctrlr: "RegelingComparisonGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "gemeente_numbers_v1_wnw",
+          ctrlr: "NumbersMultiplesV1",
+          args: [],
+          filters: ["cumulativeVsDelta"],
+          multiples: "cumulative",
+          parameters: [
+            [
+              { label: "Meldingen", column: "wnw_ingediend", colour: "orange", units: "zaken", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "wnw_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [],
+          ],
+          segment: { key: "wnw_ingediend", cumulative: true, periodization: "latest" },
         },
-        "functionality": ['table', 'definitions','download'],
-        "endpoints": [
-            "gemeenten?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.WNW&gemeente=eq.{GEMEENTE}",
-            "gemeenten?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.WNW&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}"],
-    }
-]
-}
+        {
+          slug: "gemeente_trend_wnw",
+          ctrlr: "BarTrendV1",
+          args: [],
+          filters: ["parameterSelect", "cumulativeVsDelta"],
+          parameters: [
+            [
+              { label: "Meldingen", column: "wnw_ingediend", colour: "orange", units: "meldingen", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgehandeld", column: "wnw_afgerond", colour: "moss", units: "besluiten", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+          ],
+          segment: { key: "wnw_ingediend", cumulative: false, periodization: "weekly" },
+        },
+        {
+          slug: "gemeente_toegekend_taart_wnw",
+          ctrlr: "PieChartSumV1",
+          args: [],
+          parameters: [
+            [
+              { label: "Toegekend", column: "wnw_toegekend", colour: "moss", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+              { label: "Afgewezen", column: "wnw_afgewezen", colour: "orange", scale: "null", format: "", modifiers: { cumul: "_cumul", delta: "_aantal" } },
+            ],
+            [
+              { label: "Afgehandeld", column: "wnw_afgerond_cumul", colour: "gray", scale: "null", format: "", excludeFromTable: true  },
+            ],
+          ],
+        },
+      ],
+      segment: { key: "wnw_ingediend", cumulative: true, periodization: "weekly"},
+      functionality: ["table", "definitions", "download"],
+    },
+  ],
+};
 
 export default pageConfig;

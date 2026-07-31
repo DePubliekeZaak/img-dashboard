@@ -37,11 +37,11 @@ export class AggregatedGroupV1 extends GroupControllerV1 {
     async init() {}
 
     prepareData(data: ImgData): any {
-        const { tableParams, graphParams, definitions, timeline } =
-            super.prepareData(data);
 
-        const aggregatie =
-            this.segment.periodization === "monthly" ? "month" : "week";
+        const { tableParams, graphParams, definitions, timeline } =
+            super.prepareData(data)
+
+        const aggregatie = this.segment.periodization === "monthly" ? "month" : "week";
         let endpoints = this.getAggregationEndpoints(aggregatie);
 
         const graphDataWeek = this.aggregateDataForPeriod(
@@ -50,16 +50,17 @@ export class AggregatedGroupV1 extends GroupControllerV1 {
             aggregatie,
             graphParams
         );
-        const graphDataMonth = this.aggregateDataForPeriod(
-            data,
-            endpoints,
-            aggregatie,
-            graphParams
-        );
+        // isnt this just the same as week ? 
+        // const graphDataMonth = this.aggregateDataForPeriod(
+        //     data,
+        //     endpoints,
+        //     aggregatie,
+        //     graphParams
+        // );
 
         const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul} = tables(
             graphDataWeek,
-            graphDataMonth,
+            // graphDataMonth,
             tableParams,
             []
         );

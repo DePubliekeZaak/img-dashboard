@@ -11,6 +11,8 @@ import {
   getActiveColumn,
 } from "../../stores/segment.store";
 
+import { resolveActiveColumn } from "../../shared/factories/segment";
+
 export class BarTrendAOSV1 extends core.GraphControllerV3 {
   scrollingContainer;
   chartAxis;
@@ -135,93 +137,87 @@ export class BarTrendAOSV1 extends core.GraphControllerV3 {
 
   prepareData(data: DataObject): DataObject {
 
-    const periodization = this.segment?.periodization || "weekly";
+    const sourceData = this.selectDataSource(data);
+    const periodKey = this.segment?.periodization === "weekly"
+      ? "_yearweek"
+      : "_yearmonth";
 
-    let _data =
-      data.graphDataMonth !== undefined &&
-      this.group.config.endpoints!.length === 2
-        ? this.group.config.endpoints![1] !== undefined &&
-          periodization === "monthly"
-          ? data.graphDataMonth
-          : data.graphDataWeek
-        : data.graphDataWeek;
-
-    const _period = periodization === "weekly" ? "_yearweek" : "_yearmonth";
-
-    _data = _data.filter(
-      (p) => new Date(p._einddatum) > new Date("2021-12-31"),
-    );
-
-    const createBars = (
-      prop: string,
-      param: IParameterMapping,
-      data: KeyValue[],
-    ) => {
-      const bs: TrendBar[] = [];
-      ``;
-
-      for (const period of data) {
-        bs.push({
-          label: param?.label || "",
-          name: "main",
-          date: period[_period].toString(),
-          colour: param !== undefined ? param.colour : "orange",
-          meta: period,
-          value:
-            period[prop] === null ? 0 : parseFloat(period[prop].toString()),
-          format: param?.format || undefined,
-        });
-      }
-
-      return bs;
-    };
-
-    
-    for (const pg of this.parameters) {
-      for (const p of pg) {
-        data[p.column] = createBars(p.column, p, _data);
-        if (this.modifiers !== undefined) {
-          for (const mg of this.modifiers) {
-            for (const m of mg) {
-              if (m.column !== "{}") {
-                const prop = m.column.replace("{}", p.column);
-                data[prop] = createBars(prop, p, _data);
-              }
-            }
-          }
+    for (const param of this.parameters.flat()) {
+      if (param.modifiers) {
+        for (const [variantKey, suffix] of Object.entries(param.modifiers)) {
+          const col = param.column + suffix;
+          
+          data[col] = this.createBars(param, sourceData, periodKey, col);
+          // console.log(data[col], data, col)
         }
+      } else {
+        data[param.column] = this.createBars(param, sourceData, periodKey);
       }
     }
 
     return data;
   }
 
-  async draw(data: DataObject) {
-    const key = this.segment?.key || this.parameters[0][0].column;
+  private selectDataSource(data: DataObject): KeyValue[] {
+    const wantsMonthly = this.segment?.periodization === "monthly";
+    const hasMonthlyData = data.graphDataMonth !== undefined;
+    const hasMonthlyEndpoint = this.group.config.endpoints?.length === 2;
 
-    this.chartBar.draw(data[key]);
+    if (wantsMonthly && hasMonthlyData && hasMonthlyEndpoint) {
+      return data.graphDataMonth //.filter(
+       // (p) => new Date(p._einddatum) > new Date("2021-12-31"),
+      // );
+    }
+    return data.graphDataWeek //.filter(
+       // (p) => new Date(p._einddatum) > new Date("2021-12-31"),
+    // );
+  }
+
+  private createBars(
+    param: IParameterMapping,
+    data: KeyValue[],
+    periodKey: string,
+    columnOverride?: string,
+  ): TrendBar[] {
+    const col = columnOverride ?? param.column;
+
+    return data.map((period) => ({
+      label: param.label ?? "",
+      name: "main",
+      date: period[periodKey].toString(),
+      colour: param.colour ?? "orange",
+      meta: period,
+      value: period[col] == null ? 0 : parseFloat(period[col].toString()),
+      format: param.format,
+    }));
+  }
+
+  async draw(data: DataObject) {
+    const column = resolveActiveColumn(this.segment!, this.group.graphParams!, this.parameters[0][0].column);
+
+    this.chartBar.draw(data[column]);
     this.timeline_1?.draw(data.timeline, 0);
   }
 
   async redraw(data: any) {
-    const key = this.segment?.key || this.parameters[0][0].column;
+    const column = resolveActiveColumn(this.segment!, this.group.graphParams!, this.parameters[0][0].column);
     const periodization = this.segment?.periodization || "weekly";
 
-    this.scales.x.set(data[key].map((d) => d.date));
+    this.scales.x.set(data[column].map((d) => d.date));
     this.scales.x1.set(
-      data[key]
+      data[column]
         .map((d) => d.meta._startdatum)
         .filter((d) => d !== null),
     );
     this.scales.y.set(
-      data[key]
+      data[column]
         .map((d) => (d.value > 0 ? d.value : 0))
         .concat([0]),
     );
 
-    await super.redraw(data[key], []);
+    await super.redraw(data[column], []);
 
-    this.chartBar.redraw(data[key], periodization);
+    this.chartBar.redraw(data[column], periodization);
     const timeLineHeight = this.timeline_1?.redraw(data.timeline, 0);
 
     if (window.innerWidth < breakpoints.md) {

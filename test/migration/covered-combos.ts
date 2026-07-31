@@ -20,29 +20,17 @@ export function combo(groupConfig: any): string {
 }
 
 export const COVERED_COMBOS = new Set<string>([
-  // ── fs_overzicht ──
   "DefaultGroupV1[BarTrendBedragenV1+NumbersV1]",
   "DefaultGroupV1[BarTrendStackedMakeup+SegmentsV1]",
   "DefaultGroupV1[BarTrendV1+NumbersMultiplesV1]",
-
-  // ── fs_maatwerk ──
-  "DefaultGroupV1[BarTrendBedragenV1+NumbersV1]",
   "DefaultGroupV1[BarTrendStackedMakeup+NumbersMultiplesV1+PieChartSumV1]",
-  "DefaultGroupV1[BarTrendV1+NumbersMultiplesV1]",
   "DefaultGroupV1[BarTrendV1+PieChartSumV1]",
   "DefaultGroupV1[NumbersMultiplesV1]",
-  "KTOGroupV1[BarTrendKTOV1+NumbersPlusRespondentsV1]",
-
-  // ── fs_vaste_vergoeding ──
-  "DefaultGroupV1[BarTrendBedragenV1+NumbersV1]",
+  "DefaultGroupV1[BarTrendV1+NumbersMultiplesTitledV1]",
+  "DefaultGroupV1[NumbersMultiplesTitledV1+SegmentsV1]",
+  "DefaultGroupV1[NumbersMultiplesTitledV1+PieChartSumV1]",
   "DefaultGroupV1[BarTrendStackedMakeup+PieChartSumV1]",
-  "DefaultGroupV1[BarTrendV1+NumbersMultiplesV1]",
-  "DefaultGroupV1[NumbersMultiplesV1]",
+  "RegelingComparisonGroupV1[BarTrendStackedMakeup+NumbersV1+NumbersV1+NumbersV1]",
   "KTOGroupV1[BarTrendKTOV1+NumbersPlusRespondentsV1]",
-
-  // ── ims-overzicht ──
-  "DefaultGroupV1[BarTrendBedragenV1+NumbersV1]",
-  "DefaultGroupV1[BarTrendV1+NumbersMultiplesV1]",
-  "DefaultGroupV1[NumbersMultiplesV1]",
-  "KTOGroupV1[BarTrendKTOV1+NumbersPlusRespondentsV1]",
+  "RegelingComparisonGroupV1[BarTrendStackedMakeup+NumbersV1+NumbersV1]",
 ]);

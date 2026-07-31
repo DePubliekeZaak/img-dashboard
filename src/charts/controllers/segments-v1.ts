@@ -131,16 +131,25 @@ export class SegmentsV1 extends core.GraphControllerV3 {
     ) => {
 
       const entry = this.group.graphParams![prop];
-      const column = this.segment?.cumulative
-            ? (entry?.variants?.cumul?.column)
-            : (entry?.variants?.delta?.column);
+      const variant = this.segment?.cumulative
+        ? entry?.variants?.cumul
+        : entry?.variants?.delta;
+      const column = variant?.column ?? entry?.base?.column ?? prop;
+
+      const rawVal = data?.[0]?.[column];
+      if (rawVal === undefined) {
+        console.warn(`SegmentsV1[${this.slug}]: column "${column}" not in data row`, {
+          dataKeys: data?.[0] ? Object.keys(data[0]) : 'no rows',
+          graphParams: this.group.graphParams,
+        });
+      }
 
       return {
         label: param?.label || "",
         name: "_" + column,
         colour: param !== undefined ? param.colour : "orange",
         // meta: data,
-        value: parseFloat(data[0][column].toString()),
+        value: rawVal !== undefined ? parseFloat(rawVal.toString()) : 0,
       };
     };
 

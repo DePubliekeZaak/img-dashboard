@@ -5,13 +5,7 @@ import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
 import type { IGroupMappingV2 } from "../../../shared/interfaces";
 import type { ImgData } from "../../../shared/types";
 
-const domeinPrefixMap: Record<string, string> = {
-  FYSIEK: "fs",
-  IMS: "ims",
-  WDL: "wdl",
-};
-
-export class DomainComparisonGroupV1 extends GroupControllerV1 {
+export class RegelingComparisonGroupV1 extends GroupControllerV1 {
   constructor(
     public page: any,
     public config: IGroupMappingV2,
@@ -33,25 +27,20 @@ export class DomainComparisonGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
-
-
     const { tableParams, graphParams, definitions, timeline } =
       super.prepareData(data);
 
-
-    // const weekEndpoints = this.group.resolvedEndpoints.filter(
-    //   (e) => e.includes("aggregatie=eq.week")
-    // );
     const monthEndpoints = this.group.resolvedEndpoints.filter(
       (e: any) => e.includes("aggregatie=eq.maand")
     );
 
-    // const graphDataWeek = this.mergeByDomein(data, weekEndpoints, "week");
-    const graphDataMonth = this.mergeByDomein(data, monthEndpoints, "month");
+    const graphDataMonth = this.mergeByRegeling(data, monthEndpoints);
 
     const pre_headers = preHeaders(this.config.graphs, this.segment)
-    
-    const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul} = tables(
+
+    console.log(pre_headers)
+
+    const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul } = tables(
       [],
       graphDataMonth,
       tableParams,
@@ -59,57 +48,63 @@ export class DomainComparisonGroupV1 extends GroupControllerV1 {
     );
 
     return {
-    //   graphDataWeek,
+      numbers: graphDataMonth[0],
       graphDataMonth,
-      weekTableInc,
+      weekTableInc: null,
       monthTableInc,
-      weekTableCumul,
+      weekTableCumul: null,
       monthTableCumul,
       definitions,
       timeline,
     };
   }
 
-  private mergeByDomein(
+  /**
+   * Flatten all rows from the given endpoints into rows keyed by periode.
+   * For each row, data columns are prefixed with the row's regeling_code
+   * (lowercased) so entries with different regeling_code values end up
+   * side-by-side in the same output row under distinct keys, e.g.
+   *   { periode: "2026_29", ims_ingediend_aantal: 498, imk_ingediend_aantal: 79, … }
+   */
+  private mergeByRegeling(
     data: any,
     endpoints: string[],
-    period: "week" | "month"
-    ): any[] {
+  ): any[] {
     const merged: Record<string, any> = {};
 
     for (const endpoint of endpoints) {
+      const rows = data[endpoint];
+      if (!rows || rows.length === 0) continue;
 
-
-        const prefix = this.extractDomeinPrefix(endpoint);
-        if (!prefix) continue;
-
-        const rows = data[endpoint];
-        if (!rows || rows.length === 0) continue;
-
-        for (const row of rows) {
+      for (const row of rows) {
         const key = row.periode;
         if (!key) continue;
 
         if (!merged[key]) merged[key] = { periode: key };
 
+        const prefix = (row.regeling_code ?? "").toLowerCase();
+        if (!prefix) continue;
+
         for (const [col, val] of Object.entries(row)) {
-            if (col.startsWith("_") || col == 'periode' || col == 'aggregatie') {
-                merged[key][`${col}`] = val;
-            } else {
-                merged[key][`${prefix}_${col}`] = val;
-            }
+          // keep internal / shared fields without prefix
+          if (
+            col === "periode" ||
+            col === "regeling_code" ||
+            col === "domein_code"
+          ) continue;
+
+          if (col.startsWith("_") || col === "aggregatie") {
+            if (!(col in merged[key])) merged[key][col] = val;
+            continue;
+          }
+
+          merged[key][`${prefix}_${col}`] = val;
         }
-        }
+      }
     }
 
     return Object.values(merged).sort((a, b) =>
-        String(b.periode).localeCompare(String(a.periode))
+      String(b.periode).localeCompare(String(a.periode))
     );
-    }
-
-  private extractDomeinPrefix(endpoint: string): string | null {
-    const match = endpoint.match(/domein_code=eq\.([A-Z]+)/);
-    if (!match) return null;
-    return domeinPrefixMap[match[1]] ?? null;
   }
 }

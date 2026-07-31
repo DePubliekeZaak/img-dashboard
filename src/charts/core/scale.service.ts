@@ -34,7 +34,8 @@ export class ScaleService implements IScaleService {
         if (min === undefined || max === undefined) return;
         this.scale = window.d3
           .scaleLinear()
-          .domain([parseFloat(min), parseFloat(max)]);
+          .domain([parseFloat(min), parseFloat(max)])
+          .nice();
         break;
 
       case "log":

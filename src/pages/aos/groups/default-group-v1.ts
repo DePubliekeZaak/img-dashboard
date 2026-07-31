@@ -1,11 +1,11 @@
-import { getGroupSegment } from "../stores/segment.store";
-import { incVsCum, pieParts, tables } from "./data.factory";
-import { preHeaders } from "./factories/pre_headers";
-import { GroupControllerV1 } from "./group-v1";
-import { HTMLSourceV2 } from "../charts/renderers/html-source-v2";
-import type { IGroupMappingV2 } from "./interfaces";
-import type { ImgData } from "./types";
-import type { TableData } from "./types_graphs";
+import { getGroupSegment } from "../../../stores/segment.store";
+import { incVsCum, pieParts, tables } from "../../../shared/data.factory";
+import { preHeaders } from "../../../shared/factories/pre_headers";
+import { GroupControllerV1 } from "../../../shared/group-v1";
+import { HTMLSourceV2 } from "../../../charts/renderers/html-source-v2";
+import type { IGroupMappingV2 } from "../../../shared/interfaces";
+import type { ImgData } from "../../../shared/types";
+import type { TableData } from "../../../shared/types_graphs";
 
 export class DefaultGroupV1 extends GroupControllerV1 {
   constructor(
@@ -41,6 +41,10 @@ export class DefaultGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
+    for (let p of graphDataWeek) {
+      p["aos_gegrond_perc"] = 100 * parseFloat(p["aos_gegrond_cumul"]) / parseFloat(p["aos_ingediend_cumul"]);
+    }
+    
     const { incremental, cumulative } = incVsCum(graphDataWeek, graphParams);
 
     const nIndex = this.config.graphs.findIndex((g) => g.ctrlr === "NumbersV1");
@@ -54,7 +58,8 @@ export class DefaultGroupV1 extends GroupControllerV1 {
         : groupSegment?.cumulative
           ? cumulative
           : incremental;
-        
+    
+    console.log(numbers, graphDataWeek)
 
     let pies: any[] | null = null;
     const pieChartIndex = this.config.graphs.findIndex(

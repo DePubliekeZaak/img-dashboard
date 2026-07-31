@@ -96,6 +96,7 @@ export class PieChartSumV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
+    console.log(data.pies)
     this.chartPie.draw(
       data.pies[this.index].filter(
         (d: any, i: number) => i !== data.pies[this.index].length - 1,

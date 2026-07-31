@@ -123,13 +123,13 @@ const pageConfig: IPageConfig = {
   {
     slug: "vv_bedragen",
     ctrlr: "DefaultGroupV1",
-    filters: [],
+    filters: ["cumulativeVsDelta", "weekVsMonth"],
     graphs: [
       {
         slug: "fs_vv_numbers_2",
         ctrlr: "NumbersV1",
         args: [],
-        filters: ["cumulativeVsDelta", "weekVsMonth"],
+        filters: [],
         multiples: "cumulative",
         parameters: [
           [
@@ -168,7 +168,7 @@ const pageConfig: IPageConfig = {
         segment: {
           key: "bedrag_betaald_totaal",
           cumulative: true,
-          periodization: "weekly",
+          periodization: "monthly",
         },
       },
       {
@@ -197,7 +197,7 @@ const pageConfig: IPageConfig = {
     segment: {
       key: "bedrag_betaald_totaal",
       cumulative: true,
-      periodization: "weekly",
+      periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
     endpoints: [],
@@ -542,266 +542,262 @@ const pageConfig: IPageConfig = {
       periodization: "weekly",
     },
   },
-  // // duur (commented out — no live column reference, migrate with test coverage)
-  // {
-  //   slug: "vv_duur",
-  //   ctrlr: "DefaultGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "vv_duur_numbers_v1",
-  //       ctrlr: "NumbersMultiplesTitledV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "incremental",
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Mediaan",
-  //             column: "dlt_gerealiseerd_mediaan_dagen",
-  //             colour: "orange",
-  //             units: "gerealiseerd aantal dagen",
-  //           },
-  //           {
-  //             label: "Gemiddelde",
-  //             column: "dlt_gerealiseerd_gemiddeld_dagen",
-  //             colour: "blue",
-  //             units: "gerealiseerd aantal dagen",
-  //           },
-  //           {
-  //             label: "Verwacht",
-  //             column: "dlt_verwacht_rolling8_dagen",
-  //             colour: "moss",
-  //             units: "aantal dagen",
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "dlt_gerealiseerd_mediaan_dagen",
-  //         cumulative: false,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //     {
-  //       slug: "vv_duur_trend",
-  //       ctrlr: "BarTrendV1",
-  //       filters: ["parameterSelect"],
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Gerealiseerde mediaan aantal dagen tot besluit",
-  //             column: "dlt_gerealiseerd_mediaan_dagen",
-  //             colour: "orange",
-  //             units: "mediaan gerealiseerd aantal dagen",
-  //           },
-  //           {
-  //             label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
-  //             column: "dlt_gerealiseerd_gemiddeld_dagen",
-  //             colour: "blue",
-  //             units: "gemiddeld gerealiseerd aantal dagen",
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "dlt_gerealiseerd_mediaan_dagen",
-  //         cumulative: false,
-  //         periodization: "monthly",
-  //         label: "dagen",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "dlt_gerealiseerd_mediaan_dagen",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //     label: "dagen",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: [],
-  // },
-  // // voorraad (commented out — no live column reference, migrate with test coverage)
-  // {
-  //   slug: "vv_voorraad",
-  //   ctrlr: "DefaultGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "vv_voorrraad_getallen",
-  //       ctrlr: "NumbersMultiplesTitledV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "incremental",
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Voorraad",
-  //             column: "voorraad",
-  //             colour: "blue",
-  //             units: "voorraad",
-  //           },
-  //           {
-  //             label: "Beslistermijn",
-  //             column: "beslistermijn_dagen",
-  //             colour: "moss",
-  //             units: "dagen",
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "beslistermijn_dagen",
-  //         cumulative: false,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //     {
-  //       slug: "vv_voorraad_groepen",
-  //       ctrlr: "SegmentsV1",
-  //       args: [],
-  //       filters: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "< 56 dagen",
-  //             column: "oud_voorraad_binnen_termijn",
-  //             colour: "orange",
-  //           },
-  //           {
-  //             label: "56 - 112 dagen",
-  //             column: "oud_voorraad_1_2_termijn",
-  //             colour: "moss",
-  //           },
-  //           {
-  //             label: "112 - 224 dagen",
-  //             column: "oud_voorraad_2_4_termijn",
-  //             colour: "blue",
-  //           },
-  //           {
-  //             label: "> 224 dagen",
-  //             column: "oud_voorraad_buiten_4_termijn",
-  //             colour: "purple",
-  //           },
-  //         ],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "oud_voorraad_binnen_termijn",
-  //         cumulative: false,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "oud_voorraad_binnen_termijn",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: [],
-  // },
-  // // bezwaren (commented out — no live column reference, migrate with test coverage)
-  // {
-  //   slug: "vv_bezwaren",
-  //   ctrlr: "DefaultGroupV1",
-  //   graphs: [
-  //     {
-  //       slug: "fs_vv_bezwaren_numbers_v1",
-  //       ctrlr: "NumbersMultiplesTitledV1",
-  //       args: [],
-  //       filters: [],
-  //       multiples: "incremental",
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Ingediend",
-  //             column: "bz_ingediend",
-  //             colour: "orange",
-  //             units: "bezwaren",
-  //             modifiers: { cumul: "_cumul", delta: "_aantal" },
-  //           },
-  //           {
-  //             label: "In procedure",
-  //             column: "bz_voorraad",
-  //             colour: "purple",
-  //             units: "bezwaren",
-  //             modifiers: { cumul: "_cumul", delta: "_verschil" },
-  //           },
-  //           {
-  //             label: "Afgerond",
-  //             column: "bz_afgerond",
-  //             colour: "moss",
-  //             units: "bezwaren",
-  //             modifiers: { cumul: "_cumul", delta: "_aantal" },
-  //           },
-  //           {
-  //             label: "Bezwaarpercentage",
-  //             column: "bz_perc",
-  //             colour: "blue",
-  //             format: "percentage",
-  //             units: "t.o.v. aantal besluiten",
-  //             modifiers: { cumul: "_cumul", delta: "_perc" },
-  //           },
-  //         ],
-  //         [],
-  //       ],
-  //       modifiers: [],
-  //       segment: {
-  //         key: "bz_ingediend",
-  //         cumulative: false,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //     {
-  //       slug: "bezwaren_taart_toegekend",
-  //       ctrlr: "PieChartSumV1",
-  //       args: [],
-  //       parameters: [
-  //         [
-  //           {
-  //             label: "Toegekend",
-  //             column: "bz_toegekend",
-  //             colour: "moss",
-  //             modifiers: { cumul: "_cumul", delta: "_aantal" },
-  //           },
-  //           {
-  //             label: "Afgewezen",
-  //             column: "bz_afgewezen",
-  //             colour: "orange",
-  //             modifiers: { cumul: "_cumul", delta: "_aantal" },
-  //           },
-  //           {
-  //             label: "Anders afgerond",
-  //             column: "bz_anders_afgehandeld",
-  //             colour: "blue",
-  //             modifiers: { cumul: "_cumul", delta: "_aantal" },
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             label: "Totaal afgerond",
-  //             column: "bz_afgerond",
-  //             colour: "gray",
-  //             modifiers: { cumul: "_cumul", delta: "_aantal" },
-  //           },
-  //         ],
-  //       ],
-  //       segment: {
-  //         key: "bz_toegekend",
-  //         cumulative: true,
-  //         periodization: "weekly",
-  //       },
-  //     },
-  //   ],
-  //   segment: {
-  //     key: "bz_toegekend",
-  //     cumulative: false,
-  //     periodization: "weekly",
-  //   },
-  //   functionality: ["table", "definitions", "download"],
-  //   endpoints: [],
-  // },
+  // duur
+  {
+    slug: "vv_duur",
+    ctrlr: "DefaultGroupV1",
+    graphs: [
+      {
+        slug: "vv_duur_numbers_v1",
+        ctrlr: "NumbersMultiplesTitledV1",
+        args: [],
+        filters: [],
+        multiples: "incremental",
+        parameters: [
+          [
+            {
+              label: "Mediaan",
+              column: "dlt_gerealiseerd_mediaan_dagen",
+              colour: "orange",
+              units: "gerealiseerd aantal dagen",
+            },
+            {
+              label: "Gemiddelde",
+              column: "dlt_gerealiseerd_gemiddeld_dagen",
+              colour: "blue",
+              units: "gerealiseerd aantal dagen",
+            },
+          ],
+          [],
+        ],
+        modifiers: [],
+        segment: {
+          key: "dlt_gerealiseerd_mediaan_dagen",
+          cumulative: false,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "vv_duur_trend",
+        ctrlr: "BarTrendV1",
+        filters: ["parameterSelect"],
+        args: [],
+        parameters: [
+          [
+             {
+              label: "Gerealiseerd gemiddeld aantal dagen tot besluit",
+              column: "dlt_gerealiseerd_gemiddeld_dagen",
+              colour: "blue",
+              units: "gemiddeld gerealiseerd aantal dagen",
+            },
+            {
+              label: "Gerealiseerde mediaan aantal dagen tot besluit",
+              column: "dlt_gerealiseerd_mediaan_dagen",
+              colour: "orange",
+              units: "mediaan gerealiseerd aantal dagen",
+            },
+           
+          ],
+        ],
+        segment: {
+          key: "dlt_gerealiseerd_gemiddeld_dagen",
+          cumulative: false,
+          periodization: "monthly",
+          label: "dagen",
+        },
+      },
+    ],
+    segment: {
+      key: "dlt_gerealiseerd_mediaan_dagen",
+      cumulative: false,
+      periodization: "weekly",
+      label: "dagen",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+  },
+  // voorraad
+  {
+    slug: "vv_voorraad",
+    ctrlr: "DefaultGroupV1",
+    graphs: [
+      {
+        slug: "vv_voorrraad_getallen",
+        ctrlr: "NumbersMultiplesTitledV1",
+        args: [],
+        filters: [],
+        multiples: "incremental",
+        parameters: [
+          [
+            {
+              label: "Voorraad",
+              column: "voorraad_cumul",
+              colour: "blue",
+              units: "voorraad",
+              // modifiers: { cumul: "_cumul", delta: "_verschil" },
+            },
+            {
+              label: "Beslistermijn",
+              column: "beslistermijn_dagen",
+              colour: "moss",
+              units: "dagen",
+            },
+          ],
+          [],
+        ],
+        modifiers: [],
+        segment: {
+          key: "beslistermijn_dagen",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "vv_voorraad_groepen",
+        ctrlr: "SegmentsV1",
+        args: [],
+        filters: [],
+        parameters: [
+          [
+            {
+              label: "< 56 dagen",
+              column: "oud_voorraad_binnen_termijn",
+              colour: "orange",
+            },
+            {
+              label: "56 - 112 dagen",
+              column: "oud_voorraad_1_2_termijn",
+              colour: "moss",
+            },
+            {
+              label: "112 - 224 dagen",
+              column: "oud_voorraad_2_4_termijn",
+              colour: "blue",
+            },
+            {
+              label: "> 224 dagen",
+              column: "oud_voorraad_buiten_4_termijn",
+              colour: "purple",
+            },
+          ],
+        ],
+        modifiers: [],
+        segment: {
+          key: "oud_voorraad_binnen_termijn",
+          cumulative: false,
+          periodization: "weekly",
+        },
+      },
+    ],
+    segment: {
+      key: "oud_voorraad_binnen_termijn",
+      cumulative: false,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+  },
+  // bezwaren
+  {
+    slug: "vv_bezwaren",
+    ctrlr: "DefaultGroupV1",
+    graphs: [
+      {
+        slug: "fs_vv_bezwaren_numbers_v1",
+        ctrlr: "NumbersMultiplesTitledV1",
+        args: [],
+        filters: ["cumulativeVsDelta", "weekVsMonth"],
+        multiples: "incremental",
+        parameters: [
+          [
+            {
+              label: "Ingediend",
+              column: "bz_ingediend",
+              colour: "orange",
+              units: "bezwaren",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "In procedure",
+              column: "bz_voorraad",
+              colour: "purple",
+              units: "bezwaren",
+              modifiers: { cumul: "_cumul", delta: "_verschil" },
+            },
+            {
+              label: "Afgerond",
+              column: "bz_afgerond",
+              colour: "moss",
+              units: "bezwaren",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Bezwaarpercentage",
+              column: "bz_vertraagd_jaar_perc",
+              colour: "blue",
+              format: "percentage",
+              units: "t.o.v. aantal besluiten",
+              modifiers: { cumul: "", delta: "" },
+            },
+          ],
+          [],
+        ],
+        modifiers: [],
+        segment: {
+          key: "bz_ingediend_cumul",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+      {
+        slug: "bezwaren_taart_toegekend",
+        ctrlr: "PieChartSumV1",
+        args: [],
+        parameters: [
+          [
+            {
+              label: "Toegekend",
+              column: "bz_toegekend",
+              colour: "moss",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Afgewezen",
+              column: "bz_afgewezen",
+              colour: "orange",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Anders afgerond",
+              column: "bz_anders_afgehandeld",
+              colour: "blue",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+          ],
+          [
+            {
+              label: "Totaal afgerond",
+              column: "bz_afgerond",
+              colour: "gray",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+          ],
+        ],
+        segment: {
+          key: "bz_toegekend_cumul",
+          cumulative: true,
+          periodization: "weekly",
+        },
+      },
+    ],
+    segment: {
+      key: "bz_toegekend_cumul",
+      cumulative: true,
+      periodization: "weekly",
+    },
+    functionality: ["table", "definitions", "download"],
+    endpoints: [],
+  },
 ],
 };
 

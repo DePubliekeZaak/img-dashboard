@@ -71,7 +71,7 @@ export class HtmlGroupFilters {
         let selectEl;
 
         switch (func) {
-          case "totaalVsRecent": {
+          case "cumulativeVsDelta": {
             const _selector = new HtmlTotalvsRecentSelector(
               this.ctrlr,
               li,

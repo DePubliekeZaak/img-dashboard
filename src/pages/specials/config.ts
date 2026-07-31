@@ -4,7 +4,7 @@ const mappings: IGroupMappingV2[] = [
   {
     slug: "specials_intro",
     ctrlr: "DefaultGroupV1",
-    filters: ["specials", "totaalVsRecent"],
+    filters: ["specials", "cumulativeVsDelta"],
     graphs: [
       {
         slug: "all_total_numbers",

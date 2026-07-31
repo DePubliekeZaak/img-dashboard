@@ -115,21 +115,23 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
-    this.chartBarTrend.draw(data[this.segment!.key]);
+    if (!this.segment) return;
+    this.chartBarTrend.draw(data[this.segment.key]);
   }
 
   async redraw(data: any) {
-    this.scales.x.set(data[this.segment!.key].map((d: any) => d.date));
+    if (!this.segment) return;
+    this.scales.x.set(data[this.segment.key].map((d: any) => d.date));
     this.scales.y.set(
-      data[this.segment!.key]
+      data[this.segment.key]
         .map((d: any) => (d.value < 0 ? 0 : d.value))
         .concat([0, 10]),
     );
 
-    await super.redraw(data[this.segment!.key]);
+    await super.redraw(data[this.segment.key]);
 
     this.chartBarTrend.redraw(
-      data[this.segment!.key],
+      data[this.segment.key],
       this.parameters[1][0].column,
     );
 

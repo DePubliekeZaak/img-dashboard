@@ -99,7 +99,8 @@ export class NumbersV1 extends core.GraphControllerV3 {
     for (const p of this.parameters[0]) {
       if (p.column === "---") return;
       const entry = this.group.graphParams?.[p.column];
-      const seg = this.group.config.segment;
+      const seg = this.segment;
+
       const isCumulative = typeof seg === 'object' && seg?.cumulative;
 
       const variant = isCumulative

@@ -110,6 +110,18 @@ export class HTMLTables {
       "month-table-cumul",
     ];
 
+    // Find the right table — prefer state-matching, fall back to first with data
+    const activeTableId = (() => {
+      const preferred = tableIds[tableIndex];
+      const hasDataFor = (id: string) =>
+        (id === "week-table-inc" && hasWeekIncData) ||
+        (id === "month-table-inc" && hasMonthIncData) ||
+        (id === "week-table-cumul" && hasWeekCumulData) ||
+        (id === "month-table-cumul" && hasMonthCumulData);
+      if (hasDataFor(preferred)) return preferred;
+      return tableIds.find(hasDataFor) || preferred;
+    })();
+
     tables.forEach((t: any) => {
       t.querySelector("thead")!.innerHTML = "";
       t.querySelector("tbody")!.innerHTML = "";
@@ -124,7 +136,7 @@ export class HTMLTables {
         t.classList.add("hidden");
 
       // Only show the table that matches the current toggler positions
-      if (t.getAttribute("id") === tableIds[tableIndex]) {
+      if (t.getAttribute("id") === activeTableId) {
         if (
           (t.getAttribute("id") === "week-table-inc" && hasWeekIncData) ||
           (t.getAttribute("id") === "month-table-inc" && hasMonthIncData) ||

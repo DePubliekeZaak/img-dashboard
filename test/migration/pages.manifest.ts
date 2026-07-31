@@ -36,6 +36,16 @@ import imsWeek from "../fixtures/ims-overzicht/ims_data/week.json";
 import imsMonth from "../fixtures/ims-overzicht/ims_data/month.json";
 import imsKTO from "../fixtures/regelingen/all_waardering/ep1.json";
 
+// ── wd-overzicht ──
+import wdOverzichtConfig from "../../src/pages/wd-overzicht/config";
+import wdOverzichtGroups from "../../src/pages/wd-overzicht/groups";
+import wdOverzichtGraphs from "../../src/pages/wd-overzicht/graphs";
+
+// ── ims-kinderen-jongeren ──
+import imsKJConfig from "../../src/pages/ims-kinderen-jongeren/config";
+import imsKJGroups from "../../src/pages/ims-kinderen-jongeren/groups";
+import imsKJGraphs from "../../src/pages/ims-kinderen-jongeren/graphs";
+
 export interface MigratedPage {
   /** Human label / page slug */
   slug: string;
@@ -107,8 +117,38 @@ export const MIGRATED_PAGES: MigratedPage[] = [
     config: imsConfig as unknown as IPageConfig,
     groups: imsGroups,
     graphs: imsGraphs,
+    skipTableAssertions: ["ims_totaal_keuzepaden"],
     fixtures: {
       "regeling_code=eq.Totaal": { week: imsWeek as any[], month: imsMonth as any[] },
+      "tevredenheid": { single: imsKTO as any[] },
+    },
+  },
+
+  // ═══════════════════════════════════════════
+  // wd-overzicht
+  // ═══════════════════════════════════════════
+  {
+    slug: "wd-overzicht",
+    config: wdOverzichtConfig as unknown as IPageConfig,
+    groups: wdOverzichtGroups,
+    graphs: wdOverzichtGraphs,
+    skipTableAssertions: ["wd_totaal_varianten"],
+    fixtures: {
+      "regeling_code=eq.Totaal": { week: imsWeek as any[], month: imsMonth as any[] },
+      "tevredenheid": { single: imsKTO as any[] },
+    },
+  },
+
+  // ═══════════════════════════════════════════
+  // ims-kinderen-jongeren
+  // ═══════════════════════════════════════════
+  {
+    slug: "ims-kinderen-jongeren",
+    config: imsKJConfig as unknown as IPageConfig,
+    groups: imsKJGroups,
+    graphs: imsKJGraphs,
+    fixtures: {
+      "regeling_code=eq.IMK": { week: imsWeek as any[], month: imsMonth as any[] },
       "tevredenheid": { single: imsKTO as any[] },
     },
   },

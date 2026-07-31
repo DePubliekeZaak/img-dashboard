@@ -54,6 +54,7 @@ export class DashboardController implements IDashboardController {
   close_btn;
   open_btn;
   loader;
+  _currentController: any = null;
 
   constructor() {
     this.params = new ParamService();
@@ -71,6 +72,12 @@ export class DashboardController implements IDashboardController {
 
   async call(update: boolean): Promise<void> {
     const BUNDLE_BASE = getScriptBaseUrl();
+
+    // Destroy previous page's graph objects before clearing DOM
+    if (this._currentController?.destroy) {
+      this._currentController.destroy();
+    }
+    this._currentController = null;
     this.htmlContainer.innerHTML = "";
 
     const getLeafNavItems = (items: any[]): any[] => {
@@ -105,6 +112,7 @@ export class DashboardController implements IDashboardController {
     );
     // @ts-expect-error
     const ctrlr = new window[this.params.topic](this);
+    this._currentController = ctrlr;
     ctrlr.init(this.params.version);
 
     setTimeout(() => {
@@ -122,6 +130,12 @@ export class DashboardController implements IDashboardController {
   }
 
   switchVersion(slug: string): void {
+    // Clean up current page before switching version
+    if (this._currentController?.destroy) {
+      this._currentController.destroy();
+      this._currentController = null;
+    }
+
     if (slug === "versie_001") {
       const container = document.querySelector(
         "[img-graph-preset='dashboard'], [data-img-graph-preset='dashboard']",

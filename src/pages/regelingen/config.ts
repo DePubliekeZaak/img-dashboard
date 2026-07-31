@@ -5,12 +5,11 @@ const pageConfig: IPageConfig = {
   slug: "regelingen",
   segment: {
     key: "",
-    gemeente: "all",
     periodization: "weekly",
     cumulative: false,
     vanaf: "2025-01-01"
   },
-  filters: ["gemeenten","vanaf"],
+  filters: ["vanaf"],
   endpoints: [
     "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal",
     "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}",
@@ -20,7 +19,7 @@ const pageConfig: IPageConfig = {
   {
     slug: "all_totals",
     ctrlr: "DefaultGroupV1",
-    filters: ["totaalVsRecent"],
+    filters: ["cumulativeVsDelta"],
     graphs: [
       {
         slug: "all_total_numbers",

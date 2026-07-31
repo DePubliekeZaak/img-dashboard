@@ -1,4 +1,4 @@
-import { DefaultGroupV1 } from "../../../shared/default-group-v1";
+import { DefaultGroupV1 } from "./default-group-v1";
 
 const groups = {
   DefaultGroupV1,

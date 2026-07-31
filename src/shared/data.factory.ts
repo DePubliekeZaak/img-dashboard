@@ -32,7 +32,7 @@ export const incVsCum = (data: any[], graphParams: Record<string, GraphParamEntr
 //   return { incremental, cumulative };
 // };
 
-const rowing = (data: any, tableParams: any) => {
+const rowing = (data: any, tableParams: any, noSplit = false) => {
 
   const inc: string[][] = []; 
   const cumul: string[][] = []; 
@@ -69,32 +69,27 @@ const rowing = (data: any, tableParams: any) => {
     );
 
     for (const p of tableParams) {
+      const isCumul = p.column.includes("_cumul");
+      const val = (() => {
+        if (p.format === "currency") return convertToCurrencyInTable(period[p.column]);
+        if (p.format === "percentage") return period[p.column] != null ? (Math.round(period[p.column] * 10) / 10).toFixed(1) + "%" : ' -';
+        return period[p.column] != null ? period[p.column] : ' -';
+      })();
 
-      if (p.column.includes("_cumul")) { 
-        if (p.format === "currency") {
-          cumulRow.push(convertToCurrencyInTable(period[p.column]));
-        } else if (p.format === "percentage") {
-          cumulRow.push(period[p.column] != null ? (Math.round(period[p.column] * 10) / 10).toFixed(1) + "%" : ' -');
-        } else {
-          cumulRow.push(period[p.column] != null ? period[p.column] : ' -');
-        }
-      } else {
-          if (p.format === "currency") {
-          incRow.push(convertToCurrencyInTable(period[p.column]));
-        } else if (p.format === "percentage") {
-          incRow.push(period[p.column] != null ? (Math.round(period[p.column] * 10) / 10).toFixed(1) + "%" : ' -');
-        } else {
-          incRow.push(period[p.column] != null ? period[p.column] : ' -');
-        }
-      }
+      if (noSplit || isCumul) cumulRow.push(val);
+      if (noSplit || !isCumul) incRow.push(val);
     }
 
 
-    if (incRow.length > 3) inc.push(incRow);
-    if (cumulRow.length > 3) cumul.push(cumulRow);
+    if (noSplit) {
+      cumul.push(cumulRow);
+    } else {
+      if (incRow.length > 3) inc.push(incRow);
+      if (cumulRow.length > 3) cumul.push(cumulRow);
+    }
   }
 
-  return { inc, cumul } 
+  return { inc, cumul }
 
 }
 
@@ -148,16 +143,20 @@ export const tables = (
   graphDataMonth: any[],
   tableParams: any[],
   pre_headers?: any[][],
+  forceCumul = false,
+  hasModifiers = false,
 ) => {
 
   graphDataMonth.sort((a, b) => b._yearmonth.localeCompare(a._yearmonth));
   graphDataWeek.sort((a, b) => b._yearweek.localeCompare(a._yearweek));
 
-  const { inc: weekRowsInc, cumul: weekRowsCumul} = rowing(graphDataWeek, tableParams)
-  const { inc: monthRowsInc, cumul: monthRowsCumul} = rowing(graphDataMonth, tableParams)
+  const noSplit = forceCumul && !hasModifiers;
+
+  const { inc: weekRowsInc, cumul: weekRowsCumul} = rowing(graphDataWeek, tableParams, noSplit)
+  const { inc: monthRowsInc, cumul: monthRowsCumul} = rowing(graphDataMonth, tableParams, noSplit)
 
   // Build weekTable only if week data exists
-  const weekTableInc = graphDataWeek.length > 0
+  const weekTableInc = graphDataWeek.length > 0 && !noSplit
     ? {
         pre_headers: pre_headers !== null ? pre_headers![0] : [],
         headers: ["Jaar", "Week", "Periode"].concat(
@@ -172,14 +171,14 @@ export const tables = (
     ? {
         pre_headers: pre_headers !== null ? pre_headers![0] : [],
         headers: ["Jaar", "Week", "Periode"].concat(
-          tableParams.filter( p => p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
+          (noSplit ? tableParams : tableParams.filter( p => p.column.includes('_cumul'))).map((p) => p.short != undefined ? p.short : p.label),
         ),
-        rows: weekRowsCumul,
+        rows: noSplit ? weekRowsCumul : weekRowsCumul,
       }
     : null;
 
     // Build monthTable only if month data exists
-  const monthTableInc = graphDataMonth.length > 0
+  const monthTableInc = graphDataMonth.length > 0 && !noSplit
     ? {
         pre_headers: pre_headers !== null ? pre_headers![1] : [],
         headers: ["Jaar", "Maand", "Periode"].concat(
@@ -193,9 +192,9 @@ export const tables = (
     ? {
         pre_headers: pre_headers !== null ? pre_headers![1] : [],
         headers: ["Jaar", "Maand", "Periode"].concat(
-          tableParams.filter( p => p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
+          (noSplit ? tableParams : tableParams.filter( p => p.column.includes('_cumul'))).map((p) => p.short != undefined ? p.short : p.label),
         ),
-        rows: monthRowsCumul,
+        rows: noSplit ? monthRowsCumul : monthRowsCumul,
       }
     : null;
 
@@ -283,15 +282,13 @@ export const pieParts = (group: any, data: any, graphs: any[], index: number) =>
   const params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
 
   const segment = getGroupSegment(group.slug)
-
-
-
+  
   params_1.forEach((p: any, i: number) => {
 
     const entry = group.graphParams![p.column];
-    const variant = segment!.cumulative ? entry?.variants.cumul : entry?.variants.delta;
-
-
+    const variant = segment!.cumulative
+      ? (entry?.variants.cumul ?? entry?.variants.base)
+      : (entry?.variants.delta ?? entry?.variants.base);
 
     parts.push({
       label: p.label,

@@ -189,8 +189,50 @@ export const preHeaders = (graphs: any[], segment: any) => {
     ];
   }
 
+  const wdIndex = graphs.findIndex(
+    (g) => g.slug === "wd_numbers_woningen",
+  );
+
+  if (wdIndex !== -1) {
+    pre_headers = [
+      [
+        { label: "", length: 3 },
+        {
+          label: "Woningen",
+          length: graphs[0].parameters[0].concat(graphs[0].parameters[1])
+            .length,
+        },
+        {
+          label: "Niet woningen",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "NAM tegemoetkoming",
+          length: graphs[0].parameters[0].length,
+        }
+      ],
+      [
+        { label: "", length: 3 },
+        {
+          label: "Woningen",
+          length: graphs[0].parameters[0].concat(graphs[0].parameters[1])
+            .length,
+        },
+        {
+          label: "Niet woningen",
+          length: graphs[0].parameters[0].length,
+        },
+        {
+          label: "NAM tegemoetkoming",
+          length: graphs[0].parameters[0].length,
+        }
+      ],
+    ];
+  }
+
+
   const bezwarenIndex = graphs.findIndex(
-    (g) => g.slug === "bezwaren_mw_numbers_v1",
+    (g) => g.slug === "bz_mw_numbers_v1",
   );
 
   if (bezwarenIndex !== -1) {
@@ -199,62 +241,62 @@ export const preHeaders = (graphs: any[], segment: any) => {
         { label: "", length: 3 },
         {
           label: "Maatwerk",
-          length: 4,
+          length: 3,
         },
         {
           label: "Vaste vergoeding",
-          length: 4,
+          length: 3,
         },
         {
           label: "IMS: Volwassenen",
-          length: 4,
+          length: 3,
         },
         {
           label: "IMS: Kinderen en jongeren",
-          length: 4,
+          length: 3,
         },
         {
           label: "WD: wonen",
-          length: 4,
+          length: 3,
         },
         {
           label: "WD: niet wonen",
-          length: 4,
+          length: 3,
         },
         {
           label: "WD: NAMCO",
-          length: 4,
+          length: 3,
         },
       ],
       [
         { label: "", length: 3 },
         {
           label: "Maatwerk",
-          length: 4,
+          length: 3,
         },
         {
           label: "Vaste vergoeding",
-          length: 4,
+          length: 3,
         },
         {
           label: "IMS: Volwassenen",
-          length: 4,
+          length: 3,
         },
         {
           label: "IMS: Kinderen en jongeren",
-          length: 4,
+          length: 3,
         },
         {
           label: "WD: wonen",
-          length: 4,
+          length: 3,
         },
         {
           label: "WD: niet wonen",
-          length: 4,
+          length: 3,
         },
         {
-          label: "WD: NAMCO",
-          length: 4,
+          label: "WD: NAMTEG",
+          length: 3,
         },
       ],
     ];

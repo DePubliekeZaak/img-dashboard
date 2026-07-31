@@ -28,7 +28,7 @@ export class HtmlFilters {
     private ctrlr: IGraphControllerV3,
     private master: boolean,
     private id: string,
-    private element,
+    private element: HTMLElement,
     private filters,
     private parameters,
     private modifiers,
@@ -73,8 +73,8 @@ export class HtmlFilters {
       this.listElement.appendChild(ul);
       container.appendChild(this.listElement);
 
-      // element.insertBefore(this.listElement, element.firstChild);
-      element.parentElement.insertBefore(container, element);
+      // Prepend inside element so the filter sits inside the graph section
+      element.prepend(container);
     } else {
       this.listElement = prevElement;
     }
@@ -91,7 +91,7 @@ export class HtmlFilters {
     
     if (!localSegment) return;
 
-    const ul = this.element.parentElement.querySelector(`.filter_list_${this.id} ul`);
+    const ul = this.element.parentElement!.querySelector(`.filter_list_${this.id} ul`);
 
     for (const func of this.filters) {
       const li = this.ctrlr.page.main.window.document.createElement("li");
@@ -108,7 +108,7 @@ export class HtmlFilters {
               li,
               this.id,
             );
-            selectEl = selector.draw(1);
+            selectEl = selector.draw(localSegment);
           } else {
             selectEl = this.ctrlr.page.main.window.document.getElementById(
               this.id + "_0",
