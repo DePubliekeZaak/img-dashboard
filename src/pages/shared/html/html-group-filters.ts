@@ -166,7 +166,13 @@ export class HtmlGroupFilters {
                                 // not just the one whose selector changed - otherwise the
                                 // page falls out of sync and the selector only works once.
                                 for (const group of self.ctrlr.page.chartArray) {
-                                    group.ctrlr.update(self.ctrlr.page.main.data.collection(), undefined, true);
+                                    try {
+                                        group.ctrlr.update(self.ctrlr.page.main.data.collection(), undefined, true);
+                                    } catch (e) {
+                                        // one group failing (e.g. no data for this gemeente)
+                                        // must never abort the rest of the page
+                                        console.error("gemeente update failed for " + group.slug, e);
+                                    }
                                 }
 
                                 // keep every selector's displayed value in sync with the

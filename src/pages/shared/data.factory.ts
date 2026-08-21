@@ -14,12 +14,17 @@ export const incVsCum = (data: any[], config: any) => {
 };
 
 export const incVsCum2 = (data: any[], config: any) => {
-  const incremental: string[] = [];
-  const cumulative: string[] = [];
+  const incremental: number[] = [];
+  const cumulative: number[] = [];
+
+  // A gemeente can have no rows for a given regeling (e.g. WNW has no
+  // Assen data). Fall back to a zero row so the numbers render as 0
+  // instead of crashing on data[0] being undefined.
+  const row = data.length > 0 ? data[0] : {};
 
   for (let p of config.graphs[0].parameters[0]) {
-    incremental.push(data[0][p.column + "_aantal"]);
-    cumulative.push(data[0][p.column + "_cumul"]);
+    incremental.push(row[p.column + "_aantal"] ?? 0);
+    cumulative.push(row[p.column + "_cumul"] ?? 0);
   }
 
   return { incremental, cumulative };
@@ -111,6 +116,14 @@ export const tables = (
 
 export const pieParts = (data: any, graphs: any[], index: number) => {
   const parts: any[] = [];
+
+  // Create array with empty arrays and place parts at the specific index
+  const result: any[] = new Array(graphs.length).fill(null).map(() => []);
+
+  // No rows for this selection: return the empty shape so the pie chart
+  // and legend consumers don't crash on data[0] being undefined.
+  if (data.length == 0) return result;
+
   //PIE CHA
   let graph_1 = graphs[index];
   let params_1 = graph_1.parameters[0].concat(...graph_1.parameters[1]);
@@ -125,8 +138,6 @@ export const pieParts = (data: any, graphs: any[], index: number) => {
     });
   });
 
-  // Create array with empty arrays and place parts at the specific index
-  const result: any[] = new Array(graphs.length).fill(null).map(() => []);
   result[index] = parts;
 
   return result;
