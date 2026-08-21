@@ -157,23 +157,23 @@ export class HtmlGroupFilters {
 
                         muniSelectEl.addEventListener("change", () => {
 
-                        // const segment_key = (typeof this.ctrlr.segment === "string") ?  this.ctrlr.segment : this.ctrlr.segment.key;
-
                             if ( muniSelectEl.value != self.ctrlr.page.segment.gemeente) {
 
+                                self.ctrlr.page.segment.gemeente = muniSelectEl.value
 
-                                this.ctrlr.page.segment.gemeente = muniSelectEl.value
+                                // gemeente is a page-level (shared) segment: every group
+                                // filters on page.segment.gemeente, so update ALL groups -
+                                // not just the one whose selector changed - otherwise the
+                                // page falls out of sync and the selector only works once.
+                                for (const group of self.ctrlr.page.chartArray) {
+                                    group.ctrlr.update(self.ctrlr.page.main.data.collection(), undefined, true);
+                                }
 
-                                // const newSegment = {
-                                //     key: self.ctrlr.segment.key,
-                                //     cumulative: self.ctrlr.segment.cumulative,
-                                //     periodization: self.ctrlr.segment.periodization,
-                                //     gemeente: muniSelectEl.value
-                                // }
-
-                                // console.log(newSegment);
-
-                                self.ctrlr.update(this.ctrlr.page.main.data.collection(), undefined, true);
+                                // keep every selector's displayed value in sync with the
+                                // shared page segment (they are drawn once from page.segment)
+                                for (const group of self.ctrlr.page.chartArray) {
+                                    group.ctrlr.setFilters();
+                                }
                             }
 
                         });
