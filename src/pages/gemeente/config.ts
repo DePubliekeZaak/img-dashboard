@@ -18,13 +18,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "meldingen"
+                            "units" : "meldingen",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "afgehandeld"
+                            "units": "afgehandeld",
+                            "excludeFromTable": true
                         },
                     ],
                     []
@@ -60,13 +62,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "meldingen"
+                            "units" : "meldingen",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "afgehandeld"
+                            "units": "afgehandeld",
+                            "excludeFromTable": true
                         },
                     ]
                 ],
@@ -149,13 +153,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "zaken"
+                            "units" : "zaken",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ],
                     []
@@ -191,13 +197,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "meldingen"
+                            "units" : "meldingen",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ]
                 ],
@@ -280,13 +288,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "zaken"
+                            "units" : "zaken",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ],
                     []
@@ -322,13 +332,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "meldingen"
+                            "units" : "meldingen",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ]
                 ],
@@ -411,13 +423,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "zaken"
+                            "units" : "zaken",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ],
                     []
@@ -453,13 +467,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "meldingen"
+                            "units" : "meldingen",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ]
                 ],
@@ -542,13 +558,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "zaken"
+                            "units" : "zaken",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ],
                     []
@@ -584,13 +602,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "meldingen"
+                            "units" : "meldingen",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ]
                 ],
@@ -673,13 +693,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "zaken"
+                            "units" : "zaken",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ],
                     []
@@ -715,13 +737,15 @@ const group : IGroupMappingV2[] = [
                             "label" : "Meldingen",
                             "column" : "ingediend",
                             "colour" : "orange",
-                            "units" : "meldingen"
+                            "units" : "meldingen",
+                            "excludeFromTable": true
                         },
                         { 
                             "label" : "Afgehandeld",
                             "column" : "afgerond",
                             "colour" : "moss",
-                            "units": "besluiten"
+                            "units": "besluiten",
+                            "excludeFromTable": true
                         },
                     ]
                 ],
