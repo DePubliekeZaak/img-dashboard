@@ -16,6 +16,14 @@ export default class ChartBarTrend {
   draw(data: TrendBar[]) {
     let self = this;
 
+    if (data.length == 0) {
+      // no data for this selection: remove any previously drawn bars
+      this.ctrlr.svg.layers.data
+        .selectAll("g." + this.ctrlr.slug)
+        .remove();
+      return;
+    }
+
     this.slug =
       this.ctrlr.filters && this.ctrlr.filters.length > 0
         ? this.ctrlr.slug
@@ -41,6 +49,10 @@ export default class ChartBarTrend {
 
   redraw(data: TrendBar[], period?: string) {
     let self = this;
+
+    // no data for this selection: nothing to redraw (draw already cleaned up)
+    if (data.length == 0) return;
+
     // can be called multiple times for extra trends
     let groupSlug = data[0].name != undefined ? data[0].name : this.ctrlr.slug;
 
