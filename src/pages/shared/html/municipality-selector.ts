@@ -19,6 +19,7 @@ const munis = [
     "Stadskanaal",
     "Noardeast-Fryslan",
     "Ooststellingwerf",
+    "Assen"
     // "Achtkarspelen",
     // "Midden-Drenthe"
 ];
