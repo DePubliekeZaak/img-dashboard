@@ -1,5 +1,96 @@
-import { breakpoints, colours } from "../../img-modules/styleguide";
-import { slugify } from "../../shared/_helpers";
+import { breakpoints } from "../../img-modules/styleguide";
+
+// Centralized layout constants (C5).
+export const LABEL_CONFIG = {
+  bandOffset: 30, // vertical band offset per timeline index
+  arrowPad: 16, // arrow height / label padding
+  rowGap: 3, // gap between label rows
+  htmlDivTop: -36, // htmlDiv top offset
+  bgHeight: 10,
+  circleRadius: 5,
+  maxWidth: 200, // matches CSS .html_label max-width
+} as const;
+
+export interface LabelLayoutInput {
+  left: number; // raw left edge (x1(date) + innerPadding.left)
+  width: number; // measured offsetWidth
+  height: number; // measured offsetHeight
+}
+
+export interface LabelPlacement {
+  left: number; // final (clamped) left edge
+  top: number; // row top
+  row: number; // row index
+}
+
+export interface LabelLayoutResult {
+  placements: LabelPlacement[];
+  totalHeight: number; // max(top + height) over all labels, rows included
+}
+
+// Single left-to-right sweep (A1). Each label is clamped to the container's
+// right edge (B1/B3), then placed in the first row whose occupied right edge
+// is left of it (B2) — a row frontier per row, no O(n^2) pass.
+//
+// Two phases: Phase 1 assigns rows and grows the per-row heights; Phase 2
+// runs after all row heights are finalized, so tops and totalHeight are
+// computed from final heights (no stale-top overlap, no height undercount).
+//
+// Note: when containerWidth <= 0, clamping (B1) is disabled (cw = Infinity)
+// and labels keep their raw left — the caller should fall back to a real
+// width measurement before calling this if clamping must apply.
+export function layoutLabels(
+  labels: LabelLayoutInput[],
+  containerWidth: number,
+  config: { rowGap: number; maxWidth: number },
+): LabelLayoutResult {
+  const rows: { right: number; height: number }[] = [];
+  const placements: LabelPlacement[] = [];
+  const cw = containerWidth > 0 ? containerWidth : Infinity;
+
+  // Phase 1: assign each label to the first row it fits; update the row
+  // frontier (right edge) and the row's max height. Tops are NOT fixed here.
+  for (const label of labels) {
+    // Clamp width to the container too, so left + width never exceeds cw
+    // even when a single label is wider than the container.
+    const width = Math.min(label.width, config.maxWidth, cw);
+    const left = Math.max(0, Math.min(label.left, cw - width));
+    const right = left + width;
+
+    // right >= row.right always holds here (left >= frontier, width >= 0),
+    // so assigning rows[row].right = right only ever extends the frontier.
+    let row = rows.findIndex((r) => r.right <= left);
+    if (row === -1) {
+      row = rows.length;
+      rows.push({ right, height: label.height });
+    } else {
+      rows[row].right = right;
+      rows[row].height = Math.max(rows[row].height, label.height);
+    }
+    placements.push({ left, top: 0, row });
+  }
+
+  // Phase 2: row heights are finalized — compute each label's top from the
+  // rows above it, and totalHeight from the final tops.
+  let totalHeight = 0;
+  for (let i = 0; i < placements.length; i++) {
+    const p = placements[i];
+    let top = 0;
+    for (let r = 0; r < p.row; r++) {
+      top += rows[r].height + config.rowGap;
+    }
+    p.top = top;
+    totalHeight = Math.max(totalHeight, top + labels[i].height);
+  }
+
+  return { placements, totalHeight };
+}
+
+function trim(value: string | null | undefined): number {
+  if (value == null) return 0;
+  const n = parseFloat(String(value).replace("px", ""));
+  return Number.isNaN(n) ? 0 : n;
+}
 
 export default class ChartTimeline {
   htmlDiv;
@@ -39,7 +130,7 @@ export default class ChartTimeline {
     groups
       .append("circle")
       .filter((d) => d.category !== "beving")
-      .attr("r", 5)
+      .attr("r", LABEL_CONFIG.circleRadius)
       .attr("cy", 5)
       .attr("stroke", "#eee")
       .attr("fill", "white");
@@ -60,28 +151,20 @@ export default class ChartTimeline {
       .attr("fill", "#eee")
       .attr("x", -0.5)
       .attr("y", 10);
-
-    groups
-      .append("text")
-      .attr("class", "label")
-      .attr("x", 0)
-      .attr("y", (d, i) => {})
-      .style("font-size", ".66rem")
-      .style("opacity", 0)
-      .text((d) => d.label);
   }
 
   redraw(data: any[], index: number) {
-    let timeLineHeight = 0;
-
     const bg = this.ctrlr.svg.layers.data.select(
       "rect.timeline_bg" + index.toString(),
     );
 
     bg.attr("x", 0)
       .attr("width", this.ctrlr.dimensions.coreWidth)
-      .attr("y", this.ctrlr.dimensions.svgHeight + 30 * (index + 1))
-      .attr("height", 10);
+      .attr(
+        "y",
+        this.ctrlr.dimensions.svgHeight + LABEL_CONFIG.bandOffset * (index + 1),
+      )
+      .attr("height", LABEL_CONFIG.bgHeight);
 
     const groups = this.ctrlr.svg.layers.data.selectAll(
       "g.timeline_" + index.toString() + " g.timeline_item",
@@ -91,7 +174,10 @@ export default class ChartTimeline {
       const offset = 0; /// i % 2 === 0 ? 0 : 15;
 
       const x = this.ctrlr.scales.x1.fn(new Date(d.date));
-      const y = this.ctrlr.dimensions.svgHeight + 30 * (index + 1) + offset;
+      const y =
+        this.ctrlr.dimensions.svgHeight +
+        LABEL_CONFIG.bandOffset * (index + 1) +
+        offset;
 
       return "translate(" + x + "," + y + ")";
     });
@@ -126,9 +212,6 @@ export default class ChartTimeline {
         t.transition().duration(250).style("opacity", 1);
       })
       .on("mouseout", (d) => {
-        // self.ctrlr.svg.layers.data.selectAll(".bar")
-        //     .style("fill", b => colours[b.colour][1]);
-
         window.d3
           .select(".tooltip")
           .transition()
@@ -136,112 +219,67 @@ export default class ChartTimeline {
           .style("opacity", 0);
       });
 
-    const items = this.ctrlr.svg.layers.data.selectAll(
-      "g.timeline_" + index.toString() + " text.label",
-    );
-
+    // Build label divs, keyed on the unique date (C2) instead of slugify(d.html).
     this.htmlDiv.innerHTML = "";
+    const divs: HTMLElement[] = [];
 
-    items.each((d, i) => {
+    groups.each((d, i) => {
       if (d !== undefined) {
         const div = document.createElement("div");
         div.classList.add("html_label");
-        div.setAttribute("data_label", slugify(d.html));
+        div.setAttribute("data_label", d.date);
         div.innerHTML = d.html;
         div.style.left =
           this.ctrlr.scales.x1.fn(new Date(d.date)) +
           this.ctrlr.config.innerPadding.left +
           "px";
         this.htmlDiv.appendChild(div);
+        divs.push(div);
       }
     });
 
-    // items
-    //     .on("mouseover", function(event: any, d: any) {
+    // Batch-measure widths/heights once (A2) — no per-iteration offsetWidth reads.
+    const measured: LabelLayoutInput[] = divs.map((div) => ({
+      left: trim(div.style.left),
+      width: div.offsetWidth,
+      height: div.offsetHeight,
+    }));
 
-    //         window.d3.select('.tooltip')
-    //             .html(tooltip(d))
-    //             .style("left", (event.pageX - 20) + "px")
-    //             .style("top", (event.pageY - 0) + "px")
-    //             .transition()
-    //             .duration(250)
-    //             .style("opacity", 1);
-    //     })
-    //     .on("mouseout", function(d) {
+    let containerWidth =
+      this.htmlDiv.clientWidth || this.ctrlr.element.clientWidth || 0;
+    if (containerWidth <= 0) {
+      containerWidth =
+        this.ctrlr.element.scrollWidth ||
+        this.ctrlr.element.getBoundingClientRect().width ||
+        0;
+    }
 
-    //         window.d3.select('.tooltip')
-    //             .transition()
-    //             .duration(250)
-    //             .style("opacity", 0);
-    //     })
+    const layout = layoutLabels(measured, containerWidth, LABEL_CONFIG);
 
-    const divs = [].slice.call(
-      this.ctrlr.element.querySelectorAll("div.html_label"),
-    );
-    const trim = (s) => parseFloat(s.replace("px", ""));
-    let staggerTop = 0;
-
-    divs.reverse().forEach((d, i) => {
-      // console.log(d);
-
-      if (i < 1) {
-        d.style.top = 0;
-      } else {
-        const prevEls: HTMLElement[] = [];
-        for (let j = 1; j < divs.length - 1; j++) {
-          if (divs[i - j] !== undefined) {
-            prevEls.push(divs[i - j]);
-          }
-        }
-
-        prevEls.forEach((el) =>
-          el.setAttribute(
-            "distance",
-            (trim(el.style.left) - trim(d.style.left)).toString(),
-          ),
-        );
-
-        const collusions = prevEls.filter((el) => {
-          const distance = el.getAttribute("distance");
-          if (distance !== null) {
-            return parseFloat(distance) < d.offsetWidth - 60;
-          }
-        });
-
-        collusions.sort((a, b) => {
-          return trim(b.style.top) - trim(a.style.top);
-        });
-
-        if (collusions.length > 0) {
-          const o = collusions
-            .map((el) => el.offsetHeight)
-            .reduce((acc, height) => acc + height + 3, 0);
-          if (o > timeLineHeight) timeLineHeight = o;
-          d.style.top = o.toString() + "px";
-        } else {
-          d.style.top = 0;
-          staggerTop = 0;
-        }
-      }
+    divs.forEach((div, i) => {
+      const p = layout.placements[i];
+      div.style.left = p.left + "px";
+      div.style.top = p.top + "px";
     });
+
+    const timeLineHeight = layout.totalHeight;
 
     const arrows = this.ctrlr.svg.layers.data.selectAll("rect.arrow");
 
-    let highest = 0;
-
-    arrows.attr("height", (d: any, i: number) => {
+    arrows.attr("height", (d: any) => {
       const div = this.ctrlr.element.querySelector(
-        `[data_label="${slugify(d.html)}"`,
+        `[data_label="${d.date}"]`,
       );
-      highest = trim(div.style.top) > highest ? trim(div.style.top) : highest;
-      return 16 + trim(div.style.top);
+      const top = div !== null ? trim(div.style.top) : 0;
+      return LABEL_CONFIG.arrowPad + top;
     });
 
     // height op svg zetten .. niet parent el
+    // Explicit recompute (C4): no monotonic growth, guarded against NaN.
+    this.htmlDiv.style.height = timeLineHeight + "px";
+    this.htmlDiv.style.top = LABEL_CONFIG.htmlDivTop + "px";
     this.ctrlr.element.style.height =
-      (trim(this.ctrlr.element.style.height) + highest + 16).toString() + "px";
-    this.htmlDiv.style.height = (highest + 16).toString() + "px";
-    this.htmlDiv.style.top = "-36px"; // changed after adding more padding
+      this.ctrlr.dimensions.svgHeight + timeLineHeight + "px";
 
     return timeLineHeight;
   }
