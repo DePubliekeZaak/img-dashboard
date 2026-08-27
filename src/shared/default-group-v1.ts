@@ -30,8 +30,6 @@ export class DefaultGroupV1 extends GroupControllerV1 {
 
   prepareData(data: ImgData): any {
 
-    
-
     const {
       tableParams,
       graphParams,

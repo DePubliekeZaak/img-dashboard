@@ -11,7 +11,7 @@ const pageConfig: IPageConfig = {
   },
   filters: ["vanaf"],
   endpoints: [
-    "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal",
+    "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
     "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}",
   ],
   groups: [
@@ -515,7 +515,7 @@ const pageConfig: IPageConfig = {
       cumulative: true,
       periodization: "weekly",
     },
-    functionality: ["table", "definitions", "download"],
+    functionality: ["table", "de`finitions", "download"],
     endpoints: [
       "regelingen?aggregatie=eq.week&regeling_code=eq.MW&order=periode.desc&limit=1",                                                                                                                                                                   
       "regelingen?aggregatie=eq.week&regeling_code=eq.VV&order=periode.desc&limit=1",   

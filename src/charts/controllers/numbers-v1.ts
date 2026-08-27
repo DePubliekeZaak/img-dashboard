@@ -89,6 +89,7 @@ export class NumbersV1 extends core.GraphControllerV3 {
   }
 
   async draw(data: DataObject) {
+
     for (const p of this.parameters[0]) {
       if (p.column === "---") return;
       this.numbers[p.column].draw();
