@@ -3,7 +3,6 @@ import { breakpoints } from "../../img-modules/styleguide";
 // Centralized layout constants (C5).
 export const LABEL_CONFIG = {
   bandOffset: 30, // vertical band offset per timeline index
-  tolerance: 60, // legacy horizontal tolerance (superseded by real widths in the sweep)
   arrowPad: 16, // arrow height / label padding
   rowGap: 3, // gap between label rows
   htmlDivTop: -36, // htmlDiv top offset
@@ -32,6 +31,14 @@ export interface LabelLayoutResult {
 // Single left-to-right sweep (A1). Each label is clamped to the container's
 // right edge (B1/B3), then placed in the first row whose occupied right edge
 // is left of it (B2) — a row frontier per row, no O(n^2) pass.
+//
+// Two phases: Phase 1 assigns rows and grows the per-row heights; Phase 2
+// runs after all row heights are finalized, so tops and totalHeight are
+// computed from final heights (no stale-top overlap, no height undercount).
+//
+// Note: when containerWidth <= 0, clamping (B1) is disabled (cw = Infinity)
+// and labels keep their raw left — the caller should fall back to a real
+// width measurement before calling this if clamping must apply.
 export function layoutLabels(
   labels: LabelLayoutInput[],
   containerWidth: number,
@@ -39,14 +46,19 @@ export function layoutLabels(
 ): LabelLayoutResult {
   const rows: { right: number; height: number }[] = [];
   const placements: LabelPlacement[] = [];
-  let totalHeight = 0;
+  const cw = containerWidth > 0 ? containerWidth : Infinity;
 
+  // Phase 1: assign each label to the first row it fits; update the row
+  // frontier (right edge) and the row's max height. Tops are NOT fixed here.
   for (const label of labels) {
-    const width = Math.min(label.width, config.maxWidth);
-    const cw = containerWidth > 0 ? containerWidth : Infinity;
+    // Clamp width to the container too, so left + width never exceeds cw
+    // even when a single label is wider than the container.
+    const width = Math.min(label.width, config.maxWidth, cw);
     const left = Math.max(0, Math.min(label.left, cw - width));
     const right = left + width;
 
+    // right >= row.right always holds here (left >= frontier, width >= 0),
+    // so assigning rows[row].right = right only ever extends the frontier.
     let row = rows.findIndex((r) => r.right <= left);
     if (row === -1) {
       row = rows.length;
@@ -55,14 +67,20 @@ export function layoutLabels(
       rows[row].right = right;
       rows[row].height = Math.max(rows[row].height, label.height);
     }
+    placements.push({ left, top: 0, row });
+  }
 
+  // Phase 2: row heights are finalized — compute each label's top from the
+  // rows above it, and totalHeight from the final tops.
+  let totalHeight = 0;
+  for (let i = 0; i < placements.length; i++) {
+    const p = placements[i];
     let top = 0;
-    for (let r = 0; r < row; r++) {
+    for (let r = 0; r < p.row; r++) {
       top += rows[r].height + config.rowGap;
     }
-
-    placements.push({ left, top, row });
-    totalHeight = Math.max(totalHeight, top + label.height);
+    p.top = top;
+    totalHeight = Math.max(totalHeight, top + labels[i].height);
   }
 
   return { placements, totalHeight };
@@ -227,8 +245,14 @@ export default class ChartTimeline {
       height: div.offsetHeight,
     }));
 
-    const containerWidth =
+    let containerWidth =
       this.htmlDiv.clientWidth || this.ctrlr.element.clientWidth || 0;
+    if (containerWidth <= 0) {
+      containerWidth =
+        this.ctrlr.element.scrollWidth ||
+        this.ctrlr.element.getBoundingClientRect().width ||
+        0;
+    }
 
     const layout = layoutLabels(measured, containerWidth, LABEL_CONFIG);
 
@@ -242,14 +266,11 @@ export default class ChartTimeline {
 
     const arrows = this.ctrlr.svg.layers.data.selectAll("rect.arrow");
 
-    let highest = 0;
-
     arrows.attr("height", (d: any) => {
       const div = this.ctrlr.element.querySelector(
         `[data_label="${d.date}"]`,
       );
       const top = div !== null ? trim(div.style.top) : 0;
-      if (top > highest) highest = top;
       return LABEL_CONFIG.arrowPad + top;
     });
 
