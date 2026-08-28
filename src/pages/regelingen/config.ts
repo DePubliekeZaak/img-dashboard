@@ -11,7 +11,7 @@ const pageConfig: IPageConfig = {
   },
   filters: ["vanaf"],
   endpoints: [
-    "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal",
+    "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
     "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}",
   ],
   groups: [
