@@ -8,7 +8,6 @@ export const LABEL_CONFIG = {
   htmlDivTop: -36, // htmlDiv top offset
   bgHeight: 10,
   circleRadius: 5,
-  maxWidth: 200, // matches CSS .html_label max-width
 } as const;
 
 export interface LabelLayoutInput {
@@ -45,7 +44,7 @@ export interface LabelLayoutResult {
 export function layoutLabels(
   labels: LabelLayoutInput[],
   clampWidth: number,
-  config: { rowGap: number; maxWidth: number },
+  config: { rowGap: number },
 ): LabelLayoutResult {
   const rows: { right: number; height: number }[] = [];
   const placements: LabelPlacement[] = [];
@@ -54,9 +53,12 @@ export function layoutLabels(
   // Phase 1: assign each label to the first row it fits; update the row
   // frontier (right edge) and the row's max height. Tops are NOT fixed here.
   for (const label of labels) {
-    // Clamp width to the container too, so left + width never exceeds cw
-    // even when a single label is wider than the container.
-    const width = Math.min(label.width, config.maxWidth, cw);
+    // Size each label to its REAL rendered width — never hard-cap it with an
+    // arbitrary constant (e.g. the old 200px maxWidth). The only width cap is
+    // the container itself, so left + width can never exceed cw. If a single
+    // label is wider than the container, width is capped at cw and left is
+    // clamped to the container's left edge, so it degrades without overflow.
+    const width = Math.min(label.width, cw);
     const left = Math.max(0, Math.min(label.left, cw - width));
     const right = left + width;
 
