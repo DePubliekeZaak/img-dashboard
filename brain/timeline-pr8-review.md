@@ -1,6 +1,6 @@
 # PR #8 — Independent Review
 
-**PR:** github.com/DePubliekeZaak/img-2/pull/8
+**PR:** github.com/DePubliekeZaak/img-dashboard/pull/8
 **Branch:** fix/timeline-label-realwidth → base feat/fix-groups-placeholders
 **Reviewer role:** INDEPENDENT (review-only; no edits made)
 **Artifact reviewed:** /tmp/timeline-pr8.diff (4 files, ~263 lines)

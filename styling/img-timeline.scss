@@ -4,7 +4,11 @@
 
     .html_label {
 
-        max-width: 200px;
+        // No hard max-width: each label sizes to its real rendered text width
+        // so layoutLabels() can clamp against the plot area using the true
+        // width (an arbitrary 200px cap made the box 200px while the text was
+        // wider, so the visible glyphs spilled past the clamped box).
+        overflow-wrap: anywhere; /* safety net: never hard-overflow the box */
         line-height: 1.25;
         font-size: .85rem;    
         position: absolute;

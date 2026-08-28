@@ -8,7 +8,6 @@ export const LABEL_CONFIG = {
   htmlDivTop: -36, // htmlDiv top offset
   bgHeight: 10,
   circleRadius: 5,
-  maxWidth: 200, // matches CSS .html_label max-width
 } as const;
 
 export interface LabelLayoutInput {
@@ -28,32 +27,38 @@ export interface LabelLayoutResult {
   totalHeight: number; // max(top + height) over all labels, rows included
 }
 
-// Single left-to-right sweep (A1). Each label is clamped to the container's
-// right edge (B1/B3), then placed in the first row whose occupied right edge
+// Single left-to-right sweep (A1). Each label is clamped to the right-edge
+// clamp target (B1/B3), then placed in the first row whose occupied right edge
 // is left of it (B2) — a row frontier per row, no O(n^2) pass.
 //
 // Two phases: Phase 1 assigns rows and grows the per-row heights; Phase 2
 // runs after all row heights are finalized, so tops and totalHeight are
 // computed from final heights (no stale-top overlap, no height undercount).
 //
-// Note: when containerWidth <= 0, clamping (B1) is disabled (cw = Infinity)
+// Note: when clampWidth <= 0, clamping (B1) is disabled (cw = Infinity)
 // and labels keep their raw left — the caller should fall back to a real
 // width measurement before calling this if clamping must apply.
+//
+// clampWidth should be the right edge of the VISIBLE graph space (the plot
+// area), not the full chart element width — see ChartTimeline.redraw().
 export function layoutLabels(
   labels: LabelLayoutInput[],
-  containerWidth: number,
-  config: { rowGap: number; maxWidth: number },
+  clampWidth: number,
+  config: { rowGap: number },
 ): LabelLayoutResult {
   const rows: { right: number; height: number }[] = [];
   const placements: LabelPlacement[] = [];
-  const cw = containerWidth > 0 ? containerWidth : Infinity;
+  const cw = clampWidth > 0 ? clampWidth : Infinity;
 
   // Phase 1: assign each label to the first row it fits; update the row
   // frontier (right edge) and the row's max height. Tops are NOT fixed here.
   for (const label of labels) {
-    // Clamp width to the container too, so left + width never exceeds cw
-    // even when a single label is wider than the container.
-    const width = Math.min(label.width, config.maxWidth, cw);
+    // Size each label to its REAL rendered width — never hard-cap it with an
+    // arbitrary constant (e.g. the old 200px maxWidth). The only width cap is
+    // the container itself, so left + width can never exceed cw. If a single
+    // label is wider than the container, width is capped at cw and left is
+    // clamped to the container's left edge, so it degrades without overflow.
+    const width = Math.min(label.width, cw);
     const left = Math.max(0, Math.min(label.left, cw - width));
     const right = left + width;
 
@@ -252,6 +257,20 @@ export default class ChartTimeline {
         this.ctrlr.element.scrollWidth ||
         this.ctrlr.element.getBoundingClientRect().width ||
         0;
+    }
+
+    // Clamp against the graph plot area, not the full element width: the plot
+    // area (markers/band) ends at coreWidth + innerPadding.left, which is
+    // narrower than the element by the right margin/padding. Clamping to the
+    // element width lets a long label near the rightmost date extend past the
+    // graph space (and past the visible element -> horizontal scrollbar).
+    // Only when coreWidth is actually measured (> 0); otherwise keep the
+    // element-width clamp as a fallback.
+    if (this.ctrlr.dimensions.coreWidth > 0 && containerWidth > 0) {
+      const plotRight =
+        this.ctrlr.dimensions.coreWidth +
+        (this.ctrlr.config.innerPadding?.left ?? 0);
+      containerWidth = Math.min(containerWidth, plotRight);
     }
 
     const layout = layoutLabels(measured, containerWidth, LABEL_CONFIG);

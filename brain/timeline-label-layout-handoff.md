@@ -3,7 +3,7 @@
 **Status: READY TO MERGE** (independent re-review passed). Human merges; orchestrator does not merge.
 
 ## Deliverable
-- **PR:** https://github.com/DePubliekeZaak/img-2/pull/5
+- **PR:** https://github.com/DePubliekeZaak/img-dashboard/pull/5
 - **Branch:** `feat/timeline-label-layout` (worktree `/home/joera/code/img-timeline-labels`)
 - **Base:** `feat/fix-groups-placeholders` (= local `main` @ `5dcd922`; contains the timeline code)
 - **Commits:** `7b12b91` (feat) + `261350a` (fix: two-phase layout, width clamp, review fixes)
