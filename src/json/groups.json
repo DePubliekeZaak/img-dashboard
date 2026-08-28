@@ -540,7 +540,11 @@
         "Garrelsweer",
         "Uithuizermeeden en Uithuizen",
         "Wirdum",
-        "Start vaste vergoeding van 5000 euro"
+        "Start vaste vergoeding van 5000 euro",
+        "Geelbroek",
+          
+        "Start Aanvullende vaste vergoeding"
+
       ],
       "content": "De vaste vergoedingen zijn een snelle manier om fysieke schade af te handelen zonder adviesrapport, met wel een verplichte nulmeting. De Vaste vergoeding is voor eigenaren die nog niet eerder schade hebben gemeld. De Aanvullende vaste vergoeding is voor eigenaren die eerder minder dan € 10.000 (of € 5.000 voor kleine gebouwen) hebben ontvangen. Na een vaste vergoeding kan nieuwe schade alleen via maatwerk worden gemeld als er op het adres een nieuwe aardbeving is geweest met een trillingssnelheid van meer dan 5 mm/s. Sinds de start van de regeling zijn er {ingediend_cumul} aanvragen ontvangen, waarvan er {afgerond_cumul} zijn afgerond.",
       "description": "<p dir=\"auto\">De vaste vergoedingen zijn een snelle manier om fysieke schade af te handelen zonder adviesrapport, met wel een verplichte nulmeting. De Vaste vergoeding is voor eigenaren die nog niet eerder schade hebben gemeld. De Aanvullende vaste vergoeding is voor eigenaren die eerder minder dan € 10.000 (of € 5.000 voor kleine gebouwen) hebben ontvangen. Na een vaste vergoeding kan nieuwe schade alleen via maatwerk worden gemeld als er op het adres een nieuwe aardbeving is geweest met een trillingssnelheid van meer dan 5 mm/s. Sinds de start van de regeling zijn er {ingediend_cumul} aanvragen ontvangen, waarvan er {afgerond_cumul} zijn afgerond.</p>"
@@ -1489,7 +1493,10 @@
         "Garrelsweer",
         "Uithuizermeeden en Uithuizen",
         "Wirdum",
-        "Start vaste vergoeding van 5000 euro"
+        "Start vaste vergoeding van 5000 euro",
+        "Geelbroek",
+        "Zandeweer",
+        "Start Aanvullende vaste vergoeding"
       ],
       "content": "Sinds de start van de regeling zijn er {ingediend_cumul} aanvragen gedaan, waarvan er {afgerond_cumul} zijn afgerond.",
       "description": "<p dir=\"auto\">Sinds de start van de regeling zijn er {ingediend_cumul} aanvragen gedaan, waarvan er {afgerond_cumul} zijn afgerond.</p>"
