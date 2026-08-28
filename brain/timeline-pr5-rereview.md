@@ -1,4 +1,4 @@
-# Re-Review — PR #5 `feat/timeline-label-layout` (img-2), round 2
+# Re-Review — PR #5 `feat/timeline-label-layout` (img-dashboard), round 2
 
 **Scope:** independent re-review of the current PR diff (`/tmp/timeline-pr5-v2.diff`, branch `feat/timeline-label-layout` @ `261350a`) against the previous review (`timeline-pr5-review.md`) and the acceptance contract (C1–C5, A1–A4, B1–B3, n1–n5).
 

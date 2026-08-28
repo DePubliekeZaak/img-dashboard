@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-27
 **Reviewer:** fresh `builder` session `9498f49fa24040f0a2540bc1b206e041` (independent; diff-only, no worktree access)
-**PR:** https://github.com/DePubliekeZaak/img-2/pull/7 — `fix/timeline-label-overflow-v2` → `feat/fix-groups-placeholders`
+**PR:** https://github.com/DePubliekeZaak/img-dashboard/pull/7 — `fix/timeline-label-overflow-v2` → `feat/fix-groups-placeholders`
 
 ## Verdict: READY TO MERGE
 

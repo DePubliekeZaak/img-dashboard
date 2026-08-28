@@ -1,6 +1,6 @@
-# Review — PR #5 `feat/timeline-label-layout` (img-2)
+# Review — PR #5 `feat/timeline-label-layout` (img-dashboard)
 
-**Scope:** independent review of https://github.com/DePubliekeZaak/img-2/pull/5 against the acceptance contract (C1–C5, A1–A4, B1–B3) and behavioral requirements (n1–n5).
+**Scope:** independent review of https://github.com/DePubliekeZaak/img-dashboard/pull/5 against the acceptance contract (C1–C5, A1–A4, B1–B3) and behavioral requirements (n1–n5).
 
 **Files reviewed:**
 - `src/charts/renderers/chart-timeline.ts` (commit `7b12b91`)
