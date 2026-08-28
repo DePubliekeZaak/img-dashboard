@@ -6,7 +6,7 @@ import ChartTimeline, {
   LABEL_CONFIG,
 } from "../src/charts/renderers/chart-timeline";
 
-const cfg = { rowGap: LABEL_CONFIG.rowGap, maxWidth: LABEL_CONFIG.maxWidth };
+const cfg = { rowGap: LABEL_CONFIG.rowGap };
 
 describe("layoutLabels (timeline label placement)", () => {
   it("keeps non-overlapping labels in the first row", () => {
@@ -75,13 +75,14 @@ describe("layoutLabels (timeline label placement)", () => {
     expect(r.totalHeight).toBe(60);
   });
 
-  it("clamps width to the CSS max-width and uses it for the left clamp", () => {
-    // width 500 > maxWidth 200 -> width clamped to 200, so left is clamped
-    // to 800 - 200 = 600 instead of overflowing.
+  it("sizes a label to its REAL width (no 200px cap) and clamps left so left + width <= container", () => {
+    // width 500 > old maxWidth 200 -> previously clamped to 200 and left to
+    // 600. Now the label keeps its real width (500) and the clamp uses that,
+    // so left clamps to 800 - 500 = 300 and still never overflows.
     const labels = [{ left: 650, width: 500, height: 20 }];
     const r = layoutLabels(labels, 800, cfg);
-    expect(r.placements[0].left).toBe(600);
-    expect(r.placements[0].left + 200).toBeLessThanOrEqual(800);
+    expect(r.placements[0].left).toBe(300);
+    expect(r.placements[0].left + 500).toBeLessThanOrEqual(800);
   });
 
   it("empty input -> 0 placements, totalHeight 0", () => {
