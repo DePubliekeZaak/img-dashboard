@@ -1,2 +1,2 @@
 npm run build:prod
-scp -r public/* img:/var/www/html/production/
+rsync -avz public/ img:/var/www/html/production/
