@@ -319,6 +319,11 @@ export class GroupControllerV1 implements IGroupCtrlr {
     const group = this.page.chartArray.find((i: any) => i.config.slug === this.slug);
     if (!group) return;
 
+    // Re-prepare from the authoritative raw store and use the prepared object
+    // downstream. Raw data (Record<string, any[]>) has no `definitions` key and
+    // would otherwise crash HTMLDefinitions.draw (defs is not iterable).
+    group.data = this.prepareData(getAllData());
+
     // Cascade group segment to graph segments
     for (const graph of group.graphs) {
       updateGraphSegment(this.config.slug, graph.ctrlr.slug, {
@@ -331,11 +336,11 @@ export class GroupControllerV1 implements IGroupCtrlr {
     this.tabs.redraw();
 
     for (const graph of group.graphs) {
-      graph.ctrlr.update(data, true);
+      graph.ctrlr.update(group.data, true);
     }
 
-    this.populateTable(data);
+    this.populateTable(group.data);
 
-    this.populateDefinitions(data.definitions);
+    this.populateDefinitions(group.data.definitions);
   }
 }
