@@ -29,9 +29,9 @@ export class HtmlFilters {
     private master: boolean,
     private id: string,
     private element: HTMLElement,
-    private filters,
-    private parameters,
-    private modifiers,
+    private filters: any,
+    private parameters: any,
+    private modifiers: any,
   ) {
     this.init(undefined);
   }
@@ -83,6 +83,7 @@ export class HtmlFilters {
   }
 
   draw() {
+
     const groupSlug = this.ctrlr.group.slug;
     const graphSlug = this.ctrlr.slug;
     

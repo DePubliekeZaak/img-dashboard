@@ -118,11 +118,11 @@
     justify-content: center;
     gap: .5rem;
     margin-top: 1.5rem;
-    padding: .5rem .85rem;
-    background: rgb(245, 244, 238);
-    border: 1px solid rgb(230, 230, 230);
-    border-radius: 5px;
-    color: inherit;
+    // padding: .5rem .85rem;
+    // background: rgb(245, 244, 238);
+    // border: 1px solid rgb(230, 230, 230);
+
+    // color: inherit;
     cursor: pointer;
     line-height: 1;
 
@@ -131,21 +131,21 @@
         display: block;
     }
 
-    &:hover,
-    &:focus-visible {
-        background: rgb(235, 233, 226);
-        border-color: rgb(200, 200, 200);
-    }
+    // &:hover,
+    // &:focus-visible {
+    //     background: rgb(235, 233, 226);
+    //     border-color: rgb(200, 200, 200);
+    // }
 
-    &:focus-visible {
-        outline: 2px solid currentColor;
-        outline-offset: 2px;
-    }
+    // &:focus-visible {
+    //     outline: 2px solid currentColor;
+    //     outline-offset: 2px;
+    // }
 
-    &[aria-expanded="true"] {
-        background: rgb(235, 233, 226);
-        border-color: rgb(200, 200, 200);
-    }
+    // &[aria-expanded="true"] {
+    //     background: rgb(235, 233, 226);
+    //     border-color: rgb(200, 200, 200);
+    // }
 }
 
 /* Toggle sitting ABOVE the page header block, right-aligned within its

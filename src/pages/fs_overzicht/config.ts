@@ -20,13 +20,13 @@ const pageConfig: IPageConfig = {
   {
     slug: "fs_totals",
     ctrlr: "DefaultGroupV1",
-    filters: ["cumulativeVsDelta"],
+    filters: [],
     graphs: [
       {
         slug: "fs_numbers_v1",
         ctrlr: "NumbersMultiplesV1",
         args: [],
-        filters: [],
+        filters: ["cumulativeVsDelta"],
         multiples: "cumulative",
         parameters: [
           [
