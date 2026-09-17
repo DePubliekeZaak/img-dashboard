@@ -8,6 +8,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { resetStore, initPageStore, fakePage } from './helpers/harness';
 import { HtmlPageFilters } from '../src/widgets/html-page-filters';
+import fsOverzichtConfig from '../src/pages/fs_overzicht/config';
 import type { IPageConfig } from '../src/shared/interfaces';
 
 function makeConfig(overrides: Partial<IPageConfig> = {}): IPageConfig {
@@ -78,16 +79,14 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
       default_filters: ['vanaf'],
       filters: ['gemeenten'],
     });
-    const { page } = buildFilters(config);
+    buildFilters(config);
 
     // Always-visible block holds the date ("vanaf") filter.
     const alwaysUl = document.querySelector(
       '.page_header > .page_filter_list_group > ul',
     );
     expect(alwaysUl!.children.length).toBe(1);
-    expect(
-      alwaysUl!.querySelector('input[type="date"]'),
-    ).not.toBeNull();
+    expect(alwaysUl!.querySelector('input[type="date"]')).not.toBeNull();
 
     // Toggle + collapsible block hold the municipality filter.
     const toggle = document.querySelector('.page_filter_toggle');
@@ -101,6 +100,33 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
     expect(collapsible!.hasAttribute('hidden')).toBe(true);
     expect(collapsible!.querySelector('ul')!.children.length).toBe(1);
     expect(collapsible!.querySelector('select')).not.toBeNull();
+  });
+
+  it('toggle exposes aria-controls pointing at the panel and an aria-label', () => {
+    const config = makeConfig({
+      default_filters: ['vanaf'],
+      filters: ['gemeenten'],
+    });
+    buildFilters(config);
+
+    const toggle = document.querySelector(
+      '.page_filter_toggle',
+    ) as HTMLButtonElement;
+    const collapsible = document.querySelector(
+      '.page_filter_list_group--collapsible',
+    ) as HTMLElement;
+
+    expect(toggle).not.toBeNull();
+    expect(collapsible).not.toBeNull();
+
+    // aria-controls must reference the collapsible block's id.
+    expect(toggle.getAttribute('aria-controls')).toBe(collapsible.id);
+    expect(collapsible.id).toBe('page_filter_collapsible');
+
+    // aria-label must be present on the icon-only toggle.
+    const label = toggle.getAttribute('aria-label');
+    expect(label).not.toBeNull();
+    expect(label!.trim().length).toBeGreaterThan(0);
   });
 
   it('toggle reveals/hides the collapsible block and updates aria-expanded', () => {
@@ -141,5 +167,68 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
     select.value = 'Groningen';
     select.dispatchEvent(new Event('change'));
     expect(page.onFilterChange).toHaveBeenCalledWith({ gemeente: 'Groningen' });
+  });
+
+  it('empty default_filters still enables the toggle and hides all filters', () => {
+    const config = makeConfig({
+      default_filters: [],
+      filters: ['vanaf', 'gemeenten'],
+    });
+    buildFilters(config);
+
+    // Split is in effect: always-visible block is empty…
+    const alwaysUl = document.querySelector(
+      '.page_header > .page_filter_list_group > ul',
+    );
+    expect(alwaysUl!.children.length).toBe(0);
+
+    // …and every filter lives in the collapsible block behind the toggle.
+    const toggle = document.querySelector('.page_filter_toggle');
+    expect(toggle).not.toBeNull();
+    expect(toggle!.getAttribute('aria-expanded')).toBe('false');
+
+    const collapsible = document.querySelector(
+      '.page_filter_list_group--collapsible',
+    ) as HTMLElement;
+    expect(collapsible).not.toBeNull();
+    expect(collapsible.hasAttribute('hidden')).toBe(true);
+    expect(collapsible.querySelector('ul')!.children.length).toBe(2);
+  });
+});
+
+describe('HtmlPageFilters – real fs_overzicht config', () => {
+  it('renders the actual split: default_filters ["vanaf"] always-visible, filters ["gemeenten"] behind the toggle', () => {
+    // Seed the store from the real config (weekly periodization etc.).
+    resetStore();
+    document.body.innerHTML = '<div class="page_header"></div>';
+    initPageStore(fsOverzichtConfig);
+
+    buildFilters(fsOverzichtConfig);
+
+    // default_filters: ["vanaf"] -> always-visible date input.
+    const alwaysUl = document.querySelector(
+      '.page_header > .page_filter_list_group > ul',
+    );
+    expect(alwaysUl!.children.length).toBe(1);
+    const dateInput = alwaysUl!.querySelector('input[type="date"]');
+    expect(dateInput).not.toBeNull();
+
+    // filters: ["gemeenten"] -> collapsible block behind the toggle.
+    const toggle = document.querySelector(
+      '.page_filter_toggle',
+    ) as HTMLButtonElement;
+    expect(toggle).not.toBeNull();
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+
+    const collapsible = document.querySelector(
+      '.page_filter_list_group--collapsible',
+    ) as HTMLElement;
+    expect(collapsible).not.toBeNull();
+    expect(collapsible.hasAttribute('hidden')).toBe(true);
+    expect(collapsible.querySelector('ul')!.children.length).toBe(1);
+    expect(collapsible.querySelector('select')).not.toBeNull();
+
+    // aria-controls wiring holds for the real config too.
+    expect(toggle.getAttribute('aria-controls')).toBe(collapsible.id);
   });
 });
