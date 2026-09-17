@@ -9,7 +9,8 @@ const pageConfig: IPageConfig = {
     cumulative: false,
     vanaf: "2025-01-01"
   },
-  filters: ["gemeenten", "vanaf"],
+  default_filters: ["vanaf"],
+  filters: ["gemeenten"],
   endpoints: [
     "gemeenten?aggregatie=eq.maand&gemeente=eq.{GEMEENTE}&order=periode.desc",
     "gemeenten?aggregatie=eq.week&order=periode.desc&periode_vanaf=gte.{VANAF}&gemeente=eq.{GEMEENTE}&order=periode.desc",

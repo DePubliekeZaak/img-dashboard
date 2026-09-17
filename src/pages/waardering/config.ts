@@ -9,7 +9,8 @@ const pageConfig: IPageConfig = {
     cumulative: false,
     vanaf: "2025-01-01",
   },
-  filters: ["vanaf"],
+  default_filters: ["vanaf"],
+  filters: [],
   endpoints: [
     "tevredenheid",
     "tevredenheid",
