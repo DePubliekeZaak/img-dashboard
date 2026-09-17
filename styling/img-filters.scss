@@ -147,6 +147,12 @@
     }
 }
 
+/* Toggle sitting ABOVE the page header block. */
+.page_filter_toggle--above-header {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+
 /* ------------------------------------------------------------------ *
  *  Collapsible (hidden-behind-icon) filter block
  * ------------------------------------------------------------------ */
@@ -156,4 +162,10 @@
     &[hidden] {
         display: none;
     }
+}
+
+/* Collapsible block rendered ABOVE the page header block. */
+.page_filter_list_group--above-header {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }

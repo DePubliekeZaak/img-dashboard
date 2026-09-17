@@ -8,17 +8,20 @@ import {
 } from "../stores/segment.store";
 
 /**
- * Renders the page-level filters underneath the page title block.
+ * Renders the page-level filters for a page.
  *
  * Two filter blocks are supported:
- *   1. An always-visible block built from `config.default_filters`.
- *   2. A collapsible block hidden behind a filter-icon toggle built from
- *      `config.filters` — only rendered when `default_filters` is present
- *      (i.e. the split is in effect).
+ *   1. An ALWAYS-VISIBLE block built from `config.filters`, rendered
+ *      underneath the page title block (inside `div.page_header`).
+ *   2. A TOGGLABLE block built from `config.default_filters`, hidden behind a
+ *      filter-icon toggle button and rendered ABOVE `div.page_header` — only
+ *      present when `default_filters` is defined (i.e. the split is in
+ *      effect).
  *
  * Backwards compatibility: when `default_filters` is ABSENT the legacy
- * behaviour is kept — all of `config.filters` are rendered in the
- * always-visible block and no toggle is shown.
+ * behaviour is kept — all of `config.filters` are rendered always-visible and
+ * NO filter-icon toggle is shown (there is no `default_filters` block to
+ * reveal).
  */
 export class HtmlPageFilters {
   listElement!: HTMLElement;
@@ -34,25 +37,34 @@ export class HtmlPageFilters {
     const container = document.querySelector(".page_header");
 
     if (container !== null) {
-      const prevElements = container.querySelectorAll(
-        ".page_filter_list_group, .page_filter_toggle",
-      );
+      const parent = container.parentNode;
+
+      // Remove any previously rendered blocks (always-visible inside the
+      // header, plus any toggle/collapsible that was inserted above it).
+      const prevElements =
+        parent?.querySelectorAll(".page_filter_list_group, .page_filter_toggle") ??
+        [];
       prevElements.forEach((el) => el.remove());
 
-      // Always-visible block (current spot, under the title block).
+      // Always-visible block (filters) — under the title block, inside the
+      // page header.
       this.listElement = this.ctrlr.main.window.document.createElement("div");
       this.listElement.classList.add("page_filter_list_group");
       const ul = this.ctrlr.main.window.document.createElement("ul");
       this.listElement.appendChild(ul);
       container.appendChild(this.listElement);
 
-      // Hidden-behind-icon block — only when the split is in effect.
-      if (this.ctrlr.config.default_filters !== undefined) {
+      // Togglable block (default_filters) — ABOVE .page_header, behind a
+      // filter-icon toggle. Only rendered when the split is in effect.
+      if (this.ctrlr.config.default_filters !== undefined && parent !== null) {
         this.toggleElement = this.ctrlr.main.window.document.createElement(
           "button",
         );
         this.toggleElement.type = "button";
-        this.toggleElement.classList.add("page_filter_toggle");
+        this.toggleElement.classList.add(
+          "page_filter_toggle",
+          "page_filter_toggle--above-header",
+        );
         this.toggleElement.setAttribute("aria-expanded", "false");
         this.toggleElement.setAttribute("aria-label", "Toon meer filters");
         this.toggleElement.appendChild(this.createIcon());
@@ -66,6 +78,7 @@ export class HtmlPageFilters {
         this.hiddenListElement.classList.add(
           "page_filter_list_group",
           "page_filter_list_group--collapsible",
+          "page_filter_list_group--above-header",
         );
         this.hiddenListElement.id = "page_filter_collapsible";
         this.hiddenListElement.setAttribute("hidden", "");
@@ -76,8 +89,8 @@ export class HtmlPageFilters {
         const ulHidden = this.ctrlr.main.window.document.createElement("ul");
         this.hiddenListElement.appendChild(ulHidden);
 
-        container.appendChild(this.toggleElement);
-        container.appendChild(this.hiddenListElement);
+        parent.insertBefore(this.toggleElement, container);
+        parent.insertBefore(this.hiddenListElement, container);
       }
     }
 
@@ -183,13 +196,13 @@ export class HtmlPageFilters {
     const defaultFilters = this.ctrlr.config.default_filters;
 
     if (defaultFilters !== undefined) {
-      // Split in effect: always-visible block from default_filters,
-      // hidden block from filters.
-      this.drawFiltersInto(ul as HTMLUListElement, defaultFilters);
+      // Split in effect: filters always-visible under the title,
+      // default_filters togglable above the header.
+      this.drawFiltersInto(ul as HTMLUListElement, this.ctrlr.config.filters);
 
       const hiddenUl = this.hiddenListElement.querySelector("ul");
       if (hiddenUl) {
-        this.drawFiltersInto(hiddenUl as HTMLUListElement, this.ctrlr.config.filters);
+        this.drawFiltersInto(hiddenUl as HTMLUListElement, defaultFilters);
       }
     } else if (this.ctrlr.config.filters !== undefined) {
       // Legacy: all filters always-visible.
