@@ -169,6 +169,16 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
     );
     // No bottom margin on the block: the wrapper class drives margin-bottom 0.
     expect(wrapper.classList.contains('page_filter_above_header')).toBe(true);
+
+    // The above-header toggle must have no bottom margin (no gap between the
+    // toggle and the page header below when the list is closed). A synthetic
+    // stylesheet mirrors the SCSS rule to make getComputedStyle meaningful.
+    const marginStyle = document.createElement('style');
+    marginStyle.textContent =
+      '.page_filter_toggle { margin-top: 1.5rem; } .page_filter_toggle--above-header { margin-top: 0; margin-bottom: 0; }';
+    document.head.appendChild(marginStyle);
+    expect(getComputedStyle(toggle).marginBottom).toBe('0px');
+    marginStyle.remove();
   });
 
   it('toggle exposes aria-controls pointing at the panel and an aria-label', () => {

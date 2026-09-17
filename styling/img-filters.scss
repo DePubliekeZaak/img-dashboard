@@ -148,10 +148,13 @@
 }
 
 /* Toggle sitting ABOVE the page header block, right-aligned within its
-   full-width wrapper. */
+   full-width wrapper. No bottom margin so no gap appears between the
+   toggle and the page header below when the collapsible list is closed.
+   (The base .page_filter_toggle rule only sets margin-top, so this
+   override fully controls margin-bottom.) */
 .page_filter_toggle--above-header {
     margin-top: 0;
-    margin-bottom: .5rem;
+    margin-bottom: 0;
 }
 
 /* ------------------------------------------------------------------ *
