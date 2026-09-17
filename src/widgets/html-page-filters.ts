@@ -27,6 +27,7 @@ export class HtmlPageFilters {
   listElement!: HTMLElement;
   hiddenListElement!: HTMLElement;
   toggleElement!: HTMLButtonElement;
+  wrapperElement!: HTMLElement;
 
   constructor(private ctrlr: IPageController) {
     this.ctrlr = ctrlr;
@@ -40,10 +41,11 @@ export class HtmlPageFilters {
       const parent = container.parentNode;
 
       // Remove any previously rendered blocks (always-visible inside the
-      // header, plus any toggle/collapsible that was inserted above it).
+      // header, plus any toggle/collapsible wrapper inserted above it).
       const prevElements =
-        parent?.querySelectorAll(".page_filter_list_group, .page_filter_toggle") ??
-        [];
+        parent?.querySelectorAll(
+          ".page_filter_list_group, .page_filter_toggle, .page_filter_above_header",
+        ) ?? [];
       prevElements.forEach((el) => el.remove());
 
       // Always-visible block (filters) — under the title block, inside the
@@ -55,8 +57,15 @@ export class HtmlPageFilters {
       container.appendChild(this.listElement);
 
       // Togglable block (default_filters) — ABOVE .page_header, behind a
-      // filter-icon toggle. Only rendered when the split is in effect.
+      // filter-icon toggle. Only rendered when the split is in effect. The
+      // toggle button and the collapsible list are wrapped together in a
+      // full-width wrapper div.
       if (this.ctrlr.config.default_filters !== undefined && parent !== null) {
+        this.wrapperElement = this.ctrlr.main.window.document.createElement(
+          "div",
+        );
+        this.wrapperElement.classList.add("page_filter_above_header");
+
         this.toggleElement = this.ctrlr.main.window.document.createElement(
           "button",
         );
@@ -89,8 +98,9 @@ export class HtmlPageFilters {
         const ulHidden = this.ctrlr.main.window.document.createElement("ul");
         this.hiddenListElement.appendChild(ulHidden);
 
-        parent.insertBefore(this.toggleElement, container);
-        parent.insertBefore(this.hiddenListElement, container);
+        this.wrapperElement.appendChild(this.toggleElement);
+        this.wrapperElement.appendChild(this.hiddenListElement);
+        parent.insertBefore(this.wrapperElement, container);
       }
     }
 
