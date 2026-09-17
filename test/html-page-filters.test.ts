@@ -1,9 +1,11 @@
 // @vitest-environment jsdom
 //
 // Tests for the HtmlPageFilters widget — the two-block page filter layout:
-// an always-visible block (default_filters) plus a collapsible block hidden
-// behind a filter-icon toggle (filters). Legacy configs without
-// default_filters must keep rendering all filters always-visible.
+//   * `filters`        -> always-visible block underneath the page title.
+//   * `default_filters` -> collapsible block hidden behind a filter-icon
+//                          toggle, rendered ABOVE the page header.
+// Legacy configs without `default_filters` keep rendering all `filters`
+// always-visible and show NO toggle.
 //
 import { describe, it, expect, beforeEach } from 'vitest';
 import { resetStore, initPageStore, fakePage } from './helpers/harness';
@@ -42,16 +44,18 @@ beforeEach(() => {
 });
 
 describe('HtmlPageFilters – legacy config (no default_filters)', () => {
-  it('renders all filters always-visible and no toggle/collapsible block', () => {
+  it('renders all filters always-visible under the title and NO toggle', () => {
     const config = makeConfig({ filters: ['vanaf', 'gemeenten'] });
-    const { page } = buildFilters(config);
+    buildFilters(config);
 
-    const alwaysUl = document.querySelector(
-      '.page_header > .page_filter_list_group > ul',
+    const header = document.querySelector('.page_header') as HTMLElement;
+    const alwaysUl = header.querySelector(
+      '.page_filter_list_group > ul',
     );
     expect(alwaysUl).not.toBeNull();
     expect(alwaysUl!.children.length).toBe(2);
 
+    // No toggle and no collapsible block anywhere (above or below header).
     expect(document.querySelector('.page_filter_toggle')).toBeNull();
     expect(
       document.querySelector('.page_filter_list_group--collapsible'),
@@ -63,7 +67,7 @@ describe('HtmlPageFilters – legacy config (no default_filters)', () => {
     const { page } = buildFilters(config);
 
     const input = document.querySelector(
-      '.page_header > .page_filter_list_group input[type="date"]',
+      '.page_header .page_filter_list_group input[type="date"]',
     ) as HTMLInputElement;
     expect(input).not.toBeNull();
 
@@ -74,38 +78,50 @@ describe('HtmlPageFilters – legacy config (no default_filters)', () => {
 });
 
 describe('HtmlPageFilters – split config (default_filters present)', () => {
-  it('renders default_filters always-visible and filters behind the toggle', () => {
+  it('renders filters always-visible under the title and default_filters togglable ABOVE the header', () => {
     const config = makeConfig({
-      default_filters: ['vanaf'],
-      filters: ['gemeenten'],
+      default_filters: ['gemeenten'],
+      filters: ['vanaf'],
     });
     buildFilters(config);
 
-    // Always-visible block holds the date ("vanaf") filter.
-    const alwaysUl = document.querySelector(
-      '.page_header > .page_filter_list_group > ul',
+    const header = document.querySelector('.page_header') as HTMLElement;
+
+    // filters = ["vanaf"] -> always-visible date input inside the header.
+    const alwaysUl = header.querySelector(
+      '.page_filter_list_group > ul',
     );
     expect(alwaysUl!.children.length).toBe(1);
     expect(alwaysUl!.querySelector('input[type="date"]')).not.toBeNull();
 
-    // Toggle + collapsible block hold the municipality filter.
-    const toggle = document.querySelector('.page_filter_toggle');
+    // Toggle is a sibling of the header (not inside it).
+    const toggle = document.querySelector(
+      '.page_filter_toggle',
+    ) as HTMLButtonElement;
     expect(toggle).not.toBeNull();
-    expect(toggle!.getAttribute('aria-expanded')).toBe('false');
+    expect(toggle.parentNode).toBe(header.parentNode);
 
+    // The collapsible block sits ABOVE the header in document order.
     const collapsible = document.querySelector(
       '.page_filter_list_group--collapsible',
-    );
+    ) as HTMLElement;
     expect(collapsible).not.toBeNull();
-    expect(collapsible!.hasAttribute('hidden')).toBe(true);
-    expect(collapsible!.querySelector('ul')!.children.length).toBe(1);
-    expect(collapsible!.querySelector('select')).not.toBeNull();
+    expect(collapsible.parentNode).toBe(header.parentNode);
+    expect(
+      collapsible.compareDocumentPosition(header) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+
+    // default_filters = ["gemeenten"] -> hidden collapsible block holds select.
+    expect(collapsible.hasAttribute('hidden')).toBe(true);
+    expect(collapsible.querySelector('ul')!.children.length).toBe(1);
+    expect(collapsible.querySelector('select')).not.toBeNull();
   });
 
   it('toggle exposes aria-controls pointing at the panel and an aria-label', () => {
     const config = makeConfig({
-      default_filters: ['vanaf'],
-      filters: ['gemeenten'],
+      default_filters: ['gemeenten'],
+      filters: ['vanaf'],
     });
     buildFilters(config);
 
@@ -131,8 +147,8 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
 
   it('toggle reveals/hides the collapsible block and updates aria-expanded', () => {
     const config = makeConfig({
-      default_filters: ['vanaf'],
-      filters: ['gemeenten'],
+      default_filters: ['gemeenten'],
+      filters: ['vanaf'],
     });
     buildFilters(config);
 
@@ -143,6 +159,9 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
       '.page_filter_list_group--collapsible',
     ) as HTMLElement;
 
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(collapsible.hasAttribute('hidden')).toBe(true);
+
     toggle.click();
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
     expect(collapsible.hasAttribute('hidden')).toBe(false);
@@ -152,10 +171,10 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
     expect(collapsible.hasAttribute('hidden')).toBe(true);
   });
 
-  it('wires the hidden municipality selector to onFilterChange', () => {
+  it('wires the togglable default_filters selector to onFilterChange', () => {
     const config = makeConfig({
-      default_filters: ['vanaf'],
-      filters: ['gemeenten'],
+      default_filters: ['gemeenten'],
+      filters: ['vanaf'],
     });
     const { page } = buildFilters(config);
 
@@ -169,20 +188,20 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
     expect(page.onFilterChange).toHaveBeenCalledWith({ gemeente: 'Groningen' });
   });
 
-  it('empty default_filters still enables the toggle and hides all filters', () => {
+  it('empty default_filters keeps filters always-visible and shows an empty togglable block above the header', () => {
     const config = makeConfig({
       default_filters: [],
       filters: ['vanaf', 'gemeenten'],
     });
     buildFilters(config);
 
-    // Split is in effect: always-visible block is empty…
-    const alwaysUl = document.querySelector(
-      '.page_header > .page_filter_list_group > ul',
-    );
-    expect(alwaysUl!.children.length).toBe(0);
+    const header = document.querySelector('.page_header') as HTMLElement;
 
-    // …and every filter lives in the collapsible block behind the toggle.
+    // filters stay always-visible (split is in effect, so only filters here).
+    const alwaysUl = header.querySelector('.page_filter_list_group > ul');
+    expect(alwaysUl!.children.length).toBe(2);
+
+    // Empty default_filters -> toggle still present, collapsible above header is empty.
     const toggle = document.querySelector('.page_filter_toggle');
     expect(toggle).not.toBeNull();
     expect(toggle!.getAttribute('aria-expanded')).toBe('false');
@@ -191,13 +210,14 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
       '.page_filter_list_group--collapsible',
     ) as HTMLElement;
     expect(collapsible).not.toBeNull();
+    expect(collapsible.parentNode).toBe(header.parentNode);
     expect(collapsible.hasAttribute('hidden')).toBe(true);
-    expect(collapsible.querySelector('ul')!.children.length).toBe(2);
+    expect(collapsible.querySelector('ul')!.children.length).toBe(0);
   });
 });
 
 describe('HtmlPageFilters – real fs_overzicht config', () => {
-  it('renders the actual split: default_filters ["vanaf"] always-visible, filters ["gemeenten"] behind the toggle', () => {
+  it('renders the actual split: filters ["vanaf"] always-visible, default_filters ["gemeenten"] togglable above the header', () => {
     // Seed the store from the real config (weekly periodization etc.).
     resetStore();
     document.body.innerHTML = '<div class="page_header"></div>';
@@ -205,25 +225,30 @@ describe('HtmlPageFilters – real fs_overzicht config', () => {
 
     buildFilters(fsOverzichtConfig);
 
-    // default_filters: ["vanaf"] -> always-visible date input.
-    const alwaysUl = document.querySelector(
-      '.page_header > .page_filter_list_group > ul',
-    );
-    expect(alwaysUl!.children.length).toBe(1);
-    const dateInput = alwaysUl!.querySelector('input[type="date"]');
-    expect(dateInput).not.toBeNull();
+    const header = document.querySelector('.page_header') as HTMLElement;
 
-    // filters: ["gemeenten"] -> collapsible block behind the toggle.
+    // filters = ["vanaf"] -> always-visible date input inside the header.
+    const alwaysUl = header.querySelector('.page_filter_list_group > ul');
+    expect(alwaysUl!.children.length).toBe(1);
+    expect(alwaysUl!.querySelector('input[type="date"]')).not.toBeNull();
+
+    // default_filters = ["gemeenten"] -> togglable select above the header.
     const toggle = document.querySelector(
       '.page_filter_toggle',
     ) as HTMLButtonElement;
     expect(toggle).not.toBeNull();
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(toggle.parentNode).toBe(header.parentNode);
 
     const collapsible = document.querySelector(
       '.page_filter_list_group--collapsible',
     ) as HTMLElement;
     expect(collapsible).not.toBeNull();
+    expect(collapsible.parentNode).toBe(header.parentNode);
+    expect(
+      collapsible.compareDocumentPosition(header) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(collapsible.hasAttribute('hidden')).toBe(true);
     expect(collapsible.querySelector('ul')!.children.length).toBe(1);
     expect(collapsible.querySelector('select')).not.toBeNull();
