@@ -10,7 +10,8 @@ const pageConfig: IPageConfig = {
     cumulative: false,
     vanaf: "2025-01-01"
   },
-  filters: ["gemeenten","vanaf"],
+  default_filters: ["vanaf"],
+  filters: ["gemeenten"],
   endpoints: [
     "regelingen?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc",
     "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}",
