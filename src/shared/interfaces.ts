@@ -72,6 +72,13 @@ export interface IPageConfig {
   slug: string;
   segment: Segment;
   filters: string[];
+  /**
+   * Page-level filters rendered always-visible underneath the page title.
+   * When present, `filters` are rendered in a collapsible block hidden
+   * behind a filter-icon toggle. When absent, all `filters` are rendered
+   * always-visible (legacy behaviour).
+   */
+  default_filters?: string[];
   endpoints: string[]; // default voor alle groups
   groups: IGroupMappingV2[];
 }

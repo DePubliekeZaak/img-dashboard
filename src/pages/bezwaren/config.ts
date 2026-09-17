@@ -9,7 +9,8 @@ const pageConfig: IPageConfig = {
     cumulative: false,
     vanaf: "2025-01-01",
   },
-  filters: ["vanaf"],
+  default_filters: ["vanaf"],
+  filters: [],
   endpoints: [
     `regelingen?aggregatie=eq.week&select=aggregatie%2Cperiode%2Cperiode_totenmet%2Cperiode_vanaf%2Cdomein_code%2Cregeling_code%2Cbz_ingediend_aantal%2Cbz_ingediend_cumul%2Cbz_afgerond_aantal%2Cbz_afgerond_cumul%2Cbz_beschikt_aantal%2Cbz_beschikt_cumul%2Cbz_toegekend_aantal%2Cbz_toegekend_cumul%2Cbz_afgewezen_aantal%2Cbz_afgewezen_cumul%2Cbz_anders_afgehandeld_aantal%2Cbz_anders_afgehandeld_cumul%2Cbz_voorraad_cumul%2Cbz_voorraad_verschil%2Cbz_vertraagd_jaar_perc&periode_vanaf=gte.{VANAF}&order=periode.desc`,
     `regelingen?aggregatie=eq.maand&select=aggregatie%2Cperiode%2Cperiode_totenmet%2Cperiode_vanaf%2Cdomein_code%2Cregeling_code%2Cbz_ingediend_aantal%2Cbz_ingediend_cumul%2Cbz_afgerond_aantal%2Cbz_afgerond_cumul%2Cbz_beschikt_aantal%2Cbz_beschikt_cumul%2Cbz_toegekend_aantal%2Cbz_toegekend_cumul%2Cbz_afgewezen_aantal%2Cbz_afgewezen_cumul%2Cbz_anders_afgehandeld_aantal%2Cbz_anders_afgehandeld_cumul%2Cbz_voorraad_cumul%2Cbz_voorraad_verschil%2Cbz_vertraagd_jaar_perc&order=periode.desc`,

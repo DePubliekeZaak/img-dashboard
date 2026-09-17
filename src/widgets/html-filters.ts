@@ -16,12 +16,12 @@ import {
 // import { EitiEntity } from "../shared/types";
 
 export class HtmlFilters {
-  listElement;
-  selector;
-  companySelector;
-  tableButton;
-  downloadButton;
-  definitionsButton;
+  listElement!: any;
+  selector: any;
+  companySelector: any;
+  tableButton: any;
+  downloadButton: any;
+  definitionsButton: any;
   hasListener = false;
 
   constructor(
@@ -29,9 +29,9 @@ export class HtmlFilters {
     private master: boolean,
     private id: string,
     private element: HTMLElement,
-    private filters,
-    private parameters,
-    private modifiers,
+    private filters: any,
+    private parameters: any,
+    private modifiers: any,
   ) {
     this.init(undefined);
   }
@@ -83,6 +83,7 @@ export class HtmlFilters {
   }
 
   draw() {
+
     const groupSlug = this.ctrlr.group.slug;
     const graphSlug = this.ctrlr.slug;
     
@@ -254,7 +255,7 @@ export class HtmlFilters {
       }
 
       if (this.master) {
-        ul.appendChild(li);
+        ul!.appendChild(li);
       }
     }
   }
