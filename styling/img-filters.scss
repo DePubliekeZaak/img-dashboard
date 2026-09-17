@@ -148,10 +148,32 @@
     }
 }
 
-/* Toggle sitting ABOVE the page header block. */
+/* Toggle sitting ABOVE the page header block, right-aligned within its
+   full-width wrapper. No bottom margin so no gap appears between the
+   toggle and the page header below when the collapsible list is closed.
+   (The base .page_filter_toggle rule only sets margin-top, so this
+   override fully controls margin-bottom.) */
 .page_filter_toggle--above-header {
     margin-top: 0;
-    margin-bottom: .5rem;
+    margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Full-width wrapper for the togglable block ABOVE the page header.
+ *  The filter-icon toggle is right-aligned; the collapsible list
+ *  stretches full width when revealed. No bottom margin is needed.
+ * ------------------------------------------------------------------ */
+.page_filter_above_header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+
+    .page_filter_toggle {
+        align-self: flex-end;
+    }
 }
 
 /* ------------------------------------------------------------------ *
@@ -168,5 +190,5 @@
 /* Collapsible block rendered ABOVE the page header block. */
 .page_filter_list_group--above-header {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
