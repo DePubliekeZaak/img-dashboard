@@ -10,9 +10,10 @@
 // Uses hand-built data (not recorded fixtures) because these tests assert
 // *mechanism*, not production-value correctness.
 //
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { resetStore, initPageStore, buildGroup, fakePage, fixtureData, buildPageConfig } from './helpers/harness';
 import { GroupControllerV1 } from '../src/shared/group-v1';
+import { getGraphSegment, cascadeGroupSegmentUpdate } from '../src/stores/segment.store';
 import type { IPageConfig, IGroupMappingV2 } from '../src/shared/interfaces';
 
 // Register GroupControllerV1 directly (not through a page registry)
@@ -347,5 +348,95 @@ describe('GroupControllerV1 — tableParams / graphParams construction', () => {
 
     // Even though two graphs define the same param, tableParams should dedupe
     expect(group.tableParams).toHaveLength(2); // ingediend_cumul + ingediend_aantal
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Regression: per-graph cumulative must survive a gemeente change
+// ---------------------------------------------------------------------------
+//
+// On the gemeente page trend graphs declare their OWN segment with
+// cumulative:false while the group declares cumulative:true. initSegments
+// merges them ({ ...groupSegment, ...graph.segment }) so the graph's own
+// false wins on first load. But GroupControllerV1.update() used to stomp every
+// graph's cumulative/periodization with the group's static values, so the first
+// gemeente change flipped all trend graphs to cumulative=true forever.
+//
+// Fixed: update() only cascades `key`; cumulative/periodization are preserved.
+// The explicit toggle path goes through cascadeGroupSegmentUpdate.
+//
+describe('GroupControllerV1 — preserves per-graph cumulative across update()', () => {
+  // Group declares cumulative:true; the trend graph declares cumulative:false.
+  function makeGemeenteConfig(): IGroupMappingV2 {
+    return {
+      slug: 'bedragen',
+      ctrlr: 'GroupControllerV1',
+      filters: ['cumulativeVsDelta'],
+      graphs: [
+        {
+          slug: 'trend',
+          ctrlr: 'BarTrendV1',
+          parameters: [
+            [
+              {
+                label: 'Ingediend',
+                column: 'ingediend',
+                colour: 'blue',
+                modifiers: { cumul: '_cumul', delta: '_aantal' },
+              },
+            ],
+            [],
+          ],
+          segment: { key: 'ingediend', cumulative: false, periodization: 'monthly' as const },
+        },
+      ],
+      segment: { key: 'ingediend', cumulative: true, periodization: 'monthly' as const },
+      functionality: [],
+      endpoints: [
+        'regelingen?aggregatie=eq.week&order=periode.desc',
+        'regelingen?aggregatie=eq.maand&order=periode.desc',
+      ],
+    };
+  }
+
+  it('update() does NOT stomp the graph segment\'s cumulative on a gemeente change', () => {
+    const config = buildPageConfig('test', { key: '', cumulative: true, periodization: 'monthly' }, [
+      makeGemeenteConfig(),
+    ]);
+    initPageStore(config);
+    const page = fakePage(config);
+    const group = buildGroup(page, config.groups[0], groups, 0);
+    page.chartArray = [group];
+
+    // Populate the group's graphs so update()'s cascade loop actually runs.
+    const trend = { ctrlr: { slug: 'trend', update: vi.fn() } };
+    group.graphs = [trend];
+    (group.ctrlr as any).tabs = { redraw: vi.fn() };
+
+    // Baseline after init: the graph's own cumulative:false wins.
+    expect(getGraphSegment('bedragen', 'trend')?.cumulative).toBe(false);
+
+    // A plain gemeente change calls the group update() with a fresh segment.
+    group.ctrlr.update({}, undefined, true);
+
+    // The graph must STAY cumulative:false (bug fix). The group key still cascades.
+    expect(getGraphSegment('bedragen', 'trend')?.cumulative).toBe(false);
+    expect(getGraphSegment('bedragen', 'trend')?.key).toBe('ingediend');
+  });
+
+  it('cascadeGroupSegmentUpdate DOES propagate cumulative to the group\'s graphs (toggle path)', () => {
+    const config = buildPageConfig('test', { key: '', cumulative: true, periodization: 'monthly' }, [
+      makeGemeenteConfig(),
+    ]);
+    initPageStore(config);
+
+    // Deliberate cumulativeVsDelta toggle to cumulative.
+    cascadeGroupSegmentUpdate('bedragen', {
+      key: 'ingediend_cumul',
+      cumulative: true,
+    });
+
+    expect(getGraphSegment('bedragen', 'trend')?.cumulative).toBe(true);
+    expect(getGraphSegment('bedragen', 'trend')?.key).toBe('ingediend_cumul');
   });
 });
