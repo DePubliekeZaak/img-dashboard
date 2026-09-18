@@ -4,9 +4,12 @@
 // Asserts exact row values from a known anchor period — the transposition
 // guard that was the whole point of starting with tables.
 //
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { resetStore, initPageStore, buildGroup, fakePage, fixtureData, buildPageConfig } from './helpers/harness';
 import { DefaultGroupV1 } from '../src/shared/default-group-v1';
+import { rawData$, getAllData } from '../src/stores/data.store';
+import { updateGroupSegment } from '../src/stores/segment.store';
+import { HTMLDefinitions } from '../src/widgets/html-definitions';
 import type { IPageConfig, IGroupMappingV2 } from '../src/shared/interfaces';
 import * as fsWeekRaw from './fixtures/fs_overzicht/fs_totals/week.json';
 import * as fsMonthRaw from './fixtures/fs_overzicht/fs_totals/month.json';
@@ -312,5 +315,87 @@ describe('DefaultGroupV1 with recorded fixtures', () => {
       const { result } = buildAndPrepare();
       expect(result.weekTableInc!.pre_headers).toBeUndefined();
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Group-level filter change regression (TypeError: defs is not iterable)
+//
+// Group-filter handlers (html-group-filters.ts) pass the RAW data store
+// (getAllData() -> Record<string, any[]>, keyed by endpoint URL) to
+// GroupControllerV1.update(). Raw data has no `definitions` key, so
+// HTMLDefinitions.draw(undefined) threw synchronously. The fix re-prepares
+// from the raw store inside update() and uses the prepared object downstream.
+// ---------------------------------------------------------------------------
+describe('group-filter change regression (defs is not iterable)', () => {
+  // Builds the group like buildAndPrepare(), but sets config.definitions so
+  // the CMS definitions path is exercised (buildGroup does not apply the CMS
+  // merge — definitions come from src/json/definitions.json via config.definitions).
+  function buildWithDefinitions() {
+    const config: IPageConfig = {
+      ...PAGE_CONFIG,
+      segment: { ...PAGE_CONFIG.segment },
+      groups: [{
+        ...GROUP_CONFIG,
+        definitions: ['Aanvragen'],
+        segment: { ...GROUP_CONFIG.segment },
+        graphs: [{
+          ...GROUP_CONFIG.graphs[0],
+          segment: { ...GROUP_CONFIG.graphs[0].segment },
+        }],
+      }],
+    };
+    initPageStore(config);
+    const page = fakePage(config);
+    const group = buildGroup(page, config.groups[0], groups, 0);
+    page.chartArray = [group];
+    return { group, page };
+  }
+
+  it('does not throw on group-filter change and populates definitions + table', () => {
+    const { group, page } = buildWithDefinitions();
+
+    // Append the container so html() builds a connected tree, then construct
+    // HtmlTabs + HTMLDefinitions (mirrors the app's mount path).
+    document.body.appendChild(page.main.htmlContainer);
+    group.ctrlr.html();
+
+    // Stub graphs so we only exercise the group-level update path.
+    group.graphs = [{ slug: 'fs_numbers_v1', ctrlr: { update: vi.fn() } }] as any;
+
+    // Load the raw store exactly as the app does.
+    rawData$.set(fixtureData(RAW_PAYLOADS, group.resolvedEndpoints));
+
+    // Simulate the group-filter change. Before the fix this threw
+    // `TypeError: defs is not iterable` synchronously.
+    updateGroupSegment('fs_totals', { cumulative: false });
+    expect(() => group.ctrlr.update(getAllData(), undefined, true)).not.toThrow();
+
+    // Definitions are an array and rendered into the definitions panel.
+    expect(Array.isArray(group.data.definitions)).toBe(true);
+    expect(group.data.definitions.length).toBeGreaterThan(0);
+    expect(
+      document.querySelectorAll('#panel_fs_totals__definitions .definition').length,
+    ).toBe(1);
+
+    // The table view is not blanked (locks in the populateTable fix).
+    const tables = Array.from(document.querySelectorAll('table'));
+    const visibleTables = tables.filter((t) => !t.classList.contains('hidden'));
+    expect(visibleTables.length).toBeGreaterThan(0);
+    const tbody = visibleTables[0].querySelector('tbody');
+    expect(tbody?.querySelectorAll('tr').length).toBeGreaterThan(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Defense-in-depth: HTMLDefinitions.draw must not throw on non-array defs
+// ---------------------------------------------------------------------------
+describe('HTMLDefinitions draw guard', () => {
+  it('returns false without throwing when defs is not an array', () => {
+    const parent = document.createElement('div');
+    const ctrlr = { slug: 'fs_totals', page: { main: { window } } } as any;
+    const defs = new HTMLDefinitions(ctrlr, parent);
+    expect(defs.draw(undefined as any)).toBe(false);
+    expect(parent.querySelector('.definition')).toBeNull();
   });
 });

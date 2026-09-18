@@ -280,7 +280,7 @@ describe('HtmlPageFilters – split config (default_filters present)', () => {
 });
 
 describe('HtmlPageFilters – real fs_overzicht config', () => {
-  it('renders the actual split: filters ["vanaf"] always-visible, default_filters ["gemeenten"] togglable above the header', () => {
+  it('renders the actual split: filters [] always-visible, default_filters ["vanaf"] togglable above the header', () => {
     // Seed the store from the real config (weekly periodization etc.).
     resetStore();
     document.body.innerHTML = '<div class="page_header"></div>';
@@ -290,12 +290,12 @@ describe('HtmlPageFilters – real fs_overzicht config', () => {
 
     const header = document.querySelector('.page_header') as HTMLElement;
 
-    // filters = ["vanaf"] -> always-visible date input inside the header.
+    // filters = [] -> the always-visible block is present but empty.
     const alwaysUl = header.querySelector('.page_filter_list_group > ul');
-    expect(alwaysUl!.children.length).toBe(1);
-    expect(alwaysUl!.querySelector('input[type="date"]')).not.toBeNull();
+    expect(alwaysUl).not.toBeNull();
+    expect(alwaysUl!.children.length).toBe(0);
 
-    // default_filters = ["gemeenten"] -> togglable select above the header.
+    // default_filters = ["vanaf"] -> togglable date input above the header.
     const toggle = document.querySelector(
       '.page_filter_toggle',
     ) as HTMLButtonElement;
@@ -320,7 +320,7 @@ describe('HtmlPageFilters – real fs_overzicht config', () => {
     ).toBeTruthy();
     expect(collapsible.hasAttribute('hidden')).toBe(true);
     expect(collapsible.querySelector('ul')!.children.length).toBe(1);
-    expect(collapsible.querySelector('select')).not.toBeNull();
+    expect(collapsible.querySelector('input[type="date"]')).not.toBeNull();
 
     // aria-controls wiring holds for the real config too.
     expect(toggle.getAttribute('aria-controls')).toBe(collapsible.id);

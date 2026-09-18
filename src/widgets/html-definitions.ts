@@ -31,6 +31,7 @@ export class HTMLDefinitions {
   }
 
   draw(defs: Definitions) {
+    if (!Array.isArray(defs)) return false;
     for (const def of defs) {
       const a = document.createElement("article");
       a.classList.add("definition");
