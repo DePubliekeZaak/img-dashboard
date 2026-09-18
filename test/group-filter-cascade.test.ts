@@ -3,9 +3,15 @@
 // Tests that group-level segment filters cascade to graph segments
 // and that graph controllers read the updated store.
 //
+// The two toggle filters (cumulativeVsDelta, weekVsMonth) now propagate through
+// cascadeGroupSegmentUpdate (group-scoped), which updates the group segment and
+// explicitly cascades to that group's graph segments. The graph's own
+// cumulative/periodization defaults are otherwise preserved across gemeente
+// changes (see group-v1.update / segment.store).
+//
 // Key assertions:
-//   - cumulativeVsDelta updates the group segment and cascades to graph segments
-//   - weekVsMonth updates the group segment and cascades periodization
+//   - cumulativeVsDelta cascades cumulative + key to the group's graph segments
+//   - weekVsMonth cascades periodization to the group's graph segments
 //   - The graph's `this.segment` getter reflects the cascaded values
 //
 import { describe, it, expect, beforeEach } from 'vitest';
@@ -15,8 +21,7 @@ import type { IPageConfig, IGroupMappingV2, IParameterMapping } from '../src/sha
 import {
   getGroupSegment,
   getGraphSegment,
-  updateGroupSegment,
-  updateGraphSegment,
+  cascadeGroupSegmentUpdate,
 } from '../src/stores/segment.store';
 
 // ── Register controllers ──
@@ -79,7 +84,7 @@ describe('Group filter → graph segment cascade', () => {
     expect(graphSeg?.periodization).toBe('weekly');
   });
 
-  it('updateGraphSegment cascades from group update', () => {
+  it('cascadeGroupSegmentUpdate cascades cumulativeVsDelta to the group\'s graphs', () => {
     const conf = buildPageConfig('test', { key: '', cumulative: true, periodization: 'monthly' }, [GROUP_CONF]);
     initPageStore(conf);
 
@@ -87,25 +92,18 @@ describe('Group filter → graph segment cascade', () => {
     const graphSlug = 'numbers';
 
     // Simulate cumulativeVsDelta filter: toggle to delta
-    updateGroupSegment(groupSlug, {
+    cascadeGroupSegmentUpdate(groupSlug, {
       cumulative: false,
       key: 'bedrag_betaald_totaal_eur',
-    });
-
-    // Simulate the cascade that group-v1.update() does
-    const updatedGroup = getGroupSegment(groupSlug);
-    updateGraphSegment(groupSlug, graphSlug, {
-      key: updatedGroup!.key,
-      cumulative: updatedGroup!.cumulative,
-      periodization: updatedGroup!.periodization,
     });
 
     const graphSeg = getGraphSegment(groupSlug, graphSlug);
     expect(graphSeg?.cumulative).toBe(false);
     expect(graphSeg?.key).toBe('bedrag_betaald_totaal_eur');
+    expect(getGroupSegment(groupSlug)?.cumulative).toBe(false);
   });
 
-  it('periodization cascades to graph segments', () => {
+  it('cascadeGroupSegmentUpdate cascades periodization to the group\'s graphs', () => {
     const conf = buildPageConfig('test', { key: '', cumulative: true, periodization: 'monthly' }, [GROUP_CONF]);
     initPageStore(conf);
 
@@ -113,14 +111,7 @@ describe('Group filter → graph segment cascade', () => {
     const graphSlug = 'numbers';
 
     // Simulate weekVsMonth filter: toggle to monthly
-    updateGroupSegment(groupSlug, { periodization: 'monthly' });
-
-    const updatedGroup = getGroupSegment(groupSlug);
-    updateGraphSegment(groupSlug, graphSlug, {
-      key: updatedGroup!.key,
-      cumulative: updatedGroup!.cumulative,
-      periodization: updatedGroup!.periodization,
-    });
+    cascadeGroupSegmentUpdate(groupSlug, { periodization: 'monthly' });
 
     expect(getGraphSegment(groupSlug, graphSlug)?.periodization).toBe('monthly');
   });
@@ -133,17 +124,10 @@ describe('Group filter → graph segment cascade', () => {
     const graphSlug = 'numbers';
 
     // Both filters toggle
-    updateGroupSegment(groupSlug, {
+    cascadeGroupSegmentUpdate(groupSlug, {
       cumulative: false,
       key: 'bedrag_betaald_totaal_eur',
       periodization: 'monthly',
-    });
-
-    const updatedGroup = getGroupSegment(groupSlug);
-    updateGraphSegment(groupSlug, graphSlug, {
-      key: updatedGroup!.key,
-      cumulative: updatedGroup!.cumulative,
-      periodization: updatedGroup!.periodization,
     });
 
     const seg = getGraphSegment(groupSlug, graphSlug);

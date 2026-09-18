@@ -9,7 +9,7 @@ import { HtmlSpecialsSelector } from "./specials-selector";
 import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
 import {
   getGroupSegment,
-  updateGroupSegment,
+  cascadeGroupSegmentUpdate,
   pageSegment$,
   updatePageSegment,
 } from "../stores/segment.store";
@@ -91,7 +91,7 @@ export class HtmlGroupFilters {
                 ? (entry?.variants?.cumul?.column ?? baseKey + "_cumulatief")
                 : (entry?.variants?.delta?.column ?? baseKey);
 
-              updateGroupSegment(groupSlug, {
+              cascadeGroupSegmentUpdate(groupSlug, {
                 key: newKey,
                 cumulative: isCumulative,
               });
@@ -116,7 +116,7 @@ export class HtmlGroupFilters {
               if (!current) return;
 
               if (__selectEl.value !== current.periodization) {
-                updateGroupSegment(groupSlug, {
+                cascadeGroupSegmentUpdate(groupSlug, {
                   periodization: __selectEl.value,
                 });
 

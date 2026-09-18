@@ -13,6 +13,7 @@ import {
   graphSegments$,
   initSegments,
   cascadeSegmentUpdate,
+  cascadeGroupSegmentUpdate,
   getActiveColumn,
 } from '../src/stores/segment.store';
 
@@ -127,6 +128,40 @@ describe('cascadeSegmentUpdate', () => {
         expect(groupGraphs[grSlug].cumulative).toBe(false);
       }
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// cascadeGroupSegmentUpdate()
+// ---------------------------------------------------------------------------
+describe('cascadeGroupSegmentUpdate', () => {
+  it('updates the group segment and cascades to only that group\'s graphs', () => {
+    initSegments({
+      segment: { key: 'p', cumulative: true, periodization: 'monthly' },
+      groups: [
+        {
+          slug: 'g1',
+          segment: {},
+          graphs: [{ slug: 'gr1', segment: {} }, { slug: 'gr2', segment: {} }],
+        },
+        {
+          slug: 'g2',
+          segment: {},
+          graphs: [{ slug: 'gr3', segment: {} }],
+        },
+      ],
+    });
+
+    cascadeGroupSegmentUpdate('g1', { cumulative: false });
+
+    // g1 and its graphs updated
+    expect(groupSegments$.get().g1.cumulative).toBe(false);
+    expect(graphSegments$.get().g1.gr1.cumulative).toBe(false);
+    expect(graphSegments$.get().g1.gr2.cumulative).toBe(false);
+
+    // g2 unaffected
+    expect(groupSegments$.get().g2.cumulative).toBe(true);
+    expect(graphSegments$.get().g2.gr3.cumulative).toBe(true);
   });
 });
 

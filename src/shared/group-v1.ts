@@ -324,12 +324,15 @@ export class GroupControllerV1 implements IGroupCtrlr {
     // would otherwise crash HTMLDefinitions.draw (defs is not iterable).
     group.data = this.prepareData(getAllData());
 
-    // Cascade group segment to graph segments
+    // Cascade the group segment KEY to graph segments. Do NOT overwrite each
+    // graph's own cumulative / periodization with the group's static values:
+    // those are per-graph choices (e.g. trend graphs default to cumulative:
+    // false) and must survive gemeente changes. The explicit group-scoped
+    // cascade (cascadeGroupSegmentUpdate) is used by the toggle filters when
+    // the user deliberately flips cumulative / periodization for a group.
     for (const graph of group.graphs) {
       updateGraphSegment(this.config.slug, graph.ctrlr.slug, {
         key: this.config.segment!.key,
-        cumulative: this.config.segment!.cumulative,
-        periodization: this.config.segment!.periodization,
       });
     }
 

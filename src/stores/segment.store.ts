@@ -74,6 +74,15 @@ export function updateGraphSegment(groupSlug: string, graphSlug: string, updates
   });
 }
 
+export function cascadeGroupSegmentUpdate(groupSlug: string, updates: Partial<Segment>) {
+  updateGroupSegment(groupSlug, updates);
+
+  const graphs = graphSegments$.get()[groupSlug] || {};
+  for (const graphSlug of Object.keys(graphs)) {
+    updateGraphSegment(groupSlug, graphSlug, updates);
+  }
+}
+
 export function cascadeSegmentUpdate(updates: Partial<Segment>) {
   updatePageSegment(updates);
 
