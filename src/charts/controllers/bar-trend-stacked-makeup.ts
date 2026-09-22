@@ -78,10 +78,14 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       //   this.graphEl.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight.toString() + "px" : graphHeight.toString() + "px";
       this.graphEl.style.overflowX = "auto";
       this.graphEl.style.marginBottom =
-        window.innerWidth < breakpoints.sm ? "0" : "2rem";
+        window.innerWidth < breakpoints.sm ? "1rem" : "2rem";
       this.graphEl.style.paddingRight = "50px";
       this.graphEl.style.paddingTop =
-        window.innerWidth < breakpoints.lg ? "20px" : "40px";
+        window.innerWidth < breakpoints.sm
+          ? "40px"
+          : window.innerWidth < breakpoints.lg
+            ? "20px"
+            : "40px";
     }
 
     this.scrollingContainer = document.createElement("section");
