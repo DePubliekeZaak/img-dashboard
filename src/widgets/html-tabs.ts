@@ -1,6 +1,9 @@
 import { last } from "lodash";
 import { breakpoints } from "../img-modules/styleguide";
-import { tableToCSV } from "../shared/download.factory";
+import {
+  buildWorkbookFromElement,
+  workbookToBlob,
+} from "../shared/download.factory";
 import type { IGroupCtrlr } from "../shared/interfaces";
 
 export class HtmlTabs {
@@ -136,18 +139,19 @@ export class HtmlTabs {
       const clickHandler = (event: Event) => {
         event.preventDefault();
 
-        // Generate CSV from currently visible table
-        const csvData = tableToCSV(this.element);
+        // Generate one Excel workbook with a worksheet per table
+        // (week/month x toename/cumulatief), including hidden tables.
+        const wb = buildWorkbookFromElement(this.element);
+        const blob = workbookToBlob(wb);
 
-        // Create data URL instead of blob URL
-        const dataUrl =
-          "data:text/csv;charset=utf-8," + encodeURIComponent(csvData);
+        // Create blob URL for the binary .xlsx payload
+        const dataUrl = URL.createObjectURL(blob);
 
         // Create temporary download link
         const tempLink = document.createElement("a");
         tempLink.href = dataUrl;
         tempLink.download =
-          "IMG_" + this.mapping.slug + ".csv" || "download.csv";
+          "IMG_" + this.mapping.slug + ".xlsx" || "download.xlsx";
         tempLink.style.display = "none";
 
         // Trigger download
@@ -155,7 +159,8 @@ export class HtmlTabs {
         tempLink.click();
         document.body.removeChild(tempLink);
 
-        // No need for URL.revokeObjectURL anymore
+        // Release the object URL once the download has started
+        setTimeout(() => URL.revokeObjectURL(dataUrl), 1000);
       };
 
       a.addEventListener("click", clickHandler, false);

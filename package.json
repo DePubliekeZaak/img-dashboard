@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "FileSaver": "^0.10.0",
     "axios": "^0.24.0",
     "d3": "^7.9.0",
     "d3-sankey": "^0.12.3",
@@ -17,7 +18,6 @@
     "d3-transition": "^3.0.1",
     "dotenv": "^16.0.3",
     "es6-promise": "^4.2.8",
-    "FileSaver": "^0.10.0",
     "fs": "^0.0.1-security",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.21",
@@ -26,7 +26,8 @@
     "nanostores": "^1.2.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
-    "topojson-client": "^3.1.0"
+    "topojson-client": "^3.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/d3": "^7.4.0",
