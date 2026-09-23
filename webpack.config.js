@@ -1,9 +1,14 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
-const isProduction = process.env.NODE_ENV == "prod";
+
+// Production is driven by the --env ENV=prod flag (set by build:prod / build:dev).
+// `serve` runs with ENV=dev and stays in development mode.
+const isProduction = (env) => env && env.ENV === "prod";
 
 const config = (env) => {
+  const prod = isProduction(env);
+
   return {
     entry: {
       scaffold: {
@@ -181,8 +186,17 @@ const config = (env) => {
     },
     output: {
       path: path.resolve(__dirname, "public/"),
-      publicPath: env.ENV === 'prod' ? 'https://graphs.publikaan.nl/graphs/' : '/',
+      publicPath: prod ? 'https://graphs.publikaan.nl/graphs/' : '/',
+      // Per-page entry bundles keep their stable, fixed names: they are referenced by
+      // name from the static HTML / external pages (window.<page> mounted libraries that
+      // are loaded at runtime), so they must NOT be content-hashed or those references
+      // would break. Only the runtime-managed shared chunks (splitChunks) are content-hashed
+      // for long-term caching; webpack's runtime injects those <script> tags itself, so no
+      // static reference needs updating.
       filename: "scripts/[name].bundle.js",
+      chunkFilename: prod
+        ? "scripts/[name].[contenthash:8].js"
+        : "scripts/[name].bundle.js",
       assetModuleFilename: (pathData) => {
         const filepath = path
           .dirname(pathData.filename)
@@ -192,9 +206,41 @@ const config = (env) => {
         return `./styles/${filepath}/[name].[hash][ext][query]`;
       },
     },
-    mode: "development",
+    mode: prod ? "production" : "development",
     optimization: {
-      usedExports: false,
+      // Enable tree-shaking / side-effect elimination (package.json already has
+      // "sideEffects": false).
+      usedExports: true,
+      minimize: prod,
+      splitChunks: {
+        // IMPORTANT ARCHITECTURE CONSTRAINT: each per-page bundle is loaded STANDALONE
+        // by the dashboard scaffold via a runtime import() and consumed synchronously
+        // (`new window[topic](...)`), so the page bundles must find their shared chunks
+        // ALREADY LOADED. That is satisfied by emitting ONE fixed-named `vendor` chunk
+        // (all of node_modules) and preloading it in public/index.html as a <script>
+        // BEFORE the scaffold. webpack's chunk runtime picks the preloaded chunk out of
+        // the shared `webpackChunkeiti_graphs` array and resolves synchronously, so
+        // window.<page> is assigned without turning the library export into a Promise.
+        // Webpack's default cache groups are disabled so only this one named chunk is
+        // produced (predictable name for the HTML wiring, no numeric auto chunks).
+        chunks: "all",
+        // Conservative thresholds: only split a chunk large enough to be worth the
+        // extra round-trip, and keep the per-page request count low.
+        minSize: 20000,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        cacheGroups: {
+          defaultVendors: false,
+          default: false,
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+            priority: 10,
+            chunks: "all",
+          },
+        },
+      },
     },
     devServer: {
       open: false,
@@ -217,9 +263,12 @@ const config = (env) => {
         },
       ],
     },
-    devtool: "source-map",
+    // No source maps shipped to production; keep them in dev.
+    devtool: prod ? false : "source-map",
     plugins: [
       new MiniCssExtractPlugin({
+        // Keep the CSS name stable (referenced by index.html, deploy_css.sh and the
+        // dashboard scaffold's hardcoded stylesheet link).
         filename: "./styles/main.css",
       }),
       new webpack.DefinePlugin({
@@ -258,12 +307,5 @@ const config = (env) => {
 };
 
 module.exports = (env) => {
-  let c = config(env);
-
-  if (isProduction) {
-    c.mode = "production";
-  } else {
-    c.mode = "development";
-  }
-  return c;
+  return config(env);
 };
