@@ -42,7 +42,7 @@ export class NumbersMultiplesV1 extends core.GraphControllerV3 {
     let top = 0;
     let bottom = 0;
 
-    if (window.innerWidth < breakpoints.sm) {
+    if (window.innerWidth < breakpoints.xsm) {
       top = this.index === 0 ? 15 : 0;
       bottom = 15;
     } else {

@@ -77,10 +77,14 @@ ul.dashboard_nav, ul.dashboard_nav_mobile {
         > ul {
 
             margin-left: .75rem;
-            padding-left: .75rem;
-            border-left: 1px solid rgb(230, 230, 230);
+            padding-left: 1.5rem;
+            // border-left: 1px solid rgb(230, 230, 230);
             margin-bottom: .75rem;
 
+            @media (min-width: $breakpoint-sm) {
+                padding-left: .75rem;
+            }
+ 
             > li {
                 padding: .125rem 0.75rem .125rem 0;
                 pointer-events: auto;
@@ -89,7 +93,7 @@ ul.dashboard_nav, ul.dashboard_nav_mobile {
 
                     margin-left: .75rem;
                     padding-left: .75rem;
-                    border-left: 1px solid rgb(230, 230, 230);
+                    // border-left: 1px solid rgb(230, 230, 230);
                     margin-bottom: .75rem;
 
                     > li {
@@ -120,10 +124,10 @@ ul.dashboard_nav_mobile:not([hidden]) {
     position: absolute;
     background: $website_green;
     z-index: 999;
-    min-height: 100vh;
+    min-height: calc(100vh - 8rem);
     width: 100vw;
     flex-direction: column;
-    padding: 4rem 2rem 2rem 2rem;
+    padding: 6rem 2rem 2rem 2rem;
     flex-direction: column;
     left: 0;
     top: 0;
@@ -134,7 +138,7 @@ ul.dashboard_nav_mobile:not([hidden]) {
 
     position: fixed;
     left: 0;
-    bottom: .5rem;
+    top: 1rem;
 
     background-image: url('../public/img/hamburger.svg');
     background-size: 2.4rem; /* Ensure the icon scales correctly */

@@ -7,24 +7,21 @@ import type { IPageController } from "../../shared/page.controller";
 import type { DataObject, Segment } from "../../shared/types";
 
 export class SegmentsV1 extends core.GraphControllerV3 {
-  scrollingContainer;
-  chartAxis;
-  chartBar;
-  finalRevenueLine;
-  zeroLine;
+  scrollingContainer: any;
+  chartAxis: any;
+  chartBar: any;
+  finalRevenueLine: any;
+  zeroLine: any;
 
   bars = {};
-  timeline_1;
-  timeline_2;
+  timeline_1: any;
+  timeline_2: any;
   entity_svgs = {};
   ctrlrs: any = {};
+  bottomAxis: any;
+  leftAxis: any;
 
-  // yScale: any;
-  // xScale: any;
-  bottomAxis;
-  leftAxis;
-
-  legend;
+  legend: any;
 
   constructor(
     public slug: string,
@@ -51,20 +48,15 @@ export class SegmentsV1 extends core.GraphControllerV3 {
 
   pre() {
     this.config.graphHeight = window.innerWidth > breakpoints.sm ? 320 : 320; //  this.index < 1 ? 420 : 210;
-
-    // const marginForTimeline = 180;
-    // const paddingForTimeline = 60;
     const paddingForAxis = 0;
-    // const filters = (this.filters.length > 0) ? window.innerWidth < breakpoints.sm ? 60 : 100 : 0;
 
-    this._addMargin(0, 30, 0, 0);
-    this._addPadding(90, 30, paddingForAxis, paddingForAxis);
+    this._addMargin(0, 0, 0, 0);
+    this._addPadding(30, 30, paddingForAxis, paddingForAxis);
 
     this._addScale("x", "band", "horizontal", "label");
     this._addScale("y", "linear", "vertical", "value");
     this._addAxis("x", "x", "bottom", "");
-    // this._addAxis("y", "y", "left");
-    // this._addAxis("y2", "y", "right");
+
   }
 
   html() {
@@ -75,30 +67,18 @@ export class SegmentsV1 extends core.GraphControllerV3 {
     if (this.graphEl !== null) {
       this.graphEl.style.height =
         window.innerWidth < breakpoints.sm
-          ? this.config.graphHeight?.toString() + "px"
-          : this.config.graphHeight?.toString() + "px";
+          ? (this.config.graphHeight! + (4 * 18)).toString() + "px"
+          : (this.config.graphHeight! + (4 * 18)).toString() + "px";
       this.graphEl.style.overflowX = "auto";
       this.graphEl.style.marginBottom = "2rem";
       this.graphEl.style.whiteSpace = "nowrap";
     }
 
-    // if(this.group.graphs[this.index].header !== undefined) {
-    //     const header = document.createElement('div');
-    //     header.classList.add('graph-header');
-    //     header.innerText =  this.group.graphs[this.index].header || "";
-    //     this.graphEl.appendChild(header);
-    // }
-
-    // if group has more then one graph scrollcontainer should get position relative
-
     this.scrollingContainer = document.createElement("section");
-    this.scrollingContainer.classList.add("scrolltainer");
+    this.scrollingContainer.style.height = '100%';
+    // this.scrollingContainer.classList.add("scrolltainer");
     if (this.filters.length > 0) this.graphEl.classList.add("has-filters");
     this.graphEl.appendChild(this.scrollingContainer);
-
-    // if (window.innerWidth > breakpoints.sm && this.graphEl.parentElement && this.mapping[2]) {
-    //     let radiobuttons = new HtmlRadio(this, this.mapping[2],this.graphEl.parentElement);
-    // }
   }
 
   async init() {
@@ -145,7 +125,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
       }
 
       return {
-        label: param?.label || "",
+        label: ( param?.short != undefined && window.innerWidth < breakpoints.sm ) ? param.short : param?.label || "",
         name: "_" + column,
         colour: param !== undefined ? param.colour : "orange",
         // meta: data,
@@ -170,9 +150,9 @@ export class SegmentsV1 extends core.GraphControllerV3 {
   }
 
   async redraw(data: any) {
-    this.scales.x.set(data.bars.map((d) => d.label));
+    this.scales.x.set(data.bars.map((d: any) => d.label));
     this.scales.y.set(
-      data.bars.map((d) => (d.value > 0 ? d.value : 0)).concat([0]),
+      data.bars.map((d: any) => (d.value > 0 ? d.value : 0)).concat([0]),
     );
 
     await super.redraw(data);

@@ -54,7 +54,7 @@ export class HtmlNumberSimple {
     number.style.fontWeight = "500";
     let c = colours[this.parameter?.colour!];
     number.style.borderBottom =
-      "2px solid " + c != undefined ? c[0] : "black";
+      "2px solid " + (c != undefined ? c[0] : "black");
 
     div.appendChild(number);
 

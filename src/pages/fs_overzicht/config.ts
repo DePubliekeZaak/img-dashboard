@@ -168,6 +168,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Maatwerk (MW)",
+              short: "MW",
               column: "toegekend_mv",
               colour: "blue",
               units: "toegekend als maatwerk",
@@ -175,6 +176,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Vaste Vergoeding (VES)",
+              short: "VES",
               column: "toegekend_ves",
               colour: "orange",
               units: "toegekend als vaste vergoeding",
@@ -182,6 +184,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Aanvullende Vaste vergoeding (AVV)",
+              short: "AVV",
               column:"toegekend_avv",
               colour: "yellow",
               units: "toegekend als aanvullende vaste vergoeding",
@@ -189,6 +192,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Herstel Eigen Aannemer (HEA)",
+              short: "HEA",
               column: "toegekend_hea",
               colour: "moss",
               units: "toegekend als herstel eigen aannemer",
@@ -196,6 +200,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Herstel Aannemer Instituut (HAI)",
+              short: "HAI",
               column: "toegekend_hai",
               colour: "purple",
               units: "toegekend als herstel aannemer instituut",

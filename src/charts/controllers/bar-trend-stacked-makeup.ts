@@ -46,14 +46,14 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   pre() {
-    const topMargin = window.innerWidth < breakpoints.sm ? 30 : 0;
+    const topMargin = window.innerWidth < breakpoints.sm ? 30 : 30;
     const topPadding =
       window.innerWidth < breakpoints.sm
-        ? 40
+        ? 90
         : window.innerWidth < breakpoints.lg
-          ? 0
-          : 75;
-    const bottomPadding = window.innerWidth < breakpoints.lg ? 20 : 30;
+          ? 20
+          : 40;
+    const bottomPadding = window.innerWidth < breakpoints.lg ? 40 : 30;
     const bottom = 0;
 
     this._addMargin(topMargin, bottom, 0, 0);
@@ -68,7 +68,7 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
   }
 
   html() {
-    this.config.graphHeight = window.innerWidth < breakpoints.lg ? 280 : 420;
+    this.config.graphHeight = window.innerWidth < breakpoints.lg ? 320 : 420;
 
     if (this.group.element === null) return;
 
@@ -82,10 +82,10 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       this.graphEl.style.paddingRight = "50px";
       this.graphEl.style.paddingTop =
         window.innerWidth < breakpoints.sm
-          ? "40px"
+          ? "15px"
           : window.innerWidth < breakpoints.lg
             ? "20px"
-            : "40px";
+            : "0px";
     }
 
     this.scrollingContainer = document.createElement("section");

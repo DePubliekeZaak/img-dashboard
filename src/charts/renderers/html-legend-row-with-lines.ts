@@ -20,6 +20,8 @@ export class HtmlLegendRowWithLines {
       window.innerWidth < breakpoints.xsm ? "column" : "row";
     legend.style.justifyContent = "center";
     legend.style.width = "100%";
+    legend.style.marginTop = breakpoints.sm ? "15px" : "30px";
+
 
     // console.log("index", this.ctrlr.index);
     // console.log(this.ctrlr.group.graphs);
@@ -104,7 +106,7 @@ export class HtmlLegendRowWithLines {
     if (labelText !== undefined) {
       label.style.fontFamily = "RO Sans Regular";
       label.style.fontSize = window.innerWidth > 700 ? ".8rem" : ".71em";
-      label.style.lineHeight = "1.33";
+      label.style.lineHeight = "1.5";
       label.innerText = labelText;
     }
 

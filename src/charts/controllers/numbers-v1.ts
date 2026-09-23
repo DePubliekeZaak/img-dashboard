@@ -57,9 +57,10 @@ export class NumbersV1 extends core.GraphControllerV3 {
       const div = document.createElement("div");
       div.innerHTML = h + ":";
       div.style.width = "100%";
+      div.style.textAlign = window.innerWidth < breakpoints.sm ? "center" : "start";
       div.style.margin =
         window.innerWidth < breakpoints.sm
-          ? "1.5rem"
+          ? "1.5rem .75rem"
           : window.innerWidth < breakpoints.lg
             ? "1.5rem 0 .75rem 0"
             : "1.5rem 0";

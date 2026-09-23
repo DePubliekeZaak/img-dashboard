@@ -107,6 +107,14 @@
 
 }
 
+.page_filter_list_group:has(ul:empty) {
+  margin: 0;
+
+    ul {
+        padding: 0;
+    }
+}
+
 
 
 /* ------------------------------------------------------------------ *
@@ -168,9 +176,12 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    margin-top: 1.5rem;
-    margin-bottom: 0;
+    margin: 0;
 
+    @media (min-width: $breakpoint-sm) {
+        margin-top: 1.5rem;
+    }
+ 
     .page_filter_toggle {
         align-self: flex-end;
     }
