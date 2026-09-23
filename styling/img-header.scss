@@ -1,0 +1,133 @@
+header {
+    position: relative;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+
+    > div:first-child {
+
+        height: calc(200px - 3rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        // > img {
+        //     // align-self: center;
+        // }
+    }
+
+    > div:last-child {
+        background: $orange;
+        width: 100%
+    }
+
+
+    ul#nav {
+        
+        height: 3rem;
+        width: calc(100% - 1rem);
+        padding: 0 .5rem;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+
+        li#mobile-menu-item-close {
+            display: none;
+        }
+
+        li#mobile-menu-item-open, li#mobile-menu-item-close {
+            margin-right: auto;
+            margin-top: .5rem;
+            margin-left: .75rem;
+
+            @media(min-width: $breakpoint-bax) {
+                display: none;
+            }
+        }
+
+        li {
+            color: white;
+        }
+    }
+
+
+}
+
+#menu-home-link {
+    margin-right: auto;
+    color: white;
+    font-weight: bold;
+
+    @media (max-width: $breakpoint-bax) {
+        display: none;
+    }
+
+    a {
+        color: white;
+        border-bottom: 1px solid white;
+
+        &:hover {
+            color: $darkblue;
+            border-color: $darkblue;
+        }
+    }
+}
+
+ul#language-selector {
+
+
+    display: flex;
+    flex-direction: row;
+
+    li {
+
+        margin: 0;
+        padding: 0;
+
+        &::after {
+            content: "|";
+            padding: 0 .5rem;
+        }
+
+        &:last-child::after {
+            content: none;
+        }
+
+
+        &.active {
+            font-weight: 700;
+        }
+    }
+    
+}
+
+.page_header {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 2rem;
+
+    @media (min-width: $breakpoint-sm) {
+        margin-top: 1.25rem;
+    }
+
+    .versie {
+        margin-bottom: .25rem;
+        border-bottom: 1px solid black;
+    }
+
+    h2 {
+        line-height: 1.33;
+    } 
+}
+
