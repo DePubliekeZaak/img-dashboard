@@ -197,21 +197,20 @@ const config = (env) => {
     output: {
       path: path.resolve(__dirname, "public/"),
       publicPath: prod ? 'https://graphs.publikaan.nl/graphs/' : '/',
-      // Every emitted chunk keeps a stable, fixed name. There are no content-hashed
-      // chunk files in this build:
+      // Every emitted bundle keeps a stable, fixed name. There are no content-hashed
+      // chunk files and NO split chunks in this build:
       //   - The per-page entry bundles (and the scaffold) keep their fixed names because
-      //     they are referenced BY NAME from static HTML / external pages (the
-      //     window.<page> mounted libraries loaded at runtime) - content-hashing them
-      //     would break those references.
-      //   - The only split chunk is the `vendor` cacheGroup (all of node_modules). It is
-      //     an INITIAL chunk (shared by every page entry), so webpack emits it via
-      //     output.filename -> scripts/vendor.bundle.js, which is exactly what the static
-      //     <script src="./scripts/vendor.bundle.js"> preload in public/index.html points
-      //     at. chunkFilename is therefore never exercised (there are no async chunks).
+      //     they are referenced BY NAME at runtime: the scaffold loads each page via
+      //     `import("${BUNDLE_BASE}<topic>.bundle.js")` and mounts the synchronous
+      //     `window[<topic>]` export, and the external app requests dashboard-bundle.js
+      //     by its fixed URL. Content-hashing would break those name-based references.
+      //   - Each bundle is SELF-CONTAINED: every node_module it needs is inlined into it
+      //     (no `splitChunks`, no shared vendor chunk). This is what makes the standalone
+      //     runtime import safe - a page bundle never depends on an externally preloaded
+      //     chunk, so `window[<topic>]` is assigned synchronously with no preload.
       //
-      // chunkFilename must stay UNHASHED (same in prod and dev) so that the vendor chunk
-      // name can never be content-hashed out from under the manual preload. Content-hashing
-      // it would be fundamentally incompatible with this manual-reference architecture.
+      // chunkFilename is therefore never exercised (there are no async chunks); it is
+      // kept unhashed for consistency.
       filename: "scripts/[name].bundle.js",
       chunkFilename: "scripts/[name].bundle.js",
       assetModuleFilename: (pathData) => {
@@ -232,7 +231,7 @@ const config = (env) => {
       // Strip console.* and debugger ONLY from the production artifact. Setting
       // `minimizer` REPLACES webpack's default JS minimizer, so we replicate the
       // default terser options (compress.passes: 2) and keep the default
-      // extractComments behavior so vendor.bundle.js.LICENSE.txt keeps being
+      // extractComments behavior so *.bundle.js.LICENSE.txt files keep being
       // emitted. In dev/serve we leave `minimizer` unset: dev output is
       // unminified anyway, so console.log / debugger stay in for debugging.
       ...(prod
@@ -250,42 +249,23 @@ const config = (env) => {
             ],
           }
         : {}),
-      splitChunks: {
-        // IMPORTANT ARCHITECTURE CONSTRAINT: each per-page bundle is loaded STANDALONE
-        // by the dashboard scaffold via a runtime import() and consumed synchronously
-        // (`new window[topic](...)`), so the page bundles must find their shared chunks
-        // ALREADY LOADED. That is satisfied by emitting ONE fixed-named `vendor` chunk
-        // (all of node_modules) and preloading it in public/index.html as a <script>
-        // BEFORE the scaffold. webpack's chunk runtime picks the preloaded chunk out of
-        // the shared `webpackChunkeiti_graphs` array and resolves synchronously, so
-        // window.<page> is assigned without turning the library export into a Promise.
-        // Webpack's default cache groups are disabled so only this one named chunk is
-        // produced (predictable name for the HTML wiring, no numeric auto chunks).
-        //
-        // Cache-busting note: page bundles keep fixed unhashed names (their filenames are
-        // referenced manually), so a content change to a page does not invalidate the
-        // browser cache on its own. This matches the pre-existing manual `?v=` cache-buster
-        // approach used across index.html (dashboard-bundle.js, main.css). A `?v` buster on
-        // the scaffold's runtime import() would help but is out of scope for this config
-        // change (it lives in the dashboard controller).
-        chunks: "all",
-        // Conservative thresholds: only split a chunk large enough to be worth the
-        // extra round-trip, and keep the per-page request count low.
-        minSize: 20000,
-        minChunks: 1,
-        maxAsyncRequests: 30,
-        maxInitialRequests: 30,
-        cacheGroups: {
-          defaultVendors: false,
-          default: false,
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: "vendor",
-            priority: 10,
-            chunks: "all",
-          },
-        },
-      },
+      // IMPORTANT ARCHITECTURE CONSTRAINT: each per-page bundle is loaded STANDALONE
+      // by the dashboard scaffold via a runtime import() (`${BUNDLE_BASE}<topic>.bundle.js`)
+      // and consumed synchronously (`new window[topic](...)`). The page bundles must
+      // therefore be SELF-CONTAINED: they cannot depend on any shared chunk (e.g. a split
+      // `vendor` chunk) that has to be preloaded into the shared webpackChunk* array BEFORE
+      // they run - the external web app only ever loads dashboard-bundle.js, never our
+      // index.html or a vendor preload. Splitting out a `vendor` chunk (as was tried in
+      // the PR #19 optimization) broke this: every page bundle AND the scaffold boot were
+      // gated on the vendor chunk id being already present, with no async chunk-loader in
+      // any bundle to fetch it, so `window[topic]` was never assigned. Reverting splitChunks
+      // restores self-contained bundles: each page inlines its own node_modules, sets
+      // `window[<topic>]` synchronously, and mounts with zero preloads.
+      //
+      // Trade-off: node_modules are duplicated across every page bundle (larger per-page
+      // download, no shared-cache benefit) - acceptable here given the hard loading
+      // constraint. Cache-busting note: page bundles keep fixed unhashed names (referenced
+      // by name), so a content change needs the existing manual `?v=` cache-buster approach.
     },
     devServer: {
       open: false,
