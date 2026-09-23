@@ -1,9 +1,14 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
-const isProduction = process.env.NODE_ENV == "prod";
+
+// Production is driven by the --env ENV=prod flag (set by build:prod / build:dev).
+// `serve` runs with ENV=dev and stays in development mode.
+const isProduction = (env) => env && env.ENV === "prod";
 
 const config = (env) => {
+  const prod = isProduction(env);
+
   return {
     entry: {
       scaffold: {
@@ -181,8 +186,24 @@ const config = (env) => {
     },
     output: {
       path: path.resolve(__dirname, "public/"),
-      publicPath: env.ENV === 'prod' ? 'https://graphs.publikaan.nl/graphs/' : '/',
+      publicPath: prod ? 'https://graphs.publikaan.nl/graphs/' : '/',
+      // Every emitted chunk keeps a stable, fixed name. There are no content-hashed
+      // chunk files in this build:
+      //   - The per-page entry bundles (and the scaffold) keep their fixed names because
+      //     they are referenced BY NAME from static HTML / external pages (the
+      //     window.<page> mounted libraries loaded at runtime) - content-hashing them
+      //     would break those references.
+      //   - The only split chunk is the `vendor` cacheGroup (all of node_modules). It is
+      //     an INITIAL chunk (shared by every page entry), so webpack emits it via
+      //     output.filename -> scripts/vendor.bundle.js, which is exactly what the static
+      //     <script src="./scripts/vendor.bundle.js"> preload in public/index.html points
+      //     at. chunkFilename is therefore never exercised (there are no async chunks).
+      //
+      // chunkFilename must stay UNHASHED (same in prod and dev) so that the vendor chunk
+      // name can never be content-hashed out from under the manual preload. Content-hashing
+      // it would be fundamentally incompatible with this manual-reference architecture.
       filename: "scripts/[name].bundle.js",
+      chunkFilename: "scripts/[name].bundle.js",
       assetModuleFilename: (pathData) => {
         const filepath = path
           .dirname(pathData.filename)
@@ -192,9 +213,48 @@ const config = (env) => {
         return `./styles/${filepath}/[name].[hash][ext][query]`;
       },
     },
-    mode: "development",
+    mode: prod ? "production" : "development",
     optimization: {
-      usedExports: false,
+      // Enable tree-shaking / side-effect elimination (package.json already has
+      // "sideEffects": false).
+      usedExports: true,
+      minimize: prod,
+      splitChunks: {
+        // IMPORTANT ARCHITECTURE CONSTRAINT: each per-page bundle is loaded STANDALONE
+        // by the dashboard scaffold via a runtime import() and consumed synchronously
+        // (`new window[topic](...)`), so the page bundles must find their shared chunks
+        // ALREADY LOADED. That is satisfied by emitting ONE fixed-named `vendor` chunk
+        // (all of node_modules) and preloading it in public/index.html as a <script>
+        // BEFORE the scaffold. webpack's chunk runtime picks the preloaded chunk out of
+        // the shared `webpackChunkeiti_graphs` array and resolves synchronously, so
+        // window.<page> is assigned without turning the library export into a Promise.
+        // Webpack's default cache groups are disabled so only this one named chunk is
+        // produced (predictable name for the HTML wiring, no numeric auto chunks).
+        //
+        // Cache-busting note: page bundles keep fixed unhashed names (their filenames are
+        // referenced manually), so a content change to a page does not invalidate the
+        // browser cache on its own. This matches the pre-existing manual `?v=` cache-buster
+        // approach used across index.html (dashboard-bundle.js, main.css). A `?v` buster on
+        // the scaffold's runtime import() would help but is out of scope for this config
+        // change (it lives in the dashboard controller).
+        chunks: "all",
+        // Conservative thresholds: only split a chunk large enough to be worth the
+        // extra round-trip, and keep the per-page request count low.
+        minSize: 20000,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        cacheGroups: {
+          defaultVendors: false,
+          default: false,
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+            priority: 10,
+            chunks: "all",
+          },
+        },
+      },
     },
     devServer: {
       open: false,
@@ -217,9 +277,12 @@ const config = (env) => {
         },
       ],
     },
-    devtool: "source-map",
+    // No source maps shipped to production; keep them in dev.
+    devtool: prod ? false : "source-map",
     plugins: [
       new MiniCssExtractPlugin({
+        // Keep the CSS name stable (referenced by index.html, deploy_css.sh and the
+        // dashboard scaffold's hardcoded stylesheet link).
         filename: "./styles/main.css",
       }),
       new webpack.DefinePlugin({
@@ -258,12 +321,5 @@ const config = (env) => {
 };
 
 module.exports = (env) => {
-  let c = config(env);
-
-  if (isProduction) {
-    c.mode = "production";
-  } else {
-    c.mode = "development";
-  }
-  return c;
+  return config(env);
 };
