@@ -16,11 +16,10 @@
             </section>
         </main> 
        <!-- <script src="https://graphs.publikaan.nl/graphs/scripts/dashboard-new-bundle.js"></script> -->
-        <!-- Shared vendor chunk (d3/lodash/axios/nanostores/…). Must load BEFORE the
-             scaffold: each per-page bundle is loaded standalone at runtime and expects
-             this chunk to already be present so its window.<page> export stays synchronous. -->
-        <script src="./scripts/vendor.bundle.js?v=1"></script>
-        <script src="./scripts/dashboard-bundle.js?v=24"></script>
+        <!-- Each page bundle is self-contained (no shared vendor chunk): the scaffold loads
+             the active page at runtime and mounts its window.<page> export synchronously.
+             Only the scaffold needs a script tag here. -->
+        <script src="./scripts/dashboard-bundle.js?v=26"></script>
     </body>
 </html>
 `
