@@ -2,6 +2,16 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 
+// The JS minimizer. This webpack fork bundles `minimizer-webpack-plugin`
+// (its replacement for the classic `terser-webpack-plugin`) as the default
+// minimizer, so we use the exact same plugin webpack wires up out of the box.
+// Resolve it from webpack's own dependency tree: pnpm does not hoist
+// transitive dependencies to the project root, and this keeps the change
+// confined to webpack.config.js (no new top-level dependency).
+const TerserPlugin = require(require.resolve("minimizer-webpack-plugin", {
+  paths: [require.resolve("webpack")],
+}));
+
 // Production is driven by the --env ENV=prod flag (set by build:prod / build:dev).
 // `serve` runs with ENV=dev and stays in development mode.
 const isProduction = (env) => env && env.ENV === "prod";
@@ -219,6 +229,27 @@ const config = (env) => {
       // "sideEffects": false).
       usedExports: true,
       minimize: prod,
+      // Strip console.* and debugger ONLY from the production artifact. Setting
+      // `minimizer` REPLACES webpack's default JS minimizer, so we replicate the
+      // default terser options (compress.passes: 2) and keep the default
+      // extractComments behavior so vendor.bundle.js.LICENSE.txt keeps being
+      // emitted. In dev/serve we leave `minimizer` unset: dev output is
+      // unminified anyway, so console.log / debugger stay in for debugging.
+      ...(prod
+        ? {
+            minimizer: [
+              new TerserPlugin({
+                terserOptions: {
+                  compress: {
+                    passes: 2,
+                    drop_console: true,
+                    drop_debugger: true,
+                  },
+                },
+              }),
+            ],
+          }
+        : {}),
       splitChunks: {
         // IMPORTANT ARCHITECTURE CONSTRAINT: each per-page bundle is loaded STANDALONE
         // by the dashboard scaffold via a runtime import() and consumed synchronously
