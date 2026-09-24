@@ -37,6 +37,17 @@ DashboardController
 
 Each level has a `slug`, a `segment`, and a `config` object. Controllers are instantiated by name from a registry (not hardcoded imports).
 
+### Controllers are instantiated from a route map (webpack-native code splitting)
+
+The scaffold (`src/browser/dashboard/dashboard.controller.ts`) resolves the active topic
+through `src/browser/dashboard/routes.ts` — a `topic slug -> () => import('./pages/<topic>/index')`
+map. Webpack emits each page as a real async chunk; shared source (`src/charts`, `src/shared`,
+`src/stores`, `src/widgets`) and shared node_modules are extracted by `optimization.splitChunks`
+into `shared`/`vendors` async chunks fetched via `output.publicPath`. Only `scripts/dashboard-bundle.js`
+is loaded by the host (one script tag); it carries webpack's runtime + chunk loader. There is NO
+`window[<topic>]` contract anymore. The old `import("<topic>.bundle.js")` + `new window[topic]`
+mechanism was replaced; back/forward works via a `popstate` listener in the scaffold.
+
 ### Services
 
 - `DataService` — fetches and caches API data; has `.collection()` and `.clear()`

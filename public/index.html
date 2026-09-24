@@ -16,10 +16,10 @@
             </section>
         </main> 
        <!-- <script src="https://graphs.publikaan.nl/graphs/scripts/dashboard-new-bundle.js"></script> -->
-        <!-- Each page bundle is self-contained (no shared vendor chunk): the scaffold loads
-             the active page at runtime and mounts its window.<page> export synchronously.
-             Only the scaffold needs a script tag here. -->
-        <script src="./scripts/dashboard-bundle.js?v=27"></script>
+        <!-- Single entry: the scaffold (dashboard-bundle.js) carries webpack's runtime and
+             loads topic pages + shared/vendor chunks on demand via output.publicPath, so
+             only this one script tag is needed. -->
+        <script src="./scripts/dashboard-bundle.js?v=28"></script>
     </body>
 </html>
 `

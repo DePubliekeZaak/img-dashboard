@@ -17,6 +17,7 @@ import {
 import { type INavService, NavService, navItems } from "./nav.service";
 import { type IParamService, ParamService } from "./param.service";
 import { screenSize } from "./screen.factory";
+import { DEFAULT_TOPIC, resolveTopic } from "./routes";
 import { Version } from "./types";
 
 export interface IDashboardController {
@@ -34,16 +35,6 @@ export interface IDashboardController {
   _toggleSubMenu: (slug: string, isMobile: boolean) => void;
   _screenListener: () => void;
 }
-
-const getScriptBaseUrl = () => {
-  const scripts = document.getElementsByTagName("script");
-  for (const script of scripts) {
-    if (script.src.includes("dashboard") || script.src.includes("scaffold")) {
-      return script.src.substring(0, script.src.lastIndexOf("/") + 1);
-    }
-  }
-  return "./";
-};
 
 export class DashboardController implements IDashboardController {
   params;
@@ -67,12 +58,22 @@ export class DashboardController implements IDashboardController {
     this.window = window;
     this.params.renew();
     this._reloadHtml();
+
+    // Browser back/forward navigation: popstate fires when the history is traversed
+    // (pushState from in-app nav does NOT fire it), so re-read the query params and
+    // re-mount the requested topic. This restores back/forward support that was
+    // previously missing (pushState updated the URL but nothing reacted to it).
+    window.addEventListener("popstate", () => {
+      this.params.renew();
+      this.call(false);
+      const isMobile = window.innerWidth < breakpoints.bax;
+      setActiveMenuItem(this.params.topic, isMobile);
+    });
+
     await this.call(false);
   }
 
   async call(update: boolean): Promise<void> {
-    const BUNDLE_BASE = getScriptBaseUrl();
-
     // Destroy previous page's graph objects before clearing DOM
     if (this._currentController?.destroy) {
       this._currentController.destroy();
@@ -105,13 +106,13 @@ export class DashboardController implements IDashboardController {
 
     pageHeader(this, pageTitle, this.htmlContainer, this.params.version);
 
-    // include version in bundle to be loaded !!!!!!
-
-    await import(
-      /*webpackIgnore: true*/ `${BUNDLE_BASE}${this.params.topic}.bundle.js`
-    );
-    // @ts-expect-error
-    const ctrlr = new window[this.params.topic](this);
+    // Load the page controller through the webpack-native route map. Webpack emits
+    // each page as a real async chunk and resolves its URL via output.publicPath,
+    // so no script-scan heuristic is needed here. The constructor signature is the
+    // same as the old `new window[<topic>](this)` contract.
+    const loader = resolveTopic(this.params.topic ?? DEFAULT_TOPIC);
+    const mod = await loader();
+    const ctrlr = new mod.default(this);
     this._currentController = ctrlr;
     ctrlr.init(this.params.version);
 
