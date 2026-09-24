@@ -48,7 +48,7 @@ export class SegmentsV1 extends core.GraphControllerV3 {
 
   pre() {
     this.config.graphHeight = window.innerWidth > breakpoints.sm ? 320 : 320; //  this.index < 1 ? 420 : 210;
-    const paddingForAxis = 0;
+    const paddingForAxis = 2;
 
     this._addMargin(0, 0, 0, 0);
     this._addPadding(30, 30, paddingForAxis, paddingForAxis);

@@ -34,7 +34,7 @@ const addStylesheets = () => {
   var link = document.createElement("link");
   link.rel = "stylesheet";
   link.type = "text/css";
-  link.href = "https://img.publikaan.nl" + "/graphs/styles/main.css?v=2"; //; //  ; //  graphObject
+  link.href = "https://img.publikaan.nl" + "/graphs/styles/main.css?v=3"; //; //  ; //  graphObject
   link.media = "all";
   head.appendChild(link);
 };

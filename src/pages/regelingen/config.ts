@@ -531,7 +531,7 @@ const pageConfig: IPageConfig = {
       "tevredenheid"
     ], 
   },
-  ]
+ ]
 }
 
 export default pageConfig;
