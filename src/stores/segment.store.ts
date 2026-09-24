@@ -33,16 +33,38 @@ export function initSegments(config: any) {
   const pageSegment = { ...pageSegment$.get(), ...config.segment };
   pageSegment$.set(pageSegment);
 
+  // Capture the current store so a chart/group that persists across
+  // navigation (same slug in the old and new config) keeps its segment
+  // instead of being blind-replaced. The fresh config still wins for any
+  // field it re-declares, but fields the config does not re-emit — most
+  // importantly the computed `baseKey` assigned by page.controller.init —
+  // are retained. Without this, re-initializing the store on a topic switch
+  // wipes a surviving chart's segment, and its (still-attached) resize
+  // handler resolves `getGraphSegment(...)` to undefined.
+  const prevGroups = groupSegments$.get();
+  const prevGraphs = graphSegments$.get();
+
   const groups: Record<string, Segment> = {};
   const graphs: Record<string, Record<string, Segment>> = {};
 
   for (const group of config.groups) {
     const groupSegment = { ...pageSegment, ...group.segment };
-    groups[group.slug] = groupSegment;
+    const prevGroup = prevGroups[group.slug];
+    // Config-authored fields win; the derived `baseKey` (never authored in
+    // config — it is assigned by page.controller.init after initSegments) is
+    // preserved from the previous store so a surviving group keeps its segment
+    // instead of being reset to the empty sentinel.
+    groups[group.slug] = prevGroup
+      ? { ...groupSegment, baseKey: prevGroup.baseKey || groupSegment.baseKey }
+      : groupSegment;
     graphs[group.slug] = {};
 
     for (const graph of group.graphs) {
-      graphs[group.slug][graph.slug] = { ...groupSegment, ...graph.segment };
+      const graphSegment = { ...groupSegment, ...graph.segment };
+      const prevGraph = prevGraphs[group.slug]?.[graph.slug];
+      graphs[group.slug][graph.slug] = prevGraph
+        ? { ...graphSegment, baseKey: prevGraph.baseKey || graphSegment.baseKey }
+        : graphSegment;
     }
   }
 
