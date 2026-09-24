@@ -149,6 +149,11 @@ export class GraphControllerV3 implements IGraphControllerV3 {
           graph.filters,
           this.parameters,
           this.modifiers,
+          // Anchor the filter to THIS graph's own section so it renders
+          // directly above its own graph, not hoisted to the top of the
+          // shared group wrapper (where a later graph's filter would end up
+          // above an earlier graph).
+          graphEl,
         );
         this.filter.draw();
       }
@@ -168,14 +173,19 @@ export class GraphControllerV3 implements IGraphControllerV3 {
           // mirroring the multiples branch above. The number renderer that
           // follows (HtmlNumberSimple.draw) does `element.innerHTML = ""` on
           // graphEl itself, which would otherwise wipe a filter hosted inside
-          // graphEl. Hosting it in the sibling wrapper means the renderer can
-          // never clear it, so the cumulativeVsDelta select survives init() on
-          // the non-multiple (cold first load) path as well as the multiples
-          // (warm) path.
+          // graphEl. Hosting it as a sibling of graphEl (not inside it) means
+          // the renderer can never clear it, so the cumulativeVsDelta select
+          // survives init() on the non-multiple (cold first load) path as well
+          // as the multiples (warm) path.
           graphEl.parentElement,
           graph.filters,
           this.parameters,
           this.modifiers,
+          // Anchor the filter to THIS graph's own section so it renders
+          // directly above its own graph instead of being prepended to the top
+          // of the shared group wrapper (where a later graph's filter would
+          // land above an earlier graph).
+          graphEl,
         );
         this.filter.draw();
       }
