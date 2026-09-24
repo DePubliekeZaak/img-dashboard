@@ -1,7 +1,8 @@
 # Webpack-native code splitting — implementation report
 
 **Branch:** `refactor/webpack-native-splitting`
-**Commit:** (final commit hash below)
+**Commit:** `e10f14b` (`e10f14b4342d05f367641832f13a74e2ccb87221`)
+**PR:** [#24](https://github.com/DePubliekeZaak/img-dashboard/pull/24)
 **Base/PR target:** `main`
 **Date:** 2026-09-24
 
