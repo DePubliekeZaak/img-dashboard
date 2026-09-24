@@ -32,6 +32,12 @@ export class HtmlFilters {
     private filters: any,
     private parameters: any,
     private modifiers: any,
+    // The graph's own <section> that this filter belongs to. When provided the
+    // filter wrapper is inserted immediately BEFORE this section (so the filter
+    // renders directly above its own graph), instead of being prepended to the
+    // top of the shared group wrapper (which hoists a later graph's filter above
+    // an earlier graph).
+    private anchorEl: HTMLElement | null = null,
   ) {
     this.init(undefined);
   }
@@ -73,8 +79,21 @@ export class HtmlFilters {
       this.listElement.appendChild(ul);
       container.appendChild(this.listElement);
 
-      // Prepend inside element so the filter sits inside the graph section
-      element.prepend(container);
+      // Anchor the filter wrapper immediately BEFORE the graph's own section
+      // (anchorEl) so it sits directly above the graph it controls. Without an
+      // anchor we fall back to prepending inside the host wrapper (legacy
+      // behaviour for callers that don't pass an anchor). Anchoring to the
+      // graph removes the cross-graph ordering dependency: each graph's filter
+      // is placed at its own graph's position among siblings, so a later
+      // graph's filter can no longer be hoisted above an earlier graph.
+      if (this.anchorEl && this.anchorEl.parentElement) {
+        this.anchorEl.parentElement.insertBefore(
+          container,
+          this.anchorEl,
+        );
+      } else {
+        element.prepend(container);
+      }
     } else {
       this.listElement = prevElement;
     }
