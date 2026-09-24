@@ -164,7 +164,15 @@ export class GraphControllerV3 implements IGraphControllerV3 {
           this,
           true,
           graph.slug,
-          graphEl,
+          // Host the filter in the graph's *wrapper* (graphEl.parentElement),
+          // mirroring the multiples branch above. The number renderer that
+          // follows (HtmlNumberSimple.draw) does `element.innerHTML = ""` on
+          // graphEl itself, which would otherwise wipe a filter hosted inside
+          // graphEl. Hosting it in the sibling wrapper means the renderer can
+          // never clear it, so the cumulativeVsDelta select survives init() on
+          // the non-multiple (cold first load) path as well as the multiples
+          // (warm) path.
+          graphEl.parentElement,
           graph.filters,
           this.parameters,
           this.modifiers,

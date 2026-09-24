@@ -308,13 +308,25 @@ export default class PageController implements IPageController {
       const newGraphs: { slug: string; ctrlr: GraphControllerV3 }[] = [];
 
       for (const graph of group.graphs) {
-        if (graph.multiples && group.data[graph.multiples] !== undefined) {
+        if (graph.multiples) {
           const maxIndex = graph.parameters?.[0]?.length ?? 0;
 
           // Get the original graph's segment as template
           const templateSegment = getGraphSegment(group.slug, graph.slug);
 
-          const multipleData = group.data[graph.multiples];
+          // Deterministic multiples split: split whenever `multiples` is
+          // declared, regardless of whether group.data[graph.multiples] (e.g.
+          // group.data.cumulative) has been populated yet. Previously this
+          // branch was gated on `group.data[graph.multiples] !== undefined`,
+          // which made the graph flip between single (cold first load — the
+          // async week/month fetch not yet done) and multiples (warm store)
+          // depending on load order. Always splitting removes that timing
+          // dependency so the graph deterministically takes the multiples path.
+          const multipleData = Array.isArray(group.data?.[graph.multiples])
+            ? group.data[graph.multiples]
+            : [];
+          // Fall back to one multiple per declared parameter when the payload
+          // is not-yet-loaded or empty, so rendering is stable and never throws.
           const iterCount = multipleData.length > 0
             ? Math.min(multipleData.length, maxIndex)
             : maxIndex;

@@ -151,8 +151,13 @@ describe('incVsCum', () => {
     expect(incremental).toEqual([1, 2]);
   });
 
-  it('throws when data is empty (reads data[0] with no guard)', () => {
-    expect(() => incVsCum([], baseGraphParams)).toThrow();
+  it('returns empty arrays without throwing when data is empty (guard added)', () => {
+    // Regression guard: incVsCum must not crash on an empty / not-yet-loaded
+    // week payload (data[0] is undefined). Empty arrays keep the multiples
+    // split (group.data.cumulative) deterministic and safe on cold first load.
+    const { incremental, cumulative } = incVsCum([], baseGraphParams);
+    expect(incremental).toEqual([]);
+    expect(cumulative).toEqual([]);
   });
 });
 
