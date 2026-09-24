@@ -20,199 +20,33 @@ const config = (env) => {
   const prod = isProduction(env);
 
   return {
+    // ------------------------------------------------------------------
+    // ONE APP ENTRY (the scaffold) + webpack-native code splitting
+    // ------------------------------------------------------------------
+    // The external host loads exactly one script: scripts/dashboard-bundle.js
+    // (referenced BY NAME by the host and public/index.html). That script carries
+    // webpack's runtime + chunk loader. Every topic page is NOT a separate webpack
+    // entry anymore; instead the scaffold holds a route map (src/browser/dashboard/
+    // routes.ts) of topic slug -> dynamic import(), so webpack emits each page as a
+    // real ASYNC chunk fetched on demand through output.publicPath.
+    //
+    // There is deliberately no per-topic `library:{window}` contract and no
+    // `webpackIgnore` runtime import: pages are loaded as ES modules via the
+    // scaffold's route map, and shared/vendor code is extracted by splitChunks.
     entry: {
       scaffold: {
         filename: "scripts/dashboard-bundle.js",
         import: "./src/browser/index.ts",
       },
-      actueel: {
-        filename: "scripts/actueel.bundle.js",
-        import: "./src/pages/actueel/index.ts",
-        library: {
-          name: "actueel",
-          type: "window",
-          export: "default",
-        },
-      },
-      regelingen: {
-        filename: "scripts/regelingen.bundle.js",
-        import: "./src/pages/regelingen/index.ts",
-        library: {
-          name: "regelingen",
-          type: "window",
-          export: "default",
-        },
-      },
-      fs_overzicht: {
-        filename: "scripts/fs_overzicht.bundle.js",
-        import: "./src/pages/fs_overzicht/index.ts",
-        library: {
-          name: "fs_overzicht",
-          type: "window",
-          export: "default",
-        },
-      },
-      fs_maatwerk: {
-        filename: "scripts/fs_maatwerk.bundle.js",
-        import: "./src/pages/fs_maatwerk/index.ts",
-        library: {
-          name: "fs_maatwerk",
-          type: "window",
-          export: "default",
-        },
-      },
-      fs_vaste_vergoeding: {
-        filename: "scripts/fs_vaste_vergoeding.bundle.js",
-        import: "./src/pages/fs_vaste_vergoeding/index.ts",
-        library: {
-          name: "fs_vaste_vergoeding",
-          type: "window",
-          export: "default",
-        },
-      },
-      aos: {
-        filename: "scripts/aos.bundle.js",
-        import: "./src/pages/aos/index.ts",
-        library: {
-          name: "aos",
-          type: "window",
-          export: "default",
-        },
-      },
-      ims_overzicht: {
-        filename: "scripts/ims-overzicht.bundle.js",
-        import: "./src/pages/ims-overzicht/index.ts",
-        library: {
-          name: "ims-overzicht",
-          type: "window",
-          export: "default",
-        },
-      },
-      ims_volwassenen: {
-        filename: "scripts/ims-volwassenen.bundle.js",
-        import: "./src/pages/ims-volwassenen/index.ts",
-        library: {
-          name: "ims-volwassenen",
-          type: "window",
-          export: "default",
-        },
-      },
-      ims_kinderen_jongeren: {
-        filename: "scripts/ims-kinderen-jongeren.bundle.js",
-        import: "./src/pages/ims-kinderen-jongeren/index.ts",
-        library: {
-          name: "ims-kinderen-jongeren",
-          type: "window",
-          export: "default",
-        },
-      },
-      wd_overzicht: {
-        filename: "scripts/wd-overzicht.bundle.js",
-        import: "./src/pages/wd-overzicht/index.ts",
-        library: {
-          name: "wd-overzicht",
-          type: "window",
-          export: "default",
-        },
-      },
-      wd_wonen: {
-        filename: "scripts/wd-wonen.bundle.js",
-        import: "./src/pages/wd-wonen/index.ts",
-        library: {
-          name: "wd-wonen",
-          type: "window",
-          export: "default",
-        },
-      },
-      wd_nietwonen: {
-        filename: "scripts/wd-nietwonen.bundle.js",
-        import: "./src/pages/wd-nietwonen/index.ts",
-        library: {
-          name: "wd-nietwonen",
-          type: "window",
-          export: "default",
-        },
-      },
-      wd_namco: {
-        filename: "scripts/wd-namco.bundle.js",
-        import: "./src/pages/wd-namco/index.ts",
-        library: {
-          name: "wd-namco",
-          type: "window",
-          export: "default",
-        },
-      },
-      waardering: {
-        filename: "scripts/waardering.bundle.js",
-        import: "./src/pages/waardering/index.ts",
-        library: {
-          name: "waardering",
-          type: "window",
-          export: "default",
-        },
-      },
-      bezwaren: {
-        filename: "scripts/bezwaren.bundle.js",
-        import: "./src/pages/bezwaren/index.ts",
-        library: {
-          name: "bezwaren",
-          type: "window",
-          export: "default",
-        },
-      },
-      specials: {
-        filename: "scripts/specials.bundle.js",
-        import: "./src/pages/specials/index.ts",
-        library: {
-          name: "specials",
-          type: "window",
-          export: "default",
-        },
-      },
-      gemeente: {
-        filename: "scripts/gemeente.bundle.js",
-        import: "./src/pages/gemeente/index.ts",
-        library: {
-          name: "gemeente",
-          type: "window",
-          export: "default",
-        },
-      },
-      correcties: {
-        filename: "scripts/correcties.bundle.js",
-        import: "./src/pages/correcties/index.ts",
-        library: {
-          name: "correcties",
-          type: "window",
-          export: "default",
-        },
-      },
-      charts: {
-        import: "./src/charts/index.ts",
-      },
-      css: {
-        import: "/styling/main.scss",
-      },
     },
     output: {
       path: path.resolve(__dirname, "public/"),
       publicPath: prod ? 'https://graphs.publikaan.nl/graphs/' : '/',
-      // Every emitted bundle keeps a stable, fixed name. There are no content-hashed
-      // chunk files and NO split chunks in this build:
-      //   - The per-page entry bundles (and the scaffold) keep their fixed names because
-      //     they are referenced BY NAME at runtime: the scaffold loads each page via
-      //     `import("${BUNDLE_BASE}<topic>.bundle.js")` and mounts the synchronous
-      //     `window[<topic>]` export, and the external app requests dashboard-bundle.js
-      //     by its fixed URL. Content-hashing would break those name-based references.
-      //   - Each bundle is SELF-CONTAINED: every node_module it needs is inlined into it
-      //     (no `splitChunks`, no shared vendor chunk). This is what makes the standalone
-      //     runtime import safe - a page bundle never depends on an externally preloaded
-      //     chunk, so `window[<topic>]` is assigned synchronously with no preload.
-      //
-      // chunkFilename is therefore never exercised (there are no async chunks); it is
-      // kept unhashed for consistency.
-      filename: "scripts/[name].bundle.js",
-      chunkFilename: "scripts/[name].bundle.js",
+      // The scaffold keeps its fixed, host-referenced name. Async chunks (per-page
+      // and shared/vendor) are content-hashed so cache-busting is automatic — they
+      // are never referenced by name, only by the webpack runtime via publicPath.
+      filename: "scripts/dashboard-bundle.js",
+      chunkFilename: "scripts/[name].[contenthash].js",
       assetModuleFilename: (pathData) => {
         const filepath = path
           .dirname(pathData.filename)
@@ -231,9 +65,9 @@ const config = (env) => {
       // Strip console.* and debugger ONLY from the production artifact. Setting
       // `minimizer` REPLACES webpack's default JS minimizer, so we replicate the
       // default terser options (compress.passes: 2) and keep the default
-      // extractComments behavior so *.bundle.js.LICENSE.txt files keep being
-      // emitted. In dev/serve we leave `minimizer` unset: dev output is
-      // unminified anyway, so console.log / debugger stay in for debugging.
+      // extractComments behavior so *.js.LICENSE.txt files keep being emitted.
+      // In dev/serve we leave `minimizer` unset: dev output is unminified anyway,
+      // so console.log / debugger stay in for debugging.
       ...(prod
         ? {
             minimizer: [
@@ -249,23 +83,42 @@ const config = (env) => {
             ],
           }
         : {}),
-      // IMPORTANT ARCHITECTURE CONSTRAINT: each per-page bundle is loaded STANDALONE
-      // by the dashboard scaffold via a runtime import() (`${BUNDLE_BASE}<topic>.bundle.js`)
-      // and consumed synchronously (`new window[topic](...)`). The page bundles must
-      // therefore be SELF-CONTAINED: they cannot depend on any shared chunk (e.g. a split
-      // `vendor` chunk) that has to be preloaded into the shared webpackChunk* array BEFORE
-      // they run - the external web app only ever loads dashboard-bundle.js, never our
-      // index.html or a vendor preload. Splitting out a `vendor` chunk (as was tried in
-      // the PR #19 optimization) broke this: every page bundle AND the scaffold boot were
-      // gated on the vendor chunk id being already present, with no async chunk-loader in
-      // any bundle to fetch it, so `window[topic]` was never assigned. Reverting splitChunks
-      // restores self-contained bundles: each page inlines its own node_modules, sets
-      // `window[<topic>]` synchronously, and mounts with zero preloads.
-      //
-      // Trade-off: node_modules are duplicated across every page bundle (larger per-page
-      // download, no shared-cache benefit) - acceptable here given the hard loading
-      // constraint. Cache-busting note: page bundles keep fixed unhashed names (referenced
-      // by name), so a content change needs the existing manual `?v=` cache-buster approach.
+      // ------------------------------------------------------------------
+      // SPLITCHUNKS — webpack-native shared code extraction
+      // ------------------------------------------------------------------
+      // chunks: "async" splits ONLY the async (per-page) chunks — the initial
+      // scaffold bundle (d3 + styling) stays a single self-contained file so the
+      // host still needs exactly one script tag. Among the async page chunks we
+      // extract:
+      //   - `vendors`   : shared node_modules (d3, lodash, axios, nanostores, ...)
+      //   - `shared`    : our shared source (src/charts, src/shared, src/stores,
+      //                   src/widgets) used by 2+ pages
+      // These are ASYNC chunks loaded by the scaffold's webpack runtime on demand
+      // via publicPath. This is exactly what the old (PR #19) splitChunks attempt
+      // could not do: there, pages were separate ENTRY bundles and the vendor chunk
+      // was an *initial* chunk that no entry could fetch — so `window[<topic>]` was
+      // never assigned. Now there is a single entry whose runtime owns the chunk
+      // loader, so shared chunks resolve automatically. The old self-contained
+      // failure mode no longer applies.
+      splitChunks: {
+        chunks: "async",
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendors",
+            priority: 10,
+            reuseExistingChunk: true,
+          },
+          shared: {
+            test: /[\\/]src[\\/](charts|shared|stores|widgets)[\\/]/,
+            name: "shared",
+            priority: 5,
+            minChunks: 2,
+            minSize: 0,
+            reuseExistingChunk: true,
+          },
+        },
+      },
     },
     devServer: {
       open: false,
