@@ -13,11 +13,7 @@ const pageConfig: IPageConfig = {
   filters: [],
   endpoints: [
     "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc&periode_vanaf=gte.{VANAF}",
-<<<<<<< Updated upstream
-    "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
-=======
     "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc"
->>>>>>> Stashed changes
     
   ],
   groups: [
