@@ -5,13 +5,21 @@ import { GraphParamEntry } from "./interfaces";
 export const incVsCum = (data: any[], graphParams: Record<string, GraphParamEntry>) => {
   const incremental: number[] = [];
   const cumulative: number[] = [];
-  
+
+  // Guard against an empty / not-yet-loaded week payload. Without this,
+  // data[0] is undefined and `data[0][...]` throws a `Cannot read properties
+  // of undefined` crash on cold first load or an empty response. Callers
+  // treat the returned arrays as the multiples seed (group.data.cumulative),
+  // so empty arrays keep them safely on the deterministic multiples path.
+  const row = data?.[0];
+  if (!row) return { incremental, cumulative };
+
   for (const entry of Object.values(graphParams)) {
     if (entry.variants.delta) {
-      incremental.push(data[0][entry.variants.delta.column]);
+      incremental.push(row[entry.variants.delta.column]);
     }
     if (entry.variants.cumul) {
-      cumulative.push(data[0][entry.variants.cumul.column]);
+      cumulative.push(row[entry.variants.cumul.column]);
     }
   }
 
