@@ -46,6 +46,10 @@ export class DashboardController implements IDashboardController {
   open_btn;
   loader;
   _currentController: any = null;
+  // Monotonic sequence token so an overlapping async `call()` (topic switch,
+  // popstate back/forward, async-chunk load) can tell whether it is still the
+  // latest navigation before mounting its page controller.
+  _callSeq = 0;
 
   constructor() {
     this.params = new ParamService();
@@ -74,7 +78,16 @@ export class DashboardController implements IDashboardController {
   }
 
   async call(update: boolean): Promise<void> {
-    // Destroy previous page's graph objects before clearing DOM
+    const callSeq = ++this._callSeq;
+
+    // Destroy previous page's graph objects before clearing DOM. This is the
+    // seam that removes each chart's window `resize` listener (via
+    // GraphControllerV3.destroy → window.removeEventListener). Every navigation
+    // path funnels through here — in-app topic switch (switchTopic → call),
+    // the popstate back/forward handler, and switchVersion — so destroying
+    // here guarantees no stale BarTrendV1 resize handler survives into the
+    // next topic (which would otherwise read a store re-initialized for a
+    // different topic and resolve `segment` to undefined).
     if (this._currentController?.destroy) {
       this._currentController.destroy();
     }
@@ -112,9 +125,32 @@ export class DashboardController implements IDashboardController {
     // same as the old `new window[<topic>](this)` contract.
     const loader = resolveTopic(this.params.topic ?? DEFAULT_TOPIC);
     const mod = await loader();
+
+    // A newer call() may have started while this page chunk was loading. If
+    // so, mounting this controller would clobber the newer one without
+    // destroying its graphs, leaving stale resize listeners attached to a store
+    // that has since been re-initialized for a different topic. Discard the
+    // superseded load instead.
+    if (callSeq !== this._callSeq) {
+      return;
+    }
+
     const ctrlr = new mod.default(this);
     this._currentController = ctrlr;
-    ctrlr.init(this.params.version);
+
+    try {
+      await ctrlr.init(this.params.version);
+    } finally {
+      // If a newer navigation superseded us while init() was mounting graphs,
+      // tear down whatever this controller attached so no resize listener
+      // survives into the active topic.
+      if (callSeq !== this._callSeq) {
+        ctrlr.destroy?.();
+        if (this._currentController === ctrlr) {
+          this._currentController = null;
+        }
+      }
+    }
 
     setTimeout(() => {
       (document.querySelector("aside.selectors") as HTMLElement).style.opacity =

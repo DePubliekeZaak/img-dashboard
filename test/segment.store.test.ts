@@ -15,11 +15,25 @@ import {
   cascadeSegmentUpdate,
   cascadeGroupSegmentUpdate,
   getActiveColumn,
+  getGraphSegment,
+  updateGraphSegment,
 } from '../src/stores/segment.store';
 
 beforeEach(() => {
   resetSegmentStore();
 });
+
+// Minimal graphParams used by the re-init merge tests (defined here so it is
+// not subject to the TDZ of the `graphParams` const declared in the
+// getActiveColumn describe block below).
+const ingediendGraphParams = {
+  ingediend: {
+    variants: {
+      cumul: { column: 'ingediend_cumul' },
+      delta: { column: 'ingediend_aantal' },
+    },
+  },
+};
 
 // ---------------------------------------------------------------------------
 // initSegments() – three-level precedence
@@ -86,6 +100,78 @@ describe('initSegments', () => {
     const group = groupSegments$.get().bare_group;
     expect(group.cumulative).toBe(true);
     expect(group.periodization).toBe('monthly');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// initSegments() merge across re-init — state-leak fix #2b
+//
+// A chart/group that persists across navigation (same slug in the old and new
+// config) must keep its segment when the store is re-initialized on a topic
+// switch. Blind-replacing the store wipes the computed `baseKey` of a surviving
+// chart, so its (still-attached) resize handler resolves `getGraphSegment` to
+// undefined and BarTrendV1.redraw throws. Merging retains the segment.
+// ---------------------------------------------------------------------------
+describe('initSegments merge across re-init', () => {
+  it('keeps a surviving chart\'s computed baseKey across a re-init so the resize path resolves', () => {
+    // First topic: group g / chart gr with a baseKey computed by page.controller
+    initSegments({
+      segment: { key: 'ingediend', cumulative: true, periodization: 'weekly' },
+      groups: [
+        { slug: 'g', segment: {}, graphs: [{ slug: 'gr', segment: { key: 'ingediend' } }] },
+      ],
+    });
+    updateGraphSegment('g', 'gr', { baseKey: 'ingediend' });
+    expect(getGraphSegment('g', 'gr')?.baseKey).toBe('ingediend');
+
+    // Re-init (topic switch) with a config that keeps the same chart
+    initSegments({
+      segment: { key: 'ingediend', cumulative: true, periodization: 'weekly' },
+      groups: [
+        { slug: 'g', segment: {}, graphs: [{ slug: 'gr', segment: { key: 'ingediend' } }] },
+      ],
+    });
+
+    // baseKey survives — a chart that persists across navigation keeps its segment
+    expect(getGraphSegment('g', 'gr')?.baseKey).toBe('ingediend');
+
+    // and the resize path (getActiveColumn) resolves without throwing
+    const col = getActiveColumn('g', 'gr', ingediendGraphParams, 'fallback');
+    expect(col).toBe('ingediend_cumul');
+  });
+
+  it('drops segments whose chart no longer exists in the new config', () => {
+    initSegments({
+      segment: { key: 'a', cumulative: true, periodization: 'monthly' },
+      groups: [
+        { slug: 'g', segment: {}, graphs: [{ slug: 'old', segment: {} }] },
+      ],
+    });
+    initSegments({
+      segment: { key: 'b', cumulative: true, periodization: 'monthly' },
+      groups: [
+        { slug: 'g', segment: {}, graphs: [{ slug: 'new', segment: {} }] },
+      ],
+    });
+    expect(getGraphSegment('g', 'old')).toBeUndefined();
+    expect(getGraphSegment('g', 'new')).toBeDefined();
+  });
+
+  it('fresh config values win over preserved ones on re-init', () => {
+    initSegments({
+      segment: { key: 'a', cumulative: true, periodization: 'weekly' },
+      groups: [
+        { slug: 'g', segment: {}, graphs: [{ slug: 'gr', segment: { key: 'a', periodization: 'weekly' } }] },
+      ],
+    });
+    initSegments({
+      segment: { key: 'a', cumulative: true, periodization: 'monthly' },
+      groups: [
+        { slug: 'g', segment: {}, graphs: [{ slug: 'gr', segment: { key: 'a', periodization: 'monthly' } }] },
+      ],
+    });
+    expect(getGraphSegment('g', 'gr')?.periodization).toBe('monthly');
+    expect(getGraphSegment('g', 'gr')?.key).toBe('a');
   });
 });
 
