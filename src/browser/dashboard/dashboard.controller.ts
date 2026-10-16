@@ -187,7 +187,11 @@ export class DashboardController implements IDashboardController {
     } else {
       const currentParams = new URLSearchParams(window.location.search);
       currentParams.set("topic", "regelingen");
-      currentParams.set("version", slug);
+      // Correcties group slugs are prefixed "versie_" (e.g. versie_100) but the
+      // version param matches the versions.ts slug (e.g. "100"). Strip the
+      // prefix so the v100 archive card resolves to ?version=100 instead of
+      // silently falling back to latest.
+      currentParams.set("version", slug.replace(/^versie_/, ""));
       const newurl =
         window.location.protocol +
         "//" +
