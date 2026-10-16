@@ -349,14 +349,6 @@ const pageConfig: IPageConfig = {
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
-              label: "Percentage binnen termijn",
-              column: "beschikt_binn_termijn",
-              colour: "moss",
-              format: "percentage",
-              units: "afgehandeld binnen termijn",
-              modifiers: { cumul: "_cumul_perc", delta: "_cumul_perc" },
-            },
-            {
               label: "Vaste vergoeding",
               column: "toegekend_ves",
               colour: "moss",
@@ -370,6 +362,21 @@ const pageConfig: IPageConfig = {
               units: "toegekend als AVV",
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
+            {
+              label: "Vaste herhaalvergoeding",
+              column: "toegekend_vhv",
+              colour: "yellow",
+              units: "toegekend als VHV",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Percentage binnen termijn",
+              column: "beschikt_binn_termijn",
+              colour: "moss",
+              format: "percentage",
+              units: "afgehandeld binnen termijn",
+              modifiers: { cumul: "_cumul_perc", delta: "_cumul_perc" },
+            }
           ],
           [],
         ],
@@ -471,6 +478,12 @@ const pageConfig: IPageConfig = {
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
+              label: "Toegekend als VHV",
+              column: "toegekend_vhv",
+              colour: "yellow",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
+            },
+            {
               label: "Afgewezen",
               column: "afgewezen",
               colour: "orange",
@@ -515,6 +528,12 @@ const pageConfig: IPageConfig = {
               column: "toegekend_avv",
               colour: "blue",
               modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "Vaste herhaalvergoeding (VHV)",
+              column: "toegekend_vhv",
+              colour: "yellow",
+              modifiers: { cumul: "_cumul", delta: "_aantal" }
             },
             {
               label: "Afgewezen",

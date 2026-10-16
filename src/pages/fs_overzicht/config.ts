@@ -175,7 +175,7 @@ const pageConfig: IPageConfig = {
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
-              label: "Vaste Vergoeding (VES)",
+              label: "VES",
               short: "VES",
               column: "toegekend_ves",
               colour: "orange",
@@ -183,7 +183,7 @@ const pageConfig: IPageConfig = {
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
-              label: "Aanvullende Vaste vergoeding (AVV)",
+              label: "AVV",
               short: "AVV",
               column:"toegekend_avv",
               colour: "yellow",
@@ -191,7 +191,15 @@ const pageConfig: IPageConfig = {
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
-              label: "Herstel Eigen Aannemer (HEA)",
+              label: "VHV",
+              short: "VHV",
+              column:"toegekend_vhv",
+              colour: "lightBlue",
+              units: "toegekend als vaste herhaalvergoeding",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "HEA",
               short: "HEA",
               column: "toegekend_hea",
               colour: "moss",
@@ -199,7 +207,7 @@ const pageConfig: IPageConfig = {
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {
-              label: "Herstel Aannemer Instituut (HAI)",
+              label: "HAI",
               short: "HAI",
               column: "toegekend_hai",
               colour: "purple",
@@ -241,6 +249,13 @@ const pageConfig: IPageConfig = {
               column: "toegekend_avv",
               colour: "yellow",
               units: "toegekend als aanvullende vaste vergoeding",
+              modifiers: { cumul: "_cumul", delta: "_aantal" },
+            },
+            {
+              label: "VHV",
+              column: "toegekend_vhv",
+              colour: "lightBlue",
+              units: "toegekend als vaste herhaalvergoeding",
               modifiers: { cumul: "_cumul", delta: "_aantal" },
             },
             {

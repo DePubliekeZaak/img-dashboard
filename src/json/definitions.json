@@ -12,6 +12,10 @@
     "description": "<p> De wachttijd tussen het ontstaan van mijnbouwschade en de uitbetaling van schadevergoeding, wordt financieel gecompenseerd met wettelijke rente.</p>\n"
   },
   {
+    "name": "Bijkomende kosten",
+    "description": "<p>Extra kosten naast de schadevergoeding, bijvoorbeeld voor schoonmaak- of overnachtingskosten.</p>\n"
+  },
+  {
     "name": "Vaste vergoeding",
     "description": "<p>Als er op een adres nog niet eerder mijnbouwschade is gemeld en er wordt voldaan aan de voorwaarden, kunnen aanvragers kiezen voor de vaste vergoeding van. Dit is een eenmalig vast bedrag voor alle mijnbouwschades aan het gebouw. Vooral bedoeld voor relatief kleine en niet ingewikkelde schades.</p>\n"
   },
@@ -28,8 +32,8 @@
     "description": "<p>Een overzicht met de maandelijkse of wekelijkse toename</p>\n"
   },
   {
-    "name": "Toegewezen",
-    "description": "<p>Het aantal aanvragers dat een vergoeding krijgt toegewezen</p>\n"
+    "name": "Toegekend",
+    "description": "<p>Het aantal aanvragers dat een vergoeding krijgt toegekend</p>\n"
   },
   {
     "name": "TCMG",
@@ -112,7 +116,7 @@
     "description": "<p>De voortgang sinds de start van de regeling</p>\n"
   },
   {
-    "name": "AOS melding",
+    "name": "AOS-melding",
     "description": "<p>Als er een vermoeden is van een acuut onveilige situatie, kunnen bewoners dat bij ons melden. Wij komen dan zo snel mogelijk langs om het gevaar te beoordelen en indien nodig nemen we direct veiligheidsmaatregelen.</p>\n"
   },
   {
@@ -154,5 +158,17 @@
   {
     "name": "Afgelopen week",
     "description": "<p>De voortgang van de afgelopen week</p>\n"
+  },
+  {
+    "name": "Aanvullende vaste vergoeding (AVV)",
+    "description": "<p>Bedoeld voor eigenaren van een woning waarvoor tot nu toe minder dan 10.000 euro vergoeding voor fysieke schade is uitgekeerd. Het IMG kijkt per perceel hoeveel schadevergoeding NAM, CVW, TCMG en IMG eerder hebben toegekend en vult dit aan tot 10.000 euro. Voor kleine gebouwen en objecten, zoals garageboxen en schuren, is dat maximaal 5.000 euro. De vergoeding is een eenmalige aanvulling en geldt als definitieve afhandeling, ook voor eventuele nieuwe of verergerde schade.</p>\n"
+  },
+  {
+    "name": "Vaste herhaalvergoeding (VHV)",
+    "description": "<p>Een vast bedrag van 5.000 euro, of 2.500 euro voor kleine gebouwen zoals garageboxen en schuren. Het is bedoeld voor aanvragers die eerder al een vergoeding voor schade aan hun gebouw hebben ontvangen en bij wie op het adres een nieuwe aardbeving is geweest die schade kan hebben veroorzaakt. Met de vergoeding zijn alle schades aan het gebouw afgehandeld.</p>\n"
   }
+  
+
+
+
 ]

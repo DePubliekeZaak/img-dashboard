@@ -91,7 +91,7 @@ const pageConfig: IPageConfig = {
           segment: {
             key: "aos_ingediend",
             cumulative: false,
-            periodization: "weekly",
+            periodization: "monthly",
           },
         },
       ],
@@ -100,7 +100,7 @@ const pageConfig: IPageConfig = {
       segment: {
         key: "aos_ingediend",
         cumulative: true,
-        periodization: "weekly",
+        periodization: "monthly",
       },
     },
   ],
