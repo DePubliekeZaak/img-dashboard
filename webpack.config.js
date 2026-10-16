@@ -18,6 +18,14 @@ const isProduction = (env) => env && env.ENV === "prod";
 
 const config = (env) => {
   const prod = isProduction(env);
+  // Which publicPath the async chunks are served under.
+  //  - build:prod (--env DEPLOY=prod) -> absolute production graphs host
+  //  - build:dev  (--env DEPLOY=dev)  -> "auto": chunks resolve relative to wherever
+  //    the bundle is served, so a dev deploy is self-contained. This lets you preview
+  //    un-merged changes WITHOUT touching production, and (same-origin chunk loads)
+  //    works from both the img host (/frontend/dev/) and the graphs host (/dev/).
+  //  - serve      (ENV=dev, no DEPLOY) -> "/" for the webpack dev server
+  const deployTarget = (env && env.DEPLOY) || (prod ? "prod" : "local");
 
   return {
     // ------------------------------------------------------------------
@@ -41,7 +49,12 @@ const config = (env) => {
     },
     output: {
       path: path.resolve(__dirname, "public/"),
-      publicPath: prod ? 'https://graphs.publikaan.nl/graphs/' : '/',
+      publicPath:
+        deployTarget === "prod"
+          ? "https://graphs.publikaan.nl/graphs/"
+          : deployTarget === "dev"
+          ? "auto"
+          : "/",
       // The scaffold keeps its fixed, host-referenced name. Async chunks (per-page
       // and shared/vendor) are content-hashed so cache-busting is automatic — they
       // are never referenced by name, only by the webpack runtime via publicPath.
@@ -145,7 +158,7 @@ const config = (env) => {
     devtool: prod ? false : "source-map",
     plugins: [
       new MiniCssExtractPlugin({
-        // Keep the CSS name stable (referenced by index.html, deploy_css.sh and the
+        // Keep the CSS name stable (referenced by index.html and the
         // dashboard scaffold's hardcoded stylesheet link).
         filename: "./styles/main.css",
       }),
@@ -160,10 +173,22 @@ const config = (env) => {
         {
           test: /\.(ts|tsx)$/i,
           loader: "ts-loader",
+          // tsconfig.json sets `noEmit: true` (so `tsc -p tsconfig.json` is a pure
+          // type-check gate that never dumps .js beside .ts). ts-loader needs to
+          // emit, so re-enable emit here for the webpack pipeline.
+          options: {
+            compilerOptions: { noEmit: false },
+          },
           exclude: ["/node_modules/"],
         },
         {
           test: /\.s[ac]ss$/i,
+          // package.json sets `sideEffects: false` for aggressive JS tree-shaking,
+          // which ALSO drops the `import "../../styling/main.scss"` in the
+          // scaffold entry (css has no consumed JS binding) -> the css chunk
+          // became orphaned and NO main.css was emitted. Override per-rule so
+          // scss imports are always kept (they genuinely have side effects).
+          sideEffects: true,
           use: [
             MiniCssExtractPlugin.loader,
             "css-loader",
