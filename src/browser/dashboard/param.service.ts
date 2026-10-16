@@ -43,6 +43,16 @@ export class ParamService implements IParamService {
       };
     } else {
       this._version = versions.find((v) => v.slug === this._params.version);
+      // Unknown ?version= value: fall back to the latest version instead of
+      // leaving this._version undefined (which crashed later in
+      // DataService.buildUrl on `version.tag`).
+      if (!this._version) {
+        this._version = {
+          slug: "v1",
+          tag: "latest",
+          name: "Actuele versie",
+        };
+      }
     }
 
     if (Object.keys(this._params).indexOf("language") > -1) {
@@ -77,10 +87,22 @@ export class ParamService implements IParamService {
     const parser = document.createElement("a");
     parser.href = window.location.href;
     const query = parser.search.substring(1);
+    if (!query) return params;
     const vars = query.split("&");
     for (let i = 0; i < vars.length; i++) {
       const pair = vars[i].split("=");
-      params[pair[0]] = decodeURIComponent(pair[1]);
+      const key = pair[0];
+      if (!key) continue;
+      let value = pair[1] ?? "";
+      // Malformed percent-encoding (e.g. a lone "%" from query fuzzing) throws
+      // in decodeURIComponent and would break the whole dashboard on load.
+      // Keep the raw value instead of crashing.
+      try {
+        value = decodeURIComponent(value);
+      } catch {
+        // keep raw value
+      }
+      params[key] = value;
     }
 
     return params;

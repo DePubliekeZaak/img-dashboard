@@ -6,12 +6,27 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { DataService } from '../src/browser/dashboard/data.service';
 import { resetDataStore } from './helpers/store-reset';
+import { setData, getData } from '../src/stores/data.store';
 
 let service: DataService;
 
 beforeEach(() => {
   resetDataStore();
   service = new DataService();
+});
+
+// ---------------------------------------------------------------------------
+// clear()
+// ---------------------------------------------------------------------------
+describe('clear', () => {
+  it('empties the raw data store', () => {
+    setData('/gemeenten', [{ gemeente: 'Aa en Hunze' }]);
+    expect(getData('/gemeenten')).toEqual([{ gemeente: 'Aa en Hunze' }]);
+
+    service.clear();
+
+    expect(getData('/gemeenten')).toBeUndefined();
+  });
 });
 
 // ---------------------------------------------------------------------------

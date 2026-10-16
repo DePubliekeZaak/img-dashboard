@@ -16,6 +16,10 @@ export class DataService {
     return resolved;
   }
 
+  clear(): void {
+    clearData();
+  }
+
   async gather(endpoint: string, version: Version): Promise<void> {
     // endpoint is already resolved, use it directly as key
     if (hasData(endpoint)) return;
@@ -79,7 +83,7 @@ export class DataService {
     // @ts-expect-error
     const domain = DOMAIN;
 
-    if (version.tag !== "latest") {
+    if (version && version.tag !== "latest") {
       apibase = `/${apibase.split("/")[1]}/archives/v${version.slug}/api/`;
     }
 
