@@ -187,11 +187,19 @@ export class DashboardController implements IDashboardController {
     } else {
       const currentParams = new URLSearchParams(window.location.search);
       currentParams.set("topic", "regelingen");
-      // Correcties group slugs are prefixed "versie_" (e.g. versie_100) but the
-      // version param matches the versions.ts slug (e.g. "100"). Strip the
-      // prefix so the v100 archive card resolves to ?version=100 instead of
-      // silently falling back to latest.
-      currentParams.set("version", slug.replace(/^versie_/, ""));
+
+      if (slug === "versie_101") {
+        // The current published version ("Versie 1.0.1") has no archive — it
+        // IS the live dashboard. Dropping ?version returns to live
+        // (/open-data/api/).
+        currentParams.delete("version");
+      } else {
+        // Archive card (versie_100 etc.): group slugs are prefixed "versie_";
+        // the version param matches the versions.ts slug. Strip the prefix so
+        // e.g. versie_100 resolves to ?version=100 instead of silently falling
+        // back to latest.
+        currentParams.set("version", slug.replace(/^versie_/, ""));
+      }
       const newurl =
         window.location.protocol +
         "//" +

@@ -44,6 +44,19 @@ const pageConfig: IPageConfig = {
       endpoints: [],
     },
     {
+      slug: "versie_101",
+      ctrlr: "CorrectionGroupV1",
+      filters: [],
+      graphs: [],
+      functionality: [],
+      segment: {
+        key: "",
+        cumulative: true,
+        periodization: "monthly",
+      },
+      endpoints: [],
+    },
+    {
       slug: "versie_100",
       ctrlr: "CorrectionGroupV1",
       filters: [],
