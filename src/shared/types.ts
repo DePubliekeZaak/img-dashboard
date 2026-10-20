@@ -53,6 +53,11 @@ export type Segment = {
   // `key` / `baseKey` so it composes with the month selector. Drives prefixed
   // column resolution in KTORatingsV1 via the HtmlDomeinSelector widget.
   domein?: string;
+  // Active KTO regeling prefix (mw | vv | imk | ims | wd | wnw). Orthogonal to
+  // `key` / `baseKey`, same role as `domein` but for the regeling comparison
+  // group; drives prefixed column resolution in KTORatingsV1 via the
+  // HtmlRegelingSelector widget.
+  regeling?: string;
   // weekOnly?: boolean;
 };
 

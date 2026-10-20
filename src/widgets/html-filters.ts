@@ -2,6 +2,7 @@ import type { IGraphControllerV3 } from "../charts/core/graph-v3";
 import { breakpoints } from "../img-modules/styleguide";
 import { HtmlCumulativevsDeltaSelector } from "./cumulative-delta-selector";
 import { HtmlDomeinSelector } from "./domein-selector";
+import { HtmlRegelingSelector } from "./regeling-selector";
 import { HtmlNormalizedSelector } from "./html-normalized-selector";
 import { HtmlMappingGroupSelector } from "./mapping-group-selector";
 import { HtmlMappingSelector } from "./mapping-selector";
@@ -240,6 +241,32 @@ export class HtmlFilters {
             if (current && selectEl.value !== current.domein) {
               updateGraphSegment(groupSlug, graphSlug, {
                 domein: selectEl.value,
+              });
+              this.ctrlr.update(this.ctrlr.group.data, true);
+            }
+          });
+
+          break;
+
+        case "regelingSelect":
+          if (this.master) {
+            selector = new HtmlRegelingSelector(this.ctrlr, li, this.id);
+            selectEl = selector.draw(localSegment?.regeling);
+          } else {
+            selectEl = this.ctrlr.page.main.window.document.getElementById(
+              this.id + "_regeling_0",
+            ) as HTMLSelectElement;
+          }
+
+          if (selectEl === null) break;
+
+          selectEl.addEventListener("change", () => {
+            if (selectEl === null) return;
+
+            const current = getGraphSegment(groupSlug, graphSlug);
+            if (current && selectEl.value !== current.regeling) {
+              updateGraphSegment(groupSlug, graphSlug, {
+                regeling: selectEl.value,
               });
               this.ctrlr.update(this.ctrlr.group.data, true);
             }

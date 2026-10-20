@@ -5,6 +5,7 @@ import { KTOGroupV1 } from "./kto-group-v1";
 import { MakeupGroupTrendV1 } from "./makeup-group-trend-v1";
 import { ComparisonGroupV1 } from "./comparison-group";
 import { DomainComparisonGroupV1 } from "./domain-comparison-group";
+import { RegelingComparisonGroupV1 } from "./regeling-comparison-group";
 
 const groups = {
   GeaggregeerdV1,
@@ -13,7 +14,8 @@ const groups = {
   MakeupGroupTrendV1,
   DefaultGroupV1,
   ComparisonGroupV1,
-  DomainComparisonGroupV1
+  DomainComparisonGroupV1,
+  RegelingComparisonGroupV1,
 };
 
 export default groups;

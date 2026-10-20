@@ -19,6 +19,13 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
   // plain fs_cijfer graph, which has no `domein`).
   private static readonly DOMAIN_PREFIXES = ["totaal", "fysiek", "ims", "wdl"];
 
+  // Known KTO regeling prefixes. Matches the `regeling` options offered by the
+  // HtmlRegelingSelector widget (see src/widgets/regeling-selector.ts). Used
+  // the same way as DOMAIN_PREFIXES but driven by `segment.regeling`; the two
+  // are mutually exclusive per graph (a graph is either domein- or
+  // regeling-keyed), so an `ims` prefix can never collide across both lists.
+  private static readonly REGELING_PREFIXES = ["mw", "vv", "imk", "ims", "wd", "wnw"];
+
   constructor(
     public slug: string,
     public page: IPageController,
@@ -90,15 +97,24 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
   }
 
   private resolveColumn(column: string): string {
-    const active = this.segment?.domein;
-    if (!active || !KTORatingsV1.DOMAIN_PREFIXES.includes(active)) {
-      return column;
-    }
-    for (const prefix of KTORatingsV1.DOMAIN_PREFIXES) {
-      if (column === prefix || column.startsWith(prefix + "_")) {
-        return column.replace(prefix + "_", active + "_");
+    const dom = this.segment?.domein;
+    if (dom && KTORatingsV1.DOMAIN_PREFIXES.includes(dom)) {
+      for (const prefix of KTORatingsV1.DOMAIN_PREFIXES) {
+        if (column === prefix || column.startsWith(prefix + "_")) {
+          return column.replace(prefix + "_", dom + "_");
+        }
       }
     }
+
+    const reg = this.segment?.regeling;
+    if (reg && KTORatingsV1.REGELING_PREFIXES.includes(reg)) {
+      for (const prefix of KTORatingsV1.REGELING_PREFIXES) {
+        if (column === prefix || column.startsWith(prefix + "_")) {
+          return column.replace(prefix + "_", reg + "_");
+        }
+      }
+    }
+
     return column;
   }
 

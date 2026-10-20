@@ -45,6 +45,13 @@
     }
 }
 
+/* Graph-level filter controls (selects such as the domein + month pickers)
+   are plain <li> items (no .radio_button class) and previously sat flush
+   against each other. Give them the same rhythm as the radio buttons. */
+.filter_list ul li:not(.radio_button) {
+    margin-right: 1rem;
+}
+
 
 
 .filter_list_group, .filter_list_group:first-child {
