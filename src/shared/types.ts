@@ -49,6 +49,10 @@ export type Segment = {
   label?: string;
   normalized?: boolean;
   yearmonth?: string;
+  // Active KTO domein prefix (totaal | fysiek | ims | wdl). Orthogonal to
+  // `key` / `baseKey` so it composes with the month selector. Drives prefixed
+  // column resolution in KTORatingsV1 via the HtmlDomeinSelector widget.
+  domein?: string;
   // weekOnly?: boolean;
 };
 
