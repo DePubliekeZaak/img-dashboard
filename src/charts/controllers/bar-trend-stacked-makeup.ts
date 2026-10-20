@@ -198,8 +198,6 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
       data.stacked = stack(normalized_data);
     }
 
-    console.log("d",data)
-
     return data;
   }
 
@@ -212,8 +210,6 @@ export class BarTrendStackedMakeup extends core.GraphControllerV3 {
 
     const segment = this.segment;
     if (!segment) return;
-
-    console.log(data)
 
     this.scales.x.set(data.stacked[0].map((d: any) => d.data.date));
     const yValues = data.stacked[data.stacked.length - 1]

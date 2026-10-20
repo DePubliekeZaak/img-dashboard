@@ -132,7 +132,10 @@ export class BarTrendV1 extends core.GraphControllerV3 {
 
   prepareData(data: DataObject): DataObject {
 
+    console.log(data)
+
     const sourceData = this.selectDataSource(data);
+        console.log('sd', sourceData)
     const periodKey = this.segment?.periodization === "weekly" 
       ? "_yearweek" 
       : "_yearmonth";
@@ -146,9 +149,12 @@ export class BarTrendV1 extends core.GraphControllerV3 {
         }
       } else {
         // No modifiers — just use base column
+    
         data[param.column] = this.createBars(param, sourceData, periodKey);
       }
     }
+
+    console.log(data)
 
     return data;
   }
@@ -157,6 +163,8 @@ export class BarTrendV1 extends core.GraphControllerV3 {
     const wantsMonthly = this.segment?.periodization === "monthly";
     const hasMonthlyData = data.graphDataMonth !== undefined;
     const hasMonthlyEndpoint = this.group.config.endpoints?.length === 2;
+
+    
 
     if (wantsMonthly && hasMonthlyData && hasMonthlyEndpoint) {
       return data.graphDataMonth;

@@ -14,6 +14,8 @@ export default class ChartBarTrend {
   constructor(private ctrlr: IGraphControllerV3) {}
 
   draw(data: TrendBar[]) {
+
+    console.log(data);
     this.slug =
       this.ctrlr.filters && this.ctrlr.filters.length > 0
         ? this.ctrlr.slug
