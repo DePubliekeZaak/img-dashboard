@@ -1,6 +1,7 @@
 import type { IGraphControllerV3 } from "../charts/core/graph-v3";
 import { breakpoints } from "../img-modules/styleguide";
 import { HtmlCumulativevsDeltaSelector } from "./cumulative-delta-selector";
+import { HtmlDomeinSelector } from "./domein-selector";
 import { HtmlNormalizedSelector } from "./html-normalized-selector";
 import { HtmlMappingGroupSelector } from "./mapping-group-selector";
 import { HtmlMappingSelector } from "./mapping-selector";
@@ -213,6 +214,32 @@ export class HtmlFilters {
               updateGraphSegment(groupSlug, graphSlug, {
                 key: selectEl.value,
                 cumulative: selectEl.value === "all",
+              });
+              this.ctrlr.update(this.ctrlr.group.data, true);
+            }
+          });
+
+          break;
+
+        case "domeinSelect":
+          if (this.master) {
+            selector = new HtmlDomeinSelector(this.ctrlr, li, this.id);
+            selectEl = selector.draw(localSegment?.domein);
+          } else {
+            selectEl = this.ctrlr.page.main.window.document.getElementById(
+              this.id + "_domein_0",
+            ) as HTMLSelectElement;
+          }
+
+          if (selectEl === null) break;
+
+          selectEl.addEventListener("change", () => {
+            if (selectEl === null) return;
+
+            const current = getGraphSegment(groupSlug, graphSlug);
+            if (current && selectEl.value !== current.domein) {
+              updateGraphSegment(groupSlug, graphSlug, {
+                domein: selectEl.value,
               });
               this.ctrlr.update(this.ctrlr.group.data, true);
             }

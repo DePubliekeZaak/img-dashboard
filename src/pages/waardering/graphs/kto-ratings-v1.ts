@@ -12,6 +12,13 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
   chartBar!: ChartBarsHorizontalV1;
   htmlCircle!: HtmlNumberCircleRespondents;
 
+  // Known KTO domein prefixes. Matches the `domein` options offered by the
+  // HtmlDomeinSelector widget (see src/widgets/domein-selector.ts). When a
+  // segment carries `domein`, prefixed parameter columns are resolved against
+  // that prefix; otherwise columns are used verbatim (back-compatible with the
+  // plain fs_cijfer graph, which has no `domein`).
+  private static readonly DOMAIN_PREFIXES = ["totaal", "fysiek", "ims", "wdl"];
+
   constructor(
     public slug: string,
     public page: IPageController,
@@ -82,6 +89,19 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
     await this.update(this.group.data, false);
   }
 
+  private resolveColumn(column: string): string {
+    const active = this.segment?.domein;
+    if (!active || !KTORatingsV1.DOMAIN_PREFIXES.includes(active)) {
+      return column;
+    }
+    for (const prefix of KTORatingsV1.DOMAIN_PREFIXES) {
+      if (column === prefix || column.startsWith(prefix + "_")) {
+        return column.replace(prefix + "_", active + "_");
+      }
+    }
+    return column;
+  }
+
   prepareData(data: DataObject): DataObject {
   
     const isCumulative = this.segment?.cumulative ?? true;
@@ -95,9 +115,9 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
     data.numbers = [];
 
     for (const mapping of this.parameters[dataIndex]) {
-      const column = Array.isArray(mapping.column)
-        ? mapping.column[0]
-        : mapping.column;
+      const column = this.resolveColumn(
+        Array.isArray(mapping.column) ? mapping.column[0] : mapping.column,
+      );
 
       const cijfer = {
         label: mapping.label,
@@ -115,13 +135,17 @@ export class KTORatingsV1 extends core.GraphControllerV3 {
 
     const key = this.segment?.key || "all";
 
-    const parameter = key.startsWith("all")
-      ? this.parameters[0][0].column
-      : this.parameters[0][1].column;
+    const parameter = this.resolveColumn(
+      key.startsWith("all")
+        ? this.parameters[0][0].column
+        : this.parameters[0][1].column,
+    );
 
-    const extraParameter = key.startsWith("all")
-      ? this.parameters[0][2].column
-      : this.parameters[0][3].column;
+    const extraParameter = this.resolveColumn(
+      key.startsWith("all")
+        ? this.parameters[0][2].column
+        : this.parameters[0][3].column,
+    );
 
     this.htmlCircle.redraw(data.selectedMonth, parameter, extraParameter);
 

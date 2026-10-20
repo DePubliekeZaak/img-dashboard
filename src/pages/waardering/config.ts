@@ -156,6 +156,72 @@ const pageConfig: IPageConfig = {
         "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc"
       ],
     },
+    {
+      // Example: domein selector underneath waardering_fs.
+      // Same KTORatingsV1 chart as fs_cijfer, but wired for a per-domein
+      // selector: DomainComparisonGroupV1 merges the Totaal/FYSIEK/IMS/WDL
+      // endpoints into prefixed columns, and the HtmlDomeinSelector filter
+      // swaps segment.domein (totaal|fysiek|ims|wdl). Columns on the graph are
+      // authored for the default domein (fysiek) and resolved against
+      // segment.domein in KTORatingsV1.prepareData/redraw. Composes with
+      // monthSelect (key) independently of domein.
+      slug: "waardering_domein",
+      ctrlr: "DomainComparisonGroupV1",
+      filters: [],
+      graphs: [
+        {
+          slug: "fs_cijfer_domein",
+          ctrlr: "KTORatingsV1",
+          filters: ["domeinSelect", "monthSelect"],
+          args: ["fysiek_kto_score_totaal_cumul", "fysiek_kto_score_totaal"],
+          parameters: [
+            [
+              { label: "Doorlopend", column: "fysiek_kto_score_gemiddeld_cumul", colour: "orange" },
+              { label: "Maandcijfer", column: "fysiek_kto_score_gemiddeld", colour: "orange" },
+              { label: "Respondenten doorlopend", column: "fysiek_kto_score_totaal_cumul", colour: "orange", excludeFromTable: true },
+              { label: "Respondenten", column: "fysiek_kto_score_totaal", colour: "orange" },
+            ],
+            [
+              { label: "1", column: "fysiek_kto_score_1_aantal_cumul", colour: "orange", excludeFromTable: true },
+              { label: "2", column: "fysiek_kto_score_2_aantal_cumul", colour: "orange", excludeFromTable: true },
+              { label: "3", column: "fysiek_kto_score_3_aantal_cumul", colour: "orange", excludeFromTable: true },
+              { label: "4", column: "fysiek_kto_score_4_aantal_cumul", colour: "orange", excludeFromTable: true },
+              { label: "5", column: "fysiek_kto_score_5_aantal_cumul", colour: "orange", excludeFromTable: true },
+              { label: "6", column: "fysiek_kto_score_6_aantal_cumul", colour: "blue", excludeFromTable: true },
+              { label: "7", column: "fysiek_kto_score_7_aantal_cumul", colour: "blue", excludeFromTable: true },
+              { label: "8", column: "fysiek_kto_score_8_aantal_cumul", colour: "moss", excludeFromTable: true },
+              { label: "9", column: "fysiek_kto_score_9_aantal_cumul", colour: "moss", excludeFromTable: true },
+              { label: "10", column: "fysiek_kto_score_10_aantal_cumul", colour: "moss", excludeFromTable: true },
+            ],
+            [
+              { label: "1", column: "fysiek_kto_score_1_aantal", colour: "orange" },
+              { label: "2", column: "fysiek_kto_score_2_aantal", colour: "orange" },
+              { label: "3", column: "fysiek_kto_score_3_aantal", colour: "orange" },
+              { label: "4", column: "fysiek_kto_score_4_aantal", colour: "orange" },
+              { label: "5", column: "fysiek_kto_score_5_aantal", colour: "orange" },
+              { label: "6", column: "fysiek_kto_score_6_aantal", colour: "blue" },
+              { label: "7", column: "fysiek_kto_score_7_aantal", colour: "blue" },
+              { label: "8", column: "fysiek_kto_score_8_aantal", colour: "moss" },
+              { label: "9", column: "fysiek_kto_score_9_aantal", colour: "moss" },
+              { label: "10", column: "fysiek_kto_score_10_aantal", colour: "moss" },
+            ],
+          ],
+          segment: { key: "all", domein: "fysiek", cumulative: true, periodization: "monthly" },
+        },
+      ],
+      segment: { key: "fysiek_kto_score_gemiddeld", domein: "fysiek", cumulative: true, periodization: "monthly" },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [
+        "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc&limit=1",
+        "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc&limit=1",
+        "regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&order=periode.desc&limit=1",
+        "regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&order=periode.desc&limit=1",
+      ],
+    },
     // {
     //   slug: "waardering_ves",
     //   ctrlr: "DefaultGroupV1",
