@@ -188,6 +188,38 @@ export class HtmlFilters {
 
           break;
 
+        case "monthSelect":
+          if (this.master) {
+            selector = new HtmlMonthSelector(
+              this.ctrlr,
+              li,
+              this.id,
+              this.ctrlr.group.data.graphDataMonth,
+            );
+            selectEl = selector.draw(localSegment?.key);
+          } else {
+            selectEl = this.ctrlr.page.main.window.document.getElementById(
+              this.id + "_0",
+            ) as HTMLSelectElement;
+          }
+
+          if (selectEl === null) break;
+
+          selectEl.addEventListener("change", () => {
+            if (selectEl === null) return;
+
+            const current = getGraphSegment(groupSlug, graphSlug);
+            if (current && selectEl.value !== current.key) {
+              updateGraphSegment(groupSlug, graphSlug, {
+                key: selectEl.value,
+                cumulative: selectEl.value === "all",
+              });
+              this.ctrlr.update(this.ctrlr.group.data, true);
+            }
+          });
+
+          break;
+
         case "parameterSelect":
           if (this.master) {
             selector = new HtmlMappingSelector(
