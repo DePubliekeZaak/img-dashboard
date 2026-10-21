@@ -147,7 +147,7 @@ const pageConfig: IPageConfig = {
             [
               {
                 label: "Sinds start",
-                column: "ims_totaal_doorlopend",
+                column: "kto_score_gemiddeld_cumul",
                 colour: "orange",
                 format: "decimals",
               },
@@ -155,7 +155,7 @@ const pageConfig: IPageConfig = {
             [
               {
                 label: "Totaal respondenten",
-                column: "ims_totaal_doorlopend_n",
+                column: "kto_score_totaal_cumul",
                 units: "respondenten sinds start",
                 colour: "orange",
               },
@@ -171,7 +171,7 @@ const pageConfig: IPageConfig = {
             [
               {
                 label: "Maand cijfer",
-                column: "ims_totaal_maand",
+                column: "kto_score_gemiddeld",
                 colour: "orange",
                 format: "decimals",
               },
@@ -179,19 +179,27 @@ const pageConfig: IPageConfig = {
             [
               {
                 label: "Aantal nieuwe respondenten",
-                column: "ims_totaal_maand_n",
+                column: "kto_score_totaal",
                 colour: "orange",
                 units: "respondenten",
               },
             ],
           ],
-          modifiers: [],
+          segment: {
+            key: "kto_score_gemiddeld",
+            cumulative: false,
+            periodization: "monthly",
+          },
         },
       ],
       functionality: ["table", "definitions", "download"],
-      endpoints: ["tevredenheid"],
+      endpoints: [
+        "regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.Totaal&order=periode.desc",
+        
+      ],
       segment: {
-        key: "ims_totaal_maand",
+        key: "kto_score_gemiddeld_cumul",
         cumulative: false,
         periodization: "monthly",
       },

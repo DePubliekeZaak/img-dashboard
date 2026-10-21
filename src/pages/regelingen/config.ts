@@ -84,7 +84,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Sinds start",
-              column: "doorlopend_cijfer",
+              column: "kto_score_gemiddeld_cumul",
               colour: "orange",
               format: "decimals",
             },
@@ -92,16 +92,16 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Totaal respondenten",
-              column: "aantal_respondenten",
+              column: "kto_score_totaal_cumul",
               units: "respondenten sinds start",
               colour: "orange",
             },
           ],
         ],
         segment: {
-          key: "doorlopend_cijfer",
+          key: "kto_score_gemiddeld_cumul",
           cumulative: false,
-          periodization: "latest",
+          periodization: "weekly",
         },
       },
       {
@@ -113,7 +113,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Maand cijfer",
-              column: "maandcijfer",
+              column: "kto_score_gemiddeld",
               colour: "orange",
               format: "decimals",
             },
@@ -121,26 +121,29 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Aantal nieuwe respondenten",
-              column: "aantal_respondenten_maand",
+              column: "kto_score_totaal",
               colour: "orange",
               units: "respondenten",
             },
           ],
         ],
         segment: {
-          key: "maandcijfer",
+          key: "kto_score_gemiddeld",
           cumulative: false,
           periodization: "monthly",
         },
       },
     ],
     segment: {
-      key: "maandcijfer",
+      key: "kto_score_gemiddeld_cumul",
       cumulative: false,
       periodization: "monthly",
     },
     functionality: ["table", "definitions", "download"],
-    endpoints: ["tevredenheid"],
+    endpoints: [
+      "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
+      "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
+    ],
   },
  // overzicht
   {
@@ -284,7 +287,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Waardering",
-              column: "fysieke_schade_doorlopend_cijfer",
+              column: "mw_kto_score_gemiddeld_cumul",
               colour: "purple",
               format: "decimals",
               units: "waardering",
@@ -327,7 +330,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Waardering",
-              column: "ves_doorlopend_cijfer",
+              column: "vv_kto_score_gemiddeld_cumul",
               colour: "purple",
               format: "decimals",
               units: "waardering",
@@ -370,7 +373,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Waardering",
-              column: "ims_doorlopend_cijfer",
+              column: "ims_kto_score_gemiddeld_cumul",
               colour: "purple",
               format: "decimals",
               units: "waardering",
@@ -413,7 +416,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Waardering",
-              column: "imkj_doorlopend_cijfer",
+              column: "imk_kto_score_gemiddeld_cumul",
               colour: "purple",
               format: "decimals",
               units: "waardering",
@@ -456,7 +459,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Waardering",
-              column: "waardedaling_doorlopend_cijfer",
+              column: "wd_kto_score_gemiddeld_cumul",
               colour: "purple",
               format: "decimals",
               units: "waardering",
@@ -499,7 +502,7 @@ const pageConfig: IPageConfig = {
             },
             {
               label: "Waardering",
-              column: "waardedaling_doorlopend_cijfer",
+              column: "wd_kto_score_gemiddeld_cumul",
               colour: "purple",
               format: "decimals",
               units: "waardering",
@@ -528,7 +531,6 @@ const pageConfig: IPageConfig = {
       "regelingen?aggregatie=eq.week&regeling_code=eq.WD&order=periode.desc&limit=1",                                                                                                                                                                    
       "regelingen?aggregatie=eq.week&regeling_code=eq.WNW&order=periode.desc&limit=1",                                                                                                                                                                 
       "regelingen?aggregatie=eq.week&regeling_code=eq.NAMTEG&order=periode.desc&limit=1", 
-      "tevredenheid"
     ], 
   },
  ]

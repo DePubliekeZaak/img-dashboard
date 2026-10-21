@@ -1,7 +1,7 @@
 import type { IPageConfig } from "../../shared/interfaces";
 
 const pageConfig: IPageConfig = {
-  slug: "waardering",
+  slug: "waardering_totaal",
   segment: {
     key: "",
     gemeente: "all",
@@ -13,8 +13,118 @@ const pageConfig: IPageConfig = {
   filters: [],
   endpoints: [],
   groups: [
+    // all
     {
-      slug: "waardering_alle_regelingen",
+      slug: "all_waardering",
+      ctrlr: "KTOGroupV1",
+      graphs: [
+        {
+          slug: "a_waardering_numbers",
+          ctrlr: "NumbersPlusRespondentsV1",
+          args: [],
+          parameters: [
+            [
+              {
+                label: "Sinds start",
+                column: "kto_score_gemiddeld_cumul",
+                colour: "orange",
+                format: "decimals",
+              },
+            ],
+            [
+              {
+                label: "Totaal respondenten",
+                column: "kto_score_totaal_cumul",
+                units: "respondenten sinds start",
+                colour: "orange",
+              },
+            ],
+          ],
+          segment: {
+            key: "kto_score_gemiddeld_cumul",
+            cumulative: false,
+            periodization: "weekly",
+          },
+        },
+        {
+          slug: "a_waardering_trend",
+          ctrlr: "BarTrendKTOV1",
+          args: [],
+          filters: [],
+          parameters: [
+            [
+              {
+                label: "Maand cijfer",
+                column: "kto_score_gemiddeld",
+                colour: "orange",
+                format: "decimals",
+              },
+            ],
+            [
+              {
+                label: "Aantal nieuwe respondenten",
+                column: "kto_score_totaal",
+                colour: "orange",
+                units: "respondenten",
+              },
+            ],
+          ],
+          segment: {
+            key: "kto_score_gemiddeld",
+            cumulative: false,
+            periodization: "monthly",
+          },
+        },
+      ],
+      segment: {
+        key: "kto_score_gemiddeld_cumul",
+        cumulative: false,
+        periodization: "monthly",
+      },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [
+        "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
+      ],
+    },
+    {
+      slug: "respondenten_trend",
+      ctrlr: "RegelingComparisonGroupV1",
+      graphs: [
+        {
+          slug: "fs_trend_respondents",
+          ctrlr: "BarTrendStackedMakeup",
+          filters: [],
+          args: [],
+          parameters: [
+            [
+              { label: "Fysieke schade", column: "mw_kto_score_totaal", units: "respondenten", colour: "blue", excludeFromTable: true  },
+              { label: "Vaste vergoeding", column: "vv_kto_score_totaal", units: "respondenten", colour: "orange", excludeFromTable: true  },
+              { label: "Waardedaling", column: "wd_kto_score_totaal", units: "respondenten", colour: "purple", excludeFromTable: true  },
+              { label: "Immateriele schade: volwassenen", column: "ims_kto_score_totaal", units: "respondenten", colour: "moss", excludeFromTable: true  },
+              { label: "Immateriele schade: kinderen en jongeren", column: "imk_kto_score_totaal", units: "respondenten", colour: "lightBlue", excludeFromTable: true  },
+            ],
+          ],
+          segment: { key: "mw_kto_score_totaal", cumulative: false, periodization: "monthly" },
+        },
+      ],
+      segment: { key: "mw_kto_score_totaal", cumulative: false, periodization: "monthly" },
+      functionality: ["table", "definitions", "download"],
+      endpoints: [
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.MW&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.VV&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMK&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMS&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.WD&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.MW&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.VV&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.IMK&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.IMS&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.WD&order=periode.desc",
+      ],
+    },
+     {
+      slug: "waardering_regelingen",
       ctrlr: "DomainComparisonGroupV1",
       filters: [],
       graphs: [
@@ -25,81 +135,20 @@ const pageConfig: IPageConfig = {
           filters: [],
           parameters: [
             [
-              { label: "Alle regelingen", column: "totaal_kto_score_gemiddeld_cumul", colour: "orange", format: "" },
               { label: "Fysieke schade", column: "fysiek_kto_score_gemiddeld_cumul", colour: "moss", format: "" },
               { label: "Immateriele schade", column: "ims_kto_score_gemiddeld_cumul", colour: "blue", format: "" },
               { label: "Waardedaling", column: "wdl_kto_score_gemiddeld_cumul", colour: "purple", format: "" },
             ],
             [
-              { label: "Alle regelingen", column: "totaal_kto_score_totaal_cumul", colour: "orange", units: "respondenten" },
               { label: "Fysieke schade", column: "fysiek_kto_score_totaal_cumul", colour: "moss", units: "respondenten" },
               { label: "Immateriele schade", column: "ims_kto_score_totaal_cumul", colour: "blue", units: "respondenten" },
               { label: "Waardedaling", column: "wdl_kto_score_totaal_cumul", colour: "purple", units: "respondenten" },
             ],
           ],
           modifiers: [],
-          segment: { key: "totaal_kto_score_gemiddeld_cumul", cumulative: true, periodization: "monthly" },
+          segment: { key: "fysiek_kto_score_gemiddeld_cumul", cumulative: true, periodization: "monthly" },
         },
-      ],
-      segment: { key: "totaal_kto_score_gemiddeld_cumul", cumulative: true, periodization: "monthly" },
-      functionality: ["table", "definitions", "download"],
-      endpoints: [
-        "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc&limit=1",  
-        "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc&limit=1",                                                                                                                                                                   
-        "regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&order=periode.desc&limit=1",                                                                                                                                                                  
-        "regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&order=periode.desc&limit=1",                                                                                                                                                                    
-      ],
-    },
-    {
-      slug: "waardering_trend",
-      ctrlr: "DefaultGroupV1",
-      graphs: [
-        {
-          slug: "waardering_trend",
-          ctrlr: "BarTrendStackedMakeup",
-          filters: [],
-          args: [],
-          parameters: [
-            [{ label: "Maandcijfer", column: "kto_score_gemiddeld", colour: "orange" }],
-            [{ label: "Aantal respondenten", column: "kto_score_totaal", colour: "orange" }],
-          ],
-          segment: { key: "kto_score_gemiddeld", cumulative: false, periodization: "monthly", parameterIndex: 0 },
-        },
-        // // {
-        // //   slug: "fs_trend_respondents_header",
-        // //   ctrlr: "HeaderV1",
-        // //   parameters: [
-        // //     [{ label: "Respondenten per regeling", column: "", colour: "", excludeFromTable: true   }],
-        // //   ],
-        // // },
-        // // {
-        // //   slug: "fs_trend_respondents",
-        // //   ctrlr: "BarTrendStackedMakeup",
-        // //   filters: [],
-        // //   args: [],
-        // //   parameters: [
-        // //     [
-        // //       { label: "Fysieke schade", column: "fysieke_schade_aantal_respondenten", units: "respondenten", colour: "moss", excludeFromTable: true  },
-        // //       { label: "Vaste vergoeding", column: "ves_aantal_respondenten", units: "respondenten", colour: "orange", excludeFromTable: true  },
-        // //       { label: "Waardedaling", column: "waardedaling_aantal_respondenten", units: "respondenten", colour: "purple", excludeFromTable: true  },
-        // //       { label: "Immateriele schade: volwassenen", column: "ims_aantal_respondenten", units: "respondenten", colour: "blue", excludeFromTable: true  },
-        // //       { label: "Immateriele schade: kinderen en jongeren", column: "imkj_aantal_respondenten", units: "respondenten", colour: "yellow", excludeFromTable: true  },
-        // //     ],
-        // //   ],
-        // //   segment: { key: "fysieke_schade_aantal_respondenten", cumulative: false, periodization: "monthly" },
-        // // },
-      ],
-      segment: { key: "kto_score_gemiddeld", cumulative: false, periodization: "monthly" },
-      functionality: ["table", "definitions", "download"],
-      endpoints: [
-        "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",  
-      ],
-    },
-    {
-      slug: "waardering_domein",
-      ctrlr: "DomainComparisonGroupV1",
-      filters: [],
-      graphs: [
+
         {
           slug: "fs_cijfer_domein",
           ctrlr: "KTORatingsV1",
@@ -139,6 +188,16 @@ const pageConfig: IPageConfig = {
           ],
           segment: { key: "all", domein: "fysiek", cumulative: true, periodization: "monthly" },
         },
+        // {
+        //   slug: "domein_trend",
+        //   ctrlr: "BarTrendV1",
+        //   filters: [],
+        //   args: [],
+        //   parameters: [
+        //     [{ label: "Waardering", column: "fysiek_kto_score_gemiddeld", units: "waardering", colour: "moss", format: "decimals", excludeFromTable: true }],
+        //   ],
+        //   segment: { key: "fysiek_kto_score_gemiddeld", cumulative: false, periodization: "monthly" },
+        // },
       ],
       segment: { key: "fysiek_kto_score_gemiddeld", domein: "fysiek", cumulative: true, periodization: "monthly" },
       functionality: ["table", "definitions", "download"],
@@ -152,7 +211,7 @@ const pageConfig: IPageConfig = {
       ],
     },
     {
-      slug: "waardering_regeling",
+      slug: "waardering_regelingsvarianten",
       ctrlr: "RegelingComparisonGroupV1",
       filters: [],
       graphs: [
@@ -205,247 +264,14 @@ const pageConfig: IPageConfig = {
         "regelingen?aggregatie=eq.maand&regeling_code=eq.IMK&order=periode.desc",
         "regelingen?aggregatie=eq.maand&regeling_code=eq.IMS&order=periode.desc",
         "regelingen?aggregatie=eq.maand&regeling_code=eq.WD&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.WNW&order=periode.desc",
         "regelingen?aggregatie=eq.week&regeling_code=eq.MW&order=periode.desc",
         "regelingen?aggregatie=eq.week&regeling_code=eq.VV&order=periode.desc",
         "regelingen?aggregatie=eq.week&regeling_code=eq.IMK&order=periode.desc",
         "regelingen?aggregatie=eq.week&regeling_code=eq.IMS&order=periode.desc",
         "regelingen?aggregatie=eq.week&regeling_code=eq.WD&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.WNW&order=periode.desc",
+       
       ],
     },
-    // {
-    //   slug: "waardering_ves",
-    //   ctrlr: "DefaultGroupV1",
-    //   graphs: [
-    //     {
-    //       slug: "fs_cijfer",
-    //       ctrlr: "KTORatingsV1",
-    //       filters: ["monthSelect"],
-    //       args: [],
-    //       parameters: [
-    //         [
-    //           { label: "Doorlopend", column: "ves_doorlopend_cijfer", colour: "moss" },
-    //           { label: "Maandcijfer", column: "ves_maandcijfer", colour: "moss" },
-    //           { label: "Respondenten doorlopend", column: "ves_aantal_respondenten_doorlopend", colour: "moss", excludeFromTable: true },
-    //           { label: "Respondenten", column: "ves_aantal_respondenten", colour: "moss" },
-    //         ],
-    //         [
-    //           { label: "1", column: "ves_doorlopend_rapportcijfer_1", colour: "orange", excludeFromTable: true },
-    //           { label: "2", column: "ves_doorlopend_rapportcijfer_2", colour: "orange", excludeFromTable: true },
-    //           { label: "3", column: "ves_doorlopend_rapportcijfer_3", colour: "orange", excludeFromTable: true },
-    //           { label: "4", column: "ves_doorlopend_rapportcijfer_4", colour: "orange", excludeFromTable: true },
-    //           { label: "5", column: "ves_doorlopend_rapportcijfer_5", colour: "orange", excludeFromTable: true },
-    //           { label: "6", column: "ves_doorlopend_rapportcijfer_6", colour: "blue", excludeFromTable: true },
-    //           { label: "7", column: "ves_doorlopend_rapportcijfer_7", colour: "blue", excludeFromTable: true },
-    //           { label: "8", column: "ves_doorlopend_rapportcijfer_8", colour: "moss", excludeFromTable: true },
-    //           { label: "9", column: "ves_doorlopend_rapportcijfer_9", colour: "moss", excludeFromTable: true },
-    //           { label: "10", column: "ves_doorlopend_rapportcijfer_10", colour: "moss", excludeFromTable: true },
-    //         ],
-    //         [
-    //           { label: "1", column: "ves_maand_rapportcijfer_1", colour: "orange" },
-    //           { label: "2", column: "ves_maand_rapportcijfer_2", colour: "orange" },
-    //           { label: "3", column: "ves_maand_rapportcijfer_3", colour: "orange" },
-    //           { label: "4", column: "ves_maand_rapportcijfer_4", colour: "orange" },
-    //           { label: "5", column: "ves_maand_rapportcijfer_5", colour: "orange" },
-    //           { label: "6", column: "ves_maand_rapportcijfer_6", colour: "blue" },
-    //           { label: "7", column: "ves_maand_rapportcijfer_7", colour: "blue" },
-    //           { label: "8", column: "ves_maand_rapportcijfer_8", colour: "moss" },
-    //           { label: "9", column: "ves_maand_rapportcijfer_9", colour: "moss" },
-    //           { label: "10", column: "ves_maand_rapportcijfer_10", colour: "moss" },
-    //         ],
-    //       ],
-    //       segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //     },
-    //     {
-    //       slug: "ves_trend",
-    //       ctrlr: "BarTrendV1",
-    //       filters: [],
-    //       args: [],
-    //       parameters: [
-    //         [{ label: "Waardering", column: "ves_maandcijfer", units: "waardering", colour: "moss", format: "decimals", excludeFromTable: true }],
-    //       ],
-    //       segment: { key: "ves_maandcijfer", cumulative: false, periodization: "monthly" },
-    //     },
-    //   ],
-    //   segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //   functionality: ["table", "definitions", "download"],
-    //   endpoints: [],
-    // },
-    // {
-    //   slug: "waardering_wd",
-    //   ctrlr: "DefaultGroupV1",
-    //   graphs: [
-    //     {
-    //       slug: "fs_cijfer_wd",
-    //       ctrlr: "KTORatingsV1",
-    //       filters: ["monthSelect"],
-    //       args: [],
-    //       parameters: [
-    //         [
-    //           { label: "Doorlopend", column: "waardedaling_doorlopend_cijfer", colour: "blue" },
-    //           { label: "Maandcijfer", column: "waardedaling_maandcijfer", colour: "blue" },
-    //           { label: "Respondenten doorlopend", column: "waardedaling_aantal_respondenten_doorlopend", colour: "blue", excludeFromTable: true },
-    //           { label: "Respondenten", column: "waardedaling_aantal_respondenten", colour: "blue" },
-    //         ],
-    //         [
-    //           { label: "1", column: "waardedaling_doorlopend_rapportcijfer_1", colour: "orange", excludeFromTable: true },
-    //           { label: "2", column: "waardedaling_doorlopend_rapportcijfer_2", colour: "orange", excludeFromTable: true },
-    //           { label: "3", column: "waardedaling_doorlopend_rapportcijfer_3", colour: "orange", excludeFromTable: true },
-    //           { label: "4", column: "waardedaling_doorlopend_rapportcijfer_4", colour: "orange", excludeFromTable: true },
-    //           { label: "5", column: "waardedaling_doorlopend_rapportcijfer_5", colour: "orange", excludeFromTable: true },
-    //           { label: "6", column: "waardedaling_doorlopend_rapportcijfer_6", colour: "blue", excludeFromTable: true },
-    //           { label: "7", column: "waardedaling_doorlopend_rapportcijfer_7", colour: "blue", excludeFromTable: true },
-    //           { label: "8", column: "waardedaling_doorlopend_rapportcijfer_8", colour: "moss", excludeFromTable: true },
-    //           { label: "9", column: "waardedaling_doorlopend_rapportcijfer_9", colour: "moss", excludeFromTable: true },
-    //           { label: "10", column: "waardedaling_doorlopend_rapportcijfer_10", colour: "moss", excludeFromTable: true },
-    //         ],
-    //         [
-    //           { label: "1", column: "waardedaling_maand_rapportcijfer_1", colour: "orange" },
-    //           { label: "2", column: "waardedaling_maand_rapportcijfer_2", colour: "orange" },
-    //           { label: "3", column: "waardedaling_maand_rapportcijfer_3", colour: "orange" },
-    //           { label: "4", column: "waardedaling_maand_rapportcijfer_4", colour: "orange" },
-    //           { label: "5", column: "waardedaling_maand_rapportcijfer_5", colour: "orange" },
-    //           { label: "6", column: "waardedaling_maand_rapportcijfer_6", colour: "blue" },
-    //           { label: "7", column: "waardedaling_maand_rapportcijfer_7", colour: "blue" },
-    //           { label: "8", column: "waardedaling_maand_rapportcijfer_8", colour: "moss" },
-    //           { label: "9", column: "waardedaling_maand_rapportcijfer_9", colour: "moss" },
-    //           { label: "10", column: "waardedaling_maand_rapportcijfer_10", colour: "moss" },
-    //         ],
-    //       ],
-    //       segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //     },
-    //     {
-    //       slug: "wd_trend",
-    //       ctrlr: "BarTrendV1",
-    //       filters: [],
-    //       args: [],
-    //       parameters: [
-    //         [{ label: "Waardering", column: "waardedaling_maandcijfer", units: "waardering", colour: "blue", format: "decimals", excludeFromTable: true }],
-    //       ],
-    //       segment: { key: "waardedaling_maandcijfer", cumulative: false, periodization: "monthly" },
-    //     },
-    //   ],
-    //   segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //   functionality: ["table", "definitions", "download"],
-    //   endpoints: [],
-    // },
-    // {
-    //   slug: "waardering_ims_volw",
-    //   ctrlr: "DefaultGroupV1",
-    //   graphs: [
-    //     {
-    //       slug: "ims_cijfer_volw",
-    //       ctrlr: "KTORatingsV1",
-    //       filters: ["monthSelect"],
-    //       args: [],
-    //       parameters: [
-    //         [
-    //           { label: "Doorlopend", column: "ims_doorlopend_cijfer", colour: "moss" },
-    //           { label: "Maandcijfer", column: "ims_maandcijfer", colour: "moss" },
-    //           { label: "Respondenten doorlopend", column: "ims_aantal_respondenten_doorlopend", colour: "moss", excludeFromTable: true },
-    //           { label: "Respondenten", column: "ims_aantal_respondenten", colour: "moss" },
-    //         ],
-    //         [
-    //           { label: "1", column: "ims_doorlopend_rapportcijfer_1", colour: "orange", excludeFromTable: true },
-    //           { label: "2", column: "ims_doorlopend_rapportcijfer_2", colour: "orange", excludeFromTable: true },
-    //           { label: "3", column: "ims_doorlopend_rapportcijfer_3", colour: "orange", excludeFromTable: true },
-    //           { label: "4", column: "ims_doorlopend_rapportcijfer_4", colour: "orange", excludeFromTable: true },
-    //           { label: "5", column: "ims_doorlopend_rapportcijfer_5", colour: "orange", excludeFromTable: true },
-    //           { label: "6", column: "ims_doorlopend_rapportcijfer_6", colour: "blue", excludeFromTable: true },
-    //           { label: "7", column: "ims_doorlopend_rapportcijfer_7", colour: "blue", excludeFromTable: true },
-    //           { label: "8", column: "ims_doorlopend_rapportcijfer_8", colour: "moss", excludeFromTable: true },
-    //           { label: "9", column: "ims_doorlopend_rapportcijfer_9", colour: "moss", excludeFromTable: true },
-    //           { label: "10", column: "ims_doorlopend_rapportcijfer_10", colour: "moss", excludeFromTable: true },
-    //         ],
-    //         [
-    //           { label: "1", column: "ims_maand_rapportcijfer_1", colour: "orange" },
-    //           { label: "2", column: "ims_maand_rapportcijfer_2", colour: "orange" },
-    //           { label: "3", column: "ims_maand_rapportcijfer_3", colour: "orange" },
-    //           { label: "4", column: "ims_maand_rapportcijfer_4", colour: "orange" },
-    //           { label: "5", column: "ims_maand_rapportcijfer_5", colour: "orange" },
-    //           { label: "6", column: "ims_maand_rapportcijfer_6", colour: "blue" },
-    //           { label: "7", column: "ims_maand_rapportcijfer_7", colour: "blue" },
-    //           { label: "8", column: "ims_maand_rapportcijfer_8", colour: "moss" },
-    //           { label: "9", column: "ims_maand_rapportcijfer_9", colour: "moss" },
-    //           { label: "10", column: "ims_maand_rapportcijfer_10", colour: "moss" },
-    //         ],
-    //       ],
-    //       segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //     },
-    //     {
-    //       slug: "ims_trend",
-    //       ctrlr: "BarTrendV1",
-    //       filters: [],
-    //       args: [],
-    //       parameters: [
-    //         [{ label: "Waardering", column: "ims_maandcijfer", units: "waardering", colour: "moss", format: "decimals", excludeFromTable: true }],
-    //       ],
-    //       segment: { key: "ims_maandcijfer", cumulative: false, periodization: "monthly" },
-    //     },
-    //   ],
-    //   segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //   functionality: ["table", "definitions", "download"],
-    //   endpoints: [],
-    // },
-    // {
-    //   slug: "waardering_imkj",
-    //   ctrlr: "DefaultGroupV1",
-    //   graphs: [
-    //     {
-    //       slug: "im_cijfer_kj",
-    //       ctrlr: "KTORatingsV1",
-    //       filters: ["monthSelect"],
-    //       args: [],
-    //       parameters: [
-    //         [
-    //           { label: "Doorlopend", column: "imkj_doorlopend_cijfer", colour: "moss" },
-    //           { label: "Maandcijfer", column: "imkj_maandcijfer", colour: "moss" },
-    //           { label: "Respondenten doorlopend", column: "imkj_aantal_respondenten_doorlopend", colour: "moss", excludeFromTable: true },
-    //           { label: "Respondenten", column: "imkj_aantal_respondenten", colour: "moss" },
-    //         ],
-    //         [
-    //           { label: "1", column: "imkj_doorlopend_rapportcijfer_1", colour: "orange", excludeFromTable: true },
-    //           { label: "2", column: "imkj_doorlopend_rapportcijfer_2", colour: "orange", excludeFromTable: true },
-    //           { label: "3", column: "imkj_doorlopend_rapportcijfer_3", colour: "orange", excludeFromTable: true },
-    //           { label: "4", column: "imkj_doorlopend_rapportcijfer_4", colour: "orange", excludeFromTable: true },
-    //           { label: "5", column: "imkj_doorlopend_rapportcijfer_5", colour: "orange", excludeFromTable: true },
-    //           { label: "6", column: "imkj_doorlopend_rapportcijfer_6", colour: "blue", excludeFromTable: true },
-    //           { label: "7", column: "imkj_doorlopend_rapportcijfer_7", colour: "blue", excludeFromTable: true },
-    //           { label: "8", column: "imkj_doorlopend_rapportcijfer_8", colour: "moss", excludeFromTable: true },
-    //           { label: "9", column: "imkj_doorlopend_rapportcijfer_9", colour: "moss", excludeFromTable: true },
-    //           { label: "10", column: "imkj_doorlopend_rapportcijfer_10", colour: "moss", excludeFromTable: true },
-    //         ],
-    //         [
-    //           { label: "1", column: "imkj_maand_rapportcijfer_1", colour: "orange" },
-    //           { label: "2", column: "imkj_maand_rapportcijfer_2", colour: "orange" },
-    //           { label: "3", column: "imkj_maand_rapportcijfer_3", colour: "orange" },
-    //           { label: "4", column: "imkj_maand_rapportcijfer_4", colour: "orange" },
-    //           { label: "5", column: "imkj_maand_rapportcijfer_5", colour: "orange" },
-    //           { label: "6", column: "imkj_maand_rapportcijfer_6", colour: "blue" },
-    //           { label: "7", column: "imkj_maand_rapportcijfer_7", colour: "blue" },
-    //           { label: "8", column: "imkj_maand_rapportcijfer_8", colour: "moss" },
-    //           { label: "9", column: "imkj_maand_rapportcijfer_9", colour: "moss" },
-    //           { label: "10", column: "imkj_maand_rapportcijfer_10", colour: "moss" },
-    //         ],
-    //       ],
-    //       segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //     },
-    //     {
-    //       slug: "imkj_trend",
-    //       ctrlr: "BarTrendV1",
-    //       args: [],
-    //       filters: [],
-    //       parameters: [
-    //         [{ label: "Waardering", column: "imkj_maandcijfer", units: "", colour: "moss", format: "decimals", excludeFromTable: true }],
-    //       ],
-    //       segment: { key: "imkj_maandcijfer", cumulative: false, periodization: "monthly" },
-    //     },
-    //   ],
-    //   segment: { key: "all", cumulative: true, periodization: "monthly" },
-    //   functionality: ["table", "definitions", "download"],
-    //   endpoints: [],
-    // },
   ],
 };
 

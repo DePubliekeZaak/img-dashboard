@@ -28,6 +28,7 @@ export class KTOGroupV1 extends GroupControllerV1 {
   async init() {}
 
   prepareData(data: ImgData): any {
+    
     const {
       tableParams,
       graphParams,
@@ -37,11 +38,11 @@ export class KTOGroupV1 extends GroupControllerV1 {
       timeline,
     } = super.prepareData(data);
 
-    const { rows, _data } = relyOnCompleted(
-      graphDataMonth,
-      tableParams,
-      graphParams,
-    );
+    // const { rows, _data } = relyOnCompleted(
+    //   graphDataMonth,
+    //   tableParams,
+    //   graphParams,
+    // );
 
     // const monthTable = {
     //   headers: ["Jaar", "Maand"].concat(tableParams.map((p: any) => p.label)),

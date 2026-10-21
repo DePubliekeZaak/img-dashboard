@@ -21,7 +21,7 @@ export const REGELINGEN: { label: string; prefix: string; colour: string }[] = [
   { label: "Immateriële schade: volwassenen", prefix: "ims", colour: "blue" },
   { label: "Immateriële schade: kinderen en jongeren", prefix: "imk", colour: "yellow" },
   { label: "Waardedaling wonen", prefix: "wd", colour: "purple" },
-  { label: "Waardedaling niet wonen", prefix: "wnw", colour: "moss" },
+  // { label: "Waardedaling niet wonen", prefix: "wnw", colour: "moss" },
 ];
 
 export class HtmlRegelingSelector {

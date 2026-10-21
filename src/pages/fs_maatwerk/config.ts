@@ -202,7 +202,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Sinds start",
-              column: "fysieke_schade_doorlopend_cijfer",
+              column: "kto_score_gemiddeld_cumul",
               colour: "orange",
               format: "decimals",
             },
@@ -210,7 +210,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Totaal respondenten",
-              column: "fysieke_schade_aantal_respondenten_doorlopend",
+              column: "kto_score_totaal_cumul",
               units: "respondenten sinds start",
               colour: "orange",
             },
@@ -226,7 +226,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Maand cijfer",
-              column: "fysieke_schade_maandcijfer",
+              column: "kto_score_gemiddeld",
               colour: "orange",
               format: "decimals",
             },
@@ -234,19 +234,27 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Aantal nieuwe respondenten",
-              column: "fysieke_schade_aantal_respondenten",
+              column: "kto_score_totaal",
               colour: "orange",
               units: "respondenten",
             },
           ],
         ],
-        modifiers: [],
+        segment: {
+          key: "kto_score_gemiddeld",
+          cumulative: false,
+          periodization: "monthly",
+        },
       },
     ],
     functionality: ["table", "definitions", "download"],
-    endpoints: ["tevredenheid"],
+    endpoints: [
+      "regelingen?aggregatie=eq.week&regeling_code=eq.MW&order=periode.desc",
+      "regelingen?aggregatie=eq.maand&regeling_code=eq.MW&order=periode.desc"
+      
+    ],
     segment: {
-      key: "fysieke_schade_maandcijfer",
+      key: "kto_score_gemiddeld_cumul",
       cumulative: false,
       periodization: "monthly",
     },

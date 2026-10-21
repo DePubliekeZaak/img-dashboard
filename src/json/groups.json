@@ -110,8 +110,8 @@
         "Uithuizermeeden en Uithuizen",
         "Wirdum"
       ],
-      "content": "Voor Waardedaling geven aanvragers gemiddeld een {waardedaling_doorlopend_cijfer}. Het cijfer is gebaseerd op  {waardedaling_aantal_respondenten_doorlopend} ingevulde enquêtes.\n\nVoor Waardedaling wonen geven aanvragers gemiddeld een 7,8. Het cijfer is gebaseerd op 14.786 ingevulde enquêtes.",
-      "description": "<p dir=\"auto\">Voor Waardedaling geven aanvragers gemiddeld een {waardedaling_doorlopend_cijfer}. Het cijfer is gebaseerd op  {waardedaling_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>\n<p dir=\"auto\">Voor Waardedaling wonen geven aanvragers gemiddeld een 7,8. Het cijfer is gebaseerd op 14.786 ingevulde enquêtes.</p>"
+      "content": "Voor Waardedaling geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}. Het cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes.\n\n",
+      "description": "<p dir=\"auto\">Voor Waardedaling geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}. Het cijfer is gebaseerd op  {kto_score_totaal_cumul} ingevulde enquêtes.</p>"
     },
     {
       "name": "wdl_wd_intro",
@@ -360,9 +360,9 @@
       "description": "<p dir=\"auto\">De vaste vergoeding krijgt een relatief hoge waardering. Deze regeling is voor veel aanvragers aantrekkelijk omdat de afhandeling snel en eenvoudig is. De procedure is korter omdat de schade bijvoorbeeld niet beoordeeld hoeft te worden door een deskundige.</p>"
     },
     {
-      "name": "waardering_trend",
-      "slug": "waardering_trend",
-      "header": "Trend cijfer voor alle regelingen",
+      "name": "respondenten_trend",
+      "slug": "respondenten_trend",
+      "header": "Respondenten per regeling",
       "tags": ["waardering"],
       "definitions": [
         "Waardering",
@@ -382,8 +382,8 @@
         "Start regeling Immateriële schade",
         "Start waardedalingsregeling"
       ],
-      "content": "In de eerste jaren lag de gemiddelde waardering boven de 7. Vanaf juni 2021 daalt het cijfer, onder andere door de invoering van een nieuw beoordelingskader en meer afwijzingen. Met de komst van de regelingen voor immateriële schade en de vaste vergoeding stijgt de waardering weer, al drukt immateriële schade het totaalbeeld. Van augustus tot en met december 2023 ontbreken gegevens door een storing en het tijdelijk pauzeren van dossiers.",
-      "description": "<p dir=\"auto\">In de eerste jaren lag de gemiddelde waardering boven de 7. Vanaf juni 2021 daalt het cijfer, onder andere door de invoering van een nieuw beoordelingskader en meer afwijzingen. Met de komst van de regelingen voor immateriële schade en de vaste vergoeding stijgt de waardering weer, al drukt immateriële schade het totaalbeeld. Van augustus tot en met december 2023 ontbreken gegevens door een storing en het tijdelijk pauzeren van dossiers.</p>"
+      "content": "Bij de vaste vergoeding is het aantal respondenten relatief groot. Voor elk van de varianten (de vaste vergoeding, de aanvullende vaste vergoeding en de vaste herhaalvergoeding) wordt een aparte enquête afgenomen. Dit is een van de redenen waarom we met een gewogen gemiddelde rekenen.",
+      "description": "<p dir=\"auto\">Bij de vaste vergoeding is het aantal respondenten relatief groot. Voor elk van de varianten (de vaste vergoeding, de aanvullende vaste vergoeding en de vaste herhaalvergoeding) wordt een aparte enquête afgenomen. Dit is een van de redenen waarom we met een gewogen gemiddelde rekenen.</p>"
     },
     {
       "name": "waardering_ims_volw",
@@ -488,8 +488,8 @@
         "Vaste vergoeding"
       ],
       "timeline": [],
-      "content": "Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.",
-      "description": "<p dir=\"auto\">Voor de Vaste vergoeding geven aanvragers gemiddeld een  {ves_doorlopend_cijfer}., gebaseerd op  {ves_aantal_respondenten_doorlopend} ingevulde enquêtes.</p>"
+      "content": "Voor de Vaste vergoeding geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}, gebaseerd op  {kto_score_totaal_cumul} ingevulde enquêtes.",
+      "description": "<p dir=\"auto\">Voor de Vaste vergoeding geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}, gebaseerd op  {kto_score_totaal_cumul} ingevulde enquêtes.</p>"
     },
     {
       "name": "vv_toegekend",
@@ -585,14 +585,26 @@
       "timeline": [],
       "content": "Er zijn {afgerond_cumul} meldingen afgerond door {beschikt_cumul} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {beschikt_binn_termijn_cumul_perc}% binnen de norm van {beslistermijn_dagen} dagen genomen.\n\nVan het totaal aantal afgehandelde aanvragen voor de vaste vergoeding is aan {toegekend_ves_cumul} een Vaste vergoeding (VES) toegekend en aan {toegekend_avv_cumul} een Aanvullende vaste vergoeding (AVV). De overige aanvragen zijn afgewezen of op een andere manier afgehandeld.",
       "description": "<p dir=\"auto\">Er zijn {afgerond_cumul} meldingen afgerond door {beschikt_cumul} besluiten te nemen. Bij meerdere lopende aanvragen op hetzelfde adres wordt er maar één aanvraag inhoudelijk behandeld en worden de overige aanvragen afgewezen. Van alle besluiten wordt {beschikt_binn_termijn_cumul_perc}% binnen de norm van {beslistermijn_dagen} dagen genomen.</p>\n<p dir=\"auto\">Van het totaal aantal afgehandelde aanvragen voor de vaste vergoeding is aan {toegekend_ves_cumul} een Vaste vergoeding (VES) toegekend en aan {toegekend_avv_cumul} een Aanvullende vaste vergoeding (AVV). De overige aanvragen zijn afgewezen of op een andere manier afgehandeld.</p>"
-    },    {
+    }, 
+    {
+      "name": "versie_102",
+      "slug": "versie_102",
+      "header": "Versie 1.0.2",
+      "tags": [],
+      "definitions": [],
+      "timeline": [],
+      "datum": "12/10/2026 - heden",
+      "content": "Aanpassingen tbv kto cijfers",
+      "description": "<p dir=\"auto\">Aanpassingen tbv kto cijfers</p>"
+    },   
+    {
       "name": "versie_101",
       "slug": "versie_101",
       "header": "Versie 1.0.1",
       "tags": [],
       "definitions": [],
       "timeline": [],
-      "datum": "01/04/2026 - heden",
+      "datum": "01/04/2026 - 11/10/2026",
       "content": "Afgelopen vrijdag 27 maart 2026 is het IMG jaarverslag gepubliceerd, dit is een goed moment om de cijfers op de website weer goed aan te laten aansluiten. Daarnaast zijn enkele verbeteringen doorgevoerd. De aanpassingen zijn zowel bij nieuwe gegevens als op de historische gegevens van toepassing. De belangrijkste wijzigingen:\n\n- **Uitbetaald bedrag**: door het jaar heen laten we de uitbetaalde bedragen zien. Dit is voor het lopende jaar inclusief eventuele terugvorderingen. Deze zijn er nu uitgehaald gelijk aan het jaarverslag, hierdoor zal het totaal uitbetaalde bedrag lager worden. Verder is de uitsplitsing van de uitbetaalde bedragen naar week dan wel maand niet meer inzichtelijk voor 2025.\n    \n- **Adreskoppelingen**: er zijn verbeteringen doorgevoerd op de koppeling van de aanvragen met de adressen. Dit is te zien in met name een verschuiving van aantallen van de groep overig naar een gemeente. Vooral bij Waardedaling is dit het geval.\n    \n- **Berekende velden**: Het toegekend en afgewezen percentage werd berekend over de gehele periode dat een regelingsvariant liep, dit hebben we veranderd naar een percentage over afgelopen jaar. Hierdoor is de impact van recente wisselingen sneller zichtbaar. Daarnaast werden _beschikt binnen termijn_ en de _gerealiseerde doorlooptijd_ over een week of maand berekend, dit hebben we ook alle drie veranderd naar een periode van een jaar. Hierdoor zullen de metingen juist wat stabieler worden.  \n    \n- **Verwijderen verwachte doorlooptijd**: Voor de doorlooptijd lieten we drie verschillende waarden zien, dit hebben we teruggebracht naar twee waarden – (1) de _gerealiseerde doorlooptijd via de mediaan_ en (2) het _gemiddelde_. De verwachte doorlooptijd bevatte te veel ruis van aanvragen die erg afweken van hoe de meerderheid van de aanvragen door het proces gaan.\n    \n- **Aanvragen dubbel geteld**: De dubbele aanvragen zijn eruit gehaald. Dit is met name zichtbaar binnen maatwerk en herstel. Het gaat hier om zaken die in het reguliere proces niet (volledig) verwerkt konden worden en technisch speciale aandacht nodig hadden.",
       "description": "<p dir=\"auto\">Afgelopen vrijdag 27 maart 2026 is het IMG jaarverslag gepubliceerd, dit is een goed moment om de cijfers op de website weer goed aan te laten aansluiten. Daarnaast zijn enkele verbeteringen doorgevoerd. De aanpassingen zijn zowel bij nieuwe gegevens als op de historische gegevens van toepassing. De belangrijkste wijzigingen:</p>\n<ul>\n<li dir=\"auto\"><strong>Uitbetaald bedrag</strong>: door het jaar heen laten we de uitbetaalde bedragen zien. Dit is voor het lopende jaar inclusief eventuele terugvorderingen. Deze zijn er nu uitgehaald gelijk aan het jaarverslag, hierdoor zal het totaal uitbetaalde bedrag lager worden. Verder is de uitsplitsing van de uitbetaalde bedragen naar week dan wel maand niet meer inzichtelijk voor 2025.<br>\n</li>\n<li dir=\"auto\"><strong>Adreskoppelingen</strong>: er zijn verbeteringen doorgevoerd op de koppeling van de aanvragen met de adressen. Dit is te zien in met name een verschuiving van aantallen van de groep overig naar een gemeente. Vooral bij Waardedaling is dit het geval.<br>\n</li>\n<li dir=\"auto\"><strong>Berekende velden</strong>: Het toegekend en afgewezen percentage werd berekend over de gehele periode dat een regelingsvariant liep, dit hebben we veranderd naar een percentage over afgelopen jaar. Hierdoor is de impact van recente wisselingen sneller zichtbaar. Daarnaast werden <em>beschikt binnen termijn</em> en de <em>gerealiseerde doorlooptijd</em> over een week of maand berekend, dit hebben we ook alle drie veranderd naar een periode van een jaar. Hierdoor zullen de metingen juist wat stabieler worden.<br>\n</li>\n<li dir=\"auto\"><strong>Verwijderen verwachte doorlooptijd</strong>: Voor de doorlooptijd lieten we drie verschillende waarden zien, dit hebben we teruggebracht naar twee waarden – (1) de <em>gerealiseerde doorlooptijd via de mediaan</em> en (2) het <em>gemiddelde</em>. De verwachte doorlooptijd bevatte te veel ruis van aanvragen die erg afweken van hoe de meerderheid van de aanvragen door het proces gaan.<br>\n</li>\n<li dir=\"auto\"><strong>Aanvragen dubbel geteld</strong>: De dubbele aanvragen zijn eruit gehaald. Dit is met name zichtbaar binnen maatwerk en herstel. Het gaat hier om zaken die in het reguliere proces niet (volledig) verwerkt konden worden en technisch speciale aandacht nodig hadden.</li>\n</ul>"
     },
@@ -684,8 +696,8 @@
         "Fysieke schade"
       ],
       "timeline": [],
-      "content": "Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.",
-      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {fysieke_schade_doorlopend_cijfer}. Het cijfer is gebaseerd op {fysieke_schade_aantal_respondenten_doorlopend} ingevulde enquêtes. Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023.</p>"
+      "content": "Voor fysieke schade geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}. Het cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes.",
+      "description": "<p dir=\"auto\">Voor fysieke schade geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}. Het cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes.</p>"
     },
     {
       "name": "maatwerk_voorraad",
@@ -840,8 +852,8 @@
         "Uithuizermeeden en Uithuizen",
         "Wirdum"
       ],
-      "content": "Voor Immateriële schade voor volwassenen geven aanvragers gemiddeld een {ims_doorlopend_cijfer}. Het cijfer is gebaseerd op {ims_aantal_respondenten_doorlopend} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.",
-      "description": "<p dir=\"auto\">Voor Immateriële schade voor volwassenen geven aanvragers gemiddeld een {ims_doorlopend_cijfer}. Het cijfer is gebaseerd op {ims_aantal_respondenten_doorlopend} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.</p>"
+      "content": "Voor Immateriële schade voor volwassenen geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}. Het cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.",
+      "description": "<p dir=\"auto\">Voor Immateriële schade voor volwassenen geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul}. Het cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.</p>"
     },
     {
       "name": "ims_volw_duur",
@@ -1041,8 +1053,8 @@
         "Kinderen en jongeren"
       ],
       "timeline": "[]",
-      "content": "Voor Immateriële schade voor kinderen en jongeren geven aanvragers gemiddeld een {imkj_doorlopend_cijfer} . Het cijfer is gebaseerd op {imkj_aantal_respondenten_doorlopend} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.",
-      "description": "<p dir=\"auto\">Voor Immateriële schade voor kinderen en jongeren geven aanvragers gemiddeld een {imkj_doorlopend_cijfer} . Het cijfer is gebaseerd op {imkj_aantal_respondenten_doorlopend} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.</p>"
+      "content": "Voor Immateriële schade voor kinderen en jongeren geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul} . Het cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.",
+      "description": "<p dir=\"auto\">Voor Immateriële schade voor kinderen en jongeren geven aanvragers gemiddeld een {kto_score_gemiddeld_cumul} . Het cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes. Dit lage cijfer hangt onder andere samen met het relatief grote aantal afwijzingen van aanvragen.</p>"
     },
     {
       "name": "ims_kj_voorraad",
@@ -1343,8 +1355,8 @@
       "tags": ["alle_regelingen"],
       "definitions": ["Respondenten", "Waardering", "Doorlopend"],
       "timeline": [],
-      "content": "Aanvragers geven het IMG gemiddeld een {doorlopend_cijfer} voor de afhandeling van hun aanvraag. Dit cijfer is gebaseerd op {aantal_respondenten} ingevulde enquêtes. Het cijfer is een gewogen gemiddelde: regelingen met meer besluiten tellen zwaarder mee.\n\nDoor een technische storing ontbreken waarderingscijfers in de tweede helft van 2023",
-      "description": "<p dir=\"auto\">Aanvragers geven het IMG gemiddeld een {doorlopend_cijfer} voor de afhandeling van hun aanvraag. Dit cijfer is gebaseerd op {aantal_respondenten} ingevulde enquêtes. Het cijfer is een gewogen gemiddelde: regelingen met meer besluiten tellen zwaarder mee.</p>\n<p dir=\"auto\">Door een technische storing ontbreken waarderingscijfers in de tweede helft van 2023</p>"
+      "content": "Aanvragers geven het IMG gemiddeld een {kto_score_gemiddeld_cumul} voor de afhandeling van hun aanvraag. Dit cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes. Het cijfer is een gewogen gemiddelde: regelingen met meer besluiten tellen zwaarder mee./n/n/In de eerste jaren lag de gemiddelde waardering boven de 7. Vanaf juni 2021 daalt het cijfer, onder andere door de invoering van een nieuw beoordelingskader en meer afwijzingen. Met de komst van de regelingen voor immateriële schade en de vaste vergoeding stijgt de waardering weer, al drukt immateriële schade het totaalbeeld.",
+      "description": "<p dir=\"auto\">Aanvragers geven het IMG gemiddeld een {kto_score_gemiddeld_cumul} voor de afhandeling van hun aanvraag. Dit cijfer is gebaseerd op {kto_score_totaal_cumul} ingevulde enquêtes. Het cijfer is een gewogen gemiddelde: regelingen met meer besluiten tellen zwaarder mee.</p><p>In de eerste jaren lag de gemiddelde waardering boven de 7. Vanaf juni 2021 daalt het cijfer, onder andere door de invoering van een nieuw beoordelingskader en meer afwijzingen. Met de komst van de regelingen voor immateriële schade en de vaste vergoeding stijgt de waardering weer, al drukt immateriële schade het totaalbeeld.</p>"
     },
     {
       "name": "all_vergelijk",
@@ -1379,6 +1391,28 @@
       "timeline": [],
       "content": "Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.\n\nTot nu toe zijn er {ingediend_cumul} aanvragen ontvangen. Daarvan zijn {afgerond_cumul} aanvragen afgehandeld. In totaal is er {bedrag_betaald_totaal_eur} euro aan vergoedingen uitbetaald.",
       "description": "<p dir=\"auto\">Dit dashboard laat zien hoe de schadeafhandeling sinds de start in 2018 ervoor staat. Het gaat daarbij om alle aanvragen voor fysieke schade, immateriële schade en waardedaling door de gaswinning in Groningen. De cijfers worden elke week bijgewerkt.</p>\n<p dir=\"auto\">Tot nu toe zijn er {ingediend_cumul} aanvragen ontvangen. Daarvan zijn {afgerond_cumul} aanvragen afgehandeld. In totaal is er {bedrag_betaald_totaal_cumul_eur} euro aan vergoedingen uitbetaald.</p>"
+    },
+    {
+      "name": "waardering_regelingsvarianten",
+      "slug": "waardering_regelingsvarianten",
+      "header": "Regelingsvarianten",
+      "tags": ["fs", "maatwerk"],
+      "definitions": [
+      ],
+      "timeline": [],
+      "content": "Voor de regelingsvarianten Maatwerk, Vaste vergoeding, Immateriële schade volwassenen, Immateriële schade kinderen en jeugd en Waardedaling wonen rekenen we niet met een gewogen gemiddelde. Deze cijfers zijn direct gebaseerd op het aantal respondenten.",
+      "description": "<p dir=\"auto\">Voor de regelingsvarianten Maatwerk, Vaste vergoeding, Immateriële schade volwassenen, Immateriële schade kinderen en jeugd en Waardedaling wonen rekenen we niet met een gewogen gemiddelde. Deze cijfers zijn direct gebaseerd op het aantal respondenten.</p>"
+    },
+    {
+      "name": "waardering_regelingen",
+      "slug": "waardering_regelingen",
+      "header": "Regelingen",
+      "tags": ["fs", "maatwerk"],
+      "definitions": [
+      ],
+      "timeline": [],
+      "content": "Voor de regelingen Fysieke schade, Waardedaling en Immateriële schade rekenen we met een gewogen gemiddelde, op basis van het aantal besluiten.",
+      "description": "<p dir=\"auto\">Voor de regelingen Fysieke schade, Waardedaling en Immateriële schade rekenen we met een gewogen gemiddelde, op basis van het aantal besluiten.</p>"
     }
   ],
   "metadata": {

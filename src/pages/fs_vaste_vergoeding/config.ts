@@ -216,7 +216,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Sinds start",
-              column: "ves_doorlopend_cijfer",
+              column: "kto_score_gemiddeld_cumul",
               colour: "orange",
               format: "decimals",
             },
@@ -224,7 +224,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Totaal respondenten",
-              column: "ves_aantal_respondenten_doorlopend",
+              column: "kto_score_totaal_cumul",
               units: "respondenten sinds start",
               colour: "orange",
             },
@@ -240,7 +240,7 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Maand cijfer",
-              column: "ves_maandcijfer",
+              column: "kto_score_gemiddeld",
               colour: "orange",
               format: "decimals",
             },
@@ -248,65 +248,25 @@ const pageConfig: IPageConfig = {
           [
             {
               label: "Aantal nieuwe respondenten",
-              column: "ves_aantal_respondenten",
+              column: "kto_score_totaal",
               colour: "orange",
               units: "respondenten",
             },
           ],
         ],
         modifiers: [],
+        segment: {
+          key: "kto_score_gemiddeld",
+          cumulative: false,
+          periodization: "monthly",
+        },
       },
-      // {
-      //   slug: "avv_waardering_numbers",
-      //   ctrlr: "NumbersPlusRespondentsV1",
-      //   args: [],
-      //   parameters: [
-      //     [
-      //       {
-      //         label: "Sinds start",
-      //         column: "avv_doorlopend_cijfer",
-      //         colour: "orange",
-      //         format: "decimals",
-      //       },
-      //     ],
-      //     [
-      //       {
-      //         label: "Totaal respondenten",
-      //         column: "avv_aantal_respondenten_doorlopend",
-      //         units: "respondenten sinds start",
-      //         colour: "orange",
-      //       },
-      //     ],
-      //   ],
-      // },
-      // {
-      //   slug: "avv_waardering_trend",
-      //   ctrlr: "BarTrendKTOV1",
-      //   args: [],
-      //   filters: [],
-      //   parameters: [
-      //     [
-      //       {
-      //         label: "Maand cijfer",
-      //         column: "avv_maandcijfer",
-      //         colour: "orange",
-      //         format: "decimals",
-      //       },
-      //     ],
-      //     [
-      //       {
-      //         label: "Aantal nieuwe respondenten",
-      //         column: "avv_aantal_respondenten",
-      //         colour: "orange",
-      //         units: "respondenten",
-      //       },
-      //     ],
-      //   ],
-      //   modifiers: [],
-      // },
     ],
     functionality: ["table", "definitions", "download"],
-    endpoints: ["tevredenheid"],
+    endpoints: [
+      "regelingen?aggregatie=eq.week&regeling_code=eq.VV&order=periode.desc",
+      "regelingen?aggregatie=eq.maand&regeling_code=eq.VV&order=periode.desc",
+    ],
     segment: {
       key: "ves_maandcijfer",
       cumulative: false,

@@ -151,11 +151,16 @@ export const createBarsForKTO = (
   const periodKey =
     segment.periodization == "monthly" ? "_yearmonth" : "_yearweek";
 
+  
+
   for (let period of data) {
+
+    let m = period.completed_month.toString() == '' ? period._month : period.completed_month.toString();
+
     bs.push({
       label: param?.label || "",
       name: "main",
-      date: period._year + "_" + period.completed_month.toString(),
+      date: period._year + "_" + m,
       colour: param != undefined ? param.colour : "orange",
       meta: period,
       value: period[prop] == null ? 0 : parseFloat(period[prop].toString()),

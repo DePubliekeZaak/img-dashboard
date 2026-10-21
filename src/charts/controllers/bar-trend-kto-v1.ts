@@ -93,6 +93,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
   }
 
   prepareData(data: DataObject): DataObject {
+
     data.graphDataWeek = trimStart(data.graphDataWeek, this.parameters, 2);
     data.graphDataMonth = trimStart(data.graphDataMonth, this.parameters, 2);
 
