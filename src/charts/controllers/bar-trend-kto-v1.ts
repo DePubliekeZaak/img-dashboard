@@ -45,7 +45,7 @@ export class BarTrendKTOV1 extends core.GraphControllerV3 {
     const topMargin = window.innerWidth < breakpoints.sm ? 30 : 10;
     const bottom = 0;
 
-    this._addMargin(topMargin, 0, 0, 0);
+    this._addMargin(topMargin, 30, 0, 0);
     this._addPadding(10, 30, 20, 20);
 
     this._addScale("x", "band", "horizontal-reverse", "date");

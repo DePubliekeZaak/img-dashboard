@@ -12,6 +12,14 @@ export class HtmlNumberCircleRespondents {
   draw() {
     const element =
       this.element !== undefined ? this.element : this.ctrlr.element;
+
+    // _update() calls draw() on every segment/filter change, so remove a
+    // previously drawn circle before appending a fresh one — otherwise the
+    // number circles accumulate duplicates (observed via the domein selector
+    // on the waardering numbers row). Making draw() idempotent also keeps
+    // KTORatingsV1 (which draws once in init) safe.
+    element.querySelector(".number_circle_wrap")?.remove();
+
     element.style.justifyContent = "center";
 
     let marginTop = "0";
@@ -23,6 +31,7 @@ export class HtmlNumberCircleRespondents {
     }
 
     const miniContainer = document.createElement("div");
+    miniContainer.classList.add("number_circle_wrap");
     miniContainer.style.display = "flex";
     miniContainer.style.flexDirection = "column";
     miniContainer.style.alignItems = "center";
@@ -39,7 +48,7 @@ export class HtmlNumberCircleRespondents {
     div.style.height = "10rem";
     div.style.borderRadius = "50%";
     div.style.border = "2px solid " + colours[this.parameter.colour][0];
-    div.style.marginBottom = marginTop;
+    div.style.marginBottom = "0";
     div.style.marginTop = marginTop;
 
     const number = document.createElement("span");

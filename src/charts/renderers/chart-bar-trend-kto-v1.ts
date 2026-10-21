@@ -61,7 +61,7 @@ export default class ChartBarTrendKTOV1 {
 
                 return `
                     <div>${d.meta._year}</div>
-                    <div>${toDutchMonths(d.meta.completed_month == '' ? d.meta._month : d.meta.completed_month )}</div>
+                    <div>${toDutchMonths(d.meta.completed_month == null || d.meta.completed_month == '' ? d.meta._month : d.meta.completed_month )}</div>
                     <div>${d.value}</div>
                    
                 `;

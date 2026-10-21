@@ -227,8 +227,8 @@ const pageConfig: IPageConfig = {
       ],
       functionality: ["table", "definitions", "download"],
       endpoints: [
-        "regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
         
       ],
       segment: {

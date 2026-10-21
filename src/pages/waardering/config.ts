@@ -16,7 +16,7 @@ const pageConfig: IPageConfig = {
     // all
     {
       slug: "all_waardering",
-      ctrlr: "KTOGroupV1",
+      ctrlr: "DomainComparisonGroupV1",
       graphs: [
         {
           slug: "a_waardering_numbers",
@@ -25,8 +25,8 @@ const pageConfig: IPageConfig = {
           parameters: [
             [
               {
-                label: "Sinds start",
-                column: "kto_score_gemiddeld_cumul",
+                label: "Alle regelingen",
+                column: "totaal_kto_score_gemiddeld_cumul",
                 colour: "orange",
                 format: "decimals",
               },
@@ -34,7 +34,7 @@ const pageConfig: IPageConfig = {
             [
               {
                 label: "Totaal respondenten",
-                column: "kto_score_totaal_cumul",
+                column: "totaal_kto_score_totaal_cumul",
                 units: "respondenten sinds start",
                 colour: "orange",
               },
@@ -55,7 +55,7 @@ const pageConfig: IPageConfig = {
             [
               {
                 label: "Maand cijfer",
-                column: "kto_score_gemiddeld",
+                column: "totaal_kto_score_gemiddeld",
                 colour: "orange",
                 format: "decimals",
               },
@@ -63,18 +63,38 @@ const pageConfig: IPageConfig = {
             [
               {
                 label: "Aantal nieuwe respondenten",
-                column: "kto_score_totaal",
+                column: "totaal_kto_score_totaal",
                 colour: "orange",
                 units: "respondenten",
               },
             ],
           ],
           segment: {
-            key: "kto_score_gemiddeld",
+            key: "totaal_kto_score_gemiddeld",
             cumulative: false,
             periodization: "monthly",
           },
         },
+        {
+          slug: "tevredenheid_numbers_v1",
+          ctrlr: "NumbersPlusRespondentsV1",
+          args: [],
+          filters: [],
+          parameters: [
+            [
+              { label: "Fysieke schade", column: "fysiek_kto_score_gemiddeld_cumul", colour: "moss", format: "" },
+              { label: "Immateriele schade", column: "ims_kto_score_gemiddeld_cumul", colour: "blue", format: "" },
+              { label: "Waardedaling", column: "wdl_kto_score_gemiddeld_cumul", colour: "purple", format: "" },
+            ],
+            [
+              { label: "Fysieke schade", column: "fysiek_kto_score_totaal_cumul", colour: "moss", units: "respondenten" },
+              { label: "Immateriele schade", column: "ims_kto_score_totaal_cumul", colour: "blue", units: "respondenten" },
+              { label: "Waardedaling", column: "wdl_kto_score_totaal_cumul", colour: "purple", units: "respondenten" },
+            ],
+          ],
+          modifiers: [],
+          segment: { key: "fysiek_kto_score_gemiddeld_cumul", cumulative: true, periodization: "monthly" },
+        }
       ],
       segment: {
         key: "kto_score_gemiddeld_cumul",
@@ -83,8 +103,14 @@ const pageConfig: IPageConfig = {
       },
       functionality: ["table", "definitions", "download"],
       endpoints: [
-        "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul%2ckto_score_gemiddeld%2ckto_score_totaal&order=periode.desc",
       ],
     },
     {
@@ -111,48 +137,29 @@ const pageConfig: IPageConfig = {
       segment: { key: "mw_kto_score_totaal", cumulative: false, periodization: "monthly" },
       functionality: ["table", "definitions", "download"],
       endpoints: [
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.MW&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.VV&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMK&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMS&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.WD&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.MW&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.VV&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.IMK&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.IMS&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.WD&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.MW&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.VV&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMK&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMS&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.WD&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.MW&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.VV&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.IMK&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.IMS&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.WD&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_totaal&order=periode.desc",
       ],
     },
      {
       slug: "waardering_regelingen",
       ctrlr: "DomainComparisonGroupV1",
-      filters: [],
+      filters: ["domeinSelect"],
       graphs: [
-        {
-          slug: "tevredenheid_numbers_v1",
-          ctrlr: "NumbersPlusRespondentsV1",
-          args: [],
-          filters: [],
-          parameters: [
-            [
-              { label: "Fysieke schade", column: "fysiek_kto_score_gemiddeld_cumul", colour: "moss", format: "" },
-              { label: "Immateriele schade", column: "ims_kto_score_gemiddeld_cumul", colour: "blue", format: "" },
-              { label: "Waardedaling", column: "wdl_kto_score_gemiddeld_cumul", colour: "purple", format: "" },
-            ],
-            [
-              { label: "Fysieke schade", column: "fysiek_kto_score_totaal_cumul", colour: "moss", units: "respondenten" },
-              { label: "Immateriele schade", column: "ims_kto_score_totaal_cumul", colour: "blue", units: "respondenten" },
-              { label: "Waardedaling", column: "wdl_kto_score_totaal_cumul", colour: "purple", units: "respondenten" },
-            ],
-          ],
-          modifiers: [],
-          segment: { key: "fysiek_kto_score_gemiddeld_cumul", cumulative: true, periodization: "monthly" },
-        },
+        
 
         {
           slug: "fs_cijfer_domein",
           ctrlr: "KTORatingsV1",
-          filters: ["domeinSelect", "monthSelect"],
+          filters: ["monthSelect"],
           args: ["fysiek_kto_score_totaal_cumul", "fysiek_kto_score_totaal"],
           parameters: [
             [
@@ -188,38 +195,40 @@ const pageConfig: IPageConfig = {
           ],
           segment: { key: "all", domein: "fysiek", cumulative: true, periodization: "monthly" },
         },
-        // {
-        //   slug: "domein_trend",
-        //   ctrlr: "BarTrendV1",
-        //   filters: [],
-        //   args: [],
-        //   parameters: [
-        //     [{ label: "Waardering", column: "fysiek_kto_score_gemiddeld", units: "waardering", colour: "moss", format: "decimals", excludeFromTable: true }],
-        //   ],
-        //   segment: { key: "fysiek_kto_score_gemiddeld", cumulative: false, periodization: "monthly" },
-        // },
+        {
+          slug: "domein_trend",
+          ctrlr: "KtoBarTrendV1",
+          filters: [],
+          args: [],
+          parameters: [
+            [{ label: "Waardering", column: "fysiek_kto_score_gemiddeld", units: "waardering", colour: "moss", format: "decimals", excludeFromTable: true }],
+          ],
+          segment: { key: "fysiek_kto_score_gemiddeld", domein: "fysiek", cumulative: false, periodization: "monthly" },
+        },
       ],
       segment: { key: "fysiek_kto_score_gemiddeld", domein: "fysiek", cumulative: true, periodization: "monthly" },
       functionality: ["table", "definitions", "download"],
       endpoints: [
-        "regelingen?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.Totaal&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&order=periode.desc",
-        "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&order=periode.desc&limit=1",
-        "regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&order=periode.desc&limit=1",
-        "regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&order=periode.desc&limit=1",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.IMS&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul&order=periode.desc&limit=1",
+        "regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul&order=periode.desc&limit=1",
+        "regelingen?aggregatie=eq.week&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2ckto_score_gemiddeld_cumul%2ckto_score_totaal_cumul&order=periode.desc&limit=1",
       ],
     },
     {
       slug: "waardering_regelingsvarianten",
       ctrlr: "RegelingComparisonGroupV1",
-      filters: [],
+      // group-level regeling selector: swap mw/vv/imk/ims/wd for every graph
+      // whose config segment declares `regeling` (mw_cijfer_regeling +
+      // regeling_trend) — same pattern as the domeinSelect above
+      filters: ["regelingSelect"],
       graphs: [
         {
           slug: "mw_cijfer_regeling",
           ctrlr: "KTORatingsV1",
-          // row-level regeling selector: swap between mw/vv/imk/ims/wd/wnw
-          filters: ["regelingSelect", "monthSelect"],
+          filters: ["monthSelect"],
           args: ["mw_kto_score_totaal_cumul", "mw_kto_score_totaal"],
           parameters: [
             [
@@ -255,20 +264,32 @@ const pageConfig: IPageConfig = {
           ],
           segment: { key: "all", regeling: "mw", cumulative: true, periodization: "monthly" },
         },
+        {
+          slug: "regeling_trend",
+          ctrlr: "KtoBarTrendV1",
+          // follows the group-level regelingSelect (segment.regeling opted in
+          // below), like domein_trend follows domeinSelect
+          filters: [],
+          args: [],
+          parameters: [
+            [{ label: "Waardering", column: "mw_kto_score_gemiddeld", units: "waardering", colour: "moss", format: "decimals", excludeFromTable: true }],
+          ],
+          segment: { key: "mw_kto_score_gemiddeld", regeling: "mw", cumulative: false, periodization: "monthly" },
+        },
       ],
       segment: { key: "mw_kto_score_gemiddeld", regeling: "mw", cumulative: true, periodization: "monthly" },
       functionality: ["table", "definitions", "download"],
       endpoints: [
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.MW&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.VV&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMK&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMS&order=periode.desc",
-        "regelingen?aggregatie=eq.maand&regeling_code=eq.WD&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.MW&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.VV&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.IMK&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.IMS&order=periode.desc",
-        "regelingen?aggregatie=eq.week&regeling_code=eq.WD&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.MW&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.VV&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMK&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.IMS&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.maand&regeling_code=eq.WD&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.MW&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.VV&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.IMK&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.IMS&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
+        "regelingen?aggregatie=eq.week&regeling_code=eq.WD&select=periode%2cperiode_vanaf%2cperiode_totenmet%2caggregatie%2cregeling_code%2ckto_score_gemiddeld_cumul%2ckto_score_gemiddeld%2ckto_score_totaal_cumul%2ckto_score_totaal%2ckto_score_1_aantal_cumul%2ckto_score_2_aantal_cumul%2ckto_score_3_aantal_cumul%2ckto_score_4_aantal_cumul%2ckto_score_5_aantal_cumul%2ckto_score_6_aantal_cumul%2ckto_score_7_aantal_cumul%2ckto_score_8_aantal_cumul%2ckto_score_9_aantal_cumul%2ckto_score_10_aantal_cumul%2ckto_score_1_aantal%2ckto_score_2_aantal%2ckto_score_3_aantal%2ckto_score_4_aantal%2ckto_score_5_aantal%2ckto_score_6_aantal%2ckto_score_7_aantal%2ckto_score_8_aantal%2ckto_score_9_aantal%2ckto_score_10_aantal&order=periode.desc",
        
       ],
     },

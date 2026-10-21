@@ -4,11 +4,15 @@ import type { Segment } from "../shared/types";
 import { HtmlMappingGroupSelector } from "./mapping-group-selector";
 import { HtmlMonthSelector } from "./month-selector";
 import { HtmlMunicipalitySelector } from "./municipality-selector";
+import { HtmlDomeinSelector } from "./domein-selector";
+import { HtmlRegelingSelector } from "./regeling-selector";
 import { HtmlPeriodSelector } from "./period-selector";
 import { HtmlSpecialsSelector } from "./specials-selector";
 import { HtmlTotalvsRecentSelector } from "./total-recent-selector";
 import {
   getGroupSegment,
+  getGraphSegment,
+  updateGraphSegment,
   cascadeGroupSegmentUpdate,
   pageSegment$,
   updatePageSegment,
@@ -129,6 +133,91 @@ export class HtmlGroupFilters {
 
           case "mappingSelect":
             break;
+
+          case "domeinSelect": {
+            // Graphs opt into the group-level domein selector by declaring
+            // `domein` in their config segment (e.g. fs_cijfer_domein,
+            // domein_trend). Graphs without it — like the all-domains numbers
+            // comparison — are deliberately excluded: the selector never
+            // touches their segment.
+            const optIns = (this.ctrlr.config.graphs ?? []).filter(
+              (g: any) => g.segment?.domein,
+            );
+            const firstOptIn = optIns.length ? optIns[0].slug : undefined;
+
+            const selector = new HtmlDomeinSelector(
+              this.ctrlr as any, // ctrlr is unused by the selector itself
+              li,
+              this.ctrlr.slug,
+            );
+            const initial =
+              (firstOptIn
+                ? getGraphSegment(groupSlug, firstOptIn)?.domein
+                : undefined) ??
+              getGroupSegment(groupSlug)?.domein;
+            const selectEl = selector.draw(initial);
+
+            if (selectEl === null) break;
+
+            selectEl.addEventListener("change", () => {
+              if (selectEl === null) return;
+
+              for (const g of optIns) {
+                const current = getGraphSegment(groupSlug, g.slug);
+                if (!current) continue;
+                updateGraphSegment(groupSlug, g.slug, {
+                  domein: selectEl.value,
+                });
+              }
+
+              this.ctrlr.update(getAllData(), undefined, true);
+            });
+
+            break;
+          }
+
+          case "regelingSelect": {
+            // Same pattern as domeinSelect: graphs opt into the group-level
+            // regeling selector by declaring `regeling` in their config
+            // segment (mw_cijfer_regeling + regeling_trend here). Every
+            // opted-in graph's segment.regeling is rewritten on change — the
+            // merged data already carries the per-regeling columns, so no
+            // refetch happens.
+            const optIns = (this.ctrlr.config.graphs ?? []).filter(
+              (g: any) => g.segment?.regeling,
+            );
+            const firstOptIn = optIns.length ? optIns[0].slug : undefined;
+
+            const selector = new HtmlRegelingSelector(
+              this.ctrlr as any, // ctrlr is unused by the selector itself
+              li,
+              this.ctrlr.slug,
+            );
+            const initial =
+              (firstOptIn
+                ? getGraphSegment(groupSlug, firstOptIn)?.regeling
+                : undefined) ??
+              getGroupSegment(groupSlug)?.regeling;
+            const selectEl = selector.draw(initial);
+
+            if (selectEl === null) break;
+
+            selectEl.addEventListener("change", () => {
+              if (selectEl === null) return;
+
+              for (const g of optIns) {
+                const current = getGraphSegment(groupSlug, g.slug);
+                if (!current) continue;
+                updateGraphSegment(groupSlug, g.slug, {
+                  regeling: selectEl.value,
+                });
+              }
+
+              this.ctrlr.update(getAllData(), undefined, true);
+            });
+
+            break;
+          }
 
           case "monthSelect": {
             const data = getAllData();

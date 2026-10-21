@@ -2,6 +2,7 @@ import { BarTrendStackedMakeup } from "../../../charts/controllers/bar-trend-sta
 import { BarTrendV1 } from "../../../charts/controllers/bar-trend-v1";
 import { HeaderV1 } from "../../../charts/controllers/header-v1";
 import { KTORatingsV1 } from "./kto-ratings-v1";
+import { KtoBarTrendV1 } from "./kto-bar-trend-v1";
 import { BarTrendKTOV1 } from "../../../charts/controllers/bar-trend-kto-v1";
 import { NumbersPlusRespondentsV1 } from "../../../charts/controllers/numbers-respondents-v1";
 
@@ -10,6 +11,7 @@ const graphs = {
   BarTrendV1,
   HeaderV1,
   KTORatingsV1,
+  KtoBarTrendV1,
   BarTrendKTOV1,
   NumbersPlusRespondentsV1,
 };

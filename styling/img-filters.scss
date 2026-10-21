@@ -1,7 +1,7 @@
 .filter-wrapper {    
     
     // height: 3rem;
-    margin-bottom: 4rem;
+    margin-bottom: 1.5rem;
 }
 
 
@@ -12,11 +12,11 @@
     z-index: 7;
     top: 0;
     left: 0;
-    margin-bottom: 2rem;
+    margin-bottom: .75rem;
     width: 100%;
 
     @media (min-width: $breakpoint-lg) {
-        margin-bottom: 3rem;
+        margin-bottom: 1.25rem;
     }
  
     &:first-child {
@@ -58,10 +58,10 @@
 
     position: relative;
     margin-top: 0rem;
-    margin-bottom: 2rem;
+    margin-bottom: .75rem;
 
     @media (min-width: $breakpoint-lg) {
-        margin-bottom: 3rem;
+        margin-bottom: 1.25rem;
     }
 
     ul li {

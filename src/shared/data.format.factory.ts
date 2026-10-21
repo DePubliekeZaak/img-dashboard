@@ -155,7 +155,13 @@ export const createBarsForKTO = (
 
   for (let period of data) {
 
-    let m = period.completed_month.toString() == '' ? period._month : period.completed_month.toString();
+    // completed_month is a legacy API column that the current aggregatie view
+    // no longer returns (select= on the endpoint 400s on it). The legacy code
+    // already falls back to _month when it's empty — treat a missing column
+    // exactly the same so BarTrendKTOV1 stays legacy-compatible.
+    const cm = period.completed_month;
+    let m =
+      cm == null || cm.toString() == '' ? period._month : cm.toString();
 
     bs.push({
       label: param?.label || "",

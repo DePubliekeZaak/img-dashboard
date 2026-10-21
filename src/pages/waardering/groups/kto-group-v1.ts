@@ -33,7 +33,11 @@ export class KTOGroupV1 extends GroupControllerV1 {
     const dataGroup = this.config.endpoints![0];
     const rows: string[][] = [];
 
-    data[dataGroup] = data[dataGroup].filter((p) => p.complete);
+    // `complete` is a legacy column the new aggregatie API does not return
+    // and cannot be selected. Only filter on it when the payload has it.
+    data[dataGroup] = data[dataGroup].filter(
+      (p) => p.complete === undefined || p.complete,
+    );
     data[dataGroup] = data[dataGroup].filter(
       (p) => p[this.config.graphs[0].parameters[0][0].column] > 0,
     );
