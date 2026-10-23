@@ -1,41 +1,42 @@
-/**
- * Legacy KTO (klanttevredenheid / waardering) compatibility shim.
- *
- * WHY THIS EXISTS
- * ---------------
- * Until version 1.0.2 (published 12/10/2026) the waarderingscijfers were served
- * from a dedicated `tevredenheid` table. From 1.0.2 on they live on the
- * `regelingen` aggregation table as `kto_score_*` columns, and the frontend was
- * migrated to that schema (commits 8898e16 / 8625074 / e159dd8, 20–21/10/2026):
- * every `tevredenheid` endpoint reference and every legacy column name was
- * removed from the page configs.
- *
- * Archived versions (`?version=100`, ...) still serve the OLD payload, because
- * `?version=` only swaps the API base URL (see `DataService.buildUrl`); config
- * and bundle stay current. So archived KTO groups request `kto_score_*`
- * columns that a pre-1.0.2 snapshot cannot have and render empty.
- *
- * This module translates a KTO aggregation request into the legacy
- * `tevredenheid` request and normalises the legacy rows into the shape the
- * current graphs expect. It is version-gated: for the live version it is a
- * no-op, so the current pipeline is untouched.
- *
- * DURABILITY
- * ----------
- * This is a translation layer at the seam where old data meets new code. The
- * durable fix is to version the *config* alongside the data (emit
- * `<version>/config.json` at archive-cut time) and keep one bundle. This shim
- * is deliberately dependency-free and pure so it can be deleted in one move
- * once archived configs exist.
- */
+// legacy-kto.ts — version-gated compatibility layer for archived KTO data.
+//
+// Why this exists
+// ---------------
+// `?version=<slug>` only swaps the API base URL (see DataService.buildUrl); the
+// bundle and every page config stay current. Until 1.0.2 the KTO ("waardering")
+// numbers lived in their own weekly table, `tevredenheid`, with legacy column
+// names (`maandcijfer`, `doorlopend_cijfer`, `*_maand_rapportcijfer_N`, ...).
+// Since 1.0.2 the same numbers are served as `kto_score_*` columns on
+// `regelingen`, so archived snapshots — which still serve the old table and
+// still have `regelingen` *without* any `kto_score_*` columns — leave every KTO
+// graph empty.
+//
+// What this does — and deliberately does not do
+// ---------------------------------------------
+// It does NOT rewrite requests to another table. Archived `regelingen` rows are
+// healthy: money, counts and period columns already use their current names.
+// The only thing missing is the `kto_score_*` block. So we leave the request URL
+// alone and merge the legacy numbers into the response, keyed on `periode`.
+// Money and count graphs are untouched because we never remove or overwrite a
+// key; KTO graphs find exactly what they expect.
+//
+// Consumers that ask for `kto_score_*`/`complete` in a `select=` would make
+// PostgREST reject the request on an archive (unknown column), so those tokens
+// are stripped first (stripKtoSelect) and the values arrive via the merge.
+//
+// Scope: archived versions only. `latest` is never touched.
+//
+// The durable fix is a per-version `config.json` emitted at archive-cut time
+// (columns, endpoints, labels) so old snapshots are described by old configs and
+// no request-time translation is needed at all. This file is the stopgap.
 
-/** Table that served KTO before version 1.0.2. */
 export const LEGACY_KTO_TABLE = "tevredenheid";
 
-/**
- * Legacy column prefixes per `domein_code`. `""` means the unprefixed base
- * columns (doorlopend_cijfer, maandcijfer, aantal_respondenten, ...).
- */
+export type LegacyAggregatie = "week" | "maand";
+
+type Row = Record<string, any>;
+
+/** domein_code -> legacy column prefix. '' = the unprefixed base columns. */
 const DOMEIN_PREFIX: Record<string, string> = {
   Totaal: "",
   FYSIEK: "fysieke_schade_",
@@ -44,245 +45,210 @@ const DOMEIN_PREFIX: Record<string, string> = {
 };
 
 /**
- * Legacy column prefixes per `regeling_code`. Note that the legacy table was
- * keyed by domein only; per-regeling series are recovered from the prefixed
- * column families that already existed on it. MW (maatwerk) and the
- * specifieke-regelingen codes never had KTO series.
+ * regeling_code -> legacy column prefix. `null` means the series never existed
+ * in the legacy table (MW, WNW, NAMTEG were introduced with 1.0.2), so there is
+ * nothing to merge and the chart legitimately has no history.
  */
-const REGELING_PREFIX: Record<string, string> = {
+const REGELING_PREFIX: Record<string, string | null> = {
+  Totaal: "",
   VV: "ves_",
+  MW: null,
   IMK: "imkj_",
   IMS: "ims_",
   WD: "waardedaling_",
+  WNW: null,
+  NAMTEG: null,
 };
 
-export type LegacyAggregatie = "week" | "maand";
+export const isArchivedVersion = (tag?: string): boolean =>
+  !!tag && tag !== "latest";
 
-export interface LegacyKtoPlan {
-  /** Endpoint to fetch instead of the requested one. */
-  table: string;
-  /** Legacy column prefix for this request ( `""` = base columns). */
-  prefix: string;
-  /** Aggregation of the request; drives the row synthesis. */
-  aggregatie: LegacyAggregatie;
-  /** False when this domein/regeling had no KTO series in the legacy table. */
-  supported: boolean;
-}
+/** A request whose response rows can carry KTO columns (aggregated `regelingen`). */
+export const isAggregationRequest = (endpoint: string): boolean =>
+  endpoint.startsWith("regelingen?") && /[?&]aggregatie=eq\.(week|maand)/.test(endpoint);
 
-type Row = Record<string, any>;
+const KTO_SELECT_TOKEN = /^(kto_score_.*|complete)$/;
 
-const queryParams = (endpoint: string): Record<string, string> => {
-  const q = endpoint.includes("?") ? endpoint.slice(endpoint.indexOf("?") + 1) : "";
-  const out: Record<string, string> = {};
-  for (const part of q.split("&")) {
-    if (!part) continue;
-    const [key, value = ""] = part.split("=");
-    if (!key) continue;
-    try {
-      out[key] = decodeURIComponent(value);
-    } catch {
-      out[key] = value;
+/**
+ * Drop `kto_score_*` / `complete` from a `select=` list. An archive has no such
+ * columns, so asking for them returns 400 instead of data. If nothing is left,
+ * the whole parameter is removed (select all columns).
+ */
+export const stripKtoSelect = (endpoint: string): string => {
+  const [pathAndQuery] = endpoint.split("#");
+  const qIndex = pathAndQuery.indexOf("?");
+  if (qIndex === -1) return endpoint;
+
+  const path = pathAndQuery.slice(0, qIndex);
+  const params = pathAndQuery.slice(qIndex + 1).split("&");
+  const out: string[] = [];
+
+  for (const param of params) {
+    const eq = param.indexOf("=");
+    const key = eq === -1 ? param : param.slice(0, eq);
+    const value = eq === -1 ? "" : param.slice(eq + 1);
+
+    if (key !== "select") {
+      out.push(param);
+      continue;
     }
-  }
-  return out;
-};
 
-const eqValue = (value?: string): string | undefined =>
-  value && value.startsWith("eq.") ? value.slice(3) : undefined;
-
-/**
- * True when `endpoint` is a KTO aggregation request against `regelingen`,
- * i.e. its `select` asks for `kto_score_*` columns. Any other request (money,
- * volumes, counts) is left alone.
- */
-export const isKtoRequest = (endpoint: string): boolean => {
-  if (!endpoint.startsWith("regelingen?")) return false;
-  const raw = endpoint.includes("select=")
-    ? endpoint.slice(endpoint.indexOf("select="))
-    : "";
-  try {
-    return decodeURIComponent(raw).includes("kto_score");
-  } catch {
-    return raw.includes("kto_score");
-  }
-};
-
-/**
- * Decide whether a request must be served from the legacy table.
- *
- * @param endpoint aggregation endpoint as written in a page config
- * @param versionTag `Version.tag` — anything but `"latest"` is an archive
- */
-export const planLegacyKto = (
-  endpoint: string,
-  versionTag: string | undefined,
-): LegacyKtoPlan | null => {
-  if (!versionTag || versionTag === "latest") return null;
-  if (!isKtoRequest(endpoint)) return null;
-
-  const params = queryParams(endpoint);
-  const aggregatie: LegacyAggregatie =
-    eqValue(params.aggregatie) === "maand" ? "maand" : "week";
-
-  const regeling = eqValue(params.regeling_code);
-  const domein = eqValue(params.domein_code);
-
-  // Per-regeling requests take precedence: they carry their own prefix family.
-  let prefix: string | undefined;
-  if (regeling && regeling !== "Totaal") {
-    prefix = REGELING_PREFIX[regeling];
-  } else if (domein) {
-    prefix = DOMEIN_PREFIX[domein];
+    let tokens: string[] = [];
+    try {
+      tokens = decodeURIComponent(value).split(",");
+    } catch {
+      out.push(param);
+      continue;
+    }
+    const kept = tokens.map((t) => t.trim()).filter((t) => t && !KTO_SELECT_TOKEN.test(t));
+    if (kept.length > 0) out.push(`select=${encodeURIComponent(kept.join(","))}`);
   }
 
-  return {
-    table: LEGACY_KTO_TABLE,
-    prefix: prefix ?? "",
-    aggregatie,
-    supported: prefix !== undefined,
-  };
-};
-
-/**
- * Legacy scores use 0 for "no respondents this period" (the scale is 1–10),
- * which would otherwise draw a real zero on the chart. Normalise to null.
- */
-const score = (value: any): number | null => {
-  if (value === null || value === undefined || value === "") return null;
-  const n = Number(value);
-  if (Number.isNaN(n) || n <= 0) return null;
-  return n;
-};
-
-const count = (value: any): number | null => {
-  if (value === null || value === undefined || value === "") return null;
-  const n = Number(value);
-  return Number.isNaN(n) ? null : n;
+  return out.length > 0 ? `${path}?${out.join("&")}` : path;
 };
 
 const pad = (n: number): string => String(n).padStart(2, "0");
 
+/** 1-10 scale: the legacy table uses 0 for "no respondents". */
+const score = (v: any): number | null =>
+  typeof v === "number" && v > 0 ? v : null;
+
+const count = (v: any): number | null =>
+  typeof v === "number" ? v : null;
+
 /**
- * Year that a completed month belongs to. The legacy table publishes a month's
- * figure in the first week AFTER that month, so a row dated in January with
- * `completed_month = 12` belongs to the previous year.
+ * The month a legacy row reports. Rows published in early January report
+ * December, which belongs to the previous year.
  */
 const completedYear = (row: Row): number => {
   const year = Number(row._year);
-  const month = Number(row.completed_month);
-  if (!Number.isFinite(year) || !Number.isFinite(month)) return year;
+  const month = Number(row.completed_month ?? row._month);
   return month === 12 && Number(row._month) === 1 ? year - 1 : year;
 };
 
-const periodFor = (row: Row, aggregatie: LegacyAggregatie): string => {
-  if (aggregatie === "maand") {
-    return `${completedYear(row)}_${pad(Number(row.completed_month))}`;
-  }
-  // `_yearweek` is "202625" in the legacy payload; the current API uses
-  // "2026_25". Fall back to year + week for rows without it.
+const weekKey = (row: Row): string | null => {
   const yw = String(row._yearweek ?? "");
-  if (/^\d{4}\d{2}$/.test(yw)) return `${yw.slice(0, 4)}_${yw.slice(4)}`;
-  return `${row._year}_${pad(Number(row._week))}`;
+  if (/^\d{6}$/.test(yw)) return `${yw.slice(0, 4)}_${yw.slice(4)}`;
+  if (row._year !== undefined && row._week !== undefined) {
+    return `${row._year}_${pad(Number(row._week))}`;
+  }
+  return null;
+};
+
+const monthKey = (row: Row): string | null => {
+  const month = Number(row.completed_month ?? row._month);
+  if (!Number.isFinite(month) || month < 1 || month > 12) return null;
+  return `${completedYear(row)}_${pad(month)}`;
+};
+
+/** Per-row legacy column prefix, from the row's own codes where available. */
+const prefixFor = (row: Row): string | null | undefined => {
+  const regeling = row.regeling_code;
+  if (regeling && regeling !== "Totaal") {
+    return REGELING_PREFIX[regeling];
+  }
+  const domein = row.domein_code;
+  if (domein && domein !== "Totaal") {
+    return DOMEIN_PREFIX[domein];
+  }
+  return "";
 };
 
 /**
- * First and last day of the completed month, as ISO dates. The legacy row's
- * `_startdatum`/`_einddatum` describe the publication week, which is not the
- * period a monthly aggregation row represents.
+ * The KTO columns for one legacy row, in current `kto_score_*` naming.
+ * Only keys with data are included; absent ones stay absent rather than
+ * becoming `undefined`, so a chart sees "no series" instead of a gap.
  */
-const monthBounds = (row: Row): { vanaf: string; totenmet: string } => {
-  const year = completedYear(row);
-  const month = Number(row.completed_month);
-  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
-  return {
-    vanaf: `${year}-${pad(month)}-01`,
-    totenmet: `${year}-${pad(month)}-${pad(lastDay)}`,
-  };
-};
-
-/**
- * Build one row in the current `regelingen` aggregation shape.
- */
-const toKtoRow = (
-  row: Row,
-  prefix: string,
-  aggregatie: LegacyAggregatie,
-): Row => {
-  const periode = periodFor(row, aggregatie);
-  const monthScore = score(row[`${prefix}maandcijfer`]);
-  const monthCount =
-    prefix === ""
-      ? count(row.aantal_respondenten_maand)
-      : count(row[`${prefix}aantal_respondenten`]);
-  const cumulScore = score(row[`${prefix}doorlopend_cijfer`]);
-  const cumulCount =
-    prefix === ""
-      ? count(row.aantal_respondenten)
-      : count(row[`${prefix}aantal_respondenten_doorlopend`]);
-
-  const out: Row = {
-    aggregatie,
-    periode,
-    periode_vanaf:
-      aggregatie === "maand" ? monthBounds(row).vanaf : (row._startdatum ?? null),
-    periode_totenmet:
-      aggregatie === "maand"
-        ? monthBounds(row).totenmet
-        : (row._einddatum ?? row._date ?? null),
-    domein_code: null,
-    regeling_code: null,
-    complete: row.complete === true,
-    completed_month: row.completed_month ?? null,
-    kto_score_gemiddeld: monthScore,
-    kto_score_totaal: monthCount,
-    kto_score_gemiddeld_cumul: cumulScore,
-    kto_score_totaal_cumul: cumulCount,
+const ktoColumns = (row: Row, prefix: string): Row => {
+  const isBase = prefix === "";
+  const cols: Row = {
+    kto_score_gemiddeld: score(row[`${prefix}maandcijfer`]),
+    kto_score_gemiddeld_cumul: score(row[`${prefix}doorlopend_cijfer`]),
+    kto_score_totaal: count(
+      isBase ? row.aantal_respondenten_maand : row[`${prefix}aantal_respondenten`],
+    ),
+    kto_score_totaal_cumul: count(
+      isBase ? row.aantal_respondenten : row[`${prefix}aantal_respondenten_doorlopend`],
+    ),
   };
 
-  // Score distribution (1–10) only exists per domein/regeling, not for the
-  // unprefixed total. Missing entries stay null so charts can skip them.
-  for (let i = 1; i <= 10; i++) {
-    out[`kto_score_${i}_aantal`] = count(row[`${prefix}maand_rapportcijfer_${i}`]);
-    out[`kto_score_${i}_aantal_cumul`] = count(
-      row[`${prefix}doorlopend_rapportcijfer_${i}`],
-    );
+  for (let n = 1; n <= 10; n++) {
+    const maand = row[`${prefix}maand_rapportcijfer_${n}`];
+    const doorlopend = row[`${prefix}doorlopend_rapportcijfer_${n}`];
+    if (maand !== undefined) cols[`kto_score_${n}_aantal`] = count(maand);
+    if (doorlopend !== undefined) cols[`kto_score_${n}_aantal_cumul`] = count(doorlopend);
   }
 
-  return out;
+  return cols;
 };
 
-const mostRecent = (a: Row, b: Row): Row =>
-  String(a._date ?? "") >= String(b._date ?? "") ? a : b;
-
 /**
- * Normalise legacy `tevredenheid` rows into current aggregation rows.
- *
- * Weekly requests map one-to-one. Monthly requests keep only rows flagged
- * `complete` (the legacy table marks the first publication after a month ends)
- * and collapse duplicates per completed month, keeping the most recently
- * published row. This reproduces the old `complete === true` filter, which
- * `group-v1.ts` can no longer apply because it string-matches the endpoint
- * name `"tevredenheid"`.
+ * Index the legacy table for lookup by period. Weekly rows are kept per week;
+ * monthly figures only exist once a publication is flagged `complete`, and a
+ * month published more than once keeps its most recent row.
  */
-export const legacyRowsToKtoRows = (
-  rows: Row[],
-  plan: LegacyKtoPlan,
-): Row[] => {
-  if (!Array.isArray(rows) || !plan.supported) return [];
+export const buildLegacyIndex = (
+  legacyRows: Row[],
+): Record<LegacyAggregatie, Map<string, Row>> => {
+  const week = new Map<string, Row>();
+  const maand = new Map<string, Row>();
+  const maandDate = new Map<string, string>();
 
-  if (plan.aggregatie === "week") {
-    return rows.map((row) => toKtoRow(row, plan.prefix, "week"));
-  }
+  for (const row of legacyRows) {
+    if (row.gemeente !== undefined && row.gemeente !== "all") continue;
 
-  const byMonth = new Map<string, Row>();
-  for (const row of rows) {
+    const wk = weekKey(row);
+    if (wk && !week.has(wk)) week.set(wk, row);
+
     if (row.complete !== true) continue;
-    const key = periodFor(row, "maand");
-    const existing = byMonth.get(key);
-    byMonth.set(key, existing ? mostRecent(existing, row) : row);
+    const mk = monthKey(row);
+    if (!mk) continue;
+    const date = String(row._date ?? "");
+    const seen = maandDate.get(mk);
+    if (!seen || date > seen) {
+      maand.set(mk, row);
+      maandDate.set(mk, date);
+    }
   }
 
-  return Array.from(byMonth.values())
-    .map((row) => toKtoRow(row, plan.prefix, "maand"))
-    .sort((a, b) => String(b.periode).localeCompare(String(a.periode)));
+  return { week, maand };
+};
+
+/**
+ * Merge legacy KTO numbers into archived `regelingen` aggregation rows.
+ *
+ * Never throws and never removes keys: if the legacy table is missing or a row
+ * has no counterpart, the row is returned unchanged. That keeps money and count
+ * graphs working on archives that predate the legacy export.
+ */
+export const enrichKtoRows = (
+  rows: Row[],
+  legacyRows: Row[],
+  warn?: (message: string) => void,
+): Row[] => {
+  if (!Array.isArray(rows) || rows.length === 0) return rows;
+  const index = buildLegacyIndex(legacyRows ?? []);
+
+  return rows.map((row) => {
+    const aggregatie = row.aggregatie === "maand" ? "maand" : "week";
+    const key = String(row.periode ?? "");
+    const legacy = index[aggregatie].get(key);
+    if (!legacy) return row;
+
+    const prefix = prefixFor(row);
+    if (prefix === null || prefix === undefined) {
+      // Series that never existed before 1.0.2 (MW, WNW, NAMTEG): nothing to add.
+      if (prefix === null && warn) {
+        warn(`legacy KTO: no pre-1.0.2 series for regeling_code=${row.regeling_code}`);
+      }
+      return row;
+    }
+
+    const cols = ktoColumns(legacy, prefix);
+    const merged: Row = { ...row };
+    for (const [k, v] of Object.entries(cols)) {
+      if (merged[k] === undefined || merged[k] === null) merged[k] = v;
+    }
+    return merged;
+  });
 };
