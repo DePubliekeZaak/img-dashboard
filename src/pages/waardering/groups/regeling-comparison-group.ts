@@ -53,8 +53,51 @@ export class RegelingComparisonGroupV1 extends GroupControllerV1 {
 
     const pre_headers = preHeaders(this.config.graphs, this.segment);
 
+    // waardering_regelingsvarianten: mirror the symmetric cumul/incremental
+    // tables of all_waardering / waardering_regelingen, but for the 5
+    // regelingsvarianten — each table carries 5 x (cijfer, respondenten)
+    // columns, banded per regeling. The graphs are authored against the
+    // default regeling (mw_*), so expand the table params to all 5
+    // regelingen. Other groups (respondenten_trend) keep the month-only
+    // conventional table.
+    let tableParamsForTables = tableParams;
+    let tableWeekRows: any[] = [];
+    if (this.config.slug === "waardering_regelingsvarianten") {
+      const bandLabel: Record<string, string> = {
+        mw: "Maatwerk",
+        vv: "Vaste vergoeding",
+        ims: "Immateriele schade: volwassenen",
+        imk: "Immateriele schade: kinderen en jongeren",
+        wd: "Waardedaling wonen",
+      };
+      const base = tableParams.flatMap((p) =>
+        ["mw", "vv", "ims", "imk", "wd"].map((prefix) => ({
+          ...p,
+          column: p.column.replace(/^mw_/, `${prefix}_`),
+          table_label: bandLabel[prefix],
+        })),
+      );
+      const synthesized = base
+        .filter((p) => p.column.endsWith("_cumul"))
+        .map((p) => ({ ...p, column: p.column.replace(/_cumul$/, "") }))
+        .filter((s) => !base.some((p) => p.column === s.column));
+      // Stable sort by table_label so columns sharing a band label are
+      // adjacent (tableBands() builds the colspan bands from the runs).
+      const labelOrder = new Map<string, number>();
+      for (const p of base) {
+        const key = p.table_label ?? "\uffff";
+        if (!labelOrder.has(key)) labelOrder.set(key, labelOrder.size);
+      }
+      tableParamsForTables = [...base, ...synthesized].sort(
+        (a, b) =>
+          (labelOrder.get(a.table_label ?? "\uffff") ?? 0) -
+          (labelOrder.get(b.table_label ?? "\uffff") ?? 0),
+      );
+      tableWeekRows = graphDataWeek;
+    }
+
     const { weekTableInc, monthTableInc, weekTableCumul, monthTableCumul } =
-      tables([], graphDataMonth, tableParams, pre_headers);
+      tables(tableWeekRows, graphDataMonth, tableParamsForTables, pre_headers);
 
     return {
       numbers: graphDataWeek[0],

@@ -188,13 +188,13 @@ export class DashboardController implements IDashboardController {
       const currentParams = new URLSearchParams(window.location.search);
       currentParams.set("topic", "regelingen");
 
-      if (slug === "versie_101") {
-        // The current published version ("Versie 1.0.1") has no archive — it
+      if (slug === "versie_102") {
+        // The current published version ("Versie 1.0.2") has no archive — it
         // IS the live dashboard. Dropping ?version returns to live
         // (/open-data/api/).
         currentParams.delete("version");
       } else {
-        // Archive card (versie_100 etc.): group slugs are prefixed "versie_";
+        // Archive card (versie_101, 100 etc.): group slugs are prefixed "versie_";
         // the version param matches the versions.ts slug. Strip the prefix so
         // e.g. versie_100 resolves to ?version=100 instead of silently falling
         // back to latest.

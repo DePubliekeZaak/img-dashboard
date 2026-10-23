@@ -110,7 +110,10 @@ export class HTMLTables {
       "month-table-cumul",
     ];
 
-    // Find the right table — prefer state-matching, fall back to first with data
+    // Find the right table — prefer state-matching; if that table has no data,
+    // fall back to a data-bearing table of the same period (week/month), then
+    // any table with data. Without the same-period step, clicking "Maand" on a
+    // no-split group (which only has cumul tables) would show the Week table.
     const activeTableId = (() => {
       const preferred = tableIds[tableIndex];
       const hasDataFor = (id: string) =>
@@ -119,7 +122,15 @@ export class HTMLTables {
         (id === "week-table-cumul" && hasWeekCumulData) ||
         (id === "month-table-cumul" && hasMonthCumulData);
       if (hasDataFor(preferred)) return preferred;
-      return tableIds.find(hasDataFor) || preferred;
+
+      const samePeriod = tableIds.filter((id) =>
+        state[0] === 0 ? id.startsWith("week") : id.startsWith("month"),
+      );
+      return (
+        samePeriod.find(hasDataFor) ||
+        tableIds.find(hasDataFor) ||
+        preferred
+      );
     })();
 
     tables.forEach((t: any) => {

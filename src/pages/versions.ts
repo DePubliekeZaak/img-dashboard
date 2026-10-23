@@ -5,6 +5,11 @@ export const versions = [
     name: "Actuele versie",
   },
   {
+     slug: "101",
+     tag: "v101",
+     name: "Archiefversie: oktober 2026",
+  },
+  {
      slug: "100",
      tag: "v100",
      name: "Archiefversie: maart 2026",

@@ -31,6 +31,8 @@ export interface IParameterMapping {
   format?: string;
   description?: string;
   excludeFromTable?: boolean;
+  table_label?: string;
+  table_header?: string;
   modifiers?: IModifierMapping
 }
 

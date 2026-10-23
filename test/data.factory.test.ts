@@ -338,16 +338,16 @@ describe('tables', () => {
       ).not.toThrow();
     });
 
-    it('passing undefined throws because the guard checks !== null', () => {
+    it('passing undefined does not throw (guard also handles undefined)', () => {
       expect(() =>
         tables(clone(baseWeekRows), clone(baseMonthRows), baseTableParams, undefined),
-      ).toThrow();
+      ).not.toThrow();
     });
 
-    it('omitting pre_headers entirely throws (defaults to undefined)', () => {
+    it('omitting pre_headers entirely does not throw (defaults to undefined)', () => {
       expect(() =>
         tables(clone(baseWeekRows), clone(baseMonthRows), baseTableParams),
-      ).toThrow();
+      ).not.toThrow();
     });
   });
 

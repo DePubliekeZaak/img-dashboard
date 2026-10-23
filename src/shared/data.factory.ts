@@ -145,6 +145,25 @@ const ktoRowing = (data: any, tableParams: any) => {
 
 }
 
+// Build a pre-header band row from a table's own params: one band per
+// consecutive run of a shared `table_label`. The caller orders params so equal
+// labels are adjacent, which guarantees the colspan grouping always matches
+// the emitted column order. Returns null when no param opts in, so the caller
+// falls back to its own pre_headers.
+const tableBands = (params: any[]): any[] | null => {
+  if (!params.some((p) => p.table_label != null)) return null;
+  // The first cell spans the 3 fixed period columns (Jaar, Week/Maand,
+  // Periode), mirroring the hardcoded bands in pre_headers.ts.
+  const bands: any[] = [{ label: "", length: 3 }];
+  for (const p of params) {
+    if (p.table_label == null) continue;
+    const last = bands[bands.length - 1];
+    if (last && last.label === p.table_label) last.length += 1;
+    else bands.push({ label: p.table_label, length: 1 });
+  }
+  return bands;
+};
+
 export const tables = (
 
   graphDataWeek: any[],
@@ -163,46 +182,53 @@ export const tables = (
   const { inc: weekRowsInc, cumul: weekRowsCumul} = rowing(graphDataWeek, tableParams, noSplit)
   const { inc: monthRowsInc, cumul: monthRowsCumul} = rowing(graphDataMonth, tableParams, noSplit)
 
+  const incParams = tableParams.filter((p) => !p.column.includes("_cumul"));
+  const cumulParams = tableParams.filter((p) => p.column.includes("_cumul"));
+  const tableParamsCumul = noSplit ? tableParams : cumulParams;
+  const label = (p: any) =>
+    p.table_header != null
+      ? p.table_header
+      : p.short != undefined
+        ? p.short
+        : p.label;
+
+  // Bands come from the table's own params when any carry a table_label
+  // (keeps the colspan grouping aligned with the columns), otherwise from the
+  // caller-supplied pre_headers.
+  const weekPre = pre_headers !== null && pre_headers !== undefined ? pre_headers[0] : [];
+  const monthPre = pre_headers !== null && pre_headers !== undefined ? pre_headers[1] : [];
+
   // Build weekTable only if week data exists
   const weekTableInc = graphDataWeek.length > 0 && !noSplit
     ? {
-        pre_headers: pre_headers !== null ? pre_headers![0] : [],
-        headers: ["Jaar", "Week", "Periode"].concat(
-          tableParams.filter( p => !p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
-        ),
+        pre_headers: tableBands(incParams) ?? weekPre,
+        headers: ["Jaar", "Week", "Periode"].concat(incParams.map(label)),
         rows: weekRowsInc,
       }
     : null;
 
-
   const weekTableCumul = graphDataWeek.length > 0
     ? {
-        pre_headers: pre_headers !== null ? pre_headers![0] : [],
-        headers: ["Jaar", "Week", "Periode"].concat(
-          (noSplit ? tableParams : tableParams.filter( p => p.column.includes('_cumul'))).map((p) => p.short != undefined ? p.short : p.label),
-        ),
-        rows: noSplit ? weekRowsCumul : weekRowsCumul,
+        pre_headers: tableBands(tableParamsCumul) ?? weekPre,
+        headers: ["Jaar", "Week", "Periode"].concat(tableParamsCumul.map(label)),
+        rows: weekRowsCumul,
       }
     : null;
 
     // Build monthTable only if month data exists
   const monthTableInc = graphDataMonth.length > 0 && !noSplit
     ? {
-        pre_headers: pre_headers !== null ? pre_headers![1] : [],
-        headers: ["Jaar", "Maand", "Periode"].concat(
-          tableParams.filter( p => !p.column.includes('_cumul')).map((p) => p.short != undefined ? p.short : p.label),
-        ),
+        pre_headers: tableBands(incParams) ?? monthPre,
+        headers: ["Jaar", "Maand", "Periode"].concat(incParams.map(label)),
         rows: monthRowsInc,
       }
     : null;
 
   const monthTableCumul = graphDataMonth.length > 0
     ? {
-        pre_headers: pre_headers !== null ? pre_headers![1] : [],
-        headers: ["Jaar", "Maand", "Periode"].concat(
-          (noSplit ? tableParams : tableParams.filter( p => p.column.includes('_cumul'))).map((p) => p.short != undefined ? p.short : p.label),
-        ),
-        rows: noSplit ? monthRowsCumul : monthRowsCumul,
+        pre_headers: tableBands(tableParamsCumul) ?? monthPre,
+        headers: ["Jaar", "Maand", "Periode"].concat(tableParamsCumul.map(label)),
+        rows: monthRowsCumul,
       }
     : null;
 
