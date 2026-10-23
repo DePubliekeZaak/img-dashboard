@@ -1,5 +1,6 @@
 // services/data.service.ts
 import { setData, hasData, clearData, isLoading$ } from '../../stores/data.store';
+import { legacyRowsToKtoRows, planLegacyKto } from "../../shared/legacy-kto";
 import type { Version } from "./types";
 import type { Segment } from "../../shared/types";
 
@@ -41,10 +42,25 @@ export class DataService {
   }
 
   async fetch(endpoint: string, version: Version): Promise<any[]> {
-    const url = this.buildUrl(endpoint, version);
+    // Archived versions serve the pre-1.0.2 payload, where KTO lived in the
+    // `tevredenheid` table instead of in `kto_score_*` columns on `regelingen`.
+    // Translate the request and normalise the response back into the current
+    // shape. No-op for the live version. See src/shared/legacy-kto.ts.
+    const legacy = planLegacyKto(endpoint, version?.tag);
+    const url = this.buildUrl(legacy ? legacy.table : endpoint, version);
+
+    if (legacy && !legacy.supported) {
+      // This domein/regeling never had a KTO series before 1.0.2 (e.g. MW).
+      // Return an empty series rather than a request that cannot be answered.
+      return [];
+    }
+
     const response = await fetch(url);
     if (response.ok) {
-      const data = await response.json();
+      let data = await response.json();
+      if (legacy) {
+        data = legacyRowsToKtoRows(data, legacy);
+      }
       // guard: validate aggregatie endpoints contain expected columns from the `select` query param
       if (endpoint.includes("aggregatie") && Array.isArray(data) && data.length > 0) {
         const required = ['aggregatie', 'periode', 'periode_totenmet', 'periode_vanaf'];
@@ -57,7 +73,11 @@ export class DataService {
       }
       return data;
     }
-    throw new Error(`Fetch failed: ${url}`);
+    throw new Error(
+      legacy
+        ? `Fetch failed: ${url} — version "${version?.tag}" has no "${legacy.table}" table, so KTO cannot be served for this archive`
+        : `Fetch failed: ${url}`,
+    );
   }
 
   mapRow(row: any) {
