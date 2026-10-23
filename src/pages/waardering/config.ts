@@ -132,11 +132,11 @@ const pageConfig: IPageConfig = {
           args: [],
           parameters: [
             [
-              { label: "Fysieke schade", column: "mw_kto_score_totaal", units: "respondenten", colour: "blue" },
-              { label: "Vaste vergoeding", column: "vv_kto_score_totaal", units: "respondenten", colour: "orange" },
-              { label: "Waardedaling", column: "wd_kto_score_totaal", units: "respondenten", colour: "purple" },
-              { label: "Immateriele schade: volwassenen", column: "ims_kto_score_totaal", units: "respondenten", colour: "moss" },
-              { label: "Immateriele schade: kinderen en jongeren", column: "imk_kto_score_totaal", units: "respondenten", colour: "lightBlue" },
+              { label: "Fysieke schade", short: "FS", column: "mw_kto_score_totaal", units: "respondenten", colour: "blue" },
+              { label: "Vaste vergoeding", short: "VV", column: "vv_kto_score_totaal", units: "respondenten", colour: "orange" },
+              { label: "Waardedaling", short: "WD", column: "wd_kto_score_totaal", units: "respondenten", colour: "purple" },
+              { label: "Immateriele schade: volwassenen", short: "IMS", column: "ims_kto_score_totaal", units: "respondenten", colour: "moss" },
+              { label: "Immateriele schade: kinderen en jongeren", short: "IMK", column: "imk_kto_score_totaal", units: "respondenten", colour: "lightBlue" },
             ],
           ],
           segment: { key: "mw_kto_score_totaal", cumulative: false, periodization: "monthly" },

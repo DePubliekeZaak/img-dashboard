@@ -683,10 +683,11 @@ describe('BarTrendStackedMakeup (Tier B — stacked)', () => {
     bar!.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
     const tooltip = document.querySelector('.tooltip');
     expect(tooltip).toBeDefined();
-    // Tooltip should contain domain labels from parameters
-    expect(tooltip!.innerHTML).toContain('Waardedaling');
-    expect(tooltip!.innerHTML).toContain('Immateriele schade');
-    expect(tooltip!.innerHTML).toContain('Fysieke schade');
+    // Tooltip should contain the parameters' `short` abbreviations (falling
+    // back to the label when a parameter declares no short)
+    expect(tooltip!.innerHTML).toContain('WD');
+    expect(tooltip!.innerHTML).toContain('IMS');
+    expect(tooltip!.innerHTML).toContain('FS');
 
     // Tooltip should contain a formatted value from the first (most recent) row
     // Sorted descending by periode → 2026_02 is first, ingediend_aantal=2800

@@ -98,16 +98,21 @@ export class HtmlLegendRowWithLines {
 
   createLabel(map: IParameterMapping): HTMLSpanElement {
     const label = document.createElement("span");
+    // Parameters may declare a `short` abbreviation (same convention as the
+    // tables and SegmentsV1 labels); the legend prefers it so long regeling
+    // names don't wrap or crowd the row.
     const labelText =
-      this.ctrlr.page.main.params.language === "en"
-        ? map["label_en"]
-        : map["label"];
+      map.short !== undefined
+        ? map.short
+        : this.ctrlr.page.main.params.language === "en"
+          ? map["label_en"]
+          : map["label"];
 
     if (labelText !== undefined) {
       label.style.fontFamily = "RO Sans Regular";
       label.style.fontSize = window.innerWidth > 700 ? ".8rem" : ".71em";
       label.style.lineHeight = "1.5";
-      label.innerText = labelText;
+      label.textContent = labelText;
     }
 
     return label;

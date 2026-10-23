@@ -305,6 +305,18 @@ export class GroupControllerV1 implements IGroupCtrlr {
     }
   }
 
+  // True when a graph declares `key` in its own config segment (rather than
+  // inheriting it from the group). Handles multiples graphs, whose runtime slug
+  // is `<config slug>_mult<n>`.
+  private authorsOwnKey(graphSlug?: string): boolean {
+    if (!graphSlug) return false;
+
+    const base = graphSlug.replace(/_mult\d+$/, "");
+    const cfg = (this.config.graphs ?? []).find((g: any) => g.slug === base);
+
+    return !!cfg?.segment && Object.prototype.hasOwnProperty.call(cfg.segment, "key");
+  }
+
   setFilters() {
     if (this.config.filters !== undefined && this.config.filters.length > 0) {
       this.filters = new HtmlGroupFilters(this);
@@ -330,7 +342,16 @@ export class GroupControllerV1 implements IGroupCtrlr {
     // false) and must survive gemeente changes. The explicit group-scoped
     // cascade (cascadeGroupSegmentUpdate) is used by the toggle filters when
     // the user deliberately flips cumulative / periodization for a group.
+    //
+    // Graphs that author their OWN `key` in config (e.g. waardering's
+    // monthSelect graphs, whose key is "all" = Doorlopend or a year-month) are
+    // skipped: that key is per-graph UI state, not inherited group state.
+    // Stomping it with the group's base-column key dropped those graphs out of
+    // their Doorlopend branch into the latest month whenever a group-level
+    // domein/regeling selector triggered update().
     for (const graph of group.graphs) {
+      if (this.authorsOwnKey(graph.ctrlr.slug ?? graph.slug)) continue;
+
       updateGraphSegment(this.config.slug, graph.ctrlr.slug, {
         key: this.config.segment!.key,
       });

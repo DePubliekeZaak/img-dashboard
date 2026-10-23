@@ -72,10 +72,25 @@ export default class ChartStackedBarsV2 {
             for (const map of this.ctrlr.parameters[
               segment?.parameterIndex || 0
             ]) {
+              // Resolve the column exactly the way the controller's
+              // prepareData builds the stack: via graphParams variants
+              // (cumul / delta) with base as fallback. Parameters that
+              // declare no `modifiers` (e.g. waardering > respondenten_trend,
+              // whose columns are already the final API columns) have no
+              // _cumul/_aantal siblings — blanket-appending the suffix
+              // resolved to a non-existent column and the popup showed an
+              // empty number. Only fall back to the legacy suffix when the
+              // parameter is unknown to graphParams.
+              const entry = this.ctrlr.group?.graphParams?.[map.column];
+              const variant = segment?.cumulative
+                ? entry?.variants?.cumul
+                : entry?.variants?.delta;
               const c =
-                segment && segment.cumulative
+                variant?.column ??
+                entry?.variants?.base?.column ??
+                (segment?.cumulative
                   ? map.column + "_cumul"
-                  : map.column + "_aantal"
+                  : map.column + "_aantal");
               let v = d.data[c];
               v = v === null ? 0 : v;
 
@@ -87,7 +102,13 @@ export default class ChartStackedBarsV2 {
                 v = (v * 100).toFixed(1) + "%";
               }
 
-              html += "<div>" + map.label + " : " + thousands(v) + "</div>";
+              // Same convention as the legend: prefer the parameter's `short`
+              // abbreviation when it declares one, fall back to the label.
+              const paramLabel =
+                map.short !== undefined ? map.short : map.label;
+
+              html +=
+                "<div>" + paramLabel + " : " + thousands(v) + "</div>";
             }
 
             // if (data.line !== undefined) {
