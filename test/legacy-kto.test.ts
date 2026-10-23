@@ -2,165 +2,238 @@
 //
 // Legacy KTO shim (src/shared/legacy-kto.ts).
 //
-// Fixture: test/fixtures/regelingen/all_waardering/ep1.json is a raw dump of
-// the `tevredenheid` table (358 weekly rows, 2019-07-01 .. 2026-06-22) — i.e.
-// exactly what an archived API serves for a pre-1.0.2 version.
+// Both sides are real payloads from the v100 archive:
+//   test/fixtures/regelingen/all_waardering/ep1.json   — `tevredenheid`, 358 weekly rows
+//   test/fixtures/regelingen/all_waardering/week.json  — `regelingen?aggregatie=eq.week`
+//   test/fixtures/regelingen/all_waardering/month.json — `regelingen?aggregatie=eq.maand`
+// The archive's `regelingen` rows carry current money/count columns and no
+// `kto_score_*` at all, which is exactly the gap the shim fills.
 import { describe, it, expect } from 'vitest';
-import * as raw from './fixtures/regelingen/all_waardering/ep1.json';
+import * as rawLegacy from './fixtures/regelingen/all_waardering/ep1.json';
+import * as rawWeek from './fixtures/regelingen/all_waardering/week.json';
+import * as rawMonth from './fixtures/regelingen/all_waardering/month.json';
 import {
-  LEGACY_KTO_TABLE,
-  isKtoRequest,
-  legacyRowsToKtoRows,
-  planLegacyKto,
-  type LegacyKtoPlan,
+  buildLegacyIndex,
+  enrichKtoRows,
+  isAggregationRequest,
+  isArchivedVersion,
+  stripKtoSelect,
 } from '../src/shared/legacy-kto';
 
-const ROWS = ((raw as any).default ?? raw) as Record<string, any>[];
+const legacy = ((rawLegacy as any).default ?? rawLegacy) as Record<string, any>[];
+const week = ((rawWeek as any).default ?? rawWeek) as Record<string, any>[];
+const month = ((rawMonth as any).default ?? rawMonth) as Record<string, any>[];
 
-const DOMEIN_WEEK =
-  'regelingen?aggregatie=eq.week&domein_code=eq.FYSIEK&regeling_code=eq.Totaal&select=periode%2ckto_score_gemiddeld&order=periode.desc';
-const DOMEIN_MONTH =
-  'regelingen?aggregatie=eq.maand&domein_code=eq.WDL&regeling_code=eq.Totaal&select=periode%2ckto_score_gemiddeld_cumul&order=periode.desc';
-const TOTAL_WEEK =
-  'regelingen?aggregatie=eq.week&domein_code=eq.Totaal&regeling_code=eq.Totaal&select=periode%2ckto_score_totaal_cumul&order=periode.desc';
-const REGELING_VV =
-  'regelingen?aggregatie=eq.maand&regeling_code=eq.VV&select=periode%2ckto_score_1_aantal&order=periode.desc';
+const legacyWeek = (key: string) =>
+  legacy.find((r) => {
+    const yw = String(r._yearweek ?? '');
+    return /^\d{6}$/.test(yw) && `${yw.slice(0, 4)}_${yw.slice(4)}` === key;
+  })!;
 
-const plan = (endpoint: string): LegacyKtoPlan => planLegacyKto(endpoint, 'v100')!;
+const legacyMonth = (monthKey: string) =>
+  legacy
+    .filter((r) => r.complete === true)
+    .filter((r) => `${r._year}_${String(r.completed_month).padStart(2, '0')}` === monthKey)
+    .sort((a, b) => String(b._date).localeCompare(String(a._date)))[0];
 
-describe('planLegacyKto', () => {
-  it('leaves the live version alone', () => {
-    expect(planLegacyKto(DOMEIN_WEEK, 'latest')).toBeNull();
-    expect(planLegacyKto(DOMEIN_WEEK, undefined)).toBeNull();
-  });
-
-  it('rewrites KTO requests on archived versions to the legacy table', () => {
-    const p = plan(DOMEIN_WEEK);
-    expect(p.table).toBe(LEGACY_KTO_TABLE);
-    expect(p.aggregatie).toBe('week');
-    expect(p.prefix).toBe('fysieke_schade_');
-    expect(p.supported).toBe(true);
-  });
-
-  it('ignores non-KTO aggregation requests even on archived versions', () => {
-    const money =
-      'regelingen?aggregatie=eq.maand&domein_code=eq.Totaal&regeling_code=eq.Totaal&select=periode%2cbedrag_betaald_totaal_cumul_eur&order=periode.desc';
-    expect(isKtoRequest(money)).toBe(false);
-    expect(planLegacyKto(money, 'v100')).toBeNull();
-  });
-
-  it('maps domein codes to legacy column families', () => {
-    expect(plan(TOTAL_WEEK).prefix).toBe('');
-    expect(plan(DOMEIN_WEEK).prefix).toBe('fysieke_schade_');
-    expect(plan(DOMEIN_MONTH).prefix).toBe('waardedaling_');
-  });
-
-  it('maps regeling codes to legacy column families and marks MW unsupported', () => {
-    expect(plan(REGELING_VV).prefix).toBe('ves_');
-    const mw =
-      'regelingen?aggregatie=eq.maand&regeling_code=eq.MW&select=periode%2ckto_score_gemiddeld&order=periode.desc';
-    expect(plan(mw).supported).toBe(false);
-  });
+const row = (over: Record<string, any>) => ({
+  aggregatie: 'week',
+  periode: '2026_25',
+  domein_code: 'Totaal',
+  regeling_code: 'Totaal',
+  ...over,
 });
 
-describe('legacyRowsToKtoRows — weekly', () => {
-  const rows = legacyRowsToKtoRows(ROWS, plan(TOTAL_WEEK));
-
-  it('maps every legacy row one-to-one', () => {
-    expect(rows).toHaveLength(ROWS.length);
+describe('request classification', () => {
+  it('only treats archived versions as legacy', () => {
+    expect(isArchivedVersion('v100')).toBe(true);
+    expect(isArchivedVersion('v101')).toBe(true);
+    expect(isArchivedVersion('latest')).toBe(false);
+    expect(isArchivedVersion(undefined)).toBe(false);
   });
 
-  it('translates the legacy column names to kto_score_*', () => {
-    const src = ROWS[0];
-    const out = rows[0];
-    expect(out.kto_score_gemiddeld).toBe(src.maandcijfer);
-    expect(out.kto_score_totaal).toBe(src.aantal_respondenten_maand);
-    expect(out.kto_score_gemiddeld_cumul).toBe(src.doorlopend_cijfer);
-    expect(out.kto_score_totaal_cumul).toBe(src.aantal_respondenten);
-  });
-
-  it('emits the fields the aggregatie guard requires', () => {
-    for (const field of ['aggregatie', 'periode', 'periode_vanaf', 'periode_totenmet']) {
-      expect(rows[0]).toHaveProperty(field);
-    }
-    expect(rows[0].periode).toMatch(/^\d{4}_\d{2}$/);
-    expect(rows[0].aggregatie).toBe('week');
-  });
-
-  it('uses the base columns for Totaal and prefixed columns per domein', () => {
-    const fysiek = legacyRowsToKtoRows(ROWS, plan(DOMEIN_WEEK));
-    const src = ROWS[0];
-    expect(fysiek[0].kto_score_gemiddeld).toBe(src.fysieke_schade_maandcijfer);
-    expect(fysiek[0].kto_score_totaal).toBe(src.fysieke_schade_aantal_respondenten);
-    expect(fysiek[0].kto_score_gemiddeld_cumul).toBe(src.fysieke_schade_doorlopend_cijfer);
-    expect(fysiek[0].kto_score_3_aantal).toBe(src.fysieke_schade_maand_rapportcijfer_3);
-    expect(fysiek[0].kto_score_3_aantal_cumul).toBe(
-      src.fysieke_schade_doorlopend_rapportcijfer_3,
-    );
-  });
-
-  it('uses the week period, not the month', () => {
-    expect(rows[0].periode).toBe('2026_25');
-  });
-
-  it('normalises legacy zero scores (no respondents) to null', () => {
-    // Fixture row for 2026-06-15 (week 24) has ims_maandcijfer 0.0 with 0 respondents.
-    const ims = legacyRowsToKtoRows(
-      ROWS,
-      plan(
-        'regelingen?aggregatie=eq.week&domein_code=eq.IMS&regeling_code=eq.Totaal&select=periode%2ckto_score_gemiddeld&order=periode.desc',
+  it('recognises aggregated regelingen requests, with or without select', () => {
+    expect(isAggregationRequest('regelingen?aggregatie=eq.week&order=periode.desc')).toBe(true);
+    expect(isAggregationRequest('regelingen?aggregatie=eq.maand&regeling_code=eq.MW&order=periode.desc&limit=1')).toBe(true);
+    expect(
+      isAggregationRequest(
+        'regelingen?aggregatie=eq.week&select=periode%2ckto_score_gemiddeld&order=periode.desc',
       ),
+    ).toBe(true);
+    expect(isAggregationRequest('gemeenten?aggregatie=eq.week')).toBe(false);
+    expect(isAggregationRequest('regelingen?regeling_code=eq.VV')).toBe(false);
+  });
+});
+
+describe('stripKtoSelect', () => {
+  it('removes columns an archive does not have, keeping the rest', () => {
+    const out = stripKtoSelect(
+      'regelingen?aggregatie=eq.week&select=periode%2ckto_score_gemiddeld%2cbedrag_betaald_totaal_eur&order=periode.desc',
     );
-    const row = ims.find((r) => r.periode === '2026_24')!;
-    expect(row.kto_score_gemiddeld).toBeNull();
+    expect(out).toContain('aggregatie=eq.week');
+    expect(out).toContain('order=periode.desc');
+    expect(out).not.toContain('kto_score');
+    expect(decodeURIComponent(out.split('select=')[1].split('&')[0])).toBe(
+      'periode,bedrag_betaald_totaal_eur',
+    );
+  });
+
+  it('drops the select itself when nothing is left', () => {
+    const out = stripKtoSelect('regelingen?aggregatie=eq.week&select=kto_score_gemiddeld');
+    expect(out).toBe('regelingen?aggregatie=eq.week');
+  });
+
+  it('also strips the legacy `complete` flag', () => {
+    const out = stripKtoSelect('regelingen?aggregatie=eq.maand&select=complete%2cperiode');
+    expect(decodeURIComponent(out.split('select=')[1])).toBe('periode');
+  });
+
+  it('leaves requests without a select alone', () => {
+    const ep = 'regelingen?aggregatie=eq.week&order=periode.desc&limit=1';
+    expect(stripKtoSelect(ep)).toBe(ep);
   });
 });
 
-describe('legacyRowsToKtoRows — monthly', () => {
-  const rows = legacyRowsToKtoRows(ROWS, plan(DOMEIN_MONTH));
-  const completeRows = ROWS.filter((r) => r.complete === true);
+describe('enrichKtoRows — weekly', () => {
+  const src = legacyWeek('2026_25');
+  const out = enrichKtoRows([row({})], legacy);
 
-  it('keeps only rows the legacy table flagged complete', () => {
-    expect(rows.length).toBeLessThan(completeRows.length);
-    expect(rows.every((r) => r.complete === true)).toBe(true);
+  it('fills the total series from the unprefixed legacy columns', () => {
+    expect(src).toBeDefined();
+    expect(out[0].kto_score_gemiddeld).toBe(src.maandcijfer);
+    expect(out[0].kto_score_gemiddeld_cumul).toBe(src.doorlopend_cijfer);
+    expect(out[0].kto_score_totaal).toBe(src.aantal_respondenten_maand);
+    expect(out[0].kto_score_totaal_cumul).toBe(src.aantal_respondenten);
   });
 
-  it('emits one row per completed month', () => {
-    const periods = rows.map((r) => r.periode);
-    expect(new Set(periods).size).toBe(periods.length);
+  it('keeps every key of a real archived row', () => {
+    const real = week.find((r) => r.periode === '2026_25')!;
+    const enriched = enrichKtoRows([{ ...real }], legacy)[0];
+    for (const k of Object.keys(real)) {
+      expect(enriched).toHaveProperty(k);
+      expect(enriched[k]).toEqual(real[k]);
+    }
+    expect(Object.keys(enriched).length).toBeGreaterThan(Object.keys(real).length);
   });
 
-  it('collapses the duplicated 2025-12 publication to a single month', () => {
-    expect(rows.filter((r) => r.periode === '2025_12')).toHaveLength(1);
+  it('uses the domein prefix for sub-domeins', () => {
+    const fysiek = enrichKtoRows(
+      [row({ domein_code: 'FYSIEK' })],
+      legacy,
+    )[0];
+    expect(fysiek.kto_score_gemiddeld).toBe(src.fysieke_schade_maandcijfer);
+    expect(fysiek.kto_score_gemiddeld_cumul).toBe(src.fysieke_schade_doorlopend_cijfer);
+    expect(fysiek.kto_score_totaal).toBe(src.fysieke_schade_aantal_respondenten);
+    expect(fysiek.kto_score_totaal_cumul).toBe(
+      src.fysieke_schade_aantal_respondenten_doorlopend,
+    );
   });
 
-  it('represents the completed month, not the publication week', () => {
-    const row = rows.find((r) => r.periode === '2026_05')!;
-    expect(row.periode_vanaf).toBe('2026-05-01');
-    expect(row.periode_totenmet).toBe('2026-05-31');
+  it('uses the regeling prefix for regeling rows', () => {
+    // Pick a week where VV actually has respondents: the fixture stores 0 for
+    // weeks without any, and 0 legitimately normalises to null.
+    const withVv = legacy
+      .filter((r) => r.ves_maandcijfer > 0)
+      .sort((a, b) => String(b._date).localeCompare(String(a._date)))[0];
+    const yw = String(withVv._yearweek);
+    const periode = `${yw.slice(0, 4)}_${yw.slice(4)}`;
+    const vv = enrichKtoRows(
+      [{ aggregatie: 'week', periode, domein_code: null, regeling_code: 'VV' }],
+      legacy,
+    )[0];
+    expect(vv.kto_score_gemiddeld).toBe(withVv.ves_maandcijfer);
+    expect(vv.kto_score_totaal_cumul).toBe(withVv.ves_aantal_respondenten_doorlopend);
   });
 
-  it('sorts newest first, like the API does', () => {
-    const periods = rows.map((r) => String(r.periode));
-    expect(periods).toEqual([...periods].sort().reverse());
+  it('maps the 1-10 respondent distribution', () => {
+    const ims = enrichKtoRows([row({ domein_code: 'IMS' })], legacy)[0];
+    expect(ims.kto_score_8_aantal).toBe(src.ims_maand_rapportcijfer_8);
+    expect(ims.kto_score_8_aantal_cumul).toBe(src.ims_doorlopend_rapportcijfer_8);
+    expect(ims.kto_score_1_aantal).toBe(src.ims_maand_rapportcijfer_1);
   });
 
-  it('carries the month figure, not the week figure', () => {
-    const out = rows[0];
-    const src = completeRows.find(
-      (r) => `2026_${String(r.completed_month).padStart(2, '0')}` === out.periode,
-    )!;
-    // 0.0 in the legacy payload means "no respondents", so it comes out null.
-    const expected = src.waardedaling_maandcijfer > 0 ? src.waardedaling_maandcijfer : null;
-    expect(out.kto_score_gemiddeld).toBe(expected);
-    expect(out.kto_score_totaal).toBe(src.waardedaling_aantal_respondenten);
+  it('normalises a 0 score (no respondents) to null', () => {
+    const zeroWeek = legacy.find(
+      (r) => r.ims_maandcijfer === 0 && r.ims_aantal_respondenten === 0,
+    );
+    expect(zeroWeek, 'fixture should contain an empty IMS week').toBeDefined();
+    const yw = String(zeroWeek!._yearweek);
+    const out2 = enrichKtoRows(
+      [row({ periode: `${yw.slice(0, 4)}_${yw.slice(4)}`, domein_code: 'IMS' })],
+      legacy,
+    )[0];
+    expect(out2.kto_score_gemiddeld).toBeNull();
+  });
+
+  it('leaves rows with no legacy counterpart untouched', () => {
+    const before = row({ periode: '2015_01' });
+    const after = enrichKtoRows([{ ...before }], legacy)[0];
+    expect(after).toEqual(before);
+  });
+
+  it('adds nothing for series that never existed (MW)', () => {
+    const before = row({ domein_code: null, regeling_code: 'MW' });
+    const after = enrichKtoRows([{ ...before }], legacy)[0];
+    expect(after).toEqual(before);
+    expect(after).not.toHaveProperty('kto_score_gemiddeld');
+  });
+
+  it('does not overwrite values the archive already has', () => {
+    const out3 = enrichKtoRows([row({ kto_score_gemiddeld: 9.9 })], legacy)[0];
+    expect(out3.kto_score_gemiddeld).toBe(9.9);
   });
 });
 
-describe('legacyRowsToKtoRows — unsupported series', () => {
-  it('returns an empty series for regelingen that had no KTO before 1.0.2', () => {
-    const mw =
-      'regelingen?aggregatie=eq.maand&regeling_code=eq.MW&select=periode%2ckto_score_gemiddeld&order=periode.desc';
-    expect(legacyRowsToKtoRows(ROWS, plan(mw))).toEqual([]);
+describe('enrichKtoRows — monthly', () => {
+  it('uses the monthly legacy figure, only for complete publications', () => {
+    const key = '2019_07';
+    const src = legacyMonth(key);
+    expect(src, 'fixture should have a complete 2019-07 publication').toBeDefined();
+
+    const out = enrichKtoRows(
+      [{ aggregatie: 'maand', periode: key, domein_code: 'Totaal', regeling_code: 'Totaal' }],
+      legacy,
+    )[0];
+    expect(out.kto_score_gemiddeld).toBe(src!.maandcijfer);
+    expect(out.kto_score_totaal).toBe(src!.aantal_respondenten_maand);
+  });
+
+  it('does not enrich a month the legacy table never flagged complete', () => {
+    const index = buildLegacyIndex(legacy);
+    const completeKeys = new Set(index.maand.keys());
+    const incomplete = month.map((r) => String(r.periode)).find((p) => !completeKeys.has(p));
+    expect(incomplete, 'fixture should contain an incomplete month').toBeDefined();
+
+    const before = { aggregatie: 'maand', periode: incomplete, domein_code: 'Totaal', regeling_code: 'Totaal' };
+    expect(enrichKtoRows([{ ...before }], legacy)[0]).toEqual(before);
+  });
+
+  it('keeps one row per completed month when a month was published twice', () => {
+    const index = buildLegacyIndex(legacy);
+    // 2025-12 was published more than once in the legacy table.
+    const dubbel = legacy.filter(
+      (r) => r.complete === true && r._year === 2025 && r.completed_month === 12,
+    );
+    if (dubbel.length > 1) {
+      const kept = index.maand.get('2025_12')!;
+      const newest = dubbel.sort((a, b) => String(b._date).localeCompare(String(a._date)))[0];
+      expect(kept._date).toBe(newest._date);
+    }
+  });
+});
+
+describe('safety', () => {
+  it('is a no-op without legacy rows', () => {
+    const rows = [row({})];
+    expect(enrichKtoRows(rows, [])).toEqual(rows);
+  });
+
+  it('is a no-op on an empty response', () => {
+    expect(enrichKtoRows([], legacy)).toEqual([]);
+  });
+
+  it('tolerates rows without periode', () => {
+    const rows = [row({ periode: undefined })];
+    expect(enrichKtoRows(rows, legacy)).toEqual(rows);
   });
 });

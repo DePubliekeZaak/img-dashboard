@@ -1,10 +1,18 @@
 // services/data.service.ts
 import { setData, hasData, clearData, isLoading$ } from '../../stores/data.store';
-import { legacyRowsToKtoRows, planLegacyKto } from "../../shared/legacy-kto";
+import {
+  enrichKtoRows,
+  isAggregationRequest,
+  isArchivedVersion,
+  stripKtoSelect,
+  LEGACY_KTO_TABLE,
+} from "../../shared/legacy-kto";
 import type { Version } from "./types";
 import type { Segment } from "../../shared/types";
 
 export class DataService {
+  /** Legacy KTO rows per version tag; fetching them once per version is enough. */
+  private legacyKto$: Record<string, Promise<any[]>> = {};
 
   addVarsToEndpoint(endpoint: string, segment: Segment): string {
     let resolved = endpoint;
@@ -42,24 +50,31 @@ export class DataService {
   }
 
   async fetch(endpoint: string, version: Version): Promise<any[]> {
-    // Archived versions serve the pre-1.0.2 payload, where KTO lived in the
-    // `tevredenheid` table instead of in `kto_score_*` columns on `regelingen`.
-    // Translate the request and normalise the response back into the current
-    // shape. No-op for the live version. See src/shared/legacy-kto.ts.
-    const legacy = planLegacyKto(endpoint, version?.tag);
-    const url = this.buildUrl(legacy ? legacy.table : endpoint, version);
-
-    if (legacy && !legacy.supported) {
-      // This domein/regeling never had a KTO series before 1.0.2 (e.g. MW).
-      // Return an empty series rather than a request that cannot be answered.
-      return [];
-    }
+    // Archived versions serve the pre-1.0.2 payload: `regelingen` rows are
+    // current except that the whole `kto_score_*` block is missing (it used to
+    // live in `tevredenheid`). Leave the request alone, then merge those numbers
+    // into the response by period. No-op for the live version.
+    // See src/shared/legacy-kto.ts.
+    const mergeKto = isArchivedVersion(version?.tag) && isAggregationRequest(endpoint);
+    // An archive has no kto_score_* columns, so a select naming them 400s.
+    const requestEndpoint = mergeKto ? stripKtoSelect(endpoint) : endpoint;
+    const url = this.buildUrl(requestEndpoint, version);
 
     const response = await fetch(url);
     if (response.ok) {
       let data = await response.json();
-      if (legacy) {
-        data = legacyRowsToKtoRows(data, legacy);
+
+      if (mergeKto) {
+        try {
+          data = enrichKtoRows(data, await this.legacyKtoRows(version), (m) =>
+            console.warn(m),
+          );
+        } catch (error) {
+          // Never let a missing legacy table take down money/count graphs.
+          console.warn(
+            `legacy KTO merge skipped for ${url}: ${(error as Error).message}`,
+          );
+        }
       }
       // guard: validate aggregatie endpoints contain expected columns from the `select` query param
       if (endpoint.includes("aggregatie") && Array.isArray(data) && data.length > 0) {
@@ -73,11 +88,29 @@ export class DataService {
       }
       return data;
     }
-    throw new Error(
-      legacy
-        ? `Fetch failed: ${url} — version "${version?.tag}" has no "${legacy.table}" table, so KTO cannot be served for this archive`
-        : `Fetch failed: ${url}`,
-    );
+    throw new Error(`Fetch failed: ${url}`);
+  }
+
+  /**
+   * The archive's legacy KTO table, fetched once per version tag and shared by
+   * every KTO-bearing request on the page.
+   */
+  private legacyKtoRows(version: Version): Promise<any[]> {
+    const tag = version?.tag ?? "unknown";
+    if (!this.legacyKto$[tag]) {
+      const url = this.buildUrl(`${LEGACY_KTO_TABLE}?order=_date.desc`, version);
+      this.legacyKto$[tag] = fetch(url).then((response) => {
+        if (!response.ok) {
+          throw new Error(`legacy KTO table unavailable (${response.status}) — ${url}`);
+        }
+        return response.json();
+      });
+      // Let a failed attempt be retried by the next page instead of caching it.
+      this.legacyKto$[tag].catch(() => {
+        delete this.legacyKto$[tag];
+      });
+    }
+    return this.legacyKto$[tag];
   }
 
   mapRow(row: any) {
