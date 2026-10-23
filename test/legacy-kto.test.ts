@@ -171,8 +171,18 @@ describe('enrichKtoRows — weekly', () => {
     expect(after).toEqual(before);
   });
 
-  it('adds nothing for series that never existed (MW)', () => {
-    const before = row({ domein_code: null, regeling_code: 'MW' });
+  it('maps MW onto the physical-damage track, as the legacy table did', () => {
+    // Pre-1.0.2 there was no maatwerk split: MW lives in the fysieke_schade_*
+    // columns, which is what comparison-group.tables() transcribed.
+    const mw = enrichKtoRows([row({ domein_code: null, regeling_code: 'MW' })], legacy)[0];
+    expect(mw.kto_score_gemiddeld).toBe(src.fysieke_schade_maandcijfer);
+    expect(mw.kto_score_totaal_cumul).toBe(
+      src.fysieke_schade_aantal_respondenten_doorlopend,
+    );
+  });
+
+  it('adds nothing for a regeling with no legacy series (NAMTEG)', () => {
+    const before = row({ domein_code: null, regeling_code: 'NAMTEG' });
     const after = enrichKtoRows([{ ...before }], legacy)[0];
     expect(after).toEqual(before);
     expect(after).not.toHaveProperty('kto_score_gemiddeld');

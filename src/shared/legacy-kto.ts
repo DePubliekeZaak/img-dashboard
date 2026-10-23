@@ -45,18 +45,22 @@ const DOMEIN_PREFIX: Record<string, string> = {
 };
 
 /**
- * regeling_code -> legacy column prefix. `null` means the series never existed
- * in the legacy table (MW, WNW, NAMTEG were introduced with 1.0.2), so there is
- * nothing to merge and the chart legitimately has no history.
+ * regeling_code -> legacy column prefix. The legacy table had one series per
+ * *track*, not per regeling: maatwerk (MW) was never split out and lives in the
+ * `fysieke_schade_*` columns, which is exactly what the old table code did
+ * (see src/pages/regelingen/groups/comparison-group.ts, tables()). The `mw_*`
+ * columns only exist in the post-1.0.2 schema.
+ *
+ * `null` means the series had no pre-1.0.2 counterpart at all.
  */
 const REGELING_PREFIX: Record<string, string | null> = {
   Totaal: "",
   VV: "ves_",
-  MW: null,
+  MW: "fysieke_schade_",
   IMK: "imkj_",
   IMS: "ims_",
   WD: "waardedaling_",
-  WNW: null,
+  WNW: "waardedaling_", // legacy table mapped woning-niet-wonen onto waardedaling
   NAMTEG: null,
 };
 
@@ -237,7 +241,7 @@ export const enrichKtoRows = (
 
     const prefix = prefixFor(row);
     if (prefix === null || prefix === undefined) {
-      // Series that never existed before 1.0.2 (MW, WNW, NAMTEG): nothing to add.
+      // No pre-1.0.2 series for this regeling (e.g. NAMTEG): nothing to add.
       if (prefix === null && warn) {
         warn(`legacy KTO: no pre-1.0.2 series for regeling_code=${row.regeling_code}`);
       }
