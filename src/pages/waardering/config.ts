@@ -132,7 +132,7 @@ const pageConfig: IPageConfig = {
           args: [],
           parameters: [
             [
-              { label: "Fysieke schade", short: "MV/FS", column: "mw_kto_score_totaal", units: "respondenten", colour: "blue" },
+              { label: "Fysieke schade", short: "MW/FS", column: "mw_kto_score_totaal", units: "respondenten", colour: "blue" },
               { label: "Vaste vergoeding", short: "VV", column: "vv_kto_score_totaal", units: "respondenten", colour: "orange" },
               { label: "Waardedaling", short: "WD", column: "wd_kto_score_totaal", units: "respondenten", colour: "purple" },
               { label: "Immateriele schade: volwassenen", short: "IMS", column: "ims_kto_score_totaal", units: "respondenten", colour: "moss" },
